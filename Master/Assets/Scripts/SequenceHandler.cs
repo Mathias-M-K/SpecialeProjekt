@@ -8,6 +8,8 @@ public class SequenceHandler : MonoBehaviour
     private List<PlayerMove> playerMoves = new List<PlayerMove>();
     private List<PlayerController> players = new List<PlayerController>();
 
+    [Space]
+    [Header("Player Controllers")]
     public PlayerController pcRed;
     public PlayerController pcGreen;
     public PlayerController pcBlue;
@@ -68,6 +70,5 @@ public class SequenceHandler : MonoBehaviour
             yield return new WaitForSeconds(delayBetweenMoves);
             
         }
-        playerMoves.Clear();
     }
 }

@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMove
 {
-    public PlayerColor PlayerColor;
-    public Direction Direction;
+    public readonly PlayerColor PlayerColor;
+    public readonly Direction Direction;
     
     public PlayerMove(PlayerColor pc,Direction d)
     {

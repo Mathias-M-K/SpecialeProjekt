@@ -4,9 +4,10 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
+    
+    
     public Camera cam;
     public NavMeshAgent agent;
-
     public int mapSize;
 
 
@@ -23,8 +24,6 @@ public class PlayerController : MonoBehaviour
             {
                 Debug.Log("Hit-Point: "+hit.point);
                 agent.SetDestination(CalculateGridPos(hit.point));
-
-                
             }
         }
     }
@@ -67,6 +66,11 @@ public class PlayerController : MonoBehaviour
         }
 
         agent.SetDestination(newGridPos);
+    }
+
+    public void MoveToPos(float x, float z)
+    {
+        agent.SetDestination(new Vector3(x,1.5f,z));
     }
 
     private Vector3 CalculateGridPos(Vector3 point)

@@ -3,7 +3,11 @@ using UnityEngine;
 
 public class TestHandler : MonoBehaviour
 {
-    public PlayerController playerController;
+    [Range(0f, 3f)] [SerializeField] private float sequenceDelay;
+    public PlayerController playerRed;
+    public PlayerController playerBlue;
+    public PlayerController playerGreen;
+    public PlayerController playerYellow;
     public SequenceHandler sh;
 
     private void Start()
@@ -13,6 +17,8 @@ public class TestHandler : MonoBehaviour
         sh.AddMove(new PlayerMove(PlayerColor.Blue, Direction.UP));
 
         sh.AddMove(new PlayerMove(PlayerColor.Green, Direction.UP));
+        sh.AddMove(new PlayerMove(PlayerColor.Green, Direction.LEFT));
+        sh.AddMove(new PlayerMove(PlayerColor.Green, Direction.LEFT));
         sh.AddMove(new PlayerMove(PlayerColor.Green, Direction.LEFT));
         
         sh.AddMove(new PlayerMove(PlayerColor.Yellow, Direction.UP));
@@ -26,16 +32,12 @@ public class TestHandler : MonoBehaviour
         
         sh.AddMove(new PlayerMove(PlayerColor.Blue, Direction.UP));
         sh.AddMove(new PlayerMove(PlayerColor.Blue, Direction.LEFT));
-
-        sh.AddMove(new PlayerMove(PlayerColor.Yellow, Direction.RIGHT));
-        sh.AddMove(new PlayerMove(PlayerColor.Yellow, Direction.UP));
         
         sh.AddMove(new PlayerMove(PlayerColor.Red, Direction.DOWN));
         
         sh.AddMove(new PlayerMove(PlayerColor.Blue, Direction.LEFT));
-        sh.AddMove(new PlayerMove(PlayerColor.Blue, Direction.UP));
-
-        sh.AddMove(new PlayerMove(PlayerColor.Yellow, Direction.UP));
+        
+  
     }
 
     // Update is called once per frame
@@ -43,27 +45,40 @@ public class TestHandler : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            playerController.MovePlayer(Direction.LEFT);
+            playerRed.MovePlayer(Direction.LEFT);
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            playerController.MovePlayer(Direction.RIGHT);
+            playerRed.MovePlayer(Direction.RIGHT);
         }
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            playerController.MovePlayer(Direction.UP);
+            playerRed.MovePlayer(Direction.UP);
         }
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            playerController.MovePlayer(Direction.DOWN);
+            playerRed.MovePlayer(Direction.DOWN);
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartCoroutine(sh.ExcecuteMoves(0.5f));
+            StartCoroutine(sh.ExcecuteMoves(sequenceDelay));
         }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            GoHome();
+        }
+    }
+
+    void GoHome()
+    {
+        playerRed.MoveToPos(1.5f,9.5f);
+        playerBlue.MoveToPos(10.5f,1.5f);
+        playerGreen.MoveToPos(10.5f,9.5f);
+        playerYellow.MoveToPos(1.5f,1.5f);
     }
 }
