@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove
 {
-    public PlayerColor pc;
-    public Direction d;
+    public PlayerColor PlayerColor;
+    public Direction Direction;
     
     public PlayerMove(PlayerColor pc,Direction d)
     {
-        this.pc = pc;
-        this.d = d;
+        PlayerColor = pc;
+        Direction = d;
     }
 }
 public enum PlayerColor
 {
-    UP,
-    DOWN,
-    RIGHT,
-    LEFT
+    Red,
+    Blue,
+    Green,
+    Yellow
 }

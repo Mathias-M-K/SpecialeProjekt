@@ -39,8 +39,35 @@ public class SequenceHandler : MonoBehaviour
         return playerMoves;
     }
 
-    public void ExcecuteMoves()
+    public IEnumerator ExcecuteMoves(float delayBetweenMoves)
     {
+
+        PlayerController pcTemp;
         
+        foreach(PlayerMove pm in playerMoves)
+        {
+            switch (pm.PlayerColor)
+            {
+                case PlayerColor.Red:
+                    pcTemp = pcRed;
+                    break;
+                case PlayerColor.Blue:
+                    pcTemp = pcBlue;
+                    break;
+                case PlayerColor.Green:
+                    pcTemp = pcGreen;
+                    break;
+                case PlayerColor.Yellow:
+                    pcTemp = pcYellow;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            pcTemp.MovePlayer(pm.Direction);
+            yield return new WaitForSeconds(delayBetweenMoves);
+            
+        }
+        playerMoves.Clear();
     }
 }

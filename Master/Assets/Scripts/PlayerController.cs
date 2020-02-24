@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //Returns true when done moving
     public void MovePlayer(Direction d)
     {
         Vector3 newGridPos;
@@ -66,7 +67,6 @@ public class PlayerController : MonoBehaviour
         }
 
         agent.SetDestination(newGridPos);
-
     }
 
     private Vector3 CalculateGridPos(Vector3 point)
