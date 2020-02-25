@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,46 +9,62 @@ using UnityEngine.UI;
 public class ExternalPlayerControl : MonoBehaviour
 {
     [Header("Set Player")] public PlayerColor player;
-    [Space]
-    
-    public Button btn1;
-    public Button btn2;
-    public Button btn3;
-    public Button btn4;
+    [Space] public GameObject buttons;
 
+    public Button sendBtn;
     public Button tradeBtn;
     public Button acceptBtn;
     public Button rejectBtn;
-    
-    List<Direction> moves = new List<Direction>();
-    
-    
+
+    private GameObject _previouslySelected;
+
+    List<Direction> _moves = new List<Direction>();
+
+
     // Start is called before the first frame update
     void Start()
     {
-        moves.Add(Direction.RIGHT);
-        moves.Add(Direction.LEFT);
-        moves.Add(Direction.UP);
-        moves.Add(Direction.DOWN);
+        sendBtn.interactable = false;
+        rejectBtn.interactable = false;
+        acceptBtn.interactable = false;
+        tradeBtn.interactable = false;
+        
+        _moves.Add(Direction.RIGHT);
+        _moves.Add(Direction.LEFT);
+        _moves.Add(Direction.UP);
+        _moves.Add(Direction.DOWN);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (EventSystem.current.currentSelectedGameObject != null)
+        {
+            tradeBtn.interactable = false;
+            sendBtn.interactable = false;
+        }
     }
+
 
     public void OnButtonClick()
     {
         GameObject go = EventSystem.current.currentSelectedGameObject;
         PlayerMove btnAttributes = go.GetComponent<PlayerMove>();
-        if (go != null && btnAttributes.player == player)
+
+        if (_previouslySelected == null)
         {
-            Debug.Log("Clicked on : "+ go.name);
-            Debug.Log(go.GetComponent<PlayerMove>().player);
-            Debug.Log(go.GetComponent<PlayerMove>().direction);
+            _previouslySelected = go;
         }
-        else
-            Debug.Log("currentSelectedGameObject is null");
+
+        if (go != null)
+        {
+            if (btnAttributes != null)
+            {
+                tradeBtn.interactable = true;
+                sendBtn.interactable = true;
+            }
+        }
+
+        _previouslySelected = go;
     }
 }
+    
