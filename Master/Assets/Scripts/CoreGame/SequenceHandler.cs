@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class SequenceHandler : MonoBehaviour
 {
+
     private List<PlayerMove> playerMoves = new List<PlayerMove>();
     private List<PlayerController> players = new List<PlayerController>();
 
@@ -48,7 +49,7 @@ public class SequenceHandler : MonoBehaviour
         
         foreach(PlayerMove pm in playerMoves)
         {
-            switch (pm.PlayerColor)
+            switch (pm.player)
             {
                 case PlayerColor.Red:
                     pcTemp = pcRed;
@@ -66,7 +67,7 @@ public class SequenceHandler : MonoBehaviour
                     throw new ArgumentOutOfRangeException();
             }
 
-            pcTemp.MovePlayer(pm.Direction);
+            pcTemp.MovePlayer(pm.direction);
             yield return new WaitForSeconds(delayBetweenMoves);
             
         }

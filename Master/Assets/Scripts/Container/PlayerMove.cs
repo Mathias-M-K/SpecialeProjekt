@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMove
+public class PlayerMove : MonoBehaviour
 {
-    public readonly PlayerColor PlayerColor;
-    public readonly Direction Direction;
+    public PlayerColor player;
+    public Direction direction;
     
     public PlayerMove(PlayerColor pc,Direction d)
     {
-        PlayerColor = pc;
-        Direction = d;
+        player = pc;
+        direction = d;
     }
 }
 public enum PlayerColor
