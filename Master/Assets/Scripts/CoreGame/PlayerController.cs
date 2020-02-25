@@ -2,92 +2,152 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PlayerController : MonoBehaviour
+namespace CoreGame
 {
-    
-    
-    public Camera cam;
-    public NavMeshAgent agent;
-    public int mapSize;
-
-
-    // Update is called once per frame
-    void Update()
+    public class PlayerController : MonoBehaviour
     {
-        if (Input.GetMouseButtonDown(0))
+        public Player player;
+        [Space]
+        
+        public Camera cam;
+        public NavMeshAgent agent;
+
+        [Space] [Header("Materials")] 
+        public Material redMaterial;
+        public Material blueMaterial;
+        public Material greenMaterial;
+        public Material yellowMaterial;
+        
+        private void Start()
         {
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            SetColor();
+        }
 
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
+        // Update is called once per frame
+        void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("Hit-Point: "+hit.point);
-                agent.SetDestination(CalculateGridPos(hit.point));
+                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    if (hit.transform.GetComponent<PlayerController>() != null)
+                    {
+                        throw new Exception("Can't move on top of another player");
+                    }
+                
+                    //If wall is hit, y will be 2.5
+                    if (hit.point.y == 2.5f)
+                    {
+                        throw new Exception("That's is a wall");
+                    }
+                
+                    Debug.Log("Hit-Point: "+hit.point);
+                    agent.SetDestination(CalculateGridPos(hit.point));
+                }
             }
         }
-    }
 
-    //Returns true when done moving
-    public void MovePlayer(Direction d)
-    {
-        Vector3 newGridPos;
-        
-        switch (d)
+        //Move player one unit in a given direction
+        public void MovePlayer(Direction d)
         {
-            case Direction.UP:
-                newGridPos = new Vector3(agent.destination.x,agent.destination.y,agent.destination.z+1);
-                break;
-            case Direction.DOWN:
-                newGridPos = new Vector3(agent.destination.x,agent.destination.y,agent.destination.z-1);
-                break;
-            case Direction.LEFT:
-                newGridPos = new Vector3(agent.destination.x-1,agent.destination.y,agent.destination.z);
-                break;
-            case Direction.RIGHT:
-                newGridPos = new Vector3(agent.destination.x+1,agent.destination.y,agent.destination.z);
-                break;
-            default:
-                newGridPos = new Vector3(agent.destination.x,agent.destination.y,agent.destination.z);
-                break;                
+            //The new position
+            Vector3 newGridPos;
+
+            Vector3 agentPos = agent.destination;
+            switch (d)
+            {
+                case Direction.Up:
+                    newGridPos = new Vector3(agentPos.x,agentPos.y,agentPos.z+1);
+                    break;
+                case Direction.Down:
+                    newGridPos = new Vector3(agentPos.x,agentPos.y,agentPos.z-1);
+                    break;
+                case Direction.Left:
+                    newGridPos = new Vector3(agentPos.x-1,agentPos.y,agentPos.z);
+                    break;
+                case Direction.Right:
+                    newGridPos = new Vector3(agentPos.x+1,agentPos.y,agentPos.z);
+                    break;
+                default:
+                    newGridPos = new Vector3(agentPos.x,agentPos.y,agentPos.z);
+                    break;                
+            }
+        
+            //Creating navMeshPath and testing if is possible
+            NavMeshPath navMeshPath = new NavMeshPath();
+            agent.CalculatePath(newGridPos, navMeshPath);
+        
+        
+            if(navMeshPath.status == NavMeshPathStatus.PathInvalid)
+            {
+                throw new ArgumentException("Position not reachable");
+            }
+
+            agent.SetDestination(newGridPos);
+        }
+    
+        //Player object will find it's way to the position
+        public void MoveToPos(float x, float z)
+        {
+            agent.SetDestination(new Vector3(x,1.5f,z));
         }
 
-        if (newGridPos.x > mapSize+1 || newGridPos.x < 1 || newGridPos.y > mapSize+1 || newGridPos.y < 1)
+        //Calculate position on grid from mouse pointer
+        private Vector3 CalculateGridPos(Vector3 point)
         {
-            throw new ArgumentException("Position out of bounds");
-        }
+            double x = Math.Floor(point.x)+0.5f;
+            double z = Math.Floor(point.z)+0.5f;
         
-        NavMeshPath navMeshPath = new NavMeshPath();
-        agent.CalculatePath(newGridPos, navMeshPath);
-        
-        if(navMeshPath.status == NavMeshPathStatus.PathInvalid)
-        {
-            throw new ArgumentException("Position not reachable");
+            Vector3 gridPos = new Vector3((float)x,point.y,(float)z);
+
+            return gridPos;
         }
 
-        agent.SetDestination(newGridPos);
+        public void SetColor()
+        {
+            Material m;
+            switch (player)
+            {
+                case Player.Red:
+                    m = redMaterial;
+                    break;
+                case Player.Blue:
+                    m = blueMaterial;
+                    break;
+                case Player.Green:
+                    m = greenMaterial;
+                    break;
+                case Player.Yellow:
+                    m = yellowMaterial;
+                    break;
+                default:
+                    m = redMaterial;
+                    break;
+            }
+
+            GetComponent<Renderer>().material = m;
+
+        }
+    
     }
 
-    public void MoveToPos(float x, float z)
+    public enum Direction
     {
-        agent.SetDestination(new Vector3(x,1.5f,z));
+        Up,
+        Down,
+        Right,
+        Left
     }
 
-    private Vector3 CalculateGridPos(Vector3 point)
+    public enum Player
     {
-        double x = Math.Floor(point.x)+0.5f;
-        double z = Math.Floor(point.z)+0.5f;
-        
-        Vector3 gridPos = new Vector3((float)x,point.y,(float)z);
-
-        return gridPos;
+        Red,
+        Blue,
+        Green,
+        Yellow
     }
-}
-
-public enum Direction
-{
-    UP,
-    DOWN,
-    RIGHT,
-    LEFT
 }
