@@ -1,43 +1,48 @@
-﻿
+﻿using ArduinoUnityConnection;
+using CoreGame;
 using UnityEngine;
 
 public class TestHandler : MonoBehaviour
 {
+    [Header("Wireless Connection")] public string ipAdress;
+    public int port;
+    
     [Range(0f, 3f)] [SerializeField] private float sequenceDelay;
-    public PlayerController playerRed;
-    public PlayerController playerBlue;
-    public PlayerController playerGreen;
-    public PlayerController playerYellow;
-    public SequenceHandler sh;
+    public PlayerController agent;
+
+    public GameHandler gameHandler;
 
     private void Start()
     {
-        sh.AddMove(new PlayerMove(PlayerColor.Red, Direction.DOWN));
+        gameHandler.AddMove(Player.Yellow,Direction.Left);
         
-        sh.AddMove(new PlayerMove(PlayerColor.Blue, Direction.UP));
-
-        sh.AddMove(new PlayerMove(PlayerColor.Green, Direction.UP));
-        sh.AddMove(new PlayerMove(PlayerColor.Green, Direction.LEFT));
-        sh.AddMove(new PlayerMove(PlayerColor.Green, Direction.LEFT));
-        sh.AddMove(new PlayerMove(PlayerColor.Green, Direction.LEFT));
+        gameHandler.AddMove(Player.Red,Direction.Down);
         
-        sh.AddMove(new PlayerMove(PlayerColor.Yellow, Direction.UP));
-        sh.AddMove(new PlayerMove(PlayerColor.Yellow, Direction.UP));
+        gameHandler.AddMove(Player.Blue,Direction.Up);
+        gameHandler.AddMove(Player.Blue,Direction.Up);
+        gameHandler.AddMove(Player.Blue,Direction.Up);
+        gameHandler.AddMove(Player.Blue,Direction.Right);
         
-        sh.AddMove(new PlayerMove(PlayerColor.Red, Direction.RIGHT));
-        sh.AddMove(new PlayerMove(PlayerColor.Red, Direction.RIGHT));
+        gameHandler.AddMove(Player.Green,Direction.Up);
         
-        sh.AddMove(new PlayerMove(PlayerColor.Yellow, Direction.UP));
-        sh.AddMove(new PlayerMove(PlayerColor.Yellow, Direction.RIGHT));
+        gameHandler.AddMove(Player.Yellow,Direction.Left);
+        gameHandler.AddMove(Player.Yellow,Direction.Left);
         
-        sh.AddMove(new PlayerMove(PlayerColor.Blue, Direction.UP));
-        sh.AddMove(new PlayerMove(PlayerColor.Blue, Direction.LEFT));
+        gameHandler.AddMove(Player.Red,Direction.Down);
         
-        sh.AddMove(new PlayerMove(PlayerColor.Red, Direction.DOWN));
+        gameHandler.AddMove(Player.Green,Direction.Up);
         
-        sh.AddMove(new PlayerMove(PlayerColor.Blue, Direction.LEFT));
+        gameHandler.AddMove(Player.Red,Direction.Right);
         
-  
+        gameHandler.AddMove(Player.Green,Direction.Left);
+        
+        gameHandler.AddMove(Player.Red,Direction.Right);
+        
+        gameHandler.AddMove(Player.Yellow,Direction.Down);
+        
+        gameHandler.AddMove(Player.Green,Direction.Left);
+        
+        
     }
 
     // Update is called once per frame
@@ -45,40 +50,43 @@ public class TestHandler : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            playerRed.MovePlayer(Direction.LEFT);
+            agent.MovePlayer(Direction.Left);
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            playerRed.MovePlayer(Direction.RIGHT);
+            agent.MovePlayer(Direction.Right);
         }
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            playerRed.MovePlayer(Direction.UP);
+            agent.MovePlayer(Direction.Up);
         }
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            playerRed.MovePlayer(Direction.DOWN);
+            agent.MovePlayer(Direction.Down);
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartCoroutine(sh.ExcecuteMoves(sequenceDelay));
+            StartCoroutine(gameHandler.PerformMoves(sequenceDelay));
         }
 
         if (Input.GetKeyDown(KeyCode.H))
         {
             GoHome();
         }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            WifiConnection wifi = new WifiConnection();
+            wifi.Begin(ipAdress,port);
+        }
     }
 
     void GoHome()
     {
-        playerRed.MoveToPos(1.5f,9.5f);
-        playerBlue.MoveToPos(10.5f,1.5f);
-        playerGreen.MoveToPos(10.5f,9.5f);
-        playerYellow.MoveToPos(1.5f,1.5f);
+        agent.MoveToPos(1.5f,9.5f);
+
     }
 }
