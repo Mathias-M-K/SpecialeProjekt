@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="012f27c6-f40f-4a21-8c31-970934c12f1e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../Arduino/WifiConnect/WifiConnect.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../Arduino/WifiConnect/WifiConnect.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -120,7 +116,7 @@
       <workItem from="1582657934117" duration="2344000" />
       <workItem from="1582662890969" duration="7081000" />
       <workItem from="1582715830078" duration="4218000" />
-      <workItem from="1582720375094" duration="376000" />
+      <workItem from="1582720375094" duration="980000" />
     </task>
     <servers />
   </component>
