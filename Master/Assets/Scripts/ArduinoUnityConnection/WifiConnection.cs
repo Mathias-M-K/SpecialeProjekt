@@ -31,6 +31,7 @@ namespace ArduinoUnityConnection
 
         // Change this to your devices real address
         client.Connect(ipAddress, port);
+        
         var stream = new StreamReader(client.GetStream());
 
         // We'll read values and buffer them up in here
@@ -40,21 +41,16 @@ namespace ArduinoUnityConnection
           // Read the next byte
           var read = stream.Read();
           
-          
-          
           // We split readings with a carriage return, so check for it 
           if (read == 13)
           {
             // Once we have a reading, convert our buffer to a string, since the values are coming as strings
             var str = Encoding.ASCII.GetString(buffer.ToArray());
 
-            Debug.Log("str: " + str);
-            
             // We assume that they're floats
             var dist = float.Parse(str);
 
-            // Ignore any value outside of our expected input range
-            dist = Mathf.Clamp(dist, _minInputY, _maxInputY);
+            CurrentValue = dist;
           
             // Clear the buffer ready for another reading
             buffer.Clear();
@@ -68,4 +64,5 @@ namespace ArduinoUnityConnection
       thread.Start();
     }
   }
+  
 }

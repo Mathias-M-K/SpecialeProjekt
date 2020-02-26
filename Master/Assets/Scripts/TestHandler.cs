@@ -1,16 +1,24 @@
-﻿using ArduinoUnityConnection;
+﻿using System.Collections.Generic;
+using ArduinoUnityConnection;
 using CoreGame;
 using UnityEngine;
 
+
 public class TestHandler : MonoBehaviour
 {
-    [Header("Wireless Connection")] public string ipAdress;
+    [Header("Wireless Connection")] 
+    public string ipAdress;
     public int port;
+    [SerializeField] private float IncommingValue;
     
-    [Range(0f, 3f)] [SerializeField] private float sequenceDelay;
+    [Space][Header("Other")] [Range(0f, 3f)] [SerializeField] private float sequenceDelay;
     public PlayerController agent;
+    
 
     public GameHandler gameHandler;
+
+    private bool _serverActive;
+    private WifiConnection _wifiConnection = new WifiConnection();
 
     private void Start()
     {
@@ -75,18 +83,25 @@ public class TestHandler : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.H))
         {
-            GoHome();
+            List<Vector3> positions = gameHandler.GetSpawnLocations();
+
+            int i = 0;
+            foreach (PlayerController playerController in gameHandler.GetPlayers())
+            {
+                playerController.MoveToPos(positions[i].x,positions[i].z);
+                i++;
+            }
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            WifiConnection wifi = new WifiConnection();
-            wifi.Begin(ipAdress,port);
+            
+            _wifiConnection.Begin(ipAdress,port);
+            _serverActive = true;
         }
-    }
 
-    void GoHome()
-    {
-        agent.MoveToPos(1.5f,9.5f);
-
+        if (_serverActive)
+        {
+            IncommingValue = _wifiConnection.CurrentValue;
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace CoreGame
         public GameObject player;
         [Space]
         
-        [Header("How many players")][Range(0,4)]
+        [Header("How many players")][Range(1,4)]
         public int numberOfPlayers;
 
         private struct PlayerMove
@@ -100,6 +100,16 @@ namespace CoreGame
             }
 
             return null;
+        }
+
+        public List<Vector3> GetSpawnLocations()
+        {
+            return _spawnPositions;
+        }
+
+        public List<PlayerController> GetPlayers()
+        {
+            return _players;
         }
 
 

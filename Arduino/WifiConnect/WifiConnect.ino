@@ -3,12 +3,13 @@
 
 const char* ssid = "Martin Router King";
 const char* password = "password";
+const int port = 26;
 
-WiFiServer server(26);
+WiFiServer server(port);
 WiFiClient client;
 
 long duration, distance; // Used to calculate distance
-int i = 0;
+bool clientDisconnectNotify;
 void setup() {
   Serial.begin(115200);
 
@@ -26,6 +27,9 @@ void setup() {
   
   Serial.print("IP Address: "); 
   Serial.println(WiFi.localIP());
+
+  Serial.print("Port: "); 
+  Serial.println(port);
  
   // Start the TCP server
   server.begin();
@@ -45,10 +49,13 @@ void loop() {
         client.print(sensorVal);
         client.print('\r');
 
-        i++;
-
         // Delay before the next reading
-        delay(200);
+        delay(10);
+    }
+
+    if(!client.connected() && !clientDisconnectNotify){
+      Serial.println("Client Disconnected");
+      clientDisconnectNotify = true;
     }
   }
  } 
