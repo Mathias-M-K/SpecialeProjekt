@@ -1,8 +1,12 @@
-﻿using CoreGame;
+﻿using ArduinoUnityConnection;
+using CoreGame;
 using UnityEngine;
 
 public class TestHandler : MonoBehaviour
 {
+    [Header("Wireless Connection")] public string ipAdress;
+    public int port;
+    
     [Range(0f, 3f)] [SerializeField] private float sequenceDelay;
     public PlayerController agent;
 
@@ -72,6 +76,11 @@ public class TestHandler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.H))
         {
             GoHome();
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            WifiConnection wifi = new WifiConnection();
+            wifi.Begin(ipAdress,port);
         }
     }
 

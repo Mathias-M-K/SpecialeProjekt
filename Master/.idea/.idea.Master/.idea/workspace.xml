@@ -5,20 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Floor_Object.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Floor_Object.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ActivateAllDisplays.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ActivateAllDisplays.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Container/PlayerMove.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Container/StoredPlayerMove.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Container/PlayerMove.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Container/StoredPlayerMove.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoreGame/SequenceHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoreGame/SequenceHandler.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,6 +23,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/ActivateAllDisplays.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Container/StoredPlayerMove.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -54,8 +42,9 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Container/StoredPlayerMove.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" />
       </list>
     </option>
   </component>
@@ -127,6 +116,7 @@
       <workItem from="1582643604013" duration="2902000" />
       <workItem from="1582657934117" duration="2344000" />
       <workItem from="1582662890969" duration="7081000" />
+      <workItem from="1582715830078" duration="1703000" />
     </task>
     <servers />
   </component>

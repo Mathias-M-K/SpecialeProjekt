@@ -75,6 +75,9 @@
           <e p="AdminGUI" t="Include">
             <e p="ExternalPlayerControl.cs" t="Include" />
           </e>
+          <e p="ArduinoUnityConnection" t="Include">
+            <e p="WifiConnection.cs" t="Include" />
+          </e>
           <e p="Container" t="Include">
             <e p="StoredPlayerMove.cs" t="Include" />
           </e>
