@@ -22,33 +22,33 @@ public class TestHandler : MonoBehaviour
 
     private void Start()
     {
-        gameHandler.AddMove(Player.Yellow,Direction.Left);
+        gameHandler.AddMoveToSequece(Player.Yellow,Direction.Left);
         
-        gameHandler.AddMove(Player.Red,Direction.Down);
+        gameHandler.AddMoveToSequece(Player.Red,Direction.Down);
         
-        gameHandler.AddMove(Player.Blue,Direction.Up);
-        gameHandler.AddMove(Player.Blue,Direction.Up);
-        gameHandler.AddMove(Player.Blue,Direction.Up);
-        gameHandler.AddMove(Player.Blue,Direction.Right);
+        gameHandler.AddMoveToSequece(Player.Blue,Direction.Up);
+        gameHandler.AddMoveToSequece(Player.Blue,Direction.Up);
+        gameHandler.AddMoveToSequece(Player.Blue,Direction.Up);
+        gameHandler.AddMoveToSequece(Player.Blue,Direction.Right);
         
-        gameHandler.AddMove(Player.Green,Direction.Up);
+        gameHandler.AddMoveToSequece(Player.Green,Direction.Up);
         
-        gameHandler.AddMove(Player.Yellow,Direction.Left);
-        gameHandler.AddMove(Player.Yellow,Direction.Left);
+        gameHandler.AddMoveToSequece(Player.Yellow,Direction.Left);
+        gameHandler.AddMoveToSequece(Player.Yellow,Direction.Left);
         
-        gameHandler.AddMove(Player.Red,Direction.Down);
+        gameHandler.AddMoveToSequece(Player.Red,Direction.Down);
         
-        gameHandler.AddMove(Player.Green,Direction.Up);
+        gameHandler.AddMoveToSequece(Player.Green,Direction.Up);
         
-        gameHandler.AddMove(Player.Red,Direction.Right);
+        gameHandler.AddMoveToSequece(Player.Red,Direction.Right);
         
-        gameHandler.AddMove(Player.Green,Direction.Left);
+        gameHandler.AddMoveToSequece(Player.Green,Direction.Left);
         
-        gameHandler.AddMove(Player.Red,Direction.Right);
+        gameHandler.AddMoveToSequece(Player.Red,Direction.Right);
         
-        gameHandler.AddMove(Player.Yellow,Direction.Down);
+        gameHandler.AddMoveToSequece(Player.Yellow,Direction.Down);
         
-        gameHandler.AddMove(Player.Green,Direction.Left);
+        gameHandler.AddMoveToSequece(Player.Green,Direction.Left);
         
         
     }
@@ -78,7 +78,7 @@ public class TestHandler : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartCoroutine(gameHandler.PerformMoves(sequenceDelay));
+            StartCoroutine(gameHandler.PerformSequence(sequenceDelay));
         }
 
         if (Input.GetKeyDown(KeyCode.H))
@@ -98,6 +98,12 @@ public class TestHandler : MonoBehaviour
             _wifiConnection.Begin(ipAdress,port);
             _serverActive = true;
         }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+
+            print(agent.HaveMove(Direction.Left));
+        }
+        
 
         if (_serverActive)
         {

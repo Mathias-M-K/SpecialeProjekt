@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,26 +10,18 @@ namespace CoreGame
         public Player player;
         [Space]
         
-        public Camera cam;
         public NavMeshAgent agent;
-
-        [Space] [Header("Materials")] 
-        public Material redMaterial;
-        public Material blueMaterial;
-        public Material greenMaterial;
-        public Material yellowMaterial;
         
-        private void Start()
-        {
-            SetColor();
-        }
+        private Camera _cam;
 
-        // Update is called once per frame
+        [SerializeField]private Direction[] moves = {Direction.Up,Direction.Down,Direction.Left,Direction.Right};
+        
+        // Update basically contains the "click with mouse" functionality, and that only
         void Update()
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+                Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
 
                 RaycastHit hit;
 
@@ -44,12 +37,17 @@ namespace CoreGame
                     {
                         throw new Exception("That's is a wall");
                     }
-                
-                    Debug.Log("Hit-Point: "+hit.point);
+                    
                     agent.SetDestination(CalculateGridPos(hit.point));
                 }
             }
         }
+
+        public bool HaveMove(Direction d)
+        {
+            return moves.Any(cus => cus == d);
+        }
+        
 
         //Move player one unit in a given direction
         public void MovePlayer(Direction d)
@@ -107,30 +105,32 @@ namespace CoreGame
             return gridPos;
         }
 
-        public void SetColor()
+        public void SetColor(Material material)
         {
-            Material m;
-            switch (player)
+            GetComponent<Renderer>().material = material;
+
+            switch (material.name)  
             {
-                case Player.Red:
-                    m = redMaterial;
+                case "Blue":
+                    player = Player.Blue;
                     break;
-                case Player.Blue:
-                    m = blueMaterial;
+                case "Green":
+                    player = Player.Green;
                     break;
-                case Player.Green:
-                    m = greenMaterial;
+                case "Red":
+                    player = Player.Red;
                     break;
-                case Player.Yellow:
-                    m = yellowMaterial;
+                case "Yellow":
+                    player = Player.Yellow;
                     break;
                 default:
-                    m = redMaterial;
-                    break;
+                    throw new ArgumentException("Color not valid");
             }
-
-            GetComponent<Renderer>().material = m;
-
+        }
+        
+        public void SetCamera(Camera camera)
+        {
+            _cam = camera;
         }
     
     }

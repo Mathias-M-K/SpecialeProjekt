@@ -12,24 +12,16 @@ namespace ArduinoUnityConnection
   {
     public float CurrentValue;
 
-    // The range of inputs we expect. In this case we're saying it'll be between 0 and 30cm
-    float _minInputY = 0f;
-    float _maxInputY = 30;
-
-    // The Y range that the plane can move within
-    float _minFinalY = -4f;
-    float _maxFinalY = 4;
-
     public void Begin(string ipAddress, int port)
     {
       // Give the network stuff its own special thread
       var thread = new Thread(() =>
       {
 
-        // This class makes it super easy to do network stuff
+        //network stuff
         var client = new TcpClient();
 
-        // Change this to your devices real address
+        //Read IP and port from arduino terminal
         client.Connect(ipAddress, port);
         
         var stream = new StreamReader(client.GetStream());

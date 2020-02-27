@@ -4,6 +4,12 @@
     <list default="true" id="012f27c6-f40f-4a21-8c31-970934c12f1e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,14 +21,14 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Container/StoredPlayerMove.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/ActivateAllDisplays.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Container/StoredPlayerMove.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -39,9 +45,9 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/ActivateAllDisplays.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Container/StoredPlayerMove.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" />
       </list>
     </option>
@@ -117,6 +123,7 @@
       <workItem from="1582662890969" duration="7081000" />
       <workItem from="1582715830078" duration="4218000" />
       <workItem from="1582720375094" duration="980000" />
+      <workItem from="1582733319422" duration="1839000" />
     </task>
     <servers />
   </component>
