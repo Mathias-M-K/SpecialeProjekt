@@ -21335,7 +21335,8 @@ MonoBehaviour:
   port: 26
   IncommingValue: 0
   sequenceDelay: 0.4
-  agent: {fileID: 0}
+  agent1: {fileID: 0}
+  agent2: {fileID: 0}
   gameHandler: {fileID: 1486909244}
 --- !u!4 &955517554
 Transform:

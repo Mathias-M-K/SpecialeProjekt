@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Container;
 using UnityEngine;
 
 namespace CoreGame
@@ -10,6 +11,8 @@ namespace CoreGame
         private readonly List<PlayerMove> _playerMoves = new List<PlayerMove>();
         private readonly List<PlayerController> _players = new List<PlayerController>();
         private readonly List<Vector3> _spawnPositions = new List<Vector3>();
+        [SerializeField]public List<PlayerTrade> trades = new List<PlayerTrade>();
+
 
         [Header("Player Prefab")] 
         public GameObject player;
@@ -47,13 +50,25 @@ namespace CoreGame
 
         public void OfferMove(Direction d, Player playerReceiving, Player playerOffering)
         {
-            if (GetPlayerController(playerOffering).HaveMove(d))
+            if (GetPlayerController(playerOffering).GetDirectionIndex(d) == -1)
             {
                 throw new Exception($"{playerOffering} don't own the move that is being offered to {playerReceiving}");
             }
+
+            PlayerController playerOfferingController = GetPlayerController(playerOffering);
+            PlayerController playerReceivingController = GetPlayerController(playerReceiving);
+            int dIndex = playerOfferingController.GetDirectionIndex(d);    //The index at which the move is stored at the playercontroller
+
+            PlayerTrade trade = new PlayerTrade(playerOffering, playerReceiving, d, this, dIndex);
+            
+            trades.Add(trade);
+            playerReceivingController.QueTrade(trade);
+            
+            playerOfferingController.RemoveMove(dIndex);
             
             
         }
+        
 
         public void AddMoveToSequece(Player p, Direction d)
         {
@@ -78,7 +93,7 @@ namespace CoreGame
             }
         }
         
-        private PlayerController GetPlayerController(Player p)
+        public PlayerController GetPlayerController(Player p)
         {
             foreach (var playerController in _players)
             {

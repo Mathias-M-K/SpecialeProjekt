@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using Container;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,8 +16,11 @@ namespace CoreGame
         public NavMeshAgent agent;
         
         private Camera _cam;
-
+        private GameHandler _gameHandler;
+        
         [SerializeField]private Direction[] moves = {Direction.Up,Direction.Down,Direction.Left,Direction.Right};
+        public List<PlayerTrade> trades = new List<PlayerTrade>();
+        
         
         // Update basically contains the "click with mouse" functionality, and that only
         void Update()
@@ -42,13 +48,76 @@ namespace CoreGame
                 }
             }
         }
-
-        public bool HaveMove(Direction d)
+        
+        //Accept/Reject move from a given player
+        public void AcceptTradeFrom(Player player, Direction counterOffer)
         {
-            return moves.Any(cus => cus == d);
+            PlayerTrade tradeToBeAccepted = null;
+            foreach (PlayerTrade playerTrade in trades)
+            {
+                if (playerTrade.OfferingOfferingPlayer == player)
+                {
+                    tradeToBeAccepted = playerTrade;
+                }
+            }
+
+            if (tradeToBeAccepted != null)
+            {
+                tradeToBeAccepted.AcceptTrade(counterOffer,this);
+            }
+            else
+            {
+                throw new Exception($"No trade offers from {player}");
+            }
+        }
+        public void RejectTradeFrom(Player player)
+        {
+            PlayerTrade tradeToBeAccepted = null;
+            foreach (PlayerTrade playerTrade in trades)
+            {
+                if (playerTrade.OfferingOfferingPlayer == player)
+                {
+                    tradeToBeAccepted = playerTrade;
+                }
+            }
+
+            if (tradeToBeAccepted != null)
+            {
+                tradeToBeAccepted.RejectTrade(this);
+            }
+            else
+            {
+                throw new Exception($"No trade offers from {player}");
+            }
         }
         
+        //Queuing trade for player to accept or reject
+        public void QueTrade(PlayerTrade playerTrade)
+        {
+            trades.Add(playerTrade);
+            
+            //Code for notifying player that a trade is available @Lasse
+        }
+        
+        //Add move
+        public void AddMove(Direction d, int index)
+        {
+            moves[index] = d;
+        }
 
+        //Removing move at index
+        public void RemoveMove(int index)
+        {
+            moves[index] = Direction.Blank;
+        }
+
+        //Returns the index of where the move/direction d is stored
+        public int GetDirectionIndex(Direction d)
+        {
+            int keyIndex = Array.FindIndex(moves, w => w == d);
+            return keyIndex;
+        }
+        
         //Move player one unit in a given direction
         public void MovePlayer(Direction d)
         {
@@ -132,7 +201,6 @@ namespace CoreGame
         {
             _cam = camera;
         }
-    
     }
 
     public enum Direction
@@ -140,7 +208,8 @@ namespace CoreGame
         Up,
         Down,
         Right,
-        Left
+        Left,
+        Blank
     }
 
     public enum Player
