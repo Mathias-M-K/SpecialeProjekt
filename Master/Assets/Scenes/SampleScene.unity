@@ -23422,6 +23422,7 @@ MonoBehaviour:
   greenMaterial: {fileID: 2100000, guid: 1f92d49387e903542b314d0a6136437b, type: 2}
   yellowMaterial: {fileID: 2100000, guid: ee31bc4c1d171464f879508c270e257c, type: 2}
   numberOfPlayers: 4
+  playersCollide: 0
 --- !u!43 &1495738638
 Mesh:
   m_ObjectHideFlags: 0

@@ -48,6 +48,11 @@ namespace CoreGame
                 }
             }
         }
+        //Telling gamehandler that the position is occupied
+        private void AnnouncePosition(Vector3 position)
+        {
+            _gameHandler.RegisterPosition(player,position);
+        }
         
         //Accept/Reject move from a given player
         public void AcceptTradeFrom(Player player, Direction counterOffer)
@@ -154,6 +159,12 @@ namespace CoreGame
                 throw new ArgumentException("Position not reachable");
             }
 
+            if (_gameHandler.IsPositionOccupied(newGridPos))
+            {
+                throw new Exception("Position occupied");
+            }
+
+            AnnouncePosition(newGridPos);
             agent.SetDestination(newGridPos);
         }
     
@@ -200,6 +211,11 @@ namespace CoreGame
         public void SetCamera(Camera camera)
         {
             _cam = camera;
+        }
+
+        public void SetGameHandler(GameHandler gameHandler)
+        {
+            _gameHandler = gameHandler;
         }
     }
 
