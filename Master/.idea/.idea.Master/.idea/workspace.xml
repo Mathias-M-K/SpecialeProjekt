@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="012f27c6-f40f-4a21-8c31-970934c12f1e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" afterDir="false" />
-    </list>
+    <list default="true" id="012f27c6-f40f-4a21-8c31-970934c12f1e" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -108,7 +102,7 @@
       <workItem from="1582720375094" duration="980000" />
       <workItem from="1582733319422" duration="1839000" />
       <workItem from="1582819498594" duration="10654000" />
-      <workItem from="1582883931736" duration="2962000" />
+      <workItem from="1582883931736" duration="3017000" />
     </task>
     <servers />
   </component>

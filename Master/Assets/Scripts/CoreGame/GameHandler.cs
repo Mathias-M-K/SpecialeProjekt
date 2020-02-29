@@ -26,7 +26,7 @@ namespace CoreGame
         public int numberOfPlayers;
         
         [Space] [Header("Player Abilities")]
-        public bool playersCollide;
+        public bool playersCanPhase;
 
         private struct PlayerMove
         {
@@ -52,7 +52,7 @@ namespace CoreGame
 
         public bool IsPositionOccupied(Vector3 position)
         {
-            if (playersCollide)
+            if (playersCanPhase)
             {
                 return false;
             }
