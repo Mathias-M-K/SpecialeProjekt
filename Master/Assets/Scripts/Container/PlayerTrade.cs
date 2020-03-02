@@ -7,7 +7,7 @@ namespace Container
 {
     public class PlayerTrade
     {
-        public readonly Player OfferingOfferingPlayer;
+        public readonly Player OfferingPlayer;
         private readonly Player _receivingPlayer;
         private readonly Direction _direction;
         private readonly int _index;
@@ -16,7 +16,7 @@ namespace Container
 
         public PlayerTrade(Player offeringPlayer, Player receivingPlayer, Direction direction, GameHandler gameHandler, int index)
         {
-            OfferingOfferingPlayer = offeringPlayer;
+            OfferingPlayer = offeringPlayer;
             _direction = direction;
             _gameHandler = gameHandler;
             _index = index;
@@ -35,11 +35,17 @@ namespace Container
                 throw new ArgumentException($"{acceptingPlayer.player} does not posses the move {counteroffer}");
             }
 
-            _gameHandler.GetPlayerController(OfferingOfferingPlayer).AddMove(counteroffer, _index);
+            PlayerController offeringPlayerController = _gameHandler.GetPlayerController(OfferingPlayer); 
+            offeringPlayerController.AddMove(counteroffer, _index);
             acceptingPlayer.AddMove(_direction, acceptingPlayer.GetDirectionIndex(counteroffer));
+            
+            offeringPlayerController.NotifyTradeObservers();
+            acceptingPlayer.NotifyTradeObservers();
 
             _gameHandler.trades.Remove(this);
             acceptingPlayer.trades.Remove(this);
+            
+            
         }
 
         public void RejectTrade(PlayerController rejectingPlayer)
@@ -49,7 +55,7 @@ namespace Container
                 throw new Exception($"Offer was not for {rejectingPlayer.player}");
             }
 
-            _gameHandler.GetPlayerController(OfferingOfferingPlayer).AddMove(_direction, _index);
+            _gameHandler.GetPlayerController(OfferingPlayer).AddMove(_direction, _index);
 
             _gameHandler.trades.Remove(this);
             rejectingPlayer.trades.Remove(this);
@@ -57,7 +63,7 @@ namespace Container
 
         public string Print()
         {
-            return OfferingOfferingPlayer + " offering: " + _direction;
+            return OfferingPlayer + " offering: " + _direction;
         }
     }
 }

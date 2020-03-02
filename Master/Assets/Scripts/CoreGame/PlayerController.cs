@@ -11,22 +11,22 @@ namespace CoreGame
     public class PlayerController : MonoBehaviour
     {
         public Player player;
-        [Space]
-        
-        public NavMeshAgent agent;
-        
+        [Space] public NavMeshAgent agent;
+
         private Camera _cam;
         private GameHandler _gameHandler;
-        
-        [SerializeField]private Direction[] moves = {Direction.Up,Direction.Down,Direction.Left,Direction.Right};
+
+        [SerializeField] private Direction[] moves = {Direction.Up, Direction.Down, Direction.Left, Direction.Right};
         public List<PlayerTrade> trades = new List<PlayerTrade>();
-        public List<ITradeObserver> tradeObservers = new List<ITradeObserver>();
-        
-        
+        private readonly List<ITradeObserver> _tradeObservers = new List<ITradeObserver>();
+        private readonly List<IMoveObserver> _moveObservers = new List<IMoveObserver>();
+
+
+
         // Update basically contains the "click with mouse" functionality, and that only
         void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            /*if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
 
@@ -38,30 +38,31 @@ namespace CoreGame
                     {
                         return;
                     }
-                
+
                     //If wall is hit, y will be 2.5
                     if (hit.point.y == 2.5f)
                     {
                         throw new Exception("That's is a wall");
                     }
-                    
+
                     agent.SetDestination(CalculateGridPos(hit.point));
                 }
-            }
+            }*/
         }
-        //Telling gamehandler that the position is occupied
+
+        //Telling game handler that the position is occupied
         private void AnnouncePosition(Vector3 position)
         {
-            _gameHandler.RegisterPosition(player,position);
+            _gameHandler.RegisterPosition(player, position);
         }
-        
+
         //Accept/Reject move from a given player
-        public void AcceptTradeFrom(Player player, Direction counterOffer)
+        public void AcceptTradeFrom(Player offeringPlayer, Direction counterOffer)
         {
             PlayerTrade tradeToBeAccepted = null;
             foreach (PlayerTrade playerTrade in trades)
             {
-                if (playerTrade.OfferingOfferingPlayer == player)
+                if (playerTrade.OfferingPlayer == offeringPlayer)
                 {
                     tradeToBeAccepted = playerTrade;
                 }
@@ -69,19 +70,19 @@ namespace CoreGame
 
             if (tradeToBeAccepted != null)
             {
-                tradeToBeAccepted.AcceptTrade(counterOffer,this);
+                tradeToBeAccepted.AcceptTrade(counterOffer, this);
             }
             else
             {
-                throw new Exception($"No trade offers from {player}");
+                throw new Exception($"No trade offers from {offeringPlayer}");
             }
         }
-        public void RejectTradeFrom(Player player)
+        public void RejectTradeFrom(Player offeringPlayer)
         {
             PlayerTrade tradeToBeAccepted = null;
             foreach (PlayerTrade playerTrade in trades)
             {
-                if (playerTrade.OfferingOfferingPlayer == player)
+                if (playerTrade.OfferingPlayer == offeringPlayer)
                 {
                     tradeToBeAccepted = playerTrade;
                 }
@@ -93,10 +94,10 @@ namespace CoreGame
             }
             else
             {
-                throw new Exception($"No trade offers from {player}");
+                throw new Exception($"No trade offers from {offeringPlayer}");
             }
         }
-        
+
         //Queuing trade for player to accept or reject
         public void QueTrade(PlayerTrade playerTrade)
         {
@@ -104,17 +105,19 @@ namespace CoreGame
             
             //Code for notifying player that a trade is available @Lasse
         }
-        
+
         //Add move
         public void AddMove(Direction d, int index)
         {
             moves[index] = d;
+            NotifyMoveObservers();
         }
 
         //Removing move at index
         public void RemoveMove(int index)
         {
             moves[index] = Direction.Blank;
+            NotifyMoveObservers();
         }
 
         //Returns the index of where the move/direction d is stored
@@ -133,7 +136,7 @@ namespace CoreGame
         {
             return trades;
         }
-        
+
         //Move player one unit in a given direction
         public void MovePlayer(Direction d)
         {
@@ -144,28 +147,28 @@ namespace CoreGame
             switch (d)
             {
                 case Direction.Up:
-                    newGridPos = new Vector3(agentPos.x,agentPos.y,agentPos.z+1);
+                    newGridPos = new Vector3(agentPos.x, agentPos.y, agentPos.z + 1);
                     break;
                 case Direction.Down:
-                    newGridPos = new Vector3(agentPos.x,agentPos.y,agentPos.z-1);
+                    newGridPos = new Vector3(agentPos.x, agentPos.y, agentPos.z - 1);
                     break;
                 case Direction.Left:
-                    newGridPos = new Vector3(agentPos.x-1,agentPos.y,agentPos.z);
+                    newGridPos = new Vector3(agentPos.x - 1, agentPos.y, agentPos.z);
                     break;
                 case Direction.Right:
-                    newGridPos = new Vector3(agentPos.x+1,agentPos.y,agentPos.z);
+                    newGridPos = new Vector3(agentPos.x + 1, agentPos.y, agentPos.z);
                     break;
                 default:
-                    newGridPos = new Vector3(agentPos.x,agentPos.y,agentPos.z);
-                    break;                
+                    newGridPos = new Vector3(agentPos.x, agentPos.y, agentPos.z);
+                    break;
             }
-        
+
             //Creating navMeshPath and testing if is possible
             NavMeshPath navMeshPath = new NavMeshPath();
             agent.CalculatePath(newGridPos, navMeshPath);
-        
-        
-            if(navMeshPath.status == NavMeshPathStatus.PathInvalid)
+
+
+            if (navMeshPath.status == NavMeshPathStatus.PathInvalid)
             {
                 throw new ArgumentException("Position not reachable");
             }
@@ -178,20 +181,20 @@ namespace CoreGame
             AnnouncePosition(newGridPos);
             agent.SetDestination(newGridPos);
         }
-    
+
         //Player object will find it's way to the position
         public void MoveToPos(float x, float z)
         {
-            agent.SetDestination(new Vector3(x,1.5f,z));
+            agent.SetDestination(new Vector3(x, 1.5f, z));
         }
 
         //Calculate position on grid from mouse pointer
         private Vector3 CalculateGridPos(Vector3 point)
         {
-            double x = Math.Floor(point.x)+0.5f;
-            double z = Math.Floor(point.z)+0.5f;
-        
-            Vector3 gridPos = new Vector3((float)x,point.y,(float)z);
+            double x = Math.Floor(point.x) + 0.5f;
+            double z = Math.Floor(point.z) + 0.5f;
+
+            Vector3 gridPos = new Vector3((float) x, point.y, (float) z);
 
             return gridPos;
         }
@@ -200,7 +203,7 @@ namespace CoreGame
         {
             GetComponent<Renderer>().material = material;
 
-            switch (material.name)  
+            switch (material.name)
             {
                 case "Blue":
                     player = Player.Blue;
@@ -218,7 +221,7 @@ namespace CoreGame
                     throw new ArgumentException("Color not valid");
             }
         }
-        
+
         public void SetCamera(Camera camera)
         {
             _cam = camera;
@@ -231,14 +234,27 @@ namespace CoreGame
 
         public void AddTradeObserver(ITradeObserver ito)
         {
-            tradeObservers.Add(ito);
+            _tradeObservers.Add(ito);
+        }
+
+        public void AddMoveObserver(IMoveObserver imo)
+        {
+            _moveObservers.Add(imo);
         }
 
         public void NotifyTradeObservers()
         {
-            foreach (ITradeObserver observer in tradeObservers)
+            foreach (ITradeObserver observer in _tradeObservers)
             {
-                observer.NewTrade();
+                observer.TradeUpdate();
+            }
+        }
+
+        public void NotifyMoveObservers()
+        {
+            foreach (IMoveObserver observer in _moveObservers)
+            {
+                observer.MoveInventoryUpdate();
             }
         }
     }

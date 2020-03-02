@@ -10,12 +10,12 @@ using UnityEngine.UI;
 
 namespace AdminGUI
 {
-    public class ExternalPlayerControl : MonoBehaviour,ITradeObserver
+    public class ExternalPlayerControl : MonoBehaviour,ITradeObserver,IMoveObserver
     {
         [Header("Set Player")] public Player player;
         [Header("Set Game Handler")] public GameHandler gameHandler;
-        [SerializeField]private PlayerController _playerController;
-        public List<PlayerTrade> trades;
+        private PlayerController playerController;
+        private List<PlayerTrade> _trades;
         
         [Header("Direction Buttons")]public Button left1;
         public Button left2;
@@ -38,8 +38,9 @@ namespace AdminGUI
 
         [Header("Other")]public TextMeshProUGUI showSelectedPlayer;
         public TextMeshProUGUI showSelectedMove;
+        public TextMeshProUGUI playerLabel;
         
-        private Direction _currentlySelectedMove;
+        private Direction _currentlySelectedMove = Direction.Blank;
         private PlayerController _selectedPlayer;
         private PlayerTrade _selectedTrade;
         
@@ -48,42 +49,42 @@ namespace AdminGUI
         // Start is called before the first frame update
         void Start()
         {
-            _playerController = gameHandler.GetPlayerController(player);
-            _playerController.AddTradeObserver(this);
+            playerLabel.text = player.ToString();
+            
+            playerController = gameHandler.GetPlayerController(player);
+            playerController.AddTradeObserver(this);
+            playerController.AddMoveObserver(this);
             UpdateMoveSprites();
         }
-
-        private void Update()
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit))
-                {
-
-                    PlayerController pc = hit.transform.GetComponent<PlayerController>();
-                    if (pc != null)
-                    {
-                        _selectedPlayer = pc;
-                        showSelectedPlayer.text = pc.player.ToString();
-
-                    }
-                }
-            }
-        }
-
+        
         private void UpdateMoveSprites()
         {
-            Direction[] moves = _playerController.GetMoves();
+            Direction[] moves = playerController.GetMoves();
 
 
             left1.GetComponent<Image>().sprite = gameHandler.GetSprite(moves[0]);
             left2.GetComponent<Image>().sprite = gameHandler.GetSprite(moves[1]);
             left3.GetComponent<Image>().sprite = gameHandler.GetSprite(moves[2]);
             left4.GetComponent<Image>().sprite = gameHandler.GetSprite(moves[3]);
+        }
+
+        private void UpdateTrades()
+        {
+            _trades = playerController.GetTrades();
+
+            List<Button> buttons = new List<Button> {trade1, trade2, trade3, trade4};
+
+            foreach (Button button in buttons)
+            {
+                button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
+            }
+            
+            int i = 0;
+            foreach (PlayerTrade trade in _trades)
+            {
+                buttons[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = trade.Print();
+                i++;
+            }
         }
 
         public Direction GetMoveFromBtn(Button b)
@@ -127,34 +128,67 @@ namespace AdminGUI
         }
         public void Trade1BtnHit()
         {
-            if (trades[0] != null)
+            if (_trades[0] != null)
             {
-                _selectedTrade = trades[0];
-                tradeLabel.text = "Trade Offers: " + trades[0].Print();
+                _selectedTrade = _trades[0];
+                tradeLabel.text = "Trade Offers: " + _trades[0].Print();
             }
         }
         public void Trade2BtnHit()
         {
-            if (trades[1] != null)
+            if (_trades[1] != null)
             {
-                _selectedTrade = trades[1];
-                tradeLabel.text = "Trade Offers: " + trades[1].Print();
+                _selectedTrade = _trades[1];
+                tradeLabel.text = "Trade Offers: " + _trades[1].Print();
             }
         }
         public void Trade3BtnHit()
         {
-            if (trades[2] != null)
+            if (_trades[2] != null)
             {
-                _selectedTrade = trades[2];
-                tradeLabel.text = "Trade Offers: " + trades[2].Print();
+                _selectedTrade = _trades[2];
+                tradeLabel.text = "Trade Offers: " + _trades[2].Print();
             }
         }
         public void Trade4BtnHit()
         {
-            if (trades[3] != null)
+            if (_trades[3] != null)
             {
-                _selectedTrade = trades[3];
-                tradeLabel.text = "Trade Offers: " + trades[3].Print();
+                _selectedTrade = _trades[3];
+                tradeLabel.text = "Trade Offers: " + _trades[3].Print();
+            }
+        }
+
+        public void RedBtnHit()
+        {
+            if (player != Player.Red)
+            {
+                _selectedPlayer = gameHandler.GetPlayerController(Player.Red);
+                showSelectedPlayer.text = Player.Red.ToString();
+            }
+        }
+        public void BlueBtnHit()
+        {
+            if (player != Player.Blue)
+            {
+                _selectedPlayer = gameHandler.GetPlayerController(Player.Blue);
+                showSelectedPlayer.text = Player.Blue.ToString();
+            }
+        }
+        public void YellowBtnHit()
+        {
+            if (player != Player.Yellow)
+            {
+                _selectedPlayer = gameHandler.GetPlayerController(Player.Yellow);
+                showSelectedPlayer.text = Player.Yellow.ToString();
+            }
+        }
+        public void GreenBtnHit()
+        {
+            if (player != Player.Green)
+            {
+                _selectedPlayer = gameHandler.GetPlayerController(Player.Green);
+                showSelectedPlayer.text = Player.Green.ToString();
             }
         }
 
@@ -162,7 +196,10 @@ namespace AdminGUI
         {
             if (_selectedTrade != null && _currentlySelectedMove != Direction.Blank)
             {
-                _selectedTrade.AcceptTrade(_currentlySelectedMove,_playerController);
+                _selectedTrade.AcceptTrade(_currentlySelectedMove,playerController);
+                gameHandler.GetPlayerController(_selectedTrade.OfferingPlayer).NotifyMoveObservers();
+                UpdateTrades();
+                UpdateMoveSprites();
             }
             else
             {
@@ -173,27 +210,23 @@ namespace AdminGUI
 
         public void TradeBtnHit()
         {
-            if (_selectedPlayer == null || _currentlySelectedMove == null)
+            if (_selectedPlayer == null || _currentlySelectedMove == Direction.Blank)
             {
                 Debug.LogError("that didn't work",this);
             }
             
-            gameHandler.OfferMove(_currentlySelectedMove,_selectedPlayer.player,_playerController.player);
+            gameHandler.NewTrade(_currentlySelectedMove,_selectedPlayer.player,playerController.player);
         }
 
-        public void NewTrade()
+        public void TradeUpdate()
         {
-            trades = _playerController.GetTrades();
             print(this.name + "Was notified");
+            UpdateTrades();
+        }
 
-            List<Button> buttons = new List<Button> {trade1, trade2, trade3, trade4};
-
-            int i = 0;
-            foreach (PlayerTrade trade in trades)
-            {
-                buttons[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = trade.Print();
-                i++;
-            }
+        public void MoveInventoryUpdate()
+        {
+            UpdateMoveSprites();
         }
     }
 }

@@ -33,6 +33,7 @@ namespace CoreGame
         public Sprite rightSprite;
         public Sprite upSprite;
         public Sprite downSprite;
+        public Sprite blankSprite;
 
         private struct PlayerMove
         {
@@ -97,7 +98,7 @@ namespace CoreGame
         }
 
 
-        public void OfferMove(Direction d, Player playerReceiving, Player playerOffering)
+        public void NewTrade(Direction d, Player playerReceiving, Player playerOffering)
         {
             if (GetPlayerController(playerOffering).GetDirectionIndex(d) == -1)
             {
@@ -227,19 +228,14 @@ namespace CoreGame
             {
                 case Direction.Up:
                     return upSprite;
-                    break;
                 case Direction.Down:
                     return downSprite;
-                    break;
                 case Direction.Right:
                     return rightSprite;
-                    break;
                 case Direction.Left:
                     return leftSprite;
-                    break;
                 case Direction.Blank:
-                    return null;
-                    break;
+                    return blankSprite;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(direction), direction, "Invalid direction");
             }

@@ -103,7 +103,7 @@ public class TestHandler : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.M))
         {
-            gameHandler.OfferMove(Direction.Up,Player.Red,Player.Blue);
+            gameHandler.NewTrade(Direction.Up,Player.Red,Player.Blue);
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
