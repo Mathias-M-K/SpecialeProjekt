@@ -173,12 +173,14 @@ namespace CoreGame
 
             if (navMeshPath.status == NavMeshPathStatus.PathInvalid)
             {
-                throw new ArgumentException("Position not reachable");
+                Debug.LogError("Position not reachable",this);
+                return;
             }
 
             if (_gameHandler.IsPositionOccupied(newGridPos))
             {
-                throw new Exception("Position occupied");
+                Debug.LogError("Position Occupied",this);
+                return;
             }
 
             AnnouncePosition(newGridPos);

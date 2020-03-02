@@ -5,8 +5,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" afterDir="false" />
@@ -25,10 +25,12 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/WallController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/NavMeshManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/ActivateAllDisplays.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/ISequenceObserver.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/AdminGUI/SequenceUi.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/IMoveObserver.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/ITradeObserver.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Container/PlayerTrade.cs" root0="FORCE_HIGHLIGHTING" />
@@ -55,15 +57,18 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/IMoveObserver.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/ITradeObserver.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Container/PlayerTrade.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/ButtonController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/WallController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/TriggerController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/NavMeshManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/AdminGUI/SequenceUI.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/ISequenceObserver.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/AdminGUI/SequenceUi.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" />
       </list>
     </option>
   </component>
@@ -130,6 +135,7 @@
       <workItem from="1583139162512" duration="20748000" />
       <workItem from="1583185093274" duration="1074000" />
       <workItem from="1583186284466" duration="2530000" />
+      <workItem from="1583189511040" duration="3648000" />
     </task>
     <servers />
   </component>

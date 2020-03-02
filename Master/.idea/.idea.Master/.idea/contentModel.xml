@@ -74,6 +74,7 @@
           <e p="ActivateAllDisplays.cs" t="Include" />
           <e p="AdminGUI" t="Include">
             <e p="ExternalPlayerControl.cs" t="Include" />
+            <e p="SequenceUI.cs" t="Include" />
           </e>
           <e p="ArduinoUnityConnection" t="Include">
             <e p="WifiConnection.cs" t="Include" />
@@ -86,6 +87,7 @@
             <e p="GameHandler.cs" t="Include" />
             <e p="Interfaceses" t="Include">
               <e p="IMoveObserver.cs" t="Include" />
+              <e p="ISequenceObserver.cs" t="Include" />
               <e p="ITradeObserver.cs" t="Include" />
             </e>
             <e p="PlayerController.cs" t="Include" />

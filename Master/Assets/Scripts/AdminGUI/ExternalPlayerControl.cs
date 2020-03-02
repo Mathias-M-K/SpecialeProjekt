@@ -206,8 +206,6 @@ namespace AdminGUI
                 throw new Exception("Can't accept trade");
             }
         }
-       
-
         public void TradeBtnHit()
         {
             if (_selectedPlayer == null || _currentlySelectedMove == Direction.Blank)
@@ -218,12 +216,21 @@ namespace AdminGUI
             gameHandler.NewTrade(_currentlySelectedMove,_selectedPlayer.player,playerController.player);
         }
 
+        public void SendBtnHit()
+        {
+            if (_currentlySelectedMove == Direction.Blank) return;
+            
+            gameHandler.AddMoveToSequence(player,_currentlySelectedMove);
+            
+        }
+
+        
+        
         public void TradeUpdate()
         {
             print(this.name + "Was notified");
             UpdateTrades();
         }
-
         public void MoveInventoryUpdate()
         {
             UpdateMoveSprites();

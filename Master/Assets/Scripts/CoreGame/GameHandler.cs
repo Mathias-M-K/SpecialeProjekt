@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Container;
+using CoreGame.Interfaceses;
 using UnityEngine;
 
 namespace CoreGame
@@ -11,6 +12,7 @@ namespace CoreGame
         private readonly List<PlayerMove> _playerMoves = new List<PlayerMove>();
         private readonly List<PlayerController> _players = new List<PlayerController>();
         private readonly List<Vector3> _spawnPositions = new List<Vector3>();
+        private List<ISequenceObserver> _sequenceObservers = new List<ISequenceObserver>();
         public List<PlayerTrade> trades = new List<PlayerTrade>();
         private Vector3[] occupiedPositions = new Vector3[4];
 
@@ -35,7 +37,7 @@ namespace CoreGame
         public Sprite downSprite;
         public Sprite blankSprite;
 
-        private struct PlayerMove
+        public struct PlayerMove
         {
             public readonly Direction Direction;
             public readonly Player Player;
@@ -124,9 +126,8 @@ namespace CoreGame
             
             playerReceivingController.NotifyTradeObservers();
         }
-
-
-        public void AddMoveToSequece(Player p, Direction d)
+        
+        public void AddMoveToSequence(Player p, Direction d)
         {
             if (GetPlayerController(p) == null)
             {
@@ -136,6 +137,8 @@ namespace CoreGame
 
             PlayerMove playerMove = new PlayerMove(p, d);
             _playerMoves.Add(playerMove);
+            
+            NotifySequenceObservers();
         }
 
         public IEnumerator PerformSequence(float delayBetweenMoves)
@@ -147,6 +150,9 @@ namespace CoreGame
                 playerController.MovePlayer(pm.Direction);
                 yield return new WaitForSeconds(delayBetweenMoves);
             }
+            
+            _playerMoves.Clear();
+            NotifySequenceObservers();
         }
 
         public PlayerController GetPlayerController(Player p)
@@ -165,6 +171,11 @@ namespace CoreGame
         public List<Vector3> GetSpawnLocations()
         {
             return _spawnPositions;
+        }
+
+        public List<PlayerMove> GetSequence()
+        {
+            return _playerMoves;
         }
 
         private void SpawnPlayers()
@@ -237,6 +248,19 @@ namespace CoreGame
                     return blankSprite;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(direction), direction, "Invalid direction");
+            }
+        }
+
+        public void AddSequenceObserver(ISequenceObserver iso)
+        {
+            _sequenceObservers.Add(iso);
+        }
+
+        public void NotifySequenceObservers()
+        {
+            foreach (ISequenceObserver observer in _sequenceObservers)
+            {
+                observer.GetNotified();
             }
         }
     }

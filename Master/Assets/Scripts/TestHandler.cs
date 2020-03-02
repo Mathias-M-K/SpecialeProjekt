@@ -26,33 +26,33 @@ public class TestHandler : MonoBehaviour
 
     private void Start()
     {
-        gameHandler.AddMoveToSequece(Player.Yellow, Direction.Left);
+        gameHandler.AddMoveToSequence(Player.Yellow, Direction.Left);
 
-        gameHandler.AddMoveToSequece(Player.Red, Direction.Down);
+        gameHandler.AddMoveToSequence(Player.Red, Direction.Down);
 
-        gameHandler.AddMoveToSequece(Player.Blue, Direction.Up);
-        gameHandler.AddMoveToSequece(Player.Blue, Direction.Up);
-        gameHandler.AddMoveToSequece(Player.Blue, Direction.Up);
-        gameHandler.AddMoveToSequece(Player.Blue, Direction.Right);
+        gameHandler.AddMoveToSequence(Player.Blue, Direction.Up);
+        gameHandler.AddMoveToSequence(Player.Blue, Direction.Up);
+        gameHandler.AddMoveToSequence(Player.Blue, Direction.Up);
+        gameHandler.AddMoveToSequence(Player.Blue, Direction.Right);
 
-        gameHandler.AddMoveToSequece(Player.Green, Direction.Up);
+        gameHandler.AddMoveToSequence(Player.Green, Direction.Up);
 
-        gameHandler.AddMoveToSequece(Player.Yellow, Direction.Left);
-        gameHandler.AddMoveToSequece(Player.Yellow, Direction.Left);
+        gameHandler.AddMoveToSequence(Player.Yellow, Direction.Left);
+        gameHandler.AddMoveToSequence(Player.Yellow, Direction.Left);
 
-        gameHandler.AddMoveToSequece(Player.Red, Direction.Down);
+        gameHandler.AddMoveToSequence(Player.Red, Direction.Down);
 
-        gameHandler.AddMoveToSequece(Player.Green, Direction.Up);
+        gameHandler.AddMoveToSequence(Player.Green, Direction.Up);
 
-        gameHandler.AddMoveToSequece(Player.Red, Direction.Right);
+        gameHandler.AddMoveToSequence(Player.Red, Direction.Right);
 
-        gameHandler.AddMoveToSequece(Player.Green, Direction.Left);
+        gameHandler.AddMoveToSequence(Player.Green, Direction.Left);
 
-        gameHandler.AddMoveToSequece(Player.Red, Direction.Right);
+        gameHandler.AddMoveToSequence(Player.Red, Direction.Right);
 
-        gameHandler.AddMoveToSequece(Player.Yellow, Direction.Down);
+        gameHandler.AddMoveToSequence(Player.Yellow, Direction.Down);
 
-        gameHandler.AddMoveToSequece(Player.Green, Direction.Left);
+        gameHandler.AddMoveToSequence(Player.Green, Direction.Left);
     }
 
     // Update is called once per frame
