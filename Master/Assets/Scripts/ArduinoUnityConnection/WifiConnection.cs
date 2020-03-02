@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
@@ -23,11 +24,22 @@ namespace ArduinoUnityConnection
 
         //Read IP and port from arduino terminal
         client.Connect(ipAddress, port);
+
+        NetworkStream networkStream = client.GetStream();
+
+        Byte[] data = Encoding.ASCII.GetBytes("Mathias");
         
-        var stream = new StreamReader(client.GetStream());
+        networkStream.Flush();
+        networkStream.Write(data,0,data.Length);
+        
+        var stream = new StreamReader(networkStream);
+        
 
         // We'll read values and buffer them up in here
         var buffer = new List<byte>();
+
+        return;
+        
         while (client.Connected)
         {
           // Read the next byte
