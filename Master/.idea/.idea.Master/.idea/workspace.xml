@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="012f27c6-f40f-4a21-8c31-970934c12f1e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../Arduino/WifiConnect/WifiConnect.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../Arduino/WifiConnect/WifiConnect.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,16 +20,19 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/WallController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/NavMeshManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/ActivateAllDisplays.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/IMoveObserver.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/IMoveObserver.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/ITradeObserver.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Container/PlayerTrade.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/TriggerController.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -42,16 +50,20 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Container/StoredPlayerMove.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Container/Trade.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Test2.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/NewTradeObserver.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/TradeObserver.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/IMoveObserver.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/ITradeObserver.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Container/PlayerTrade.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/ButtonController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/WallController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/TriggerController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/NavMeshManager.cs" />
       </list>
     </option>
   </component>
@@ -116,6 +128,8 @@
       <workItem from="1582819498594" duration="10654000" />
       <workItem from="1582883931736" duration="3017000" />
       <workItem from="1583139162512" duration="20748000" />
+      <workItem from="1583185093274" duration="1074000" />
+      <workItem from="1583186284466" duration="2530000" />
     </task>
     <servers />
   </component>
@@ -143,12 +157,15 @@
     </ignored-roots>
   </component>
   <component name="WindowStateProjectService">
-    <state x="734" y="360" key="#com.intellij.execution.impl.EditConfigurationsDialog" />
-    <state x="734" y="360" key="#com.intellij.execution.impl.EditConfigurationsDialog/2560.0.1440.940/0.0.2560.1410@0.0.2560.1410" />
-    <state x="781" y="347" key="SettingsEditor" />
-    <state x="781" y="347" key="SettingsEditor/2560.0.1440.940/0.0.2560.1410@0.0.2560.1410" />
-    <state x="1089" y="622" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" />
-    <state x="1089" y="622" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/2560.0.1440.940/0.0.2560.1410@0.0.2560.1410" />
+    <state x="734" y="360" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1583186919023" />
+    <state x="734" y="360" key="#com.intellij.execution.impl.EditConfigurationsDialog/2560.0.1440.940/0.0.2560.1410@0.0.2560.1410" timestamp="1583186919025" />
+    <state x="781" y="347" key="SettingsEditor" timestamp="1583186919025" />
+    <state x="781" y="347" key="SettingsEditor/2560.0.1440.940/0.0.2560.1410@0.0.2560.1410" timestamp="1583186919025" />
+    <state x="1089" y="622" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1583186919820">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="1089" y="622" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1050@0.0.1920.1050" timestamp="1583186919820" />
+    <state x="1089" y="622" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/2560.0.1440.940/0.0.2560.1410@0.0.2560.1410" timestamp="1583186919025" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

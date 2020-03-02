@@ -186,7 +186,6 @@ namespace CoreGame
                 GameObject g = Instantiate(player, _spawnPositions[i], new Quaternion(0, 0, 0, 0));
 
                 Material m;
-                Player playerColor;
 
                 switch (playerColors[i])
                 {

@@ -94,7 +94,6 @@ public class TestHandler : MonoBehaviour
                 i++;
             }
         }
-
         if (Input.GetKeyDown(KeyCode.S))
         {
             _wifiConnection.Begin(ipAdress, port);

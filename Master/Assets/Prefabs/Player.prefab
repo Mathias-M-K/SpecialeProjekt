@@ -132,3 +132,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: 0
   agent: {fileID: 149702325251908318}
+  moves: 00000000010000000300000002000000

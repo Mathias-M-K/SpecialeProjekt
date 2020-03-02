@@ -12,6 +12,7 @@ namespace CoreGame
     {
         public Player player;
         [Space] public NavMeshAgent agent;
+        [Header("Settings")] public bool enableMouseMovement;
 
         private Camera _cam;
         private GameHandler _gameHandler;
@@ -26,7 +27,9 @@ namespace CoreGame
         // Update basically contains the "click with mouse" functionality, and that only
         void Update()
         {
-            /*if (Input.GetMouseButtonDown(0))
+            if (!enableMouseMovement) return;
+            
+            if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
 
@@ -47,7 +50,7 @@ namespace CoreGame
 
                     agent.SetDestination(CalculateGridPos(hit.point));
                 }
-            }*/
+            }
         }
 
         //Telling game handler that the position is occupied
