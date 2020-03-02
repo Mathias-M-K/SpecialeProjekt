@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="012f27c6-f40f-4a21-8c31-970934c12f1e" name="Default Changelist" comment="" />
+    <list default="true" id="012f27c6-f40f-4a21-8c31-970934c12f1e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Images.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Images/Arrows.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Images/Arrows/Arrow_Left.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Images/Arrows/Arrow_Left.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Images/Arrows/Arrow_down.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Images/Arrows/Arrow_down.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Images/Arrows/Arrow_right.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Images/Arrows/Arrow_right.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Images/Arrows/Arrow_up.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Images/Arrows/Arrow_up.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Container/PlayerTrade.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Container/PlayerTrade.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoreGame/Trade.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoreGame/Trade.cs.meta" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,8 +35,10 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/ITradeObserver.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Container/PlayerTrade.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -32,14 +54,17 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/SequenceHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ActivateAllDisplays.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Container/StoredPlayerMove.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Container/Trade.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Test2.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Container/PlayerTrade.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/NewTradeObserver.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/TradeObserver.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/ITradeObserver.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Container/PlayerTrade.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" />
       </list>
     </option>
   </component>
@@ -103,6 +128,7 @@
       <workItem from="1582733319422" duration="1839000" />
       <workItem from="1582819498594" duration="10654000" />
       <workItem from="1582883931736" duration="3017000" />
+      <workItem from="1583139162512" duration="11946000" />
     </task>
     <servers />
   </component>

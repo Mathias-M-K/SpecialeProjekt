@@ -84,8 +84,10 @@
           </e>
           <e p="CoreGame" t="Include">
             <e p="GameHandler.cs" t="Include" />
+            <e p="Interfaceses" t="Include">
+              <e p="ITradeObserver.cs" t="Include" />
+            </e>
             <e p="PlayerController.cs" t="Include" />
-            <e p="Trade.cs" t="Include" />
           </e>
           <e p="TestHandler.cs" t="Include" />
         </e>

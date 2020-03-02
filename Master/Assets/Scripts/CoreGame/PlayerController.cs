@@ -20,6 +20,7 @@ namespace CoreGame
         
         [SerializeField]private Direction[] moves = {Direction.Up,Direction.Down,Direction.Left,Direction.Right};
         public List<PlayerTrade> trades = new List<PlayerTrade>();
+        public List<ITradeObserver> tradeObservers = new List<ITradeObserver>();
         
         
         // Update basically contains the "click with mouse" functionality, and that only
@@ -35,7 +36,7 @@ namespace CoreGame
                 {
                     if (hit.transform.GetComponent<PlayerController>() != null)
                     {
-                        throw new Exception("Can't move on top of another player");
+                        return;
                     }
                 
                     //If wall is hit, y will be 2.5
@@ -121,6 +122,16 @@ namespace CoreGame
         {
             int keyIndex = Array.FindIndex(moves, w => w == d);
             return keyIndex;
+        }
+
+        public Direction[] GetMoves()
+        {
+            return moves;
+        }
+
+        public List<PlayerTrade> GetTrades()
+        {
+            return trades;
         }
         
         //Move player one unit in a given direction
@@ -216,6 +227,19 @@ namespace CoreGame
         public void SetGameHandler(GameHandler gameHandler)
         {
             _gameHandler = gameHandler;
+        }
+
+        public void AddTradeObserver(ITradeObserver ito)
+        {
+            tradeObservers.Add(ito);
+        }
+
+        public void NotifyTradeObservers()
+        {
+            foreach (ITradeObserver observer in tradeObservers)
+            {
+                observer.NewTrade();
+            }
         }
     }
 

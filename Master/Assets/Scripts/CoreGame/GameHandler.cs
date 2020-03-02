@@ -17,16 +17,22 @@ namespace CoreGame
 
         [Header("Player Prefab")] public GameObject player;
 
-        [Space] [Header("Materials")] public Material redMaterial;
-        public Material blueMaterial;
-        public Material greenMaterial;
-        public Material yellowMaterial;
-
+        
         [Space] [Header("How many players")] [Range(1, 4)]
         public int numberOfPlayers;
         
         [Space] [Header("Player Abilities")]
         public bool playersCanPhase;
+        
+        [Space] [Header("Materials")] public Material redMaterial;
+        public Material blueMaterial;
+        public Material greenMaterial;
+        public Material yellowMaterial;
+        
+        [Space] [Header("Sprites")] public Sprite leftSprite;
+        public Sprite rightSprite;
+        public Sprite upSprite;
+        public Sprite downSprite;
 
         private struct PlayerMove
         {
@@ -98,6 +104,11 @@ namespace CoreGame
                 throw new Exception($"{playerOffering} don't own the move that is being offered to {playerReceiving}");
             }
 
+            if (playerOffering == playerReceiving)
+            {
+                throw new Exception("You cannot trade to yourself homie...");
+            }
+
             PlayerController playerOfferingController = GetPlayerController(playerOffering);
             PlayerController playerReceivingController = GetPlayerController(playerReceiving);
             int dIndex =
@@ -108,8 +119,9 @@ namespace CoreGame
 
             trades.Add(trade);
             playerReceivingController.QueTrade(trade);
-
             playerOfferingController.RemoveMove(dIndex);
+            
+            playerReceivingController.NotifyTradeObservers();
         }
 
 
@@ -207,6 +219,30 @@ namespace CoreGame
         public List<PlayerController> GetPlayers()
         {
             return _players;
+        }
+
+        public Sprite GetSprite(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Up:
+                    return upSprite;
+                    break;
+                case Direction.Down:
+                    return downSprite;
+                    break;
+                case Direction.Right:
+                    return rightSprite;
+                    break;
+                case Direction.Left:
+                    return leftSprite;
+                    break;
+                case Direction.Blank:
+                    return null;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(direction), direction, "Invalid direction");
+            }
         }
     }
 }

@@ -54,5 +54,10 @@ namespace Container
             _gameHandler.trades.Remove(this);
             rejectingPlayer.trades.Remove(this);
         }
+
+        public string Print()
+        {
+            return OfferingOfferingPlayer + " offering: " + _direction;
+        }
     }
 }
