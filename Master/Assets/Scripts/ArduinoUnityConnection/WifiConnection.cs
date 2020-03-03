@@ -26,19 +26,13 @@ namespace ArduinoUnityConnection
         client.Connect(ipAddress, port);
 
         NetworkStream networkStream = client.GetStream();
-
-        Byte[] data = Encoding.ASCII.GetBytes("Mathias");
-        
-        networkStream.Flush();
-        networkStream.Write(data,0,data.Length);
         
         var stream = new StreamReader(networkStream);
         
 
         // We'll read values and buffer them up in here
         var buffer = new List<byte>();
-
-        return;
+        
         
         while (client.Connected)
         {

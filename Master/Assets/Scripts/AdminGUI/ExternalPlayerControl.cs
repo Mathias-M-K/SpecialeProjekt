@@ -52,6 +52,8 @@ namespace AdminGUI
             playerLabel.text = player.ToString();
             
             playerController = gameHandler.GetPlayerController(player);
+
+            if (playerController == null) return;
             playerController.AddTradeObserver(this);
             playerController.AddMoveObserver(this);
             UpdateMoveSprites();
@@ -197,6 +199,20 @@ namespace AdminGUI
             if (_selectedTrade != null && _currentlySelectedMove != Direction.Blank)
             {
                 _selectedTrade.AcceptTrade(_currentlySelectedMove,playerController);
+                gameHandler.GetPlayerController(_selectedTrade.OfferingPlayer).NotifyMoveObservers();
+                UpdateTrades();
+                UpdateMoveSprites();
+            }
+            else
+            {
+                throw new Exception("Can't accept trade");
+            }
+        }
+        public void RejectBtnHit()
+        {
+            if (_selectedTrade != null)
+            {
+                _selectedTrade.RejectTrade(playerController);
                 gameHandler.GetPlayerController(_selectedTrade.OfferingPlayer).NotifyMoveObservers();
                 UpdateTrades();
                 UpdateMoveSprites();

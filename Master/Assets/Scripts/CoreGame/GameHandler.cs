@@ -98,8 +98,7 @@ namespace CoreGame
                     throw new ArgumentException("Not a valid player");
             }
         }
-
-
+        
         public void NewTrade(Direction d, Player playerReceiving, Player playerOffering)
         {
             if (GetPlayerController(playerOffering).GetDirectionIndex(d) == -1)
@@ -123,21 +122,30 @@ namespace CoreGame
             trades.Add(trade);
             playerReceivingController.QueTrade(trade);
             playerOfferingController.RemoveMove(dIndex);
-            
-            playerReceivingController.NotifyTradeObservers();
         }
         
         public void AddMoveToSequence(Player p, Direction d)
         {
-            if (GetPlayerController(p) == null)
+            PlayerController playerController = GetPlayerController(p);
+            
+            if (playerController == null)
             {
                 Debug.LogException(new ArgumentException(p + " is not active"), this);
+                return;
+            }
+
+            if (playerController.GetDirectionIndex(d) == -1)
+            {
+                Debug.LogError($"{player} does not posses the {d} move");
                 return;
             }
 
             PlayerMove playerMove = new PlayerMove(p, d);
             _playerMoves.Add(playerMove);
             
+            playerController.RemoveMove(playerController.GetDirectionIndex(d));
+            
+            playerController.NotifyMoveObservers();
             NotifySequenceObservers();
         }
 
@@ -149,6 +157,11 @@ namespace CoreGame
 
                 playerController.MovePlayer(pm.Direction);
                 yield return new WaitForSeconds(delayBetweenMoves);
+            }
+
+            foreach (PlayerController playerController in _players)
+            {
+                playerController.ResetMoves();
             }
             
             _playerMoves.Clear();
@@ -222,7 +235,7 @@ namespace CoreGame
 
                 p.SetCamera(Camera.main);
                 p.SetGameHandler(this);
-                p.SetColor(m);
+                p.SetPlayer(m);
                 _players.Add(p);
             }
         }

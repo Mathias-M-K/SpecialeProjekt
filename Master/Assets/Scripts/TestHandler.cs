@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ArduinoUnityConnection;
 using Container;
 using CoreGame;
@@ -9,8 +10,9 @@ public class TestHandler : MonoBehaviour
 {
     [Header("Wireless Connection")] public string ipAdress;
     public int port;
-    public List<PlayerTrade> playerTrades = new List<PlayerTrade>();
-    [SerializeField] private float IncommingValue;
+    public WifiMethod wifiMethod;
+    public string outgoingString;
+    [SerializeField]private float _incommingValue;
 
     [Space] [Header("Other")] [Range(0f, 3f)] [SerializeField]
     private float sequenceDelay;
@@ -22,38 +24,11 @@ public class TestHandler : MonoBehaviour
     public GameHandler gameHandler;
 
     private bool _serverActive;
-    private WifiConnection _wifiConnection = new WifiConnection();
 
-    private void Start()
-    {
-        gameHandler.AddMoveToSequence(Player.Yellow, Direction.Left);
-
-        gameHandler.AddMoveToSequence(Player.Red, Direction.Down);
-
-        gameHandler.AddMoveToSequence(Player.Blue, Direction.Up);
-        gameHandler.AddMoveToSequence(Player.Blue, Direction.Up);
-        gameHandler.AddMoveToSequence(Player.Blue, Direction.Up);
-        gameHandler.AddMoveToSequence(Player.Blue, Direction.Right);
-
-        gameHandler.AddMoveToSequence(Player.Green, Direction.Up);
-
-        gameHandler.AddMoveToSequence(Player.Yellow, Direction.Left);
-        gameHandler.AddMoveToSequence(Player.Yellow, Direction.Left);
-
-        gameHandler.AddMoveToSequence(Player.Red, Direction.Down);
-
-        gameHandler.AddMoveToSequence(Player.Green, Direction.Up);
-
-        gameHandler.AddMoveToSequence(Player.Red, Direction.Right);
-
-        gameHandler.AddMoveToSequence(Player.Green, Direction.Left);
-
-        gameHandler.AddMoveToSequence(Player.Red, Direction.Right);
-
-        gameHandler.AddMoveToSequence(Player.Yellow, Direction.Down);
-
-        gameHandler.AddMoveToSequence(Player.Green, Direction.Left);
-    }
+    
+    private readonly WifiConnectionImproved _wifiConnectionImproved = new WifiConnectionImproved();
+    private readonly WifiConnection _wifiConnection = new WifiConnection();
+    
 
     // Update is called once per frame
     void Update()
@@ -94,28 +69,55 @@ public class TestHandler : MonoBehaviour
                 i++;
             }
         }
+        
         if (Input.GetKeyDown(KeyCode.S))
         {
-            _wifiConnection.Begin(ipAdress, port);
+            switch (wifiMethod)
+            {
+                case WifiMethod.Old:
+                    _wifiConnection.Begin(ipAdress, port);
+                    break;
+                case WifiMethod.New:
+                    _wifiConnectionImproved.Begin(ipAdress,port);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
             _serverActive = true;
         }
-
-        if (Input.GetKeyDown(KeyCode.M))
+        
+        if (Input.GetKeyDown(KeyCode.O))
         {
-            gameHandler.NewTrade(Direction.Up,Player.Red,Player.Blue);
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            agent1.AcceptTradeFrom(Player.Blue,Direction.Right);
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            agent1.RejectTradeFrom(Player.Blue);
+            _wifiConnectionImproved.WriteToArduino(outgoingString);
+            
+            //wifiConnectionImproved.OutgoingData = outgoingString;
+            //wifiConnectionImproved._outgoingDataAvailable = true;
         }
         
         if (_serverActive)
         {
-            IncommingValue = _wifiConnection.CurrentValue;
+            switch (wifiMethod)
+            {
+                case WifiMethod.Old:
+                    _incommingValue = _wifiConnection.CurrentValue;
+                    break;
+                case WifiMethod.New:
+                    _incommingValue = _wifiConnectionImproved.CurrentValue;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
+
+    private void OnApplicationQuit()
+    {
+        _wifiConnectionImproved.CloseConnection();
+    }
+}
+
+public enum WifiMethod
+{
+    Old,
+    New
 }

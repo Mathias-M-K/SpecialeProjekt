@@ -14588,7 +14588,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1914823730}
-        m_MethodName: OnButtonClick
+        m_MethodName: RejectBtnHit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -24648,7 +24648,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 688484231}
   m_LocalRotation: {x: 0.70710677, y: 0.000000029802322, z: -0.000000014901161, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0000011920929}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
   m_LocalScale: {x: 0.011764672, y: 0.011764672, z: 0.011764672}
   m_Children:
   - {fileID: 579872286}
@@ -29627,13 +29627,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce172f5b782455348930f0e43cd5445e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ipAdress: 192.168.137.61
+  ipAdress: 192.168.137.234
   port: 26
   IncommingValue: 0
   sequenceDelay: 0.4
   agent1: {fileID: 0}
   agent2: {fileID: 0}
   gameHandler: {fileID: 1486909244}
+  wifiMethod: 1
+  outgoingString: Easy Peasy
 --- !u!4 &955517554
 Transform:
   m_ObjectHideFlags: 0
@@ -35031,7 +35033,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14942
+  m_Name: pb_Mesh15048
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -35873,7 +35875,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 149702325251908316, guid: 3e22c98172b415e47a06f76c06edd850, type: 3}
-  numberOfPlayers: 4
+  numberOfPlayers: 2
   playersCanPhase: 0
   redMaterial: {fileID: 2100000, guid: f3c245ee6bf12e74da7b64d6dc3d10f7, type: 2}
   blueMaterial: {fileID: 2100000, guid: 1af4223e42405f94b9a3c42279837af0, type: 2}
@@ -39711,7 +39713,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 579872287}
-        m_MethodName: OnButtonClick
+        m_MethodName: RejectBtnHit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -43727,7 +43729,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 433652194}
-        m_MethodName: OnButtonClick
+        m_MethodName: RejectBtnHit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -45629,7 +45631,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 182998691}
-        m_MethodName: OnButtonClick
+        m_MethodName: RejectBtnHit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -46562,7 +46564,7 @@ PrefabInstance:
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.5
+      value: -9.6
       objectReference: {fileID: 0}
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
@@ -46572,7 +46574,7 @@ PrefabInstance:
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 25.5
+      value: 25.6
       objectReference: {fileID: 0}
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
@@ -46622,12 +46624,12 @@ PrefabInstance:
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.25
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.25
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7628565089688055948, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}

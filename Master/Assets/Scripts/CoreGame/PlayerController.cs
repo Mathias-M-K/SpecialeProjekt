@@ -105,18 +105,15 @@ namespace CoreGame
         public void QueTrade(PlayerTrade playerTrade)
         {
             trades.Add(playerTrade);
-            
-            //Code for notifying player that a trade is available @Lasse
+            NotifyTradeObservers();
         }
 
-        //Add move
+        //Add and remove moves from the inventory
         public void AddMove(Direction d, int index)
         {
             moves[index] = d;
             NotifyMoveObservers();
         }
-
-        //Removing move at index
         public void RemoveMove(int index)
         {
             moves[index] = Direction.Blank;
@@ -184,6 +181,7 @@ namespace CoreGame
             }
 
             AnnouncePosition(newGridPos);
+            
             agent.SetDestination(newGridPos);
         }
 
@@ -203,8 +201,18 @@ namespace CoreGame
 
             return gridPos;
         }
+        
+        //Resets the moves for the player
+        public void ResetMoves()
+        {
+            Direction[] defaultMoves = {Direction.Up, Direction.Down, Direction.Left, Direction.Right};
 
-        public void SetColor(Material material)
+            moves = defaultMoves;
+            
+            NotifyMoveObservers();
+        }
+
+        public void SetPlayer(Material material)
         {
             GetComponent<Renderer>().material = material;
 
