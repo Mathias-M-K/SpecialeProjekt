@@ -13,11 +13,12 @@ public class ArduinoCommunication : MonoBehaviour {
     public bool SwapIT = false;
     public string id = "";
     public string swapId = "";
+    public bool scanByColor = false;
     void Start()
     {
         stream.ReadTimeout = 1;
         stream.Open(); //Open the Serial Stream.
-        _player = new Player_handler();
+        _player = gameObject.AddComponent<Player_handler>();
     }
 
     void Update()
@@ -37,15 +38,14 @@ public class ArduinoCommunication : MonoBehaviour {
             throw;
         }
         TriggerSwap();
+        
     }
 
     void TriggerSwap()
     {
-        if (SwapIT)
-        {
-            _player.SwapBlocks(swapId,"down");
-            SwapIT = !SwapIT;
-        }
+        if (!SwapIT) return;
+        _player.SwapBlocks(swapId,"down");
+        SwapIT = !SwapIT;
     }
     
     private void OnApplicationQuit()
