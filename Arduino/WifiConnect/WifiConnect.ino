@@ -8,54 +8,87 @@ const int port = 26;
 WiFiServer server(port);
 WiFiClient client;
 
-long duration, distance; // Used to calculate distance
-bool clientDisconnectNotify;
+bool clientDisconnectNotify = true;
 void setup() {
   Serial.begin(115200);
+  Serial.println("");
 
-  
-  WiFi.begin(ssid,password);
-  Serial.println("Connecting");
+  WiFi.begin(ssid, password);
+  Serial.print("Connecting");
 
-  while(WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
-
-  Serial.print("Connected to "); 
+  Serial.println("");
+  Serial.print("Connected to ");
   Serial.println(ssid);
-  
-  Serial.print("IP Address: "); 
+
+  Serial.print("IP Address: ");
   Serial.println(WiFi.localIP());
 
-  Serial.print("Port: "); 
+  Serial.print("Port: ");
   Serial.println(port);
- 
+
   // Start the TCP server
   server.begin();
 }
 
 void loop() {
+
+
   // Listen for connecting clients
   client = server.available();
-  if (client){
+  if (client) {
+    Serial.println("");
     Serial.println("Client connected");
-    while (client.connected()){
+    clientDisconnectNotify = false;
 
-        float sensorVal = analogRead(A0);
-        Serial.print("sensorVal: ");Serial.println(sensorVal);
 
-        // Send the distance to the client, along with a break to separate our messages
-        client.print(sensorVal);
-        client.print('\r');
+    while (client.connected()) {
 
-        // Delay before the next reading
-        delay(10);
+      if (client.available() > 0) {
+        Serial.print("Data Available:");
+        String tempString;
+
+        Serial.print("Reading...");
+        while (client.available() > 0) {
+          char c = client.read();
+          tempString += c;
+        }
+        Serial.println(" Done!");
+        Serial.print("Recived Data: ");
+        Serial.println(tempString);
+      }
+
+      float sensorVal = analogRead(A0);
+
+      // Send the distance to the client, along with a break to separate our messages
+      client.print(sensorVal);
+      client.print('\r');
+
+      // Delay before the next reading
+      delay(10);
     }
-
-    if(!client.connected() && !clientDisconnectNotify){
+  } else {
+    if (!clientDisconnectNotify) {
       Serial.println("Client Disconnected");
       clientDisconnectNotify = true;
     }
+
   }
- } 
+
+
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("");
+    Serial.print("Wifi disconnected, trying to reconnect");
+
+    while (WiFi.status() != WL_CONNECTED) {
+      delay(500);
+      Serial.print(".");
+    }
+
+    Serial.println(" Wifi reconnect successful");
+    Serial.println("");
+  }
+}
