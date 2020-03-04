@@ -43,6 +43,7 @@ namespace ArduinoUnityConnection
 
                 while (_client.Connected)
                 {
+                    Debug.Log("Client Connected");
 
                     // Read the next byte
                     var read = _theReader.Read();
@@ -62,9 +63,13 @@ namespace ArduinoUnityConnection
                         buffer.Clear();
                     }
                     else
+                    {
                         // If this wasn't the end of a reading, then just add this new byte to our buffer
                         buffer.Add((byte) read);
+                    }
                 }
+
+                Debug.Log("Client disconnected");
             });
 
             thread.Start();

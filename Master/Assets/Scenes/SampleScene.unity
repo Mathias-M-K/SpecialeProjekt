@@ -29608,6 +29608,7 @@ GameObject:
   m_Component:
   - component: {fileID: 955517554}
   - component: {fileID: 955517553}
+  - component: {fileID: 955517555}
   m_Layer: 0
   m_Name: TestHandler
   m_TagString: Untagged
@@ -29627,15 +29628,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce172f5b782455348930f0e43cd5445e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ipAdress: 192.168.137.234
+  ipAdress: 192.168.137.32
   port: 26
-  IncommingValue: 0
+  wifiMethod: 1
+  outgoingString: Easy Peasy
+  _incommingValue: 0
   sequenceDelay: 0.4
   agent1: {fileID: 0}
   agent2: {fileID: 0}
   gameHandler: {fileID: 1486909244}
-  wifiMethod: 1
-  outgoingString: Easy Peasy
+  sc: {fileID: 955517555}
 --- !u!4 &955517554
 Transform:
   m_ObjectHideFlags: 0
@@ -29650,6 +29652,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &955517555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955517552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62adc89dd19d3ca46b2309f5c65eda8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  port: COM3
+  swapIt: 0
+  id: 
+  swapId: 
+  scanByColor: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -35876,6 +35895,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 149702325251908316, guid: 3e22c98172b415e47a06f76c06edd850, type: 3}
   numberOfPlayers: 2
+  wifiEnabled: 0
+  serialEnabled: 0
   playersCanPhase: 0
   redMaterial: {fileID: 2100000, guid: f3c245ee6bf12e74da7b64d6dc3d10f7, type: 2}
   blueMaterial: {fileID: 2100000, guid: 1af4223e42405f94b9a3c42279837af0, type: 2}

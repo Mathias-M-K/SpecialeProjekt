@@ -1,4 +1,6 @@
-﻿public interface IMoveObserver
+﻿using CoreGame;
+
+public interface IMoveObserver
 {
-    void MoveInventoryUpdate();
+    void MoveInventoryUpdate(Direction[] directions);
 }

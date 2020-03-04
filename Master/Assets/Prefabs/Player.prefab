@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 149702325251908319}
   - component: {fileID: 149702325251908318}
   - component: {fileID: 149702325251908317}
+  - component: {fileID: -4486156755800910668}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -132,4 +133,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: 0
   agent: {fileID: 149702325251908318}
-  moves: 00000000010000000300000002000000
+  enableMouseMovement: 0
+--- !u!114 &-4486156755800910668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149702325251908316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62adc89dd19d3ca46b2309f5c65eda8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  port: 
+  swapIt: 0
+  id: 
+  swapId: 
+  scanByColor: 0

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ArduinoUnityConnection;
-using Container;
 using CoreGame;
 using UnityEngine;
 
@@ -10,9 +8,8 @@ public class TestHandler : MonoBehaviour
 {
     [Header("Wireless Connection")] public string ipAdress;
     public int port;
-    public WifiMethod wifiMethod;
     public string outgoingString;
-    [SerializeField] private float _incommingValue;
+    public float incommingValue;
 
     [Space] [Header("Other")] [Range(0f, 3f)] [SerializeField]
     private float sequenceDelay;
@@ -79,14 +76,11 @@ public class TestHandler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.O))
         {
             _wifiConnection.WriteToArduino(outgoingString);
-
-            //wifiConnectionImproved.OutgoingData = outgoingString;
-            //wifiConnectionImproved._outgoingDataAvailable = true;
         }
 
         if (_serverActive)
         {
-            _incommingValue = _wifiConnection.CurrentValue;
+            incommingValue = _wifiConnection.CurrentValue;
         }
     }
 
@@ -94,10 +88,4 @@ public class TestHandler : MonoBehaviour
     {
         _wifiConnection.CloseConnection();
     }
-}
-
-public enum WifiMethod
-{
-    Old,
-    New
 }
