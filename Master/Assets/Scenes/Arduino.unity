@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 802733729}
   - component: {fileID: 802733728}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: ScriptHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -233,8 +233,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62adc89dd19d3ca46b2309f5c65eda8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  port: COM5
-  baudrate: 9600
+  SwapIT: 0
+  id: 
+  swapId: 
+  scanByColor: 0
 --- !u!4 &802733729
 Transform:
   m_ObjectHideFlags: 0
