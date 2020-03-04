@@ -78,7 +78,6 @@
           </e>
           <e p="ArduinoUnityConnection" t="Include">
             <e p="WifiConnection.cs" t="Include" />
-            <e p="WifiConnectionImproved.cs" t="Include" />
           </e>
           <e p="Container" t="Include">
             <e p="PlayerTrade.cs" t="Include" />

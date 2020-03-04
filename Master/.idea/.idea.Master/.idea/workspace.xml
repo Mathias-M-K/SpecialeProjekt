@@ -2,14 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="012f27c6-f40f-4a21-8c31-970934c12f1e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Master/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Master/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnectionImproved.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnectionImproved.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,16 +20,16 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/WallController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ActivateAllDisplays.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/IMoveObserver.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/PlayerController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnectionImproved.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/GameHandler.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CoreGame/Interfaceses/ITradeObserver.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/TestHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/AdminGUI/ExternalPlayerControl.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ActivateAllDisplays.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ArduinoUnityConnection/WifiConnection.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Container/PlayerTrade.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -135,6 +134,7 @@
       <workItem from="1583186284466" duration="2530000" />
       <workItem from="1583189511040" duration="3648000" />
       <workItem from="1583229221157" duration="11377000" />
+      <workItem from="1583311581049" duration="1037000" />
     </task>
     <servers />
   </component>
