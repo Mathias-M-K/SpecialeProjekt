@@ -1,84 +1,123 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using ArduinoUnityConnection;
+using Container;
+using CoreGame;
 using UnityEngine;
+
 
 public class TestHandler : MonoBehaviour
 {
-    [Range(0f, 3f)] [SerializeField] private float sequenceDelay;
-    public PlayerController playerRed;
-    public PlayerController playerBlue;
-    public PlayerController playerGreen;
-    public PlayerController playerYellow;
-    public SequenceHandler sh;
+    [Header("Wireless Connection")] public string ipAdress;
+    public int port;
+    public WifiMethod wifiMethod;
+    public string outgoingString;
+    [SerializeField]private float _incommingValue;
 
-    private void Start()
-    {
-        sh.AddMove(new PlayerMove(PlayerColor.Red, Direction.DOWN));
-        
-        sh.AddMove(new PlayerMove(PlayerColor.Blue, Direction.UP));
+    [Space] [Header("Other")] [Range(0f, 3f)] [SerializeField]
+    private float sequenceDelay;
 
-        sh.AddMove(new PlayerMove(PlayerColor.Green, Direction.UP));
-        sh.AddMove(new PlayerMove(PlayerColor.Green, Direction.LEFT));
-        sh.AddMove(new PlayerMove(PlayerColor.Green, Direction.LEFT));
-        sh.AddMove(new PlayerMove(PlayerColor.Green, Direction.LEFT));
-        
-        sh.AddMove(new PlayerMove(PlayerColor.Yellow, Direction.UP));
-        sh.AddMove(new PlayerMove(PlayerColor.Yellow, Direction.UP));
-        
-        sh.AddMove(new PlayerMove(PlayerColor.Red, Direction.RIGHT));
-        sh.AddMove(new PlayerMove(PlayerColor.Red, Direction.RIGHT));
-        
-        sh.AddMove(new PlayerMove(PlayerColor.Yellow, Direction.UP));
-        sh.AddMove(new PlayerMove(PlayerColor.Yellow, Direction.RIGHT));
-        
-        sh.AddMove(new PlayerMove(PlayerColor.Blue, Direction.UP));
-        sh.AddMove(new PlayerMove(PlayerColor.Blue, Direction.LEFT));
-        
-        sh.AddMove(new PlayerMove(PlayerColor.Red, Direction.DOWN));
-        
-        sh.AddMove(new PlayerMove(PlayerColor.Blue, Direction.LEFT));
-        
-  
-    }
+    public PlayerController agent1;
+    public PlayerController agent2;
+
+
+    public GameHandler gameHandler;
+
+    private bool _serverActive;
+
+    
+    private readonly WifiConnectionImproved _wifiConnectionImproved = new WifiConnectionImproved();
+    private readonly WifiConnection _wifiConnection = new WifiConnection();
+    
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            playerRed.MovePlayer(Direction.LEFT);
+            agent1.MovePlayer(Direction.Left);
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            playerRed.MovePlayer(Direction.RIGHT);
+            agent1.MovePlayer(Direction.Right);
         }
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            playerRed.MovePlayer(Direction.UP);
+            agent1.MovePlayer(Direction.Up);
         }
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            playerRed.MovePlayer(Direction.DOWN);
+            agent1.MovePlayer(Direction.Down);
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartCoroutine(sh.ExcecuteMoves(sequenceDelay));
+            StartCoroutine(gameHandler.PerformSequence(sequenceDelay));
         }
 
         if (Input.GetKeyDown(KeyCode.H))
         {
-            GoHome();
+            List<Vector3> positions = gameHandler.GetSpawnLocations();
+
+            int i = 0;
+            foreach (PlayerController playerController in gameHandler.GetPlayers())
+            {
+                playerController.MoveToPos(positions[i].x, positions[i].z);
+                i++;
+            }
+        }
+        
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            switch (wifiMethod)
+            {
+                case WifiMethod.Old:
+                    _wifiConnection.Begin(ipAdress, port);
+                    break;
+                case WifiMethod.New:
+                    _wifiConnectionImproved.Begin(ipAdress,port);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            _serverActive = true;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            _wifiConnectionImproved.WriteToArduino(outgoingString);
+            
+            //wifiConnectionImproved.OutgoingData = outgoingString;
+            //wifiConnectionImproved._outgoingDataAvailable = true;
+        }
+        
+        if (_serverActive)
+        {
+            switch (wifiMethod)
+            {
+                case WifiMethod.Old:
+                    _incommingValue = _wifiConnection.CurrentValue;
+                    break;
+                case WifiMethod.New:
+                    _incommingValue = _wifiConnectionImproved.CurrentValue;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 
-    void GoHome()
+    private void OnApplicationQuit()
     {
-        playerRed.MoveToPos(1.5f,9.5f);
-        playerBlue.MoveToPos(10.5f,1.5f);
-        playerGreen.MoveToPos(10.5f,9.5f);
-        playerYellow.MoveToPos(1.5f,1.5f);
+        _wifiConnectionImproved.CloseConnection();
     }
+}
+
+public enum WifiMethod
+{
+    Old,
+    New
 }

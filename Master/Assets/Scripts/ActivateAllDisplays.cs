@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
 public class ActivateAllDisplays : MonoBehaviour
 {
     
-    void Start ()
+    [RuntimeInitializeOnLoadMethod]
+    private static void ActivateDisplay ()
     {
         Debug.Log ("displays connected: " + Display.displays.Length);
         // Display.displays[0] is the primary, default display and is always ON, so start at index 1.
