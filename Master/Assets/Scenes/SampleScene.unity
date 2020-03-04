@@ -29627,15 +29627,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce172f5b782455348930f0e43cd5445e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ipAdress: 192.168.137.234
+  ipAdress: 192.168.137.32
   port: 26
-  IncommingValue: 0
+  wifiMethod: 1
+  outgoingString: Easy Peasy
+  _incommingValue: 0
   sequenceDelay: 0.4
   agent1: {fileID: 0}
   agent2: {fileID: 0}
   gameHandler: {fileID: 1486909244}
-  wifiMethod: 1
-  outgoingString: Easy Peasy
 --- !u!4 &955517554
 Transform:
   m_ObjectHideFlags: 0
