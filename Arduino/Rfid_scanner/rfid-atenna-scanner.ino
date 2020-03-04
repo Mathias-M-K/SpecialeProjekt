@@ -6,16 +6,28 @@ const int DATA_VERSION_SIZE = 2; // 2byte version (actual meaning of these two b
 const int DATA_TAG_SIZE = 8; // 8byte tag
 const int CHECKSUM_SIZE = 2; // 2byte checksum
 long currentTag = "";
+const int reset = 2;     // the number of the pushbutton pin
+const int swap = 3;     // the number of the pushbutton pin
+int counter = 0;
+int swapState = 0;
 SoftwareSerial ssrfid = SoftwareSerial(6,8); 
 uint8_t buffer[BUFFER_SIZE]; // used to store an incoming data frame 
 int buffer_index = 0;
 void setup() {
+ pinMode(reset, INPUT);
+ pinMode(swap, INPUT);
  Serial.begin(9600); 
  ssrfid.begin(9600);
  ssrfid.listen(); 
 }
 void loop() {
+ swapState = digitalRead(swap);
  readTags();  
+  // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
+  if ( digitalRead(reset) == HIGH) {
+    // turn LED on:
+    counter = 0;
+  }
 }
 
 
@@ -58,8 +70,25 @@ unsigned extract_tag() {
     uint8_t msg_tail = buffer[13];
     long tag = hexstr_to_value(msg_data_tag, DATA_TAG_SIZE);
     if(tag != currentTag){
+      String dataString = "";
+      if(counter < 4){
+        dataString = "add:";
+        counter++;
+      }
+      else if(swapState == HIGH){
+        dataString = "swap:";
+      }
+      else{
+       dataString = "sequence:"; 
+      }
       currentTag = tag;
-      Serial.println(currentTag);
+      dataString += currentTag;
+      Serial.println(dataString);
+      if(counter == 4){
+        counter++;
+        delay(2000);
+        currentTag = "";        
+      }
     }
     return tag;
 }
