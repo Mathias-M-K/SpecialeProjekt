@@ -76,6 +76,9 @@
             <e p="ExternalPlayerControl.cs" t="Include" />
             <e p="SequenceUI.cs" t="Include" />
           </e>
+          <e p="Arduino" t="Include">
+            <e p="ArduinoCommunication.cs" t="Include" />
+          </e>
           <e p="ArduinoUnityConnection" t="Include">
             <e p="WifiConnection.cs" t="Include" />
           </e>
@@ -93,6 +96,10 @@
             <e p="PlayerController.cs" t="Include" />
             <e p="TriggerController.cs" t="Include" />
             <e p="WallController.cs" t="Include" />
+          </e>
+          <e p="Moving_block" t="Include">
+            <e p="Block.cs" t="Include" />
+            <e p="Player_handler.cs" t="Include" />
           </e>
           <e p="NavMeshManager.cs" t="Include" />
           <e p="TestHandler.cs" t="Include" />
