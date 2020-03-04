@@ -36,7 +36,7 @@ void setup() {
 
 void loop() {
 
-  
+
   // Listen for connecting clients
   client = server.available();
   if (client) {
@@ -44,7 +44,7 @@ void loop() {
     Serial.println("Client connected");
     clientDisconnectNotify = false;
 
-    
+
     while (client.connected()) {
 
       if (client.available() > 0) {
@@ -60,7 +60,7 @@ void loop() {
         Serial.print("Recived Data: ");
         Serial.println(tempString);
       }
-      
+
       float sensorVal = analogRead(A0);
 
       // Send the distance to the client, along with a break to separate our messages
@@ -70,11 +70,25 @@ void loop() {
       // Delay before the next reading
       delay(10);
     }
-  }else{
-    if(!clientDisconnectNotify){
+  } else {
+    if (!clientDisconnectNotify) {
       Serial.println("Client Disconnected");
       clientDisconnectNotify = true;
     }
-    
+
+  }
+
+
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("");
+    Serial.print("Wifi disconnected, trying to reconnect");
+
+    while (WiFi.status() != WL_CONNECTED) {
+      delay(500);
+      Serial.print(".");
+    }
+
+    Serial.println(" Wifi reconnect successful");
+    Serial.println("");
   }
 }
