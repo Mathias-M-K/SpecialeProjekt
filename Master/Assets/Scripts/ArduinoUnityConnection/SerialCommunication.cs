@@ -48,6 +48,8 @@ public class SerialCommunication : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        if (_stream == null) return;
+        
         if (_stream.IsOpen)
         {
             _stream.Close();

@@ -9,16 +9,15 @@ namespace CoreGame
 {
     public class GameHandler : MonoBehaviour
     {
-        private readonly List<PlayerMove> _playerMoves = new List<PlayerMove>();
+        public List<PlayerTrade> trades = new List<PlayerTrade>();
+        
+        private readonly List<PlayerMove> _sequenceMoves = new List<PlayerMove>();
         private readonly List<PlayerController> _players = new List<PlayerController>();
         private readonly List<Vector3> _spawnPositions = new List<Vector3>();
-        private List<ISequenceObserver> _sequenceObservers = new List<ISequenceObserver>();
-        public List<PlayerTrade> trades = new List<PlayerTrade>();
-        private Vector3[] occupiedPositions = new Vector3[4];
-
-
+        private readonly List<ISequenceObserver> _sequenceObservers = new List<ISequenceObserver>();
+        private readonly Vector3[] _occupiedPositions = new Vector3[4];
+        
         [Header("Player Prefab")] public GameObject player;
-
         
         [Space] [Header("Settings")] [Range(1, 4)]
         public int numberOfPlayers;
@@ -61,12 +60,7 @@ namespace CoreGame
 
         public bool IsPositionOccupied(Vector3 position)
         {
-            if (playersCanPhase)
-            {
-                return false;
-            }
-
-            foreach (Vector3 occupiedPosition in occupiedPositions)
+            foreach (Vector3 occupiedPosition in _occupiedPositions)
             {
                 if (position.x == occupiedPosition.x && position.z == occupiedPosition.z)
                 {
@@ -83,27 +77,27 @@ namespace CoreGame
             switch (player)
             {
                 case Player.Red:
-                    occupiedPositions[0] = position;
+                    _occupiedPositions[0] = position;
                     break;
                 case Player.Blue:
-                    occupiedPositions[1] = position;
+                    _occupiedPositions[1] = position;
                     break;
                 case Player.Green:
-                    occupiedPositions[2] = position;
+                    _occupiedPositions[2] = position;
                     break;
                 case Player.Yellow:
-                    occupiedPositions[3] = position;
+                    _occupiedPositions[3] = position;
                     break;
                 default:
                     throw new ArgumentException("Not a valid player");
             }
         }
         
-        public void NewTrade(Direction d, int directionIndex, Player playerReceiving, Player playerOffering)
+        public void NewTrade(Direction direction, int directionIndex, Player playerReceiving, Player playerOffering)
         {
             PlayerController playerReceivingController = GetPlayerController(playerReceiving);
             
-            PlayerTrade trade = new PlayerTrade(playerOffering, playerReceiving, d, this, directionIndex);
+            PlayerTrade trade = new PlayerTrade(playerOffering, playerReceiving, direction, this, directionIndex);
 
             trades.Add(trade);
             playerReceivingController.QueTrade(trade);
@@ -126,7 +120,7 @@ namespace CoreGame
             }
 
             PlayerMove playerMove = new PlayerMove(p, d);
-            _playerMoves.Add(playerMove);
+            _sequenceMoves.Add(playerMove);
             
             playerController.RemoveMove(playerController.GetIndexForDirection(d));
             
@@ -136,7 +130,7 @@ namespace CoreGame
 
         public IEnumerator PerformSequence(float delayBetweenMoves)
         {
-            foreach (PlayerMove pm in _playerMoves)
+            foreach (PlayerMove pm in _sequenceMoves)
             {
                 PlayerController playerController = GetPlayerController(pm.Player);
 
@@ -149,7 +143,7 @@ namespace CoreGame
                 playerController.ResetMoves();
             }
             
-            _playerMoves.Clear();
+            _sequenceMoves.Clear();
             NotifySequenceObservers();
         }
 
@@ -173,7 +167,7 @@ namespace CoreGame
 
         public List<PlayerMove> GetSequence()
         {
-            return _playerMoves;
+            return _sequenceMoves;
         }
 
         private void SpawnPlayers()
@@ -215,7 +209,7 @@ namespace CoreGame
                         break;
                 }
 
-                occupiedPositions[i] = _spawnPositions[i];
+                _occupiedPositions[i] = _spawnPositions[i];
                 PlayerController p = g.GetComponent<PlayerController>();
 
                 p.SetCamera(Camera.main);

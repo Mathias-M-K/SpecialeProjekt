@@ -191,7 +191,7 @@ namespace CoreGame
                 return;
             }
 
-            if (_gameHandler.IsPositionOccupied(newGridPos))
+            if (!_gameHandler.playersCanPhase && _gameHandler.IsPositionOccupied(newGridPos))
             {
                 Debug.LogError("Position Occupied",this);
                 return;
