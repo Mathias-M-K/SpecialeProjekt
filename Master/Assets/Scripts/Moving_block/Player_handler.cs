@@ -15,7 +15,7 @@ public class Player_handler : MonoBehaviour
 
     public void AddBlock(string id)
     {
-        bool colorPicker = GameObject.Find("ScriptHolder").GetComponent<ArduinoCommunication>().scanByColor;
+        bool colorPicker = GameObject.Find("ScriptHolder").GetComponent<SerialCommunication>().scanByColor;
         
         //Had to trim this fucking string - caused random errors. Fuck unity.
         string input = id.Trim();

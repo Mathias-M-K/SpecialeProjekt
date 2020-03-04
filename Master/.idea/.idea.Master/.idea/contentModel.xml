@@ -76,10 +76,8 @@
             <e p="ExternalPlayerControl.cs" t="Include" />
             <e p="SequenceUI.cs" t="Include" />
           </e>
-          <e p="Arduino" t="Include">
-            <e p="ArduinoCommunication.cs" t="Include" />
-          </e>
           <e p="ArduinoUnityConnection" t="Include">
+            <e p="SerialCommunication.cs" t="Include" />
             <e p="WifiConnection.cs" t="Include" />
           </e>
           <e p="Container" t="Include">

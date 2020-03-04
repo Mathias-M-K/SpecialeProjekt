@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using UnityEngine.Serialization;
 
-public class ArduinoCommunication : MonoBehaviour {
+public class SerialCommunication : MonoBehaviour {
 
     SerialPort stream = new SerialPort("COM5", 9600,Parity.Even,7,StopBits.One);
     private Player_handler _player;
