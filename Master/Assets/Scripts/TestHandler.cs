@@ -12,7 +12,7 @@ public class TestHandler : MonoBehaviour
     public int port;
     public WifiMethod wifiMethod;
     public string outgoingString;
-    [SerializeField]private float _incommingValue;
+    [SerializeField] private float _incommingValue;
 
     [Space] [Header("Other")] [Range(0f, 3f)] [SerializeField]
     private float sequenceDelay;
@@ -25,10 +25,9 @@ public class TestHandler : MonoBehaviour
 
     private bool _serverActive;
 
-    
-    private readonly WifiConnectionImproved _wifiConnectionImproved = new WifiConnectionImproved();
+
     private readonly WifiConnection _wifiConnection = new WifiConnection();
-    
+
 
     // Update is called once per frame
     void Update()
@@ -69,50 +68,31 @@ public class TestHandler : MonoBehaviour
                 i++;
             }
         }
-        
+
         if (Input.GetKeyDown(KeyCode.S))
         {
-            switch (wifiMethod)
-            {
-                case WifiMethod.Old:
-                    _wifiConnection.Begin(ipAdress, port);
-                    break;
-                case WifiMethod.New:
-                    _wifiConnectionImproved.Begin(ipAdress,port);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            _wifiConnection.Begin(ipAdress, port);
+
             _serverActive = true;
         }
-        
+
         if (Input.GetKeyDown(KeyCode.O))
         {
-            _wifiConnectionImproved.WriteToArduino(outgoingString);
-            
+            _wifiConnection.WriteToArduino(outgoingString);
+
             //wifiConnectionImproved.OutgoingData = outgoingString;
             //wifiConnectionImproved._outgoingDataAvailable = true;
         }
-        
+
         if (_serverActive)
         {
-            switch (wifiMethod)
-            {
-                case WifiMethod.Old:
-                    _incommingValue = _wifiConnection.CurrentValue;
-                    break;
-                case WifiMethod.New:
-                    _incommingValue = _wifiConnectionImproved.CurrentValue;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            _incommingValue = _wifiConnection.CurrentValue;
         }
     }
 
     private void OnApplicationQuit()
     {
-        _wifiConnectionImproved.CloseConnection();
+        _wifiConnection.CloseConnection();
     }
 }
 
