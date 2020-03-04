@@ -20,9 +20,9 @@ namespace CoreGame
         [Header("Player Prefab")] public GameObject player;
 
         
-        [Space] [Header("How many players")] [Range(1, 4)]
+        [Space] [Header("Settings")] [Range(1, 4)]
         public int numberOfPlayers;
-        
+
         [Space] [Header("Player Abilities")]
         public bool playersCanPhase;
         
@@ -99,29 +99,14 @@ namespace CoreGame
             }
         }
         
-        public void NewTrade(Direction d, Player playerReceiving, Player playerOffering)
+        public void NewTrade(Direction d, int directionIndex, Player playerReceiving, Player playerOffering)
         {
-            if (GetPlayerController(playerOffering).GetDirectionIndex(d) == -1)
-            {
-                throw new Exception($"{playerOffering} don't own the move that is being offered to {playerReceiving}");
-            }
-
-            if (playerOffering == playerReceiving)
-            {
-                throw new Exception("You cannot trade to yourself homie...");
-            }
-
-            PlayerController playerOfferingController = GetPlayerController(playerOffering);
             PlayerController playerReceivingController = GetPlayerController(playerReceiving);
-            int dIndex =
-                playerOfferingController
-                    .GetDirectionIndex(d); //The index at which the move is stored at the playercontroller
-
-            PlayerTrade trade = new PlayerTrade(playerOffering, playerReceiving, d, this, dIndex);
+            
+            PlayerTrade trade = new PlayerTrade(playerOffering, playerReceiving, d, this, directionIndex);
 
             trades.Add(trade);
             playerReceivingController.QueTrade(trade);
-            playerOfferingController.RemoveMove(dIndex);
         }
         
         public void AddMoveToSequence(Player p, Direction d)
@@ -134,7 +119,7 @@ namespace CoreGame
                 return;
             }
 
-            if (playerController.GetDirectionIndex(d) == -1)
+            if (playerController.GetIndexForDirection(d) == -1)
             {
                 Debug.LogError($"{player} does not posses the {d} move");
                 return;
@@ -143,7 +128,7 @@ namespace CoreGame
             PlayerMove playerMove = new PlayerMove(p, d);
             _playerMoves.Add(playerMove);
             
-            playerController.RemoveMove(playerController.GetDirectionIndex(d));
+            playerController.RemoveMove(playerController.GetIndexForDirection(d));
             
             playerController.NotifyMoveObservers();
             NotifySequenceObservers();

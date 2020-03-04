@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using CoreGame;
 using UnityEngine;
 
-public class Block : MonoBehaviour
+public class Block
 {
     private string _id;
-    private string _state;
-    private string _currentState;
-    public Block(string id, string state)
+    private Direction _state;
+    private Player _player;
+    
+    public Block(string id, Direction state, Player player)
     {
         _id = id;
         _state = state;
-        _currentState = state;
+        _player = player;
     }
 
     public string Id
@@ -21,15 +23,15 @@ public class Block : MonoBehaviour
         set => _id = value;
     }
 
-    public string State
+    public Direction State
     {
         get => _state;
         set => _state = value;
     }
 
-    public string CurrentState
+    public Player player
     {
-        get => _currentState;
-        set => _currentState = value;
+        get => _player;
+        set => _player = value;
     }
 }

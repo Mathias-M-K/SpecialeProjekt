@@ -7,19 +7,20 @@ namespace Container
 {
     public class PlayerTrade
     {
-        public readonly Player OfferingPlayer;
-        private readonly Player _receivingPlayer;
-        private readonly Direction _direction;
-        private readonly int _index;
+        public readonly Player OfferingPlayer;        //Player offering a trade
+        private readonly Player _receivingPlayer;    //Player to which the move is being offered
+        private readonly Direction _direction;     //the move being offered
+        private readonly int _storedMoveIndex;     //The index at which the offered move is stored
 
         private readonly GameHandler _gameHandler;
 
-        public PlayerTrade(Player offeringPlayer, Player receivingPlayer, Direction direction, GameHandler gameHandler, int index)
+        public PlayerTrade(Player offeringPlayer, Player receivingPlayer, Direction direction, GameHandler gameHandler,
+            int storedMoveIndex)
         {
             OfferingPlayer = offeringPlayer;
             _direction = direction;
             _gameHandler = gameHandler;
-            _index = index;
+            _storedMoveIndex = storedMoveIndex;
             _receivingPlayer = receivingPlayer;
         }
 
@@ -30,22 +31,20 @@ namespace Container
                 throw new Exception($"Offer was not for {acceptingPlayer.player}");
             }
 
-            if (acceptingPlayer.GetDirectionIndex(counteroffer) == -1)
+            if (acceptingPlayer.GetIndexForDirection(counteroffer) == -1)
             {
                 throw new ArgumentException($"{acceptingPlayer.player} does not posses the move {counteroffer}");
             }
 
-            PlayerController offeringPlayerController = _gameHandler.GetPlayerController(OfferingPlayer); 
-            offeringPlayerController.AddMove(counteroffer, _index);
-            acceptingPlayer.AddMove(_direction, acceptingPlayer.GetDirectionIndex(counteroffer));
-            
+            PlayerController offeringPlayerController = _gameHandler.GetPlayerController(OfferingPlayer);
+            offeringPlayerController.AddMove(counteroffer, _storedMoveIndex);
+            acceptingPlayer.AddMove(_direction, acceptingPlayer.GetIndexForDirection(counteroffer));
+
             offeringPlayerController.NotifyTradeObservers();
             acceptingPlayer.NotifyTradeObservers();
 
             _gameHandler.trades.Remove(this);
             acceptingPlayer.trades.Remove(this);
-            
-            
         }
 
         public void RejectTrade(PlayerController rejectingPlayer)
@@ -55,7 +54,7 @@ namespace Container
                 throw new Exception($"Offer was not for {rejectingPlayer.player}");
             }
 
-            _gameHandler.GetPlayerController(OfferingPlayer).AddMove(_direction, _index);
+            _gameHandler.GetPlayerController(OfferingPlayer).AddMove(_direction, _storedMoveIndex);
 
             _gameHandler.trades.Remove(this);
             rejectingPlayer.trades.Remove(this);

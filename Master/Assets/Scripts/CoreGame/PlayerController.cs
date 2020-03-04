@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
+
 using Container;
 using UnityEngine;
 using UnityEngine.AI;
@@ -17,15 +16,18 @@ namespace CoreGame
         private Camera _cam;
         private GameHandler _gameHandler;
 
-        [SerializeField] private Direction[] moves = {Direction.Up, Direction.Down, Direction.Left, Direction.Right};
+        private Direction[] _moves = {Direction.Up, Direction.Down, Direction.Left, Direction.Right};
+        
         public List<PlayerTrade> trades = new List<PlayerTrade>();
+        
+        //Observers
         private readonly List<ITradeObserver> _tradeObservers = new List<ITradeObserver>();
         private readonly List<IMoveObserver> _moveObservers = new List<IMoveObserver>();
 
 
 
         // Update basically contains the "click with mouse" functionality, and that only
-        void Update()
+        private void Update()
         {
             if (!enableMouseMovement) return;
             
@@ -100,7 +102,22 @@ namespace CoreGame
                 throw new Exception($"No trade offers from {offeringPlayer}");
             }
         }
-
+        
+        //Create a trade and send it to game handler
+        public void CreateTrade(Direction direction, Player receivingPlayer)
+        {
+            //Doing some checks
+            //Checking that the move is in inventory
+            if (GetIndexForDirection(direction) == -1) throw new ArgumentException($"the move {direction} is not in inventory");
+            
+            //Checking that the player is not trying to trade to himself
+            if(receivingPlayer == player) throw new ArgumentException($"{player} is trying to trade to himself");
+            
+            _gameHandler.NewTrade(direction,GetIndexForDirection(direction),receivingPlayer,player);
+            RemoveMove(GetIndexForDirection(direction));
+        }
+        
+        
         //Queuing trade for player to accept or reject
         public void QueTrade(PlayerTrade playerTrade)
         {
@@ -111,25 +128,25 @@ namespace CoreGame
         //Add and remove moves from the inventory
         public void AddMove(Direction d, int index)
         {
-            moves[index] = d;
+            _moves[index] = d;
             NotifyMoveObservers();
         }
         public void RemoveMove(int index)
         {
-            moves[index] = Direction.Blank;
+            _moves[index] = Direction.Blank;
             NotifyMoveObservers();
         }
 
         //Returns the index of where the move/direction d is stored
-        public int GetDirectionIndex(Direction d)
+        public int GetIndexForDirection(Direction d)
         {
-            int keyIndex = Array.FindIndex(moves, w => w == d);
+            int keyIndex = Array.FindIndex(_moves, w => w == d);
             return keyIndex;
         }
 
         public Direction[] GetMoves()
         {
-            return moves;
+            return _moves;
         }
 
         public List<PlayerTrade> GetTrades()
@@ -207,7 +224,7 @@ namespace CoreGame
         {
             Direction[] defaultMoves = {Direction.Up, Direction.Down, Direction.Left, Direction.Right};
 
-            moves = defaultMoves;
+            _moves = defaultMoves;
             
             NotifyMoveObservers();
         }
@@ -267,7 +284,7 @@ namespace CoreGame
         {
             foreach (IMoveObserver observer in _moveObservers)
             {
-                observer.MoveInventoryUpdate();
+                observer.MoveInventoryUpdate(GetMoves());
             }
         }
     }

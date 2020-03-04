@@ -199,7 +199,6 @@ namespace AdminGUI
             if (_selectedTrade != null && _currentlySelectedMove != Direction.Blank)
             {
                 _selectedTrade.AcceptTrade(_currentlySelectedMove,playerController);
-                gameHandler.GetPlayerController(_selectedTrade.OfferingPlayer).NotifyMoveObservers();
                 UpdateTrades();
                 UpdateMoveSprites();
             }
@@ -229,7 +228,7 @@ namespace AdminGUI
                 Debug.LogError("that didn't work",this);
             }
             
-            gameHandler.NewTrade(_currentlySelectedMove,_selectedPlayer.player,playerController.player);
+            playerController.CreateTrade(_currentlySelectedMove,_selectedPlayer.player);
         }
 
         public void SendBtnHit()
@@ -247,7 +246,8 @@ namespace AdminGUI
             print(this.name + "Was notified");
             UpdateTrades();
         }
-        public void MoveInventoryUpdate()
+
+        public void MoveInventoryUpdate(Direction[] directions)
         {
             UpdateMoveSprites();
         }
