@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CoreGame;
-using CoreGame.Interfaceses;
+using CoreGame.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 

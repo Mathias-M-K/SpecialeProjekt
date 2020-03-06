@@ -1,4 +1,4 @@
-﻿namespace CoreGame.Interfaceses
+﻿namespace CoreGame.Interfaces
 {
     public interface ISequenceObserver
     {

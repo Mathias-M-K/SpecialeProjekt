@@ -12,6 +12,7 @@ public class CubeController : MonoBehaviour
     public float forwardForce;
     public float turningForce;
     public float jumpForce;
+    public bool spacePressed;
 
     private void Start()
     {
@@ -48,6 +49,7 @@ public class CubeController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            spacePressed = true;
             _rigidbody.AddForce(transform.up*jumpForce);
         }
     }

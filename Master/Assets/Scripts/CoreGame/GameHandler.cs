@@ -2,12 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using Container;
-using CoreGame.Interfaceses;
+using CoreGame.Interfaces;
 using UnityEngine;
 
 namespace CoreGame
 {
-    public class GameHandler : MonoBehaviour
+    public class GameHandler : MonoBehaviour,IFinishPointObserver
     {
         public List<PlayerTrade> trades = new List<PlayerTrade>();
         
@@ -18,6 +18,7 @@ namespace CoreGame
         private readonly Vector3[] _occupiedPositions = new Vector3[4];
         
         [Header("Player Prefab")] public GameObject player;
+        [Header("Goal")] public FinishPointController finishPointObject;
         
         [Space] [Header("Settings")] [Range(1, 4)]
         public int numberOfPlayers;
@@ -55,6 +56,7 @@ namespace CoreGame
             _spawnPositions.Add(new Vector3(10.5f, 2, 1.5f));
             _spawnPositions.Add(new Vector3(10.5f, 2, 10.5f));
 
+            finishPointObject.AddObserver(this);
             SpawnPlayers();
         }
 
@@ -232,6 +234,14 @@ namespace CoreGame
             }
         }
 
+        private void CheckIfGameIsDone(int nrOfFinishedPlayers)
+        {
+            if (nrOfFinishedPlayers >= numberOfPlayers)
+            {
+                print("Game Done!");
+            }
+        }
+
         public void RemovePlayer(PlayerController playerController)
         {
             _players.Remove(playerController);
@@ -294,6 +304,11 @@ namespace CoreGame
             {
                 observer.GetNotified();
             }
+        }
+
+        public void GameProgressUpdate(int nrOfFinishedPlayers)
+        {
+            CheckIfGameIsDone(nrOfFinishedPlayers);
         }
     }
 }
