@@ -430,6 +430,7 @@
           </e>
           <e p="CoreGame" t="Include">
             <e p="GameHandler.cs" t="Include" />
+            <e p="GoalController.cs" t="Include" />
             <e p="Interfaceses" t="Include">
               <e p="IMoveObserver.cs" t="Include" />
               <e p="ISequenceObserver.cs" t="Include" />
@@ -445,6 +446,7 @@
           </e>
           <e p="NavMeshManager.cs" t="Include" />
           <e p="Networking" t="Include">
+            <e p="AutoMovingPlayer.cs" t="Include" />
             <e p="CubeController.cs" t="Include" />
             <e p="GameSetupController.cs" t="Include" />
             <e p="NetworkController.cs" t="Include" />

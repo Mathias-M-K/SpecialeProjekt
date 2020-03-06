@@ -18,7 +18,9 @@ namespace CoreGame
 
         private Direction[] _moves = {Direction.Up, Direction.Down, Direction.Left, Direction.Right};
         
-        public List<PlayerTrade> trades = new List<PlayerTrade>();
+        
+        public List<PlayerTrade> incomingTradeOffers = new List<PlayerTrade>();
+        public List<PlayerTrade> outgoingTradeOffers = new List<PlayerTrade>();
         
         //Observers
         private readonly List<ITradeObserver> _tradeObservers = new List<ITradeObserver>();
@@ -54,7 +56,7 @@ namespace CoreGame
                 }
             }
         }
-
+        
         //Telling game handler that the position is occupied
         private void AnnouncePosition(Vector3 position)
         {
@@ -65,7 +67,7 @@ namespace CoreGame
         public void AcceptTradeFrom(Player offeringPlayer, Direction counterOffer)
         {
             PlayerTrade tradeToBeAccepted = null;
-            foreach (PlayerTrade playerTrade in trades)
+            foreach (PlayerTrade playerTrade in incomingTradeOffers)
             {
                 if (playerTrade.OfferingPlayer == offeringPlayer)
                 {
@@ -85,7 +87,7 @@ namespace CoreGame
         public void RejectTradeFrom(Player offeringPlayer)
         {
             PlayerTrade tradeToBeAccepted = null;
-            foreach (PlayerTrade playerTrade in trades)
+            foreach (PlayerTrade playerTrade in incomingTradeOffers)
             {
                 if (playerTrade.OfferingPlayer == offeringPlayer)
                 {
@@ -110,6 +112,8 @@ namespace CoreGame
             //Checking that the move is in inventory
             if (GetIndexForDirection(direction) == -1) throw new ArgumentException($"the move {direction} is not in inventory");
             
+            if(direction == Direction.Blank) throw new ArgumentException("You can't trade a blank move");
+            
             //Checking that the player is not trying to trade to himself
             if(receivingPlayer == player) throw new ArgumentException($"{player} is trying to trade to himself");
             
@@ -117,11 +121,25 @@ namespace CoreGame
             RemoveMove(GetIndexForDirection(direction));
         }
         
-        
         //Queuing trade for player to accept or reject
-        public void QueTrade(PlayerTrade playerTrade)
+        public void AddIncomingTrade(PlayerTrade playerTrade)
         {
-            trades.Add(playerTrade);
+            incomingTradeOffers.Add(playerTrade);
+            NotifyTradeObservers();
+        }
+        public void AddOutgoingTrade(PlayerTrade playerTrade)
+        {
+            outgoingTradeOffers.Add(playerTrade);
+            NotifyTradeObservers();
+        }
+        public void RemoveOutgoingTrade(PlayerTrade playerTrade)
+        {
+            outgoingTradeOffers.Remove(playerTrade);
+            NotifyTradeObservers();
+        }
+        public void RemoveIncomingTrade(PlayerTrade playerTrade)
+        {
+            incomingTradeOffers.Remove(playerTrade);
             NotifyTradeObservers();
         }
 
@@ -151,7 +169,7 @@ namespace CoreGame
 
         public List<PlayerTrade> GetTrades()
         {
-            return trades;
+            return incomingTradeOffers;
         }
 
         //Move player one unit in a given direction
@@ -286,6 +304,43 @@ namespace CoreGame
             {
                 observer.MoveInventoryUpdate(GetMoves());
             }
+        }
+
+        public void Die()
+        {
+            //Rejecting all trade offers
+            List<PlayerTrade> incomingTradesTemp = new List<PlayerTrade>(incomingTradeOffers);
+            foreach (PlayerTrade trade in incomingTradesTemp)
+            {
+                trade.RejectTrade(this);
+            }
+            
+            //Cancelling all trades by the player
+            List<PlayerTrade> outgoingTradesTemp = new List<PlayerTrade>(outgoingTradeOffers);
+            foreach (PlayerTrade trade in outgoingTradesTemp)
+            {
+                trade.CancelTrade(player);
+            }
+
+            List<GameHandler.PlayerMove> moves = new List<GameHandler.PlayerMove>(_gameHandler.GetSequence());
+            
+            //Remove all moves from player, so they can't continue to play
+            for (int i = 0; i < 4; i++)
+            {
+                RemoveMove(i);
+            }
+            
+            //Removing all moves from the common sequence
+            foreach (GameHandler.PlayerMove move in moves)
+            {
+                if (move.Player == player)
+                {
+                    _gameHandler.RemoveMoveFromSequence(move);
+                }
+            }
+            
+            _gameHandler.RemovePlayer(this);
+            Destroy(gameObject);
         }
     }
 

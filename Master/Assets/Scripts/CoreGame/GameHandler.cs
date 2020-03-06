@@ -58,6 +58,11 @@ namespace CoreGame
             SpawnPlayers();
         }
 
+        private void Start()
+        {
+            RemoveBarricadesForInactivePlayers();
+        }
+
         public bool IsPositionOccupied(Vector3 position)
         {
             foreach (Vector3 occupiedPosition in _occupiedPositions)
@@ -96,11 +101,13 @@ namespace CoreGame
         public void NewTrade(Direction direction, int directionIndex, Player playerReceiving, Player playerOffering)
         {
             PlayerController playerReceivingController = GetPlayerController(playerReceiving);
+            PlayerController playerOfferingController = GetPlayerController(playerOffering);
             
             PlayerTrade trade = new PlayerTrade(playerOffering, playerReceiving, direction, this, directionIndex);
 
             trades.Add(trade);
-            playerReceivingController.QueTrade(trade);
+            playerReceivingController.AddIncomingTrade(trade);
+            playerOfferingController.AddOutgoingTrade(trade);
         }
         
         public void AddMoveToSequence(Player p, Direction d)
@@ -125,6 +132,12 @@ namespace CoreGame
             playerController.RemoveMove(playerController.GetIndexForDirection(d));
             
             playerController.NotifyMoveObservers();
+            NotifySequenceObservers();
+        }
+
+        public void RemoveMoveFromSequence(PlayerMove move)
+        {
+            _sequenceMoves.Remove(move);
             NotifySequenceObservers();
         }
 
@@ -219,9 +232,36 @@ namespace CoreGame
             }
         }
 
+        public void RemovePlayer(PlayerController playerController)
+        {
+            _players.Remove(playerController);
+        }
+
         public List<PlayerController> GetPlayers()
         {
             return _players;
+        }
+
+        private void RemoveBarricadesForInactivePlayers()
+        {
+            WallController[] wallControllers = (WallController[]) FindObjectsOfType (typeof(WallController));
+            TriggerController[] triggerControllers = (TriggerController[]) FindObjectsOfType (typeof(TriggerController));
+
+            foreach (WallController controller in wallControllers)
+            {
+                if (GetPlayerController(controller.owner) == null)
+                {
+                    Destroy(controller.gameObject);
+                }
+            }
+
+            foreach (TriggerController controller in triggerControllers)
+            {
+                if (GetPlayerController(controller.owner) == null)
+                {
+                    Destroy(controller.gameObject);
+                }
+            }
         }
 
         public Sprite GetSprite(Direction direction)

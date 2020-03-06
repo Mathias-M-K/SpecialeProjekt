@@ -36,14 +36,16 @@ namespace Container
                 throw new ArgumentException("Can't use blank to trade with");
 
             PlayerController offeringPlayerController = _gameHandler.GetPlayerController(OfferingPlayer);
+            
             offeringPlayerController.AddMove(counteroffer, _storedMoveIndex);
             acceptingPlayer.AddMove(_direction, acceptingPlayer.GetIndexForDirection(counteroffer));
 
-            offeringPlayerController.NotifyTradeObservers();
-            acceptingPlayer.NotifyTradeObservers();
+            offeringPlayerController.RemoveOutgoingTrade(this);
+            acceptingPlayer.RemoveIncomingTrade(this);
+            
 
             _gameHandler.trades.Remove(this);
-            acceptingPlayer.trades.Remove(this);
+            
         }
 
         public void RejectTrade(PlayerController rejectingPlayer)
@@ -53,11 +55,26 @@ namespace Container
                 throw new Exception($"Offer was not for {rejectingPlayer.player}");
             }
 
-            _gameHandler.GetPlayerController(OfferingPlayer).AddMove(_direction, _storedMoveIndex);
+            PlayerController offeringPlayerController = _gameHandler.GetPlayerController(OfferingPlayer);
+            
+            offeringPlayerController.AddMove(_direction, _storedMoveIndex);
 
+            offeringPlayerController.RemoveOutgoingTrade(this);
+            rejectingPlayer.RemoveIncomingTrade(this);
+            
+            offeringPlayerController.NotifyTradeObservers();
+            rejectingPlayer.NotifyTradeObservers();
+            
             _gameHandler.trades.Remove(this);
-            rejectingPlayer.trades.Remove(this);
         }
+
+        public void CancelTrade(Player cancellingPlayer)
+        {
+            if (cancellingPlayer != OfferingPlayer) throw new ArgumentException("Only the player that created the trade can cancel it");
+            
+            RejectTrade(_gameHandler.GetPlayerController(_receivingPlayer));
+        }
+        
 
         public string Print()
         {
