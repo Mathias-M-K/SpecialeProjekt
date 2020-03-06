@@ -84,11 +84,6 @@ unsigned extract_tag() {
       currentTag = tag;
       dataString += currentTag;
       Serial.println(dataString);
-      if(counter == 4){
-        counter++;
-        delay(2000);
-        currentTag = "";        
-      }
     }
     return tag;
 }
