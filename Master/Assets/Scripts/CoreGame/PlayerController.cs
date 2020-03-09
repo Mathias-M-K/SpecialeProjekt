@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 
 using Container;
+using CoreGame.Strategies.Implementations.PlayerFinishImplementations;
+using CoreGame.Strategies.Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,7 +14,11 @@ namespace CoreGame
         public Player player;
         [Space] public NavMeshAgent agent;
         [Header("Settings")] public bool enableMouseMovement;
+        [Header("Strateies")] public PlayerFinishStrategyEnum playerFinishStrategy;
 
+        //Strategies
+        private PlayerFinishStrategy _playerFinishStrategy;
+        
         private Camera _cam;
         private GameHandler _gameHandler;
 
@@ -27,6 +33,10 @@ namespace CoreGame
         private readonly List<IMoveObserver> _moveObservers = new List<IMoveObserver>();
 
 
+        private void Start()
+        {
+            InitializeStrategies();
+        }
 
         // Update basically contains the "click with mouse" functionality, and that only
         private void Update()
@@ -308,38 +318,26 @@ namespace CoreGame
 
         public void Die()
         {
-            //Rejecting all trade offers
-            List<PlayerTrade> incomingTradesTemp = new List<PlayerTrade>(incomingTradeOffers);
-            foreach (PlayerTrade trade in incomingTradesTemp)
-            {
-                trade.RejectTrade(this);
-            }
-            
-            //Cancelling all trades by the player
-            List<PlayerTrade> outgoingTradesTemp = new List<PlayerTrade>(outgoingTradeOffers);
-            foreach (PlayerTrade trade in outgoingTradesTemp)
-            {
-                trade.CancelTrade(player);
-            }
+            _playerFinishStrategy.PlayerFinish(this,_gameHandler);
+        }
 
-            List<StoredPlayerMove> moves = new List<StoredPlayerMove>(_gameHandler.GetSequence());
-            
-            //Remove all moves from player, so they can't continue to play
-            for (int i = 0; i < 4; i++)
+        private void InitializeStrategies()
+        {
+            switch (playerFinishStrategy)
             {
-                RemoveMove(i);
+                case PlayerFinishStrategyEnum.Remove:
+                    _playerFinishStrategy = new RemovePlayerFinishStrategy();
+                    break;
+                case PlayerFinishStrategyEnum.AbleToTrade:
+                    _playerFinishStrategy = new AllowTradePlayerFinishStrategy();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            
-            //Removing all moves from the common sequence
-            foreach (StoredPlayerMove move in moves)
-            {
-                if (move.Player == player)
-                {
-                    _gameHandler.RemoveMoveFromSequence(move);
-                }
-            }
-            
-            _gameHandler.RemovePlayer(this);
+        }
+
+        public void DestroySelf()
+        {
             Destroy(gameObject);
         }
     }
@@ -359,5 +357,11 @@ namespace CoreGame
         Blue,
         Green,
         Yellow
+    }
+
+    public enum PlayerFinishStrategyEnum
+    {
+        Remove,
+        AbleToTrade
     }
 }

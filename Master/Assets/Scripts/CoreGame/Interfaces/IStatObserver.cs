@@ -4,7 +4,13 @@ namespace CoreGame.Interfaces
 {
     public interface IStatObserver
     {
-        void NewMoveAdded();
-        void NewTradeAdded(PlayerTrade playerTrade);
+        //Moves
+        void NewMoveAdded(StoredPlayerMove move);
+        
+        
+        //Trades
+        //Status: Pending, Accepted, Rejected, Canceled
+        void NewTradeActivity(PlayerTrade playerTrade,string status);
+
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
-using System.CodeDom;
+using System.Collections.Generic;
 using CoreGame;
+using CoreGame.Interfaces;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Container
 {
@@ -9,19 +11,29 @@ namespace Container
     {
         public readonly Player OfferingPlayer; //Player offering a trade
         public readonly Player ReceivingPlayer; //Player to which the move is being offered
-        public readonly Direction Direction; //the move being offered
+        public readonly Direction DirectionOffer; //the move being offered
+        public Direction DirectionCounterOffer = Direction.Blank;
+
+        public int TradeID;
         private readonly int _storedMoveIndex; //The index at which the offered move is stored
+        private readonly List<IStatObserver> _statObservers;
 
         private readonly GameHandler _gameHandler;
 
-        public PlayerTrade(Player offeringPlayer, Player receivingPlayer, Direction direction, GameHandler gameHandler,
-            int storedMoveIndex)
+        public PlayerTrade(Player offeringPlayer, Player receivingPlayer, Direction directionOffer, GameHandler gameHandler, int storedMoveIndex,List<IStatObserver> observers)
         {
+            TradeID = Random.Range(0, 10000);
             OfferingPlayer = offeringPlayer;
-            Direction = direction;
+            DirectionOffer = directionOffer;
             _gameHandler = gameHandler;
             _storedMoveIndex = storedMoveIndex;
             ReceivingPlayer = receivingPlayer;
+            _statObservers = observers;
+
+            foreach (IStatObserver observer in _statObservers)
+            {
+                observer.NewTradeActivity(this,"Pending");
+            }
         }
 
         public void AcceptTrade(Direction counteroffer, PlayerController acceptingPlayer)
@@ -36,16 +48,17 @@ namespace Container
                 throw new ArgumentException("Can't use blank to trade with");
 
             PlayerController offeringPlayerController = _gameHandler.GetPlayerController(OfferingPlayer);
+
+            DirectionCounterOffer = counteroffer;
             
             offeringPlayerController.AddMove(counteroffer, _storedMoveIndex);
-            acceptingPlayer.AddMove(Direction, acceptingPlayer.GetIndexForDirection(counteroffer));
+            acceptingPlayer.AddMove(DirectionOffer, acceptingPlayer.GetIndexForDirection(counteroffer));
 
             offeringPlayerController.RemoveOutgoingTrade(this);
             acceptingPlayer.RemoveIncomingTrade(this);
             
-
+            NotifyObservers("Accepted");
             _gameHandler.trades.Remove(this);
-            
         }
 
         public void RejectTrade(PlayerController rejectingPlayer)
@@ -57,7 +70,7 @@ namespace Container
 
             PlayerController offeringPlayerController = _gameHandler.GetPlayerController(OfferingPlayer);
             
-            offeringPlayerController.AddMove(Direction, _storedMoveIndex);
+            offeringPlayerController.AddMove(DirectionOffer, _storedMoveIndex);
 
             offeringPlayerController.RemoveOutgoingTrade(this);
             rejectingPlayer.RemoveIncomingTrade(this);
@@ -65,6 +78,7 @@ namespace Container
             offeringPlayerController.NotifyTradeObservers();
             rejectingPlayer.NotifyTradeObservers();
             
+            NotifyObservers("Rejected");
             _gameHandler.trades.Remove(this);
         }
 
@@ -72,13 +86,22 @@ namespace Container
         {
             if (cancellingPlayer != OfferingPlayer) throw new ArgumentException("Only the player that created the trade can cancel it");
             
+            NotifyObservers("Canceled");
             RejectTrade(_gameHandler.GetPlayerController(ReceivingPlayer));
         }
         
 
         public string Print()
         {
-            return OfferingPlayer + " offering: " + Direction;
+            return OfferingPlayer + " offering: " + DirectionOffer;
+        }
+
+        private void NotifyObservers(string status)
+        {
+            foreach (IStatObserver observer in _statObservers)
+            {
+                observer.NewTradeActivity(this,status);
+            }
         }
     }
 }

@@ -96,12 +96,11 @@ namespace CoreGame
             PlayerController playerReceivingController = GetPlayerController(playerReceiving);
             PlayerController playerOfferingController = GetPlayerController(playerOffering);
             
-            PlayerTrade trade = new PlayerTrade(playerOffering, playerReceiving, direction, this, directionIndex);
+            PlayerTrade trade = new PlayerTrade(playerOffering, playerReceiving, direction, this, directionIndex,_statObservers);
 
             trades.Add(trade);
             playerReceivingController.AddIncomingTrade(trade);
             playerOfferingController.AddOutgoingTrade(trade);
-            NotifyStat_Trade(trade);
         }
         
         public void AddMoveToSequence(Player p, Direction d)
@@ -126,8 +125,8 @@ namespace CoreGame
             playerController.RemoveMove(playerController.GetIndexForDirection(d));
             
             playerController.NotifyMoveObservers();
+            NotifyStatObservers(playerMove);
             NotifySequenceObservers();
-            NotifyStat_Move();
         }
 
         public void RemoveMoveFromSequence(StoredPlayerMove move)
@@ -296,7 +295,7 @@ namespace CoreGame
             _statObservers.Add(iso);
         }
 
-        public void NotifySequenceObservers()
+        private void NotifySequenceObservers()
         {
             foreach (ISequenceObserver observer in _sequenceObservers)
             {
@@ -304,21 +303,14 @@ namespace CoreGame
             }
         }
 
-        private void NotifyStat_Trade(PlayerTrade playerTrade)
+        private void NotifyStatObservers(StoredPlayerMove move)
         {
             foreach (IStatObserver observer in _statObservers)
             {
-                observer.NewTradeAdded(playerTrade);
+                observer.NewMoveAdded(move);
             }
         }
-
-        private void NotifyStat_Move()
-        {
-            foreach (IStatObserver observer in _statObservers)
-            {
-                observer.NewMoveAdded();
-            }
-        }
+        
 
         public void GameProgressUpdate(int nrOfFinishedPlayers)
         {
