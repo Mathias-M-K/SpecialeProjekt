@@ -61,7 +61,7 @@ namespace AdminGUI
             }
         }
 
-        public void GetNotified()
+        public void SequenceUpdate()
         {
             UpdateSequence();
         }

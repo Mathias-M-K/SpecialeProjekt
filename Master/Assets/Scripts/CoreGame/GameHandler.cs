@@ -14,9 +14,11 @@ namespace CoreGame
         private readonly List<PlayerMove> _sequenceMoves = new List<PlayerMove>();
         private readonly List<PlayerController> _players = new List<PlayerController>();
         private readonly List<Vector3> _spawnPositions = new List<Vector3>();
-        private readonly List<ISequenceObserver> _sequenceObservers = new List<ISequenceObserver>();
         private readonly Vector3[] _occupiedPositions = new Vector3[4];
         
+        private readonly List<ISequenceObserver> _sequenceObservers = new List<ISequenceObserver>();
+        private readonly List<IStatObserver> _statObservers = new List<IStatObserver>();
+
         [Header("Player Prefab")] public GameObject player;
         [Header("Goal")] public FinishPointController finishPointObject;
         
@@ -110,6 +112,7 @@ namespace CoreGame
             trades.Add(trade);
             playerReceivingController.AddIncomingTrade(trade);
             playerOfferingController.AddOutgoingTrade(trade);
+            NotifyStat_Trade(trade);
         }
         
         public void AddMoveToSequence(Player p, Direction d)
@@ -135,6 +138,7 @@ namespace CoreGame
             
             playerController.NotifyMoveObservers();
             NotifySequenceObservers();
+            NotifyStat_Move();
         }
 
         public void RemoveMoveFromSequence(PlayerMove move)
@@ -298,11 +302,32 @@ namespace CoreGame
             _sequenceObservers.Add(iso);
         }
 
+        public void AddStatObserver(IStatObserver iso)
+        {
+            _statObservers.Add(iso);
+        }
+
         public void NotifySequenceObservers()
         {
             foreach (ISequenceObserver observer in _sequenceObservers)
             {
-                observer.GetNotified();
+                observer.SequenceUpdate();
+            }
+        }
+
+        private void NotifyStat_Trade(PlayerTrade playerTrade)
+        {
+            foreach (IStatObserver observer in _statObservers)
+            {
+                observer.NewTradeAdded(playerTrade);
+            }
+        }
+
+        private void NotifyStat_Move()
+        {
+            foreach (IStatObserver observer in _statObservers)
+            {
+                observer.NewMoveAdded();
             }
         }
 

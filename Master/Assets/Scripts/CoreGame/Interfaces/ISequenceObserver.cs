@@ -2,6 +2,6 @@
 {
     public interface ISequenceObserver
     {
-        void GetNotified();
+        void SequenceUpdate();
     }
 }

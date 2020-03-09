@@ -8,8 +8,8 @@ namespace Container
     public class PlayerTrade
     {
         public readonly Player OfferingPlayer; //Player offering a trade
-        private readonly Player _receivingPlayer; //Player to which the move is being offered
-        private readonly Direction _direction; //the move being offered
+        public readonly Player ReceivingPlayer; //Player to which the move is being offered
+        public readonly Direction Direction; //the move being offered
         private readonly int _storedMoveIndex; //The index at which the offered move is stored
 
         private readonly GameHandler _gameHandler;
@@ -18,15 +18,15 @@ namespace Container
             int storedMoveIndex)
         {
             OfferingPlayer = offeringPlayer;
-            _direction = direction;
+            Direction = direction;
             _gameHandler = gameHandler;
             _storedMoveIndex = storedMoveIndex;
-            _receivingPlayer = receivingPlayer;
+            ReceivingPlayer = receivingPlayer;
         }
 
         public void AcceptTrade(Direction counteroffer, PlayerController acceptingPlayer)
         {
-            if (acceptingPlayer.player != _receivingPlayer)
+            if (acceptingPlayer.player != ReceivingPlayer)
                 throw new Exception($"Offer was not for {acceptingPlayer.player}");
             
             if (acceptingPlayer.GetIndexForDirection(counteroffer) == -1)
@@ -38,7 +38,7 @@ namespace Container
             PlayerController offeringPlayerController = _gameHandler.GetPlayerController(OfferingPlayer);
             
             offeringPlayerController.AddMove(counteroffer, _storedMoveIndex);
-            acceptingPlayer.AddMove(_direction, acceptingPlayer.GetIndexForDirection(counteroffer));
+            acceptingPlayer.AddMove(Direction, acceptingPlayer.GetIndexForDirection(counteroffer));
 
             offeringPlayerController.RemoveOutgoingTrade(this);
             acceptingPlayer.RemoveIncomingTrade(this);
@@ -50,14 +50,14 @@ namespace Container
 
         public void RejectTrade(PlayerController rejectingPlayer)
         {
-            if (rejectingPlayer.player != _receivingPlayer)
+            if (rejectingPlayer.player != ReceivingPlayer)
             {
                 throw new Exception($"Offer was not for {rejectingPlayer.player}");
             }
 
             PlayerController offeringPlayerController = _gameHandler.GetPlayerController(OfferingPlayer);
             
-            offeringPlayerController.AddMove(_direction, _storedMoveIndex);
+            offeringPlayerController.AddMove(Direction, _storedMoveIndex);
 
             offeringPlayerController.RemoveOutgoingTrade(this);
             rejectingPlayer.RemoveIncomingTrade(this);
@@ -72,13 +72,13 @@ namespace Container
         {
             if (cancellingPlayer != OfferingPlayer) throw new ArgumentException("Only the player that created the trade can cancel it");
             
-            RejectTrade(_gameHandler.GetPlayerController(_receivingPlayer));
+            RejectTrade(_gameHandler.GetPlayerController(ReceivingPlayer));
         }
         
 
         public string Print()
         {
-            return OfferingPlayer + " offering: " + _direction;
+            return OfferingPlayer + " offering: " + Direction;
         }
     }
 }
