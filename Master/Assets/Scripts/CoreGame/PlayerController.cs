@@ -322,7 +322,7 @@ namespace CoreGame
                 trade.CancelTrade(player);
             }
 
-            List<GameHandler.PlayerMove> moves = new List<GameHandler.PlayerMove>(_gameHandler.GetSequence());
+            List<StoredPlayerMove> moves = new List<StoredPlayerMove>(_gameHandler.GetSequence());
             
             //Remove all moves from player, so they can't continue to play
             for (int i = 0; i < 4; i++)
@@ -331,7 +331,7 @@ namespace CoreGame
             }
             
             //Removing all moves from the common sequence
-            foreach (GameHandler.PlayerMove move in moves)
+            foreach (StoredPlayerMove move in moves)
             {
                 if (move.Player == player)
                 {

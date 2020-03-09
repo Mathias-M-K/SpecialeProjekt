@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Container;
 using CoreGame;
 using CoreGame.Interfaces;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace AdminGUI
 
         private void UpdateSequence()
         {
-            List<GameHandler.PlayerMove> sequence = gameHandler.GetSequence();
+            List<StoredPlayerMove> sequence = gameHandler.GetSequence();
 
             
 
@@ -33,7 +34,7 @@ namespace AdminGUI
             }
             
             int i = 0;
-            foreach (GameHandler.PlayerMove  move  in sequence)
+            foreach (StoredPlayerMove  move  in sequence)
             {
                 Color32 color;
                 switch (move.Player)

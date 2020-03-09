@@ -11,7 +11,7 @@ namespace CoreGame
     {
         public List<PlayerTrade> trades = new List<PlayerTrade>();
         
-        private readonly List<PlayerMove> _sequenceMoves = new List<PlayerMove>();
+        private readonly List<StoredPlayerMove> _sequenceMoves = new List<StoredPlayerMove>();
         private readonly List<PlayerController> _players = new List<PlayerController>();
         private readonly List<Vector3> _spawnPositions = new List<Vector3>();
         private readonly Vector3[] _occupiedPositions = new Vector3[4];
@@ -38,18 +38,7 @@ namespace CoreGame
         public Sprite upSprite;
         public Sprite downSprite;
         public Sprite blankSprite;
-
-        public struct PlayerMove
-        {
-            public readonly Direction Direction;
-            public readonly Player Player;
-
-            public PlayerMove(Player p, Direction d)
-            {
-                Player = p;
-                Direction = d;
-            }
-        }
+        
 
         private void Awake()
         {
@@ -131,7 +120,7 @@ namespace CoreGame
                 return;
             }
 
-            PlayerMove playerMove = new PlayerMove(p, d);
+            StoredPlayerMove playerMove = new StoredPlayerMove(p,d); 
             _sequenceMoves.Add(playerMove);
             
             playerController.RemoveMove(playerController.GetIndexForDirection(d));
@@ -141,7 +130,7 @@ namespace CoreGame
             NotifyStat_Move();
         }
 
-        public void RemoveMoveFromSequence(PlayerMove move)
+        public void RemoveMoveFromSequence(StoredPlayerMove move)
         {
             _sequenceMoves.Remove(move);
             NotifySequenceObservers();
@@ -149,7 +138,7 @@ namespace CoreGame
 
         public IEnumerator PerformSequence(float delayBetweenMoves)
         {
-            foreach (PlayerMove pm in _sequenceMoves)
+            foreach (StoredPlayerMove pm in _sequenceMoves)
             {
                 PlayerController playerController = GetPlayerController(pm.Player);
 
@@ -184,7 +173,7 @@ namespace CoreGame
             return _spawnPositions;
         }
 
-        public List<PlayerMove> GetSequence()
+        public List<StoredPlayerMove> GetSequence()
         {
             return _sequenceMoves;
         }
