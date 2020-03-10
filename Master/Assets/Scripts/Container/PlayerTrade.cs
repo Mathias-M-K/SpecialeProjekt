@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using CoreGame;
 using CoreGame.Interfaces;
 using UnityEngine;
@@ -16,11 +17,11 @@ namespace Container
 
         public int TradeID;
         private readonly int _storedMoveIndex; //The index at which the offered move is stored
-        private readonly List<IStatObserver> _statObservers;
+        private List<ITradeObserver> _statObservers;
 
         private readonly GameHandler _gameHandler;
 
-        public PlayerTrade(Player offeringPlayer, Player receivingPlayer, Direction directionOffer, GameHandler gameHandler, int storedMoveIndex,List<IStatObserver> observers)
+        public PlayerTrade(Player offeringPlayer, Player receivingPlayer, Direction directionOffer, GameHandler gameHandler, int storedMoveIndex,List<ITradeObserver> observers)
         {
             TradeID = Random.Range(0, 10000);
             OfferingPlayer = offeringPlayer;
@@ -29,11 +30,6 @@ namespace Container
             _storedMoveIndex = storedMoveIndex;
             ReceivingPlayer = receivingPlayer;
             _statObservers = observers;
-
-            foreach (IStatObserver observer in _statObservers)
-            {
-                observer.NewTradeActivity(this,"Pending");
-            }
         }
 
         public void AcceptTrade(Direction counteroffer, PlayerController acceptingPlayer)
@@ -57,7 +53,7 @@ namespace Container
             offeringPlayerController.RemoveOutgoingTrade(this);
             acceptingPlayer.RemoveIncomingTrade(this);
             
-            NotifyObservers("Accepted");
+            NotifyObservers(TradeActions.TradeAccepted);
             _gameHandler.trades.Remove(this);
         }
 
@@ -75,10 +71,10 @@ namespace Container
             offeringPlayerController.RemoveOutgoingTrade(this);
             rejectingPlayer.RemoveIncomingTrade(this);
             
-            offeringPlayerController.NotifyTradeObservers();
-            rejectingPlayer.NotifyTradeObservers();
+            //offeringPlayerController.NotifyTradeObservers(this,TradeActions.TradeRejected);
+            //rejectingPlayer.NotifyTradeObservers(this,TradeActions.TradeRejected);
             
-            NotifyObservers("Rejected");
+            NotifyObservers(TradeActions.TradeRejected);
             _gameHandler.trades.Remove(this);
         }
 
@@ -86,7 +82,7 @@ namespace Container
         {
             if (cancellingPlayer != OfferingPlayer) throw new ArgumentException("Only the player that created the trade can cancel it");
             
-            NotifyObservers("Canceled");
+            NotifyObservers(TradeActions.TradeCanceled);
             RejectTrade(_gameHandler.GetPlayerController(ReceivingPlayer));
         }
         
@@ -96,11 +92,11 @@ namespace Container
             return OfferingPlayer + " offering: " + DirectionOffer;
         }
 
-        private void NotifyObservers(string status)
+        public void NotifyObservers(TradeActions tradAction)
         {
-            foreach (IStatObserver observer in _statObservers)
+            foreach (ITradeObserver observer in _statObservers)
             {
-                observer.NewTradeActivity(this,status);
+                observer.TradeUpdate(this,tradAction);
             }
         }
     }

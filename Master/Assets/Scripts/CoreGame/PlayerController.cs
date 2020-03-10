@@ -135,22 +135,18 @@ namespace CoreGame
         public void AddIncomingTrade(PlayerTrade playerTrade)
         {
             incomingTradeOffers.Add(playerTrade);
-            NotifyTradeObservers();
         }
         public void AddOutgoingTrade(PlayerTrade playerTrade)
         {
             outgoingTradeOffers.Add(playerTrade);
-            NotifyTradeObservers();
         }
         public void RemoveOutgoingTrade(PlayerTrade playerTrade)
         {
             outgoingTradeOffers.Remove(playerTrade);
-            NotifyTradeObservers();
         }
         public void RemoveIncomingTrade(PlayerTrade playerTrade)
         {
             incomingTradeOffers.Remove(playerTrade);
-            NotifyTradeObservers();
         }
 
         //Add and remove moves from the inventory
@@ -180,6 +176,11 @@ namespace CoreGame
         public List<PlayerTrade> GetTrades()
         {
             return incomingTradeOffers;
+        }
+
+        public List<ITradeObserver> GetTradeObservers()
+        {
+            return _tradeObservers;
         }
 
         //Move player one unit in a given direction
@@ -300,11 +301,11 @@ namespace CoreGame
             _moveObservers.Add(imo);
         }
 
-        public void NotifyTradeObservers()
+        public void NotifyTradeObservers(PlayerTrade trade, TradeActions tradeAction)
         {
             foreach (ITradeObserver observer in _tradeObservers)
             {
-                observer.TradeUpdate();
+                observer.TradeUpdate(trade,tradeAction);
             }
         }
 

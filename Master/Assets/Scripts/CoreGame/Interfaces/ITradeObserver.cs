@@ -1,4 +1,14 @@
-﻿public interface ITradeObserver
+﻿using Container;
+
+public interface ITradeObserver
 {
-    void TradeUpdate();
+    void TradeUpdate(PlayerTrade playerTrade ,TradeActions tradeAction);
+}
+
+public enum TradeActions
+{
+    TradeOffered,
+    TradeRejected,
+    TradeAccepted,
+    TradeCanceled
 }

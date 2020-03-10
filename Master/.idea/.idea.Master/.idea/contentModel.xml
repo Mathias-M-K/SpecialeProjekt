@@ -435,7 +435,6 @@
               <e p="IFinishPointObserver.cs" t="Include" />
               <e p="IMoveObserver.cs" t="Include" />
               <e p="ISequenceObserver.cs" t="Include" />
-              <e p="IStatObserver.cs" t="Include" />
               <e p="ITradeObserver.cs" t="Include" />
             </e>
             <e p="PlayerController.cs" t="Include" />

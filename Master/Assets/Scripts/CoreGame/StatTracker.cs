@@ -7,7 +7,7 @@ using CoreGame.Strategies.Interfaces;
 using DefaultNamespace;
 using UnityEngine;
 
-public class StatTracker : MonoBehaviour, IStatObserver
+public class StatTracker : MonoBehaviour, ISequenceObserver, ITradeObserver
 {
     [Header("Strategy")] public FileNameStrategy fileNameStrategy;
     
@@ -34,22 +34,38 @@ public class StatTracker : MonoBehaviour, IStatObserver
                 throw new ArgumentOutOfRangeException();
         }
         
-        
         GameHandler gh = GetComponent<GameHandler>();
-        gh.AddStatObserver(this);
+        gh.AddSequenceObserver(this);
+        gh.AddTradeObserver(this);
 
         CreateFile();
 
         _textWriter.WriteLine("{0},{1}", DateTime.Now, gh.GetPlayers().Count);
     }
 
-    public void NewMoveAdded(StoredPlayerMove move)
+    public void SequenceUpdate(SequenceActions sequenceAction, StoredPlayerMove move)
     {
         //Type | Time | Player | Direction
-        _textWriter.WriteLine("{0},{1},{2},{3}", "Move", Time.realtimeSinceStartup, move.Player, move.Direction);
+        switch (sequenceAction)
+        {
+            case SequenceActions.NewMoveAdded:
+                //Type | Time | Player | Direction
+                _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,Time.realtimeSinceStartup,move.Player,move.Direction);
+                break;
+            case SequenceActions.MoveRemoved:
+                //Type | Time | Player | Direction
+                _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,Time.realtimeSinceStartup,move.Player,move.Direction);
+                break;
+            case SequenceActions.SequencePlayed:
+                //Type | Time 
+                _textWriter.WriteLine("{0},{1}",sequenceAction,Time.realtimeSinceStartup);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(sequenceAction), sequenceAction, null);
+        }
     }
-
-    public void NewTradeActivity(PlayerTrade playerTrade, string status)
+    
+    public void TradeUpdate(PlayerTrade playerTrade, TradeActions tradeAction)
     {
         //Type | Time | ID | offering player | receiving player | direction | Status | Counter Offer (If Available)
         _textWriter.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7}",
@@ -59,10 +75,10 @@ public class StatTracker : MonoBehaviour, IStatObserver
             playerTrade.OfferingPlayer,
             playerTrade.ReceivingPlayer,
             playerTrade.DirectionOffer,
-            status,
+            tradeAction,
             playerTrade.DirectionCounterOffer);
     }
-
+    
     private void CreateFile()
     {
         if (!Directory.Exists(_directoryPath))

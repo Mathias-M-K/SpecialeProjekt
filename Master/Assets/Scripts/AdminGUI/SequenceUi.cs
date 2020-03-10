@@ -62,7 +62,7 @@ namespace AdminGUI
             }
         }
 
-        public void SequenceUpdate()
+        public void SequenceUpdate(SequenceActions sequenceAction, StoredPlayerMove move)
         {
             UpdateSequence();
         }
