@@ -66,10 +66,7 @@ public class SerialCommunication : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        if (_stream.IsOpen)
-        {
-            _stream.Close();
-        }
+        _stream.Close();
     }
 
     public void Begin(string portNr)
