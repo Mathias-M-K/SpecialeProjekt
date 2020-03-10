@@ -72,7 +72,7 @@ namespace AdminGUI
 
         private void UpdateTrades()
         {
-            _trades = playerController.GetTrades();
+            _trades = playerController.GetIncomingTrades();
 
             List<Button> buttons = new List<Button> {trade1, trade2, trade3, trade4};
 

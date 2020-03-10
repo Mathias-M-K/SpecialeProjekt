@@ -84,6 +84,16 @@ public class BlockHandler : MonoBehaviour, ITradeObserver, IMoveObserver
         }
     }
 
+    public Direction GetDirectionFromId(string id)
+    {
+        foreach (Block block in listOfBlock)
+        {
+            if (id.Equals(block.Id)) return block.State;
+        }
+
+        return Direction.Blank;
+    }
+
     public void TradeUpdate(PlayerTrade playerTrade ,TradeActions tradeAction)
     {
         throw new NotImplementedException();
@@ -93,9 +103,7 @@ public class BlockHandler : MonoBehaviour, ITradeObserver, IMoveObserver
     {
         for (int i = 0; i < listOfBlock.Count; i++)
         {
-            Debug.Log($"Before - ListOfBlock {listOfBlock[i].State}");
             listOfBlock[i].State = directions[i];
-            Debug.Log($"After - ListOfBlock {listOfBlock[i].State}");
         }
     }
 }

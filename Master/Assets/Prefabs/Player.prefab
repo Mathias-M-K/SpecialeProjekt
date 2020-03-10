@@ -135,6 +135,7 @@ MonoBehaviour:
   agent: {fileID: 149702325251908318}
   enableMouseMovement: 0
   playerFinishStrategy: 0
+  gameHandler: {fileID: 0}
 --- !u!114 &-4486156755800910668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,8 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62adc89dd19d3ca46b2309f5c65eda8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  port: 
-  swapIt: 0
+  port: COM3
   id: 
-  swapId: 
+  methodSelected: 
   begin: 0

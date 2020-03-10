@@ -103,9 +103,7 @@ namespace CoreGame
             combinedObserverList.AddRange(_tradeObservers);
             combinedObserverList.AddRange(offeringObservers);
             combinedObserverList.AddRange(receivingObservers);
-            
-            
-            
+
             PlayerTrade trade = new PlayerTrade(playerOffering, playerReceiving, direction, this, directionIndex, combinedObserverList);
 
             trades.Add(trade);
@@ -131,6 +129,8 @@ namespace CoreGame
                 Debug.LogError($"{player} does not posses the {d} move");
                 return;
             }
+            
+            if(d == Direction.Blank) throw new ArgumentException("Can't add blank moves");
 
             StoredPlayerMove playerMove = new StoredPlayerMove(p, d);
             _sequenceMoves.Add(playerMove);

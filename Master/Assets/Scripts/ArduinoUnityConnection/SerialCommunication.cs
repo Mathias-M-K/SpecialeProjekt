@@ -4,10 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Reflection;
+using Container;
 using CoreGame;
+using CoreGame.Interfaces;
 using UnityEngine.Serialization;
 
-public class SerialCommunication : MonoBehaviour
+public class SerialCommunication : MonoBehaviour,ISequenceObserver
 {
     public string port;
     private SerialPort _stream;
@@ -39,6 +41,7 @@ public class SerialCommunication : MonoBehaviour
                 _oldString = _dataStream;
                 string[] tempStringArray = _dataStream.Split(':');
                 id = tempStringArray[1];
+                id = id.Trim();
                 methodSelected = tempStringArray[0];
                 if (methodSelected.Equals("add"))
                 {
@@ -48,11 +51,13 @@ public class SerialCommunication : MonoBehaviour
                 if (methodSelected.Equals("swap"))
                 {
                     //TODO: trigger swap function
+                    _playerController.CreateTrade(_block.GetDirectionFromId(id),Player.Blue);
                 }
 
                 if (methodSelected.Equals("sequence"))
                 {
                     //TODO: trigger add move to sequence
+                    _playerController.gameHandler.AddMoveToSequence(_playerController.player,_block.GetDirectionFromId(id));
                 }
                 
             }
@@ -72,6 +77,7 @@ public class SerialCommunication : MonoBehaviour
     public void Begin(string portNr)
     {
         _playerController = GetComponent<PlayerController>();
+        _playerController.gameHandler.AddSequenceObserver(this);
         
         
         _stream = new SerialPort(portNr, 9600,Parity.Even,7,StopBits.One);
@@ -79,6 +85,22 @@ public class SerialCommunication : MonoBehaviour
         _stream.Open(); //Open the Serial Stream.
         _block = gameObject.AddComponent<BlockHandler>();
         _isEnabled = true;
+    }
+
+    public void SequenceUpdate(SequenceActions sequenceAction, StoredPlayerMove move)
+    {
+        switch (sequenceAction)
+        {
+            case SequenceActions.NewMoveAdded:
+                break;
+            case SequenceActions.MoveRemoved:
+                break;
+            case SequenceActions.SequencePlayed:
+                _oldString = "";
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(sequenceAction), sequenceAction, null);
+        }
     }
 }
 

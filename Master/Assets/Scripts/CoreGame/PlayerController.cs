@@ -20,7 +20,7 @@ namespace CoreGame
         private PlayerFinishStrategy _playerFinishStrategy;
         
         private Camera _cam;
-        private GameHandler _gameHandler;
+        public GameHandler gameHandler;
 
         private Direction[] _moves = {Direction.Up, Direction.Down, Direction.Left, Direction.Right};
         
@@ -70,7 +70,7 @@ namespace CoreGame
         //Telling game handler that the position is occupied
         private void AnnouncePosition(Vector3 position)
         {
-            _gameHandler.RegisterPosition(player, position);
+            gameHandler.RegisterPosition(player, position);
         }
 
         //Accept/Reject move from a given player
@@ -127,7 +127,7 @@ namespace CoreGame
             //Checking that the player is not trying to trade to himself
             if(receivingPlayer == player) throw new ArgumentException($"{player} is trying to trade to himself");
             
-            _gameHandler.NewTrade(direction,GetIndexForDirection(direction),receivingPlayer,player);
+            gameHandler.NewTrade(direction,GetIndexForDirection(direction),receivingPlayer,player);
             RemoveMove(GetIndexForDirection(direction));
         }
         
@@ -173,9 +173,14 @@ namespace CoreGame
             return _moves;
         }
 
-        public List<PlayerTrade> GetTrades()
+        public List<PlayerTrade> GetIncomingTrades()
         {
             return incomingTradeOffers;
+        }
+
+        public List<PlayerTrade> GetOutgoingTrades()
+        {
+            return outgoingTradeOffers;
         }
 
         public List<ITradeObserver> GetTradeObservers()
@@ -220,7 +225,7 @@ namespace CoreGame
                 return;
             }
 
-            if (!_gameHandler.playersCanPhase && _gameHandler.IsPositionOccupied(newGridPos))
+            if (!gameHandler.playersCanPhase && gameHandler.IsPositionOccupied(newGridPos))
             {
                 Debug.LogError("Position Occupied",this);
                 return;
@@ -288,7 +293,7 @@ namespace CoreGame
 
         public void SetGameHandler(GameHandler gameHandler)
         {
-            _gameHandler = gameHandler;
+            this.gameHandler = gameHandler;
         }
 
         public void AddTradeObserver(ITradeObserver ito)
@@ -319,7 +324,7 @@ namespace CoreGame
 
         public void Die()
         {
-            _playerFinishStrategy.PlayerFinish(this,_gameHandler);
+            _playerFinishStrategy.PlayerFinish(this,gameHandler);
         }
 
         private void InitializeStrategies()

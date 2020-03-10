@@ -16,6 +16,8 @@ namespace Container
         public Direction DirectionCounterOffer = Direction.Blank;
 
         public int TradeID;
+        public string Status;
+        
         private readonly int _storedMoveIndex; //The index at which the offered move is stored
         private List<ITradeObserver> _statObservers;
 
