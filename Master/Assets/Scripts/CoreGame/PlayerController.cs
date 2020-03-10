@@ -245,8 +245,14 @@ namespace CoreGame
         //Calculate position on grid from mouse pointer
         private Vector3 CalculateGridPos(Vector3 point)
         {
+            /*
             double x = Math.Floor(point.x) + 0.5f;
             double z = Math.Floor(point.z) + 0.5f;
+            */
+            print(point);
+            
+            double x = Math.Round(point.x);
+            double z = Math.Round(point.z);
 
             Vector3 gridPos = new Vector3((float) x, point.y, (float) z);
 

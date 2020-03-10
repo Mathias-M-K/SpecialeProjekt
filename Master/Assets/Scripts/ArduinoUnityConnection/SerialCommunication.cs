@@ -71,6 +71,10 @@ public class SerialCommunication : MonoBehaviour,ISequenceObserver
 
     private void OnApplicationQuit()
     {
+        if (_stream == null) return;
+        if (!_stream.IsOpen) return;
+
+            
         _stream.Close();
     }
 

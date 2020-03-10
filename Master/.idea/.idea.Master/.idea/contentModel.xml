@@ -438,6 +438,7 @@
               <e p="ISequenceObserver.cs" t="Include" />
               <e p="ITradeObserver.cs" t="Include" />
             </e>
+            <e p="LevelInformation.cs" t="Include" />
             <e p="PlayerController.cs" t="Include" />
             <e p="StatTracker.cs" t="Include" />
             <e p="Strategies" t="Include">
@@ -459,6 +460,7 @@
             <e p="TriggerController.cs" t="Include" />
             <e p="WallController.cs" t="Include" />
           </e>
+          <e p="FourPlayerLevel.cs" t="Include" />
           <e p="Moving_block" t="Include">
             <e p="Block.cs" t="Include" />
             <e p="BlockHandler.cs" t="Include" />

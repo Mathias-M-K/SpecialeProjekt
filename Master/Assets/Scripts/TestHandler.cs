@@ -56,12 +56,12 @@ public class TestHandler : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.H))
         {
-            List<Vector3> positions = gameHandler.GetSpawnLocations();
+            Vector2[] positions = gameHandler.GetSpawnLocations();
 
             int i = 0;
             foreach (PlayerController playerController in gameHandler.GetPlayers())
             {
-                playerController.MoveToPos(positions[i].x, positions[i].z);
+                playerController.MoveToPos(positions[i].x, positions[i].y);
                 i++;
             }
         }

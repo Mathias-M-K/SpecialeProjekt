@@ -14,7 +14,7 @@ namespace CoreGame
 
         private readonly List<StoredPlayerMove> _sequenceMoves = new List<StoredPlayerMove>();
         private readonly List<PlayerController> _players = new List<PlayerController>();
-        private readonly List<Vector3> _spawnPositions = new List<Vector3>();
+        private Vector2[] _spawnPositions;
         private readonly Vector3[] _occupiedPositions = new Vector3[4];
 
         private readonly List<ISequenceObserver> _sequenceObservers = new List<ISequenceObserver>();
@@ -22,8 +22,9 @@ namespace CoreGame
 
         [Header("Player Prefab")] public GameObject player;
         [Header("Goal")] public FinishPointController finishPointObject;
+        [Header("Level Information")] public LevelInformation levelInformation;
 
-        [Space] [Header("Settings")] [Range(1, 4)]
+        [Space] [Header("Settings")] [Range(1, 6)]
         public int numberOfPlayers;
 
         [Space] [Header("Player Abilities")] public bool playersCanPhase;
@@ -42,10 +43,14 @@ namespace CoreGame
 
         private void Awake()
         {
+            /*
             _spawnPositions.Add(new Vector3(1.5f, 2, 10.5f));
             _spawnPositions.Add(new Vector3(1.5f, 2, 1.5f));
             _spawnPositions.Add(new Vector3(10.5f, 2, 1.5f));
             _spawnPositions.Add(new Vector3(10.5f, 2, 10.5f));
+            */
+
+            _spawnPositions = levelInformation.spawnPositions;
 
             finishPointObject.AddObserver(this);
             SpawnPlayers();
@@ -179,7 +184,7 @@ namespace CoreGame
             return null;
         }
 
-        public List<Vector3> GetSpawnLocations()
+        public Vector2[] GetSpawnLocations()
         {
             return _spawnPositions;
         }
@@ -191,25 +196,27 @@ namespace CoreGame
 
         private void SpawnPlayers()
         {
-            if (numberOfPlayers > 4)
+            if (numberOfPlayers > levelInformation.maxPlayers)
             {
-                Debug.LogError("Number of max players have been exceeded, fallback to 4 players", this);
-                numberOfPlayers = 4;
+                Debug.LogError($"Number of max players have been exceeded, fallback to {levelInformation.maxPlayers} players", this);
+                numberOfPlayers = levelInformation.maxPlayers;
             }
 
-            List<Player> playerColors = new List<Player>();
-            playerColors.Add(Player.Red);
-            playerColors.Add(Player.Blue);
-            playerColors.Add(Player.Green);
-            playerColors.Add(Player.Yellow);
+            List<Player> playerTags = new List<Player>();
+            playerTags.Add(Player.Red);
+            playerTags.Add(Player.Blue);
+            playerTags.Add(Player.Green);
+            playerTags.Add(Player.Yellow);
 
             for (int i = 0; i < numberOfPlayers; i++)
             {
-                GameObject g = Instantiate(player, _spawnPositions[i], new Quaternion(0, 0, 0, 0));
+                Vector3 spawnPosition = new Vector3(_spawnPositions[i].x,1.5f,_spawnPositions[i].y);
+
+                GameObject g = Instantiate(player, spawnPosition, new Quaternion(0, 0, 0, 0));
 
                 Material m;
 
-                switch (playerColors[i])
+                switch (playerTags[i])
                 {
                     case Player.Red:
                         m = redMaterial;
