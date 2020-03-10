@@ -1,32 +1,40 @@
 ﻿using System;
-using System.CodeDom;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using CoreGame;
+using CoreGame.Interfaces;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Container
 {
     public class PlayerTrade
     {
         public readonly Player OfferingPlayer; //Player offering a trade
-        private readonly Player _receivingPlayer; //Player to which the move is being offered
-        private readonly Direction _direction; //the move being offered
+        public readonly Player ReceivingPlayer; //Player to which the move is being offered
+        public readonly Direction DirectionOffer; //the move being offered
+        public Direction DirectionCounterOffer = Direction.Blank;
+
+        public int TradeID;
         private readonly int _storedMoveIndex; //The index at which the offered move is stored
+        private List<ITradeObserver> _statObservers;
 
         private readonly GameHandler _gameHandler;
 
-        public PlayerTrade(Player offeringPlayer, Player receivingPlayer, Direction direction, GameHandler gameHandler,
-            int storedMoveIndex)
+        public PlayerTrade(Player offeringPlayer, Player receivingPlayer, Direction directionOffer, GameHandler gameHandler, int storedMoveIndex,List<ITradeObserver> observers)
         {
+            TradeID = Random.Range(0, 10000);
             OfferingPlayer = offeringPlayer;
-            _direction = direction;
+            DirectionOffer = directionOffer;
             _gameHandler = gameHandler;
             _storedMoveIndex = storedMoveIndex;
-            _receivingPlayer = receivingPlayer;
+            ReceivingPlayer = receivingPlayer;
+            _statObservers = observers;
         }
 
         public void AcceptTrade(Direction counteroffer, PlayerController acceptingPlayer)
         {
-            if (acceptingPlayer.player != _receivingPlayer)
+            if (acceptingPlayer.player != ReceivingPlayer)
                 throw new Exception($"Offer was not for {acceptingPlayer.player}");
             
             if (acceptingPlayer.GetIndexForDirection(counteroffer) == -1)
@@ -36,32 +44,60 @@ namespace Container
                 throw new ArgumentException("Can't use blank to trade with");
 
             PlayerController offeringPlayerController = _gameHandler.GetPlayerController(OfferingPlayer);
+
+            DirectionCounterOffer = counteroffer;
+            
             offeringPlayerController.AddMove(counteroffer, _storedMoveIndex);
-            acceptingPlayer.AddMove(_direction, acceptingPlayer.GetIndexForDirection(counteroffer));
+            acceptingPlayer.AddMove(DirectionOffer, acceptingPlayer.GetIndexForDirection(counteroffer));
 
-            offeringPlayerController.NotifyTradeObservers();
-            acceptingPlayer.NotifyTradeObservers();
-
+            offeringPlayerController.RemoveOutgoingTrade(this);
+            acceptingPlayer.RemoveIncomingTrade(this);
+            
+            NotifyObservers(TradeActions.TradeAccepted);
             _gameHandler.trades.Remove(this);
-            acceptingPlayer.trades.Remove(this);
         }
 
         public void RejectTrade(PlayerController rejectingPlayer)
         {
-            if (rejectingPlayer.player != _receivingPlayer)
+            if (rejectingPlayer.player != ReceivingPlayer)
             {
                 throw new Exception($"Offer was not for {rejectingPlayer.player}");
             }
 
-            _gameHandler.GetPlayerController(OfferingPlayer).AddMove(_direction, _storedMoveIndex);
+            PlayerController offeringPlayerController = _gameHandler.GetPlayerController(OfferingPlayer);
+            
+            offeringPlayerController.AddMove(DirectionOffer, _storedMoveIndex);
 
+            offeringPlayerController.RemoveOutgoingTrade(this);
+            rejectingPlayer.RemoveIncomingTrade(this);
+            
+            //offeringPlayerController.NotifyTradeObservers(this,TradeActions.TradeRejected);
+            //rejectingPlayer.NotifyTradeObservers(this,TradeActions.TradeRejected);
+            
+            NotifyObservers(TradeActions.TradeRejected);
             _gameHandler.trades.Remove(this);
-            rejectingPlayer.trades.Remove(this);
         }
+
+        public void CancelTrade(Player cancellingPlayer)
+        {
+            if (cancellingPlayer != OfferingPlayer) throw new ArgumentException("Only the player that created the trade can cancel it");
+            
+            NotifyObservers(TradeActions.TradeCanceled);
+            RejectTrade(_gameHandler.GetPlayerController(ReceivingPlayer));
+        }
+        
 
         public string Print()
         {
-            return OfferingPlayer + " offering: " + _direction;
+            return OfferingPlayer + " offering: " + DirectionOffer;
+        }
+
+        public void NotifyObservers(TradeActions tradAction)
+        {
+            foreach (ITradeObserver observer in _statObservers)
+            {
+                observer.TradeUpdate(this,tradAction);
+            }
         }
     }
 }

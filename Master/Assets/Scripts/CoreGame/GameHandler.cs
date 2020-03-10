@@ -1,52 +1,44 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Container;
-using CoreGame.Interfaceses;
+using CoreGame.Interfaces;
 using UnityEngine;
 
 namespace CoreGame
 {
-    public class GameHandler : MonoBehaviour
+    public class GameHandler : MonoBehaviour, IFinishPointObserver
     {
         public List<PlayerTrade> trades = new List<PlayerTrade>();
-        
-        private readonly List<PlayerMove> _sequenceMoves = new List<PlayerMove>();
+
+        private readonly List<StoredPlayerMove> _sequenceMoves = new List<StoredPlayerMove>();
         private readonly List<PlayerController> _players = new List<PlayerController>();
         private readonly List<Vector3> _spawnPositions = new List<Vector3>();
-        private readonly List<ISequenceObserver> _sequenceObservers = new List<ISequenceObserver>();
         private readonly Vector3[] _occupiedPositions = new Vector3[4];
-        
+
+        private readonly List<ISequenceObserver> _sequenceObservers = new List<ISequenceObserver>();
+        private readonly List<ITradeObserver> _tradeObservers = new List<ITradeObserver>();
+
         [Header("Player Prefab")] public GameObject player;
-        
+        [Header("Goal")] public FinishPointController finishPointObject;
+
         [Space] [Header("Settings")] [Range(1, 4)]
         public int numberOfPlayers;
 
-        [Space] [Header("Player Abilities")]
-        public bool playersCanPhase;
-        
+        [Space] [Header("Player Abilities")] public bool playersCanPhase;
+
         [Space] [Header("Materials")] public Material redMaterial;
         public Material blueMaterial;
         public Material greenMaterial;
         public Material yellowMaterial;
-        
+
         [Space] [Header("Sprites")] public Sprite leftSprite;
         public Sprite rightSprite;
         public Sprite upSprite;
         public Sprite downSprite;
         public Sprite blankSprite;
 
-        public struct PlayerMove
-        {
-            public readonly Direction Direction;
-            public readonly Player Player;
-
-            public PlayerMove(Player p, Direction d)
-            {
-                Player = p;
-                Direction = d;
-            }
-        }
 
         private void Awake()
         {
@@ -55,7 +47,13 @@ namespace CoreGame
             _spawnPositions.Add(new Vector3(10.5f, 2, 1.5f));
             _spawnPositions.Add(new Vector3(10.5f, 2, 10.5f));
 
+            finishPointObject.AddObserver(this);
             SpawnPlayers();
+        }
+
+        private void Start()
+        {
+            RemoveBarricadesForInactivePlayers();
         }
 
         public bool IsPositionOccupied(Vector3 position)
@@ -92,21 +90,36 @@ namespace CoreGame
                     throw new ArgumentException("Not a valid player");
             }
         }
-        
+
         public void NewTrade(Direction direction, int directionIndex, Player playerReceiving, Player playerOffering)
         {
             PlayerController playerReceivingController = GetPlayerController(playerReceiving);
+            PlayerController playerOfferingController = GetPlayerController(playerOffering);
+
+            List<ITradeObserver> combinedObserverList = new List<ITradeObserver>();
+            List<ITradeObserver> offeringObservers = playerOfferingController.GetTradeObservers();
+            List<ITradeObserver> receivingObservers = playerReceivingController.GetTradeObservers();
             
-            PlayerTrade trade = new PlayerTrade(playerOffering, playerReceiving, direction, this, directionIndex);
+            combinedObserverList.AddRange(_tradeObservers);
+            combinedObserverList.AddRange(offeringObservers);
+            combinedObserverList.AddRange(receivingObservers);
+            
+            
+            
+            PlayerTrade trade = new PlayerTrade(playerOffering, playerReceiving, direction, this, directionIndex, combinedObserverList);
 
             trades.Add(trade);
-            playerReceivingController.QueTrade(trade);
+
+            playerReceivingController.AddIncomingTrade(trade);
+            playerOfferingController.AddOutgoingTrade(trade);
+
+            trade.NotifyObservers(TradeActions.TradeOffered);
         }
-        
+
         public void AddMoveToSequence(Player p, Direction d)
         {
             PlayerController playerController = GetPlayerController(p);
-            
+
             if (playerController == null)
             {
                 Debug.LogException(new ArgumentException(p + " is not active"), this);
@@ -119,18 +132,24 @@ namespace CoreGame
                 return;
             }
 
-            PlayerMove playerMove = new PlayerMove(p, d);
+            StoredPlayerMove playerMove = new StoredPlayerMove(p, d);
             _sequenceMoves.Add(playerMove);
-            
+
             playerController.RemoveMove(playerController.GetIndexForDirection(d));
-            
+
             playerController.NotifyMoveObservers();
-            NotifySequenceObservers();
+            NotifySequenceObservers(SequenceActions.NewMoveAdded,playerMove);
+        }
+
+        public void RemoveMoveFromSequence(StoredPlayerMove move)
+        {
+            _sequenceMoves.Remove(move);
+            NotifySequenceObservers(SequenceActions.MoveRemoved,move);
         }
 
         public IEnumerator PerformSequence(float delayBetweenMoves)
         {
-            foreach (PlayerMove pm in _sequenceMoves)
+            foreach (StoredPlayerMove pm in _sequenceMoves)
             {
                 PlayerController playerController = GetPlayerController(pm.Player);
 
@@ -142,9 +161,9 @@ namespace CoreGame
             {
                 playerController.ResetMoves();
             }
-            
+
             _sequenceMoves.Clear();
-            NotifySequenceObservers();
+            NotifySequenceObservers(SequenceActions.SequencePlayed,null);
         }
 
         public PlayerController GetPlayerController(Player p)
@@ -165,7 +184,7 @@ namespace CoreGame
             return _spawnPositions;
         }
 
-        public List<PlayerMove> GetSequence()
+        public List<StoredPlayerMove> GetSequence()
         {
             return _sequenceMoves;
         }
@@ -219,9 +238,44 @@ namespace CoreGame
             }
         }
 
+        private void CheckIfGameIsDone(int nrOfFinishedPlayers)
+        {
+            if (nrOfFinishedPlayers >= numberOfPlayers)
+            {
+                print("Game Done!");
+            }
+        }
+
+        public void RemovePlayer(PlayerController playerController)
+        {
+            _players.Remove(playerController);
+        }
+
         public List<PlayerController> GetPlayers()
         {
             return _players;
+        }
+
+        private void RemoveBarricadesForInactivePlayers()
+        {
+            WallController[] wallControllers = (WallController[]) FindObjectsOfType(typeof(WallController));
+            TriggerController[] triggerControllers = (TriggerController[]) FindObjectsOfType(typeof(TriggerController));
+
+            foreach (WallController controller in wallControllers)
+            {
+                if (GetPlayerController(controller.owner) == null)
+                {
+                    Destroy(controller.gameObject);
+                }
+            }
+
+            foreach (TriggerController controller in triggerControllers)
+            {
+                if (GetPlayerController(controller.owner) == null)
+                {
+                    Destroy(controller.gameObject);
+                }
+            }
         }
 
         public Sprite GetSprite(Direction direction)
@@ -243,17 +297,30 @@ namespace CoreGame
             }
         }
 
+
+        //Add and notify methods for observers
+
         public void AddSequenceObserver(ISequenceObserver iso)
         {
             _sequenceObservers.Add(iso);
         }
 
-        public void NotifySequenceObservers()
+        public void AddTradeObserver(ITradeObserver ito)
+        {
+            _tradeObservers.Add(ito);
+        }
+
+        private void NotifySequenceObservers(SequenceActions sequenceAction, StoredPlayerMove move)
         {
             foreach (ISequenceObserver observer in _sequenceObservers)
             {
-                observer.GetNotified();
+                observer.SequenceUpdate(sequenceAction,move);
             }
+        }
+
+        public void GameProgressUpdate(int nrOfFinishedPlayers)
+        {
+            CheckIfGameIsDone(nrOfFinishedPlayers);
         }
     }
 }

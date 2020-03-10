@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 
 using Container;
+using CoreGame.Strategies.Implementations.PlayerFinishImplementations;
+using CoreGame.Strategies.Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,19 +14,29 @@ namespace CoreGame
         public Player player;
         [Space] public NavMeshAgent agent;
         [Header("Settings")] public bool enableMouseMovement;
+        [Header("Strateies")] public PlayerFinishStrategyEnum playerFinishStrategy;
 
+        //Strategies
+        private PlayerFinishStrategy _playerFinishStrategy;
+        
         private Camera _cam;
         private GameHandler _gameHandler;
 
         private Direction[] _moves = {Direction.Up, Direction.Down, Direction.Left, Direction.Right};
         
-        public List<PlayerTrade> trades = new List<PlayerTrade>();
+        
+        public List<PlayerTrade> incomingTradeOffers = new List<PlayerTrade>();
+        public List<PlayerTrade> outgoingTradeOffers = new List<PlayerTrade>();
         
         //Observers
         private readonly List<ITradeObserver> _tradeObservers = new List<ITradeObserver>();
         private readonly List<IMoveObserver> _moveObservers = new List<IMoveObserver>();
 
 
+        private void Start()
+        {
+            InitializeStrategies();
+        }
 
         // Update basically contains the "click with mouse" functionality, and that only
         private void Update()
@@ -54,7 +66,7 @@ namespace CoreGame
                 }
             }
         }
-
+        
         //Telling game handler that the position is occupied
         private void AnnouncePosition(Vector3 position)
         {
@@ -65,7 +77,7 @@ namespace CoreGame
         public void AcceptTradeFrom(Player offeringPlayer, Direction counterOffer)
         {
             PlayerTrade tradeToBeAccepted = null;
-            foreach (PlayerTrade playerTrade in trades)
+            foreach (PlayerTrade playerTrade in incomingTradeOffers)
             {
                 if (playerTrade.OfferingPlayer == offeringPlayer)
                 {
@@ -85,7 +97,7 @@ namespace CoreGame
         public void RejectTradeFrom(Player offeringPlayer)
         {
             PlayerTrade tradeToBeAccepted = null;
-            foreach (PlayerTrade playerTrade in trades)
+            foreach (PlayerTrade playerTrade in incomingTradeOffers)
             {
                 if (playerTrade.OfferingPlayer == offeringPlayer)
                 {
@@ -110,6 +122,8 @@ namespace CoreGame
             //Checking that the move is in inventory
             if (GetIndexForDirection(direction) == -1) throw new ArgumentException($"the move {direction} is not in inventory");
             
+            if(direction == Direction.Blank) throw new ArgumentException("You can't trade a blank move");
+            
             //Checking that the player is not trying to trade to himself
             if(receivingPlayer == player) throw new ArgumentException($"{player} is trying to trade to himself");
             
@@ -117,12 +131,22 @@ namespace CoreGame
             RemoveMove(GetIndexForDirection(direction));
         }
         
-        
         //Queuing trade for player to accept or reject
-        public void QueTrade(PlayerTrade playerTrade)
+        public void AddIncomingTrade(PlayerTrade playerTrade)
         {
-            trades.Add(playerTrade);
-            NotifyTradeObservers();
+            incomingTradeOffers.Add(playerTrade);
+        }
+        public void AddOutgoingTrade(PlayerTrade playerTrade)
+        {
+            outgoingTradeOffers.Add(playerTrade);
+        }
+        public void RemoveOutgoingTrade(PlayerTrade playerTrade)
+        {
+            outgoingTradeOffers.Remove(playerTrade);
+        }
+        public void RemoveIncomingTrade(PlayerTrade playerTrade)
+        {
+            incomingTradeOffers.Remove(playerTrade);
         }
 
         //Add and remove moves from the inventory
@@ -151,7 +175,12 @@ namespace CoreGame
 
         public List<PlayerTrade> GetTrades()
         {
-            return trades;
+            return incomingTradeOffers;
+        }
+
+        public List<ITradeObserver> GetTradeObservers()
+        {
+            return _tradeObservers;
         }
 
         //Move player one unit in a given direction
@@ -272,11 +301,11 @@ namespace CoreGame
             _moveObservers.Add(imo);
         }
 
-        public void NotifyTradeObservers()
+        public void NotifyTradeObservers(PlayerTrade trade, TradeActions tradeAction)
         {
             foreach (ITradeObserver observer in _tradeObservers)
             {
-                observer.TradeUpdate();
+                observer.TradeUpdate(trade,tradeAction);
             }
         }
 
@@ -286,6 +315,31 @@ namespace CoreGame
             {
                 observer.MoveInventoryUpdate(GetMoves());
             }
+        }
+
+        public void Die()
+        {
+            _playerFinishStrategy.PlayerFinish(this,_gameHandler);
+        }
+
+        private void InitializeStrategies()
+        {
+            switch (playerFinishStrategy)
+            {
+                case PlayerFinishStrategyEnum.Remove:
+                    _playerFinishStrategy = new RemovePlayerFinishStrategy();
+                    break;
+                case PlayerFinishStrategyEnum.AbleToTrade:
+                    _playerFinishStrategy = new AllowTradePlayerFinishStrategy();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public void DestroySelf()
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -304,5 +358,11 @@ namespace CoreGame
         Blue,
         Green,
         Yellow
+    }
+
+    public enum PlayerFinishStrategyEnum
+    {
+        Remove,
+        AbleToTrade
     }
 }

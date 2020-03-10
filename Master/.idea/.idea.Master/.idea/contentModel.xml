@@ -429,13 +429,32 @@
             <e p="StoredPlayerMove.cs" t="Include" />
           </e>
           <e p="CoreGame" t="Include">
+            <e p="FinishPointController.cs" t="Include" />
             <e p="GameHandler.cs" t="Include" />
-            <e p="Interfaceses" t="Include">
+            <e p="Interfaces" t="Include">
+              <e p="IFinishPointObserver.cs" t="Include" />
               <e p="IMoveObserver.cs" t="Include" />
               <e p="ISequenceObserver.cs" t="Include" />
               <e p="ITradeObserver.cs" t="Include" />
             </e>
             <e p="PlayerController.cs" t="Include" />
+            <e p="StatTracker.cs" t="Include" />
+            <e p="Strategies" t="Include">
+              <e p="Implementations" t="Include">
+                <e p="FileNamingImplementations" t="Include">
+                  <e p="DateFileNamingStrategy.cs" t="Include" />
+                  <e p="NumberFileNamingStrategy.cs" t="Include" />
+                </e>
+                <e p="PlayerFinishImplementations" t="Include">
+                  <e p="AllowTradePlayerFinishStrategy.cs" t="Include" />
+                  <e p="RemovePlayerFinishStrategy.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Interfaces" t="Include">
+                <e p="FileNamingStrategy.cs" t="Include" />
+                <e p="PlayerFinishStrategy.cs" t="Include" />
+              </e>
+            </e>
             <e p="TriggerController.cs" t="Include" />
             <e p="WallController.cs" t="Include" />
           </e>
@@ -445,11 +464,20 @@
           </e>
           <e p="NavMeshManager.cs" t="Include" />
           <e p="Networking" t="Include">
-            <e p="CubeController.cs" t="Include" />
+            <e p="DelayStart" t="Include">
+              <e p="DelayStartRoomController.cs" t="Include" />
+              <e p="DelayStartWaitingRoomController.cs" t="Include" />
+            </e>
+            <e p="Game" t="Include">
+              <e p="AutoMovingPlayer.cs" t="Include" />
+              <e p="CubeController.cs" t="Include" />
+            </e>
             <e p="GameSetupController.cs" t="Include" />
+            <e p="LobbyController.cs" t="Include" />
             <e p="NetworkController.cs" t="Include" />
-            <e p="QuickStartLobbyController.cs" t="Include" />
-            <e p="QuickStartRoomController.cs" t="Include" />
+            <e p="QuickStart" t="Include">
+              <e p="QuickStartRoomController.cs" t="Include" />
+            </e>
           </e>
           <e p="TestHandler.cs" t="Include" />
         </e>

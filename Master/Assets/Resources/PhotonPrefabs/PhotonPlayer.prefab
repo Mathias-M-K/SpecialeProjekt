@@ -222,6 +222,7 @@ MonoBehaviour:
   forwardForce: 2
   turningForce: 1
   jumpForce: 20
+  spacePressed: 0
 --- !u!114 &-4336202444545196932
 MonoBehaviour:
   m_ObjectHideFlags: 0

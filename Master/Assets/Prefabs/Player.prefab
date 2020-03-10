@@ -134,6 +134,7 @@ MonoBehaviour:
   player: 0
   agent: {fileID: 149702325251908318}
   enableMouseMovement: 0
+  playerFinishStrategy: 0
 --- !u!114 &-4486156755800910668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,4 +151,4 @@ MonoBehaviour:
   swapIt: 0
   id: 
   swapId: 
-  scanByColor: 0
+  begin: 0
