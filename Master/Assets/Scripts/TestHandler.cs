@@ -83,9 +83,4 @@ public class TestHandler : MonoBehaviour
             incommingValue = _wifiConnection.CurrentValue;
         }
     }
-
-    private void OnApplicationQuit()
-    {
-        _wifiConnection.CloseConnection();
-    }
 }

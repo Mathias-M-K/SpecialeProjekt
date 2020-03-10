@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Container;
 using CoreGame;
 using UnityEngine;
 
@@ -83,7 +84,7 @@ public class BlockHandler : MonoBehaviour, ITradeObserver, IMoveObserver
         }
     }
 
-    public void TradeUpdate()
+    public void TradeUpdate(PlayerTrade playerTrade ,TradeActions tradeAction)
     {
         throw new NotImplementedException();
     }

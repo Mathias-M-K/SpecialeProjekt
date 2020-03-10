@@ -5,15 +5,20 @@ namespace CoreGame
 {
     public class TriggerController : MonoBehaviour
     {
-        public Player color;
+        public Player owner;
         public WallController wall;
         public bool closeOnExit;
-        
+
+        private void Awake()
+        {
+            wall.SetOwner(owner);
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             PlayerController playerController = other.GetComponent<PlayerController>();
 
-            if (playerController.player == color)
+            if (playerController.player == owner)
             {
                 wall.Open();
             }
@@ -25,7 +30,7 @@ namespace CoreGame
             
             PlayerController playerController = other.GetComponent<PlayerController>();
 
-            if (playerController.player == color)
+            if (playerController.player == owner)
             {
                 wall.Close();
             }

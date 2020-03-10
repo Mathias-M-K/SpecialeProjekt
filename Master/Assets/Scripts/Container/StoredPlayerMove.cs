@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace Container
 {
-    public class StoredPlayerMove : MonoBehaviour
+    public class StoredPlayerMove
     {
-        public Player player;
-        public Direction direction;
+        public Player Player;
+        public Direction Direction;
     
         public StoredPlayerMove(Player pc,Direction d)
         {
-            player = pc;
-            direction = d;
+            Player = pc;
+            Direction = d;
         }
     }
 

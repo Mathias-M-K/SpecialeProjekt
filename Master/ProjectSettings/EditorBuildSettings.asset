@@ -4,5 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Networking/Networking DelayedStart.unity
+    guid: ed7628f26d8460d4c8c37d78733daea4
+  - enabled: 1
+    path: Assets/Scenes/Networking/Networking Waiting Room.unity
+    guid: bbea73aec6fa29643b8e79f2f7578932
+  - enabled: 1
+    path: Assets/Scenes/Networking/_Networking Playground.unity
+    guid: 4cc050a6844859547a340ea16d5f52ad
   m_configObjects: {}

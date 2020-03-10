@@ -5,8 +5,10 @@ namespace CoreGame
 {
     public class WallController : MonoBehaviour
     {
+        public Player owner; 
         public float smoothingFactor;
-        public Vector3 openPosition;
+        private Vector3 _openPosition;
+        public Direction openDirection;
         [SerializeField]private Vector3 closedPosition;
         private Vector3 _targetPos;
 
@@ -15,6 +17,7 @@ namespace CoreGame
         {
             closedPosition = transform.position;
             _targetPos = closedPosition;
+            DetermineOpenPos(openDirection);
         }
 
         // Update is called once per frame
@@ -36,12 +39,45 @@ namespace CoreGame
 
         public void Open()
         {
-            _targetPos = openPosition;
+            _targetPos = _openPosition;
         }
 
         public void Close()
         {
             _targetPos = closedPosition;
+        }
+
+        public void SetOwner(Player newOwner)
+        {
+            owner = newOwner;
+        }
+        
+        public void DetermineOpenPos(Direction d)
+        {
+            //The new position
+            Vector3 newGridPos;
+
+            switch (d)
+            {
+                case Direction.Up:
+                    newGridPos = new Vector3(closedPosition.x, closedPosition.y, closedPosition.z + 1);
+                    break;
+                case Direction.Down:
+                    newGridPos = new Vector3(closedPosition.x, closedPosition.y, closedPosition.z - 1);
+                    break;
+                case Direction.Left:
+                    newGridPos = new Vector3(closedPosition.x - 1, closedPosition.y, closedPosition.z);
+                    break;
+                case Direction.Right:
+                    newGridPos = new Vector3(closedPosition.x + 1, closedPosition.y, closedPosition.z);
+                    break;
+                default:
+                    newGridPos = new Vector3(closedPosition.x, closedPosition.y, closedPosition.z);
+                    break;
+            }
+
+            _openPosition = newGridPos;
+
         }
     }
 }

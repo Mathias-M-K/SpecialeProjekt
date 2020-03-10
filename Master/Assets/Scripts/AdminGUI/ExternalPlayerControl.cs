@@ -241,7 +241,7 @@ namespace AdminGUI
 
         
         
-        public void TradeUpdate()
+        public void TradeUpdate(PlayerTrade playerTrade ,TradeActions tradeAction)
         {
             print(this.name + "Was notified");
             UpdateTrades();
