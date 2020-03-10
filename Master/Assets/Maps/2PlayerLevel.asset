@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e267a37e0cb4d5bb4d48680e23893ce, type: 3}
-  m_Name: 4PlayerMap
+  m_Name: 2PlayerLevel
   m_EditorClassIdentifier: 
-  map: {fileID: 0}
-  xSize: 0
-  ySize: 0
-  maxPlayers: 0
-  spawnPositions: []
+  map: {fileID: 5117700591259272343, guid: f9b4e16285ed55745a642e0822bab693, type: 3}
+  xSize: 7
+  ySize: 7
+  maxPlayers: 2
+  spawnPositions:
+  - {x: 1, y: 1}
+  - {x: 7, y: 7}

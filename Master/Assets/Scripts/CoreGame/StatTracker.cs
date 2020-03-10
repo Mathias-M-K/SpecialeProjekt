@@ -1,109 +1,120 @@
 ﻿using System;
 using System.IO;
 using Container;
-using CoreGame;
 using CoreGame.Interfaces;
 using CoreGame.Strategies.Interfaces;
 using DefaultNamespace;
 using UnityEngine;
 
-public class StatTracker : MonoBehaviour, ISequenceObserver, ITradeObserver
+namespace CoreGame
 {
-    [Header("Strategy")] public FileNameStrategy fileNameStrategy;
-    
-    [Header("Stats")]
-    [SerializeField] private int nrOfMoves;
-    private int _nrOfTrades;
-    private string _directoryPath = "C:/MasterData/";
-    private TextWriter _textWriter;
-
-    public FileNamingStrategy fileCreationStrategy;
-
-    private void Start()
+    public class StatTracker : MonoBehaviour, ISequenceObserver, ITradeObserver, IFinishPointObserver
     {
-        //initializing fileCreationStrategy
-        switch (fileNameStrategy)
+        [Header("Strategy")] public FileNameStrategy fileNameStrategy;
+    
+        [Header("Stats")]
+        [SerializeField] private int nrOfMoves;
+        private int _nrOfTrades;
+        private string _directoryPath = "C:/MasterData/";
+        private TextWriter _textWriter;
+
+        public FileNamingStrategy fileCreationStrategy;
+
+        private void Start()
         {
-            case FileNameStrategy.NumberBased:
-                fileCreationStrategy = new NumberBasedFileCreation();
-                break;
-            case FileNameStrategy.DateBased:
-                fileCreationStrategy = new DateFileNamingStrategy();
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+            //initializing fileCreationStrategy
+            switch (fileNameStrategy)
+            {
+                case FileNameStrategy.NumberBased:
+                    fileCreationStrategy = new NumberBasedFileCreation();
+                    break;
+                case FileNameStrategy.DateBased:
+                    fileCreationStrategy = new DateFileNamingStrategy();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         
-        GameHandler gh = GetComponent<GameHandler>();
-        gh.AddSequenceObserver(this);
-        gh.AddTradeObserver(this);
+            GameHandler gh = GetComponent<GameHandler>();
+            gh.AddSequenceObserver(this);
+            gh.AddTradeObserver(this);
+            gh.AddGameProgressObserver(this);
 
-        CreateFile();
+            CreateFile();
 
-        _textWriter.WriteLine("{0},{1}", DateTime.Now, gh.GetPlayers().Count);
-    }
-
-    public void SequenceUpdate(SequenceActions sequenceAction, StoredPlayerMove move)
-    {
-        //Type | Time | Player | Direction
-        switch (sequenceAction)
-        {
-            case SequenceActions.NewMoveAdded:
-                //Type | Time | Player | Direction
-                _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,Time.realtimeSinceStartup,move.Player,move.Direction);
-                break;
-            case SequenceActions.MoveRemoved:
-                //Type | Time | Player | Direction
-                _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,Time.realtimeSinceStartup,move.Player,move.Direction);
-                break;
-            case SequenceActions.SequencePlayed:
-                //Type | Time 
-                _textWriter.WriteLine("{0},{1}",sequenceAction,Time.realtimeSinceStartup);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(sequenceAction), sequenceAction, null);
-        }
-    }
-    
-    public void TradeUpdate(PlayerTrade playerTrade, TradeActions tradeAction)
-    {
-        //Type | Time | ID | offering player | receiving player | direction | Status | Counter Offer (If Available)
-        _textWriter.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7}",
-            "Trade",
-            Time.realtimeSinceStartup,
-            playerTrade.TradeID,
-            playerTrade.OfferingPlayer,
-            playerTrade.ReceivingPlayer,
-            playerTrade.DirectionOffer,
-            tradeAction,
-            playerTrade.DirectionCounterOffer);
-    }
-    
-    private void CreateFile()
-    {
-        if (!Directory.Exists(_directoryPath))
-        {
-            Debug.Log($"{_directoryPath} does not exist, creating directory..");
-            Directory.CreateDirectory(_directoryPath);
+            _textWriter.WriteLine("{0},{1}", DateTime.Now, gh.GetPlayers().Count);
         }
 
-        string filePath = fileCreationStrategy.CreateFile(_directoryPath);
+        public void SequenceUpdate(SequenceActions sequenceAction, StoredPlayerMove move)
+        {
+            //Type | Time | Player | Direction
+            switch (sequenceAction)
+            {
+                case SequenceActions.NewMoveAdded:
+                    //Type | Time | Player | Direction
+                    _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,Time.realtimeSinceStartup,move.Player,move.Direction);
+                    break;
+                case SequenceActions.MoveRemoved:
+                    //Type | Time | Player | Direction
+                    _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,Time.realtimeSinceStartup,move.Player,move.Direction);
+                    break;
+                case SequenceActions.SequencePlayed:
+                    //Type | Time 
+                    _textWriter.WriteLine("{0},{1}",sequenceAction,Time.realtimeSinceStartup);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(sequenceAction), sequenceAction, null);
+            }
+        }
+    
+        public void TradeUpdate(PlayerTrade playerTrade, TradeActions tradeAction)
+        {
+            //Type | Time | ID | offering player | receiving player | direction | Status | Counter Offer (If Available)
+            _textWriter.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7}",
+                "Trade",
+                Time.realtimeSinceStartup,
+                playerTrade.TradeID,
+                playerTrade.OfferingPlayer,
+                playerTrade.ReceivingPlayer,
+                playerTrade.DirectionOffer,
+                tradeAction,
+                playerTrade.DirectionCounterOffer);
+        }
+    
+        public void GameProgressUpdate(Player player)
+        {
+            //Type | Time | Player
+            _textWriter.WriteLine("{0},{1},{2}","Player Finished",Time.realtimeSinceStartup,player);
+        }
+    
+        private void CreateFile()
+        {
+            if (!Directory.Exists(_directoryPath))
+            {
+                Debug.Log($"{_directoryPath} does not exist, creating directory..");
+                Directory.CreateDirectory(_directoryPath);
+            }
 
-        _textWriter = new StreamWriter(filePath);
+            string filePath = fileCreationStrategy.CreateFile(_directoryPath);
+
+            _textWriter = new StreamWriter(filePath);
+        }
+
+        private void OnApplicationQuit()
+        {
+            //Type | Time Elapsed | Nr of trades | Nr of Moves
+            _textWriter.WriteLine("{0},{1},{2},{3}", "Summary:", Time.realtimeSinceStartup, _nrOfTrades, nrOfMoves);
+
+            _textWriter.Flush();
+            _textWriter.Close();
+        }
+
+    
     }
 
-    private void OnApplicationQuit()
+    public enum FileNameStrategy
     {
-        //Type | Time Elapsed | Nr of trades | Nr of Moves
-        _textWriter.WriteLine("{0},{1},{2},{3}", "Summary:", Time.realtimeSinceStartup, _nrOfTrades, nrOfMoves);
-
-        _textWriter.Flush();
-        _textWriter.Close();
+        NumberBased,
+        DateBased
     }
-}
-
-public enum FileNameStrategy
-{
-    NumberBased,
-    DateBased
 }

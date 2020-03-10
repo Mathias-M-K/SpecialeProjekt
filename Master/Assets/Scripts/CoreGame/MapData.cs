@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Map",menuName = "Map")]
-public class FourPlayerLevel : ScriptableObject
+public class MapData : ScriptableObject
 {
     [Header("Map Prefab")] public GameObject map;
     

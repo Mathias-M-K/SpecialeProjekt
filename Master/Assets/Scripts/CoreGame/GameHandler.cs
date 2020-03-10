@@ -5,27 +5,36 @@ using System.Linq;
 using Container;
 using CoreGame.Interfaces;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace CoreGame
 {
-    public class GameHandler : MonoBehaviour, IFinishPointObserver
+    public class GameHandler : MonoBehaviour
     {
-        public List<PlayerTrade> trades = new List<PlayerTrade>();
-
+        //Game variables
         private readonly List<StoredPlayerMove> _sequenceMoves = new List<StoredPlayerMove>();
         private readonly List<PlayerController> _players = new List<PlayerController>();
-        private Vector2[] _spawnPositions;
         private readonly Vector3[] _occupiedPositions = new Vector3[4];
+        public List<PlayerTrade> trades = new List<PlayerTrade>();    //Trades
+        
+        //Map information
+        private Vector2[] _spawnPositions;
+        private FinishPointController _finishPointObject;
 
+        //Observers
         private readonly List<ISequenceObserver> _sequenceObservers = new List<ISequenceObserver>();
         private readonly List<ITradeObserver> _tradeObservers = new List<ITradeObserver>();
+        private readonly List<IFinishPointObserver> _gameProgressObservers = new List<IFinishPointObserver>();
+
 
         [Header("Player Prefab")] public GameObject player;
-        [Header("Goal")] public FinishPointController finishPointObject;
-        [Header("Level Information")] public LevelInformation levelInformation;
+        
+        [Header("Level Information")] public MapData mapData;
 
         [Space] [Header("Settings")] [Range(1, 6)]
         public int numberOfPlayers;
+
+        [SerializeField] private int playersFinished;
 
         [Space] [Header("Player Abilities")] public bool playersCanPhase;
 
@@ -43,21 +52,17 @@ namespace CoreGame
 
         private void Awake()
         {
-            /*
-            _spawnPositions.Add(new Vector3(1.5f, 2, 10.5f));
-            _spawnPositions.Add(new Vector3(1.5f, 2, 1.5f));
-            _spawnPositions.Add(new Vector3(10.5f, 2, 1.5f));
-            _spawnPositions.Add(new Vector3(10.5f, 2, 10.5f));
-            */
+            
+            _spawnPositions = mapData.spawnPositions;
 
-            _spawnPositions = levelInformation.spawnPositions;
-
-            finishPointObject.AddObserver(this);
+            Instantiate(mapData.map, new Vector3(0.5f, 0, 10.5f),new Quaternion(0,0,0,0));
+            
             SpawnPlayers();
         }
 
         private void Start()
         {
+            _finishPointObject = mapData.map.transform.GetChild(4).GetComponent<FinishPointController>();
             RemoveBarricadesForInactivePlayers();
         }
 
@@ -196,10 +201,10 @@ namespace CoreGame
 
         private void SpawnPlayers()
         {
-            if (numberOfPlayers > levelInformation.maxPlayers)
+            if (numberOfPlayers > mapData.maxPlayers)
             {
-                Debug.LogError($"Number of max players have been exceeded, fallback to {levelInformation.maxPlayers} players", this);
-                numberOfPlayers = levelInformation.maxPlayers;
+                Debug.LogError($"Number of max players have been exceeded, fallback to {mapData.maxPlayers} players", this);
+                numberOfPlayers = mapData.maxPlayers;
             }
 
             List<Player> playerTags = new List<Player>();
@@ -210,7 +215,7 @@ namespace CoreGame
 
             for (int i = 0; i < numberOfPlayers; i++)
             {
-                Vector3 spawnPosition = new Vector3(_spawnPositions[i].x,1.5f,_spawnPositions[i].y);
+                Vector3 spawnPosition = new Vector3(_spawnPositions[i].x,1.55f,_spawnPositions[i].y);
 
                 GameObject g = Instantiate(player, spawnPosition, new Quaternion(0, 0, 0, 0));
 
@@ -245,9 +250,9 @@ namespace CoreGame
             }
         }
 
-        private void CheckIfGameIsDone(int nrOfFinishedPlayers)
+        private void CheckIfGameIsDone()
         {
-            if (nrOfFinishedPlayers >= numberOfPlayers)
+            if (playersFinished >= numberOfPlayers)
             {
                 print("Game Done!");
             }
@@ -311,10 +316,13 @@ namespace CoreGame
         {
             _sequenceObservers.Add(iso);
         }
-
         public void AddTradeObserver(ITradeObserver ito)
         {
             _tradeObservers.Add(ito);
+        }
+        public void AddGameProgressObserver(IFinishPointObserver ifo)
+        {
+            _gameProgressObservers.Add(ifo);
         }
 
         private void NotifySequenceObservers(SequenceActions sequenceAction, StoredPlayerMove move)
@@ -325,9 +333,14 @@ namespace CoreGame
             }
         }
 
-        public void GameProgressUpdate(int nrOfFinishedPlayers)
+        public void NotifyGameProgressObservers(Player player1)
         {
-            CheckIfGameIsDone(nrOfFinishedPlayers);
+            foreach (IFinishPointObserver observer in _gameProgressObservers)
+            {
+                observer.GameProgressUpdate(player1);
+            }
+            playersFinished++;
+            CheckIfGameIsDone();
         }
     }
 }

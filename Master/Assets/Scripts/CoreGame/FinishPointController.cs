@@ -1,38 +1,26 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using CoreGame;
 using CoreGame.Interfaces;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class FinishPointController : MonoBehaviour
+namespace CoreGame
 {
-    List<IFinishPointObserver> _observers = new List<IFinishPointObserver>();
-    private int _nrOfFinishedPlayers;
-
-    // Update is called once per frame
-    void Update()
+    public class FinishPointController : MonoBehaviour
     {
-        transform.Rotate(new Vector3(0,2,0),Space.World);
-    }
+        readonly List<IFinishPointObserver> _observers = new List<IFinishPointObserver>();
 
-    private void OnTriggerEnter(Collider other)
-    {
-        other.GetComponent<PlayerController>().Die();
-        _nrOfFinishedPlayers++;
-        NotifyObservers();
-    }
-
-    public void AddObserver(IFinishPointObserver observer)
-    {
-        _observers.Add(observer);
-    }
-
-    public void NotifyObservers()
-    {
-        foreach (IFinishPointObserver observer in _observers)
+        // Update is called once per frame
+        void Update()
         {
-            observer.GameProgressUpdate(_nrOfFinishedPlayers);
+            transform.Rotate(new Vector3(0,2,0),Space.World);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            PlayerController playerController = other.GetComponent<PlayerController>();
+            playerController.gameHandler.NotifyGameProgressObservers(playerController.player);
+            playerController.Die();
         }
     }
 }

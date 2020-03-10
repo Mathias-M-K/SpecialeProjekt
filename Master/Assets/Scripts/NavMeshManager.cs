@@ -6,9 +6,12 @@ using UnityEngine.AI;
 
 public class NavMeshManager : MonoBehaviour
 {
+    public bool ready;
+    
     private void Awake()
     {
         GetComponent<NavMeshSurface>().BuildNavMesh();
+        ready = true;
     }
 
     // Update is called once per frame
