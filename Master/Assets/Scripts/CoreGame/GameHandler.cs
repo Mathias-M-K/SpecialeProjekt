@@ -15,11 +15,10 @@ namespace CoreGame
         private readonly List<StoredPlayerMove> _sequenceMoves = new List<StoredPlayerMove>();
         private readonly List<PlayerController> _players = new List<PlayerController>();
         private readonly Vector3[] _occupiedPositions = new Vector3[4];
-        public List<PlayerTrade> trades = new List<PlayerTrade>();    //Trades
+        public List<PlayerTrade> trades = new List<PlayerTrade>();
         
         //Map information
         private Vector2[] _spawnPositions;
-        private FinishPointController _finishPointObject;
 
         //Observers
         private readonly List<ISequenceObserver> _sequenceObservers = new List<ISequenceObserver>();
@@ -52,7 +51,6 @@ namespace CoreGame
 
         private void Awake()
         {
-            
             _spawnPositions = mapData.spawnPositions;
 
             Instantiate(mapData.map, new Vector3(0.5f, 0, 10.5f),new Quaternion(0,0,0,0));
@@ -62,8 +60,11 @@ namespace CoreGame
 
         private void Start()
         {
-            _finishPointObject = mapData.map.transform.GetChild(4).GetComponent<FinishPointController>();
             RemoveBarricadesForInactivePlayers();
+            
+            Camera camera = Camera.main;
+
+            camera.transform.position = new Vector3((mapData.xSize/2) + 0.5f,15,(mapData.ySize/2)+0.5f);
         }
 
         public bool IsPositionOccupied(Vector3 position)
@@ -124,7 +125,7 @@ namespace CoreGame
             trade.NotifyObservers(TradeActions.TradeOffered);
         }
 
-        public void AddMoveToSequence(Player p, Direction d)
+        public void AddMoveToSequence(Player p, Direction d,int index)
         {
             PlayerController playerController = GetPlayerController(p);
 
@@ -145,7 +146,7 @@ namespace CoreGame
             StoredPlayerMove playerMove = new StoredPlayerMove(p, d);
             _sequenceMoves.Add(playerMove);
 
-            playerController.RemoveMove(playerController.GetIndexForDirection(d));
+            playerController.RemoveMove(index);
 
             playerController.NotifyMoveObservers();
             NotifySequenceObservers(SequenceActions.NewMoveAdded,playerMove);

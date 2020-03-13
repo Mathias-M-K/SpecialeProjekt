@@ -235,7 +235,7 @@ namespace AdminGUI
         {
             if (_currentlySelectedMove == Direction.Blank) return;
             
-            gameHandler.AddMoveToSequence(player,_currentlySelectedMove);
+            gameHandler.AddMoveToSequence(player,_currentlySelectedMove,playerController.GetIndexForDirection(_currentlySelectedMove));
             
         }
 

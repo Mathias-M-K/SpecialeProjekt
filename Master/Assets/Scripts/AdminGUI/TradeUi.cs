@@ -6,7 +6,6 @@ using CoreGame;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using WebSocketSharp;
 
 public class TradeUi : MonoBehaviour, ITradeObserver
 {

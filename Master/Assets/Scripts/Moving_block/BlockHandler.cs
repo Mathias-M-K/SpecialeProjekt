@@ -24,7 +24,6 @@ public class BlockHandler : MonoBehaviour, ITradeObserver, IMoveObserver
     {
         //Had to trim this fucking string - caused random errors. Fuck unity.
         string input = id.Trim();
-        Debug.Log($"ContainsElement {ContainsElement(input)} || listOfBlock {listOfBlock.Count} || maxAmountOfBlocks {maxAmountOfBlocks}");
         if (!ContainsElement(input) && listOfBlock.Count < maxAmountOfBlocks)
         {
             Direction state;
@@ -94,6 +93,21 @@ public class BlockHandler : MonoBehaviour, ITradeObserver, IMoveObserver
         return Direction.Blank;
     }
 
+    public int GetIndexFromId(string Id)
+    {
+        int i = 0;
+        foreach (Block block in listOfBlock)
+        {
+            if (block.Id.Equals(Id))
+            {
+                return i;
+            }
+
+            i++;
+        }
+        return -1;
+    }
+
     public void TradeUpdate(PlayerTrade playerTrade ,TradeActions tradeAction)
     {
         throw new NotImplementedException();
@@ -101,9 +115,18 @@ public class BlockHandler : MonoBehaviour, ITradeObserver, IMoveObserver
 
     public void MoveInventoryUpdate(Direction[] directions)
     {
+        print($"{GetComponent<PlayerController>().player} got updated");
+
+        
+        
         for (int i = 0; i < listOfBlock.Count; i++)
         {
             listOfBlock[i].State = directions[i];
+        }
+        
+        foreach (Block block in listOfBlock)
+        {
+            print($"{block.Id} | {block.State}");
         }
     }
 }

@@ -36,8 +36,10 @@ public class SerialCommunication : MonoBehaviour,ISequenceObserver
         try
         {
             _dataStream = _stream.ReadExisting();
+
             if (!_dataStream.Equals("") && !_dataStream.Equals(_oldString))
             {
+                Debug.Log($"DataStream: {_dataStream}");
                 _oldString = _dataStream;
                 string[] tempStringArray = _dataStream.Split(':');
                 id = tempStringArray[1];
@@ -45,7 +47,7 @@ public class SerialCommunication : MonoBehaviour,ISequenceObserver
                 methodSelected = tempStringArray[0];
                 if (methodSelected.Equals("add"))
                 {
-                    _block.AddBlock(id);    
+                    _block.AddBlock(id);
                 }
 
                 if (methodSelected.Equals("swap"))
@@ -57,7 +59,8 @@ public class SerialCommunication : MonoBehaviour,ISequenceObserver
                 if (methodSelected.Equals("sequence"))
                 {
                     //TODO: trigger add move to sequence
-                    _playerController.gameHandler.AddMoveToSequence(_playerController.player,_block.GetDirectionFromId(id));
+                    print($"direction: {_block.GetDirectionFromId(id)}");
+                    _playerController.gameHandler.AddMoveToSequence(_playerController.player,_block.GetDirectionFromId(id),_block.GetIndexFromId(id));
                 }
                 
             }
