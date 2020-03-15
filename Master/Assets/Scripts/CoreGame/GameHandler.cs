@@ -1,22 +1,26 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Container;
 using CoreGame.Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
 
+// ReSharper disable CompareOfFloatsByEqualityOperator
+// ReSharper disable PossibleLossOfFraction
+
 namespace CoreGame
 {
     public class GameHandler : MonoBehaviour
     {
+        public static GameHandler current;
+
         //Game variables
         private readonly List<StoredPlayerMove> _sequenceMoves = new List<StoredPlayerMove>();
         private readonly List<PlayerController> _players = new List<PlayerController>();
         private readonly Vector3[] _occupiedPositions = new Vector3[4];
         public List<PlayerTrade> trades = new List<PlayerTrade>();
-        
+
         //Map information
         private Vector2[] _spawnPositions;
 
@@ -26,9 +30,9 @@ namespace CoreGame
         private readonly List<IFinishPointObserver> _gameProgressObservers = new List<IFinishPointObserver>();
 
 
-        [Header("Player Prefab")] public GameObject player;
-        
-        [Header("Level Information")] public MapData mapData;
+        [Header("Player Prefab")] public GameObject playerPrefab;
+
+
 
         [Space] [Header("Settings")] [Range(1, 6)]
         public int numberOfPlayers;
@@ -51,22 +55,25 @@ namespace CoreGame
 
         private void Awake()
         {
-            _spawnPositions = mapData.spawnPositions;
+            print("did it");
+            current = this;
 
-            Instantiate(mapData.map, new Vector3(0.5f, 0, 10.5f),new Quaternion(0,0,0,0));
             
-            SpawnPlayers();
         }
 
         private void Start()
         {
-            RemoveBarricadesForInactivePlayers();
-            
-            Camera camera = Camera.main;
 
-            camera.transform.position = new Vector3((mapData.xSize/2) + 0.5f,15,(mapData.ySize/2)+0.5f);
+            RemoveBarricadesForInactivePlayers();
+
         }
 
+        public void InitializeGame(MapData mapData)
+        {
+            _spawnPositions = mapData.spawnPositions;
+            SpawnMaxPlayers(mapData.maxPlayers);
+        }
+        
         public bool IsPositionOccupied(Vector3 position)
         {
             foreach (Vector3 occupiedPosition in _occupiedPositions)
@@ -110,12 +117,13 @@ namespace CoreGame
             List<ITradeObserver> combinedObserverList = new List<ITradeObserver>();
             List<ITradeObserver> offeringObservers = playerOfferingController.GetTradeObservers();
             List<ITradeObserver> receivingObservers = playerReceivingController.GetTradeObservers();
-            
+
             combinedObserverList.AddRange(_tradeObservers);
             combinedObserverList.AddRange(offeringObservers);
             combinedObserverList.AddRange(receivingObservers);
 
-            PlayerTrade trade = new PlayerTrade(playerOffering, playerReceiving, direction, this, directionIndex, combinedObserverList);
+            PlayerTrade trade = new PlayerTrade(playerOffering, playerReceiving, direction, this, directionIndex,
+                combinedObserverList);
 
             trades.Add(trade);
 
@@ -125,7 +133,7 @@ namespace CoreGame
             trade.NotifyObservers(TradeActions.TradeOffered);
         }
 
-        public void AddMoveToSequence(Player p, Direction d,int index)
+        public void AddMoveToSequence(Player p, Direction d, int index)
         {
             PlayerController playerController = GetPlayerController(p);
 
@@ -137,11 +145,11 @@ namespace CoreGame
 
             if (playerController.GetIndexForDirection(d) == -1)
             {
-                Debug.LogError($"{player} does not posses the {d} move");
+                Debug.LogError($"{playerPrefab} does not posses the {d} move");
                 return;
             }
-            
-            if(d == Direction.Blank) throw new ArgumentException("Can't add blank moves");
+
+            if (d == Direction.Blank) throw new ArgumentException("Can't add blank moves");
 
             StoredPlayerMove playerMove = new StoredPlayerMove(p, d);
             _sequenceMoves.Add(playerMove);
@@ -149,13 +157,13 @@ namespace CoreGame
             playerController.RemoveMove(index);
 
             playerController.NotifyMoveObservers();
-            NotifySequenceObservers(SequenceActions.NewMoveAdded,playerMove);
+            NotifySequenceObservers(SequenceActions.NewMoveAdded, playerMove);
         }
 
         public void RemoveMoveFromSequence(StoredPlayerMove move)
         {
             _sequenceMoves.Remove(move);
-            NotifySequenceObservers(SequenceActions.MoveRemoved,move);
+            NotifySequenceObservers(SequenceActions.MoveRemoved, move);
         }
 
         public IEnumerator PerformSequence(float delayBetweenMoves)
@@ -174,7 +182,7 @@ namespace CoreGame
             }
 
             _sequenceMoves.Clear();
-            NotifySequenceObservers(SequenceActions.SequencePlayed,null);
+            NotifySequenceObservers(SequenceActions.SequencePlayed, null);
         }
 
         public PlayerController GetPlayerController(Player p)
@@ -200,12 +208,14 @@ namespace CoreGame
             return _sequenceMoves;
         }
 
-        private void SpawnPlayers()
+        //Spawning x player, where x is the number of allowed players
+        private void SpawnMaxPlayers(int mapPlayerLimit)
         {
-            if (numberOfPlayers > mapData.maxPlayers)
+            if (numberOfPlayers > mapPlayerLimit)
             {
-                Debug.LogError($"Number of max players have been exceeded, fallback to {mapData.maxPlayers} players", this);
-                numberOfPlayers = mapData.maxPlayers;
+                Debug.LogError($"Number of max players have been exceeded, fallback to {mapPlayerLimit} players",
+                    this);
+                numberOfPlayers = mapPlayerLimit;
             }
 
             List<Player> playerTags = new List<Player>();
@@ -216,9 +226,9 @@ namespace CoreGame
 
             for (int i = 0; i < numberOfPlayers; i++)
             {
-                Vector3 spawnPosition = new Vector3(_spawnPositions[i].x,1.55f,_spawnPositions[i].y);
+                Vector3 spawnPosition = new Vector3(_spawnPositions[i].x, 1.55f, _spawnPositions[i].y);
 
-                GameObject g = Instantiate(player, spawnPosition, new Quaternion(0, 0, 0, 0));
+                GameObject g = Instantiate(playerPrefab, spawnPosition, new Quaternion(0, 0, 0, 0));
 
                 Material m;
 
@@ -317,10 +327,12 @@ namespace CoreGame
         {
             _sequenceObservers.Add(iso);
         }
+
         public void AddTradeObserver(ITradeObserver ito)
         {
             _tradeObservers.Add(ito);
         }
+
         public void AddGameProgressObserver(IFinishPointObserver ifo)
         {
             _gameProgressObservers.Add(ifo);
@@ -330,7 +342,7 @@ namespace CoreGame
         {
             foreach (ISequenceObserver observer in _sequenceObservers)
             {
-                observer.SequenceUpdate(sequenceAction,move);
+                observer.SequenceUpdate(sequenceAction, move);
             }
         }
 
@@ -340,6 +352,7 @@ namespace CoreGame
             {
                 observer.GameProgressUpdate(player1);
             }
+
             playersFinished++;
             CheckIfGameIsDone();
         }

@@ -9,17 +9,14 @@ public class TestHandler : MonoBehaviour
     [Header("Wireless Connection")] public string ipAdress;
     public int port;
     public string outgoingString;
-    public float incommingValue;
+    public float incomingValue;
 
     [Space] [Header("Other")] [Range(0f, 3f)] [SerializeField]
     private float sequenceDelay;
 
     public PlayerController agent1;
     public PlayerController agent2;
-
-
-    public GameHandler gameHandler;
-
+    
     private bool _serverActive;
 
 
@@ -51,15 +48,15 @@ public class TestHandler : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartCoroutine(gameHandler.PerformSequence(sequenceDelay));
+            StartCoroutine(GameHandler.current.PerformSequence(sequenceDelay));
         }
 
         if (Input.GetKeyDown(KeyCode.H))
         {
-            Vector2[] positions = gameHandler.GetSpawnLocations();
+            Vector2[] positions = GameHandler.current.GetSpawnLocations();
 
             int i = 0;
-            foreach (PlayerController playerController in gameHandler.GetPlayers())
+            foreach (PlayerController playerController in GameHandler.current.GetPlayers())
             {
                 playerController.MoveToPos(positions[i].x, positions[i].y);
                 i++;
@@ -80,7 +77,7 @@ public class TestHandler : MonoBehaviour
 
         if (_serverActive)
         {
-            incommingValue = _wifiConnection.CurrentValue;
+            incomingValue = _wifiConnection.CurrentValue;
         }
     }
 }

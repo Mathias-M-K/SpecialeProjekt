@@ -13,8 +13,9 @@ namespace AdminGUI
     public class ExternalPlayerControl : MonoBehaviour,ITradeObserver,IMoveObserver
     {
         [Header("Set Player")] public Player player;
-        [Header("Set Game Handler")] public GameHandler gameHandler;
-        private PlayerController playerController;
+        
+        private GameHandler _gameHandler = GameHandler.current;
+        private PlayerController _playerController;
         private List<PlayerTrade> _trades;
         
         [Header("Direction Buttons")]public Button left1;
@@ -49,30 +50,31 @@ namespace AdminGUI
         // Start is called before the first frame update
         void Start()
         {
+            _gameHandler = GameHandler.current;
             playerLabel.text = player.ToString();
             
-            playerController = gameHandler.GetPlayerController(player);
+            _playerController = _gameHandler.GetPlayerController(player);
 
-            if (playerController == null) return;
-            playerController.AddTradeObserver(this);
-            playerController.AddMoveObserver(this);
+            if (_playerController == null) return;
+            _playerController.AddTradeObserver(this);
+            _playerController.AddMoveObserver(this);
             UpdateMoveSprites();
         }
         
         private void UpdateMoveSprites()
         {
-            Direction[] moves = playerController.GetMoves();
+            Direction[] moves = _playerController.GetMoves();
 
 
-            left1.GetComponent<Image>().sprite = gameHandler.GetSprite(moves[0]);
-            left2.GetComponent<Image>().sprite = gameHandler.GetSprite(moves[1]);
-            left3.GetComponent<Image>().sprite = gameHandler.GetSprite(moves[2]);
-            left4.GetComponent<Image>().sprite = gameHandler.GetSprite(moves[3]);
+            left1.GetComponent<Image>().sprite = _gameHandler.GetSprite(moves[0]);
+            left2.GetComponent<Image>().sprite = _gameHandler.GetSprite(moves[1]);
+            left3.GetComponent<Image>().sprite = _gameHandler.GetSprite(moves[2]);
+            left4.GetComponent<Image>().sprite = _gameHandler.GetSprite(moves[3]);
         }
 
         private void UpdateTrades()
         {
-            _trades = playerController.GetIncomingTrades();
+            _trades = _playerController.GetIncomingTrades();
 
             List<Button> buttons = new List<Button> {trade1, trade2, trade3, trade4};
 
@@ -165,7 +167,7 @@ namespace AdminGUI
         {
             if (player != Player.Red)
             {
-                _selectedPlayer = gameHandler.GetPlayerController(Player.Red);
+                _selectedPlayer = _gameHandler.GetPlayerController(Player.Red);
                 showSelectedPlayer.text = Player.Red.ToString();
             }
         }
@@ -173,7 +175,7 @@ namespace AdminGUI
         {
             if (player != Player.Blue)
             {
-                _selectedPlayer = gameHandler.GetPlayerController(Player.Blue);
+                _selectedPlayer = _gameHandler.GetPlayerController(Player.Blue);
                 showSelectedPlayer.text = Player.Blue.ToString();
             }
         }
@@ -181,7 +183,7 @@ namespace AdminGUI
         {
             if (player != Player.Yellow)
             {
-                _selectedPlayer = gameHandler.GetPlayerController(Player.Yellow);
+                _selectedPlayer = _gameHandler.GetPlayerController(Player.Yellow);
                 showSelectedPlayer.text = Player.Yellow.ToString();
             }
         }
@@ -189,7 +191,7 @@ namespace AdminGUI
         {
             if (player != Player.Green)
             {
-                _selectedPlayer = gameHandler.GetPlayerController(Player.Green);
+                _selectedPlayer = _gameHandler.GetPlayerController(Player.Green);
                 showSelectedPlayer.text = Player.Green.ToString();
             }
         }
@@ -198,7 +200,7 @@ namespace AdminGUI
         {
             if (_selectedTrade != null && _currentlySelectedMove != Direction.Blank)
             {
-                _selectedTrade.AcceptTrade(_currentlySelectedMove,playerController);
+                _selectedTrade.AcceptTrade(_currentlySelectedMove,_playerController);
                 UpdateTrades();
                 UpdateMoveSprites();
             }
@@ -211,8 +213,8 @@ namespace AdminGUI
         {
             if (_selectedTrade != null)
             {
-                _selectedTrade.RejectTrade(playerController);
-                gameHandler.GetPlayerController(_selectedTrade.OfferingPlayer).NotifyMoveObservers();
+                _selectedTrade.RejectTrade(_playerController);
+                _gameHandler.GetPlayerController(_selectedTrade.OfferingPlayer).NotifyMoveObservers();
                 UpdateTrades();
                 UpdateMoveSprites();
             }
@@ -228,14 +230,14 @@ namespace AdminGUI
                 Debug.LogError("that didn't work",this);
             }
             
-            playerController.CreateTrade(_currentlySelectedMove,_selectedPlayer.player);
+            _playerController.CreateTrade(_currentlySelectedMove,_selectedPlayer.player);
         }
 
         public void SendBtnHit()
         {
             if (_currentlySelectedMove == Direction.Blank) return;
             
-            gameHandler.AddMoveToSequence(player,_currentlySelectedMove,playerController.GetIndexForDirection(_currentlySelectedMove));
+            _gameHandler.AddMoveToSequence(player,_currentlySelectedMove,_playerController.GetIndexForDirection(_currentlySelectedMove));
             
         }
 
