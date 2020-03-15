@@ -1,7 +1,7 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 
-const char* ssid = "internet";
+const char* ssid = "Martin Router King";
 const char* password = "password";
 const int port = 26;
 
@@ -10,7 +10,7 @@ WiFiClient client;
 
 bool clientDisconnectNotify = true;
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(74880);
   Serial.println("");
 
   WiFi.begin(ssid, password);
