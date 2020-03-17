@@ -41,17 +41,19 @@ namespace CoreGame
 
         [Space] [Header("Player Abilities")] public bool playersCanPhase;
 
-        [Space] [Header("Materials")] public Material redMaterial;
+        [Space] [Header("Materials")] 
+        public Material redMaterial;
         public Material blueMaterial;
         public Material greenMaterial;
         public Material yellowMaterial;
 
-        [Space] [Header("Sprites")] public Sprite leftSprite;
+        [Space] [Header("Sprites")] 
+        public Sprite leftSprite;
         public Sprite rightSprite;
         public Sprite upSprite;
         public Sprite downSprite;
         public Sprite blankSprite;
-
+        public Sprite arrowSprite;
 
         private void Awake()
         {
@@ -230,27 +232,8 @@ namespace CoreGame
 
                 GameObject g = Instantiate(playerPrefab, spawnPosition, new Quaternion(0, 0, 0, 0));
 
-                Material m;
-
-                switch (playerTags[i])
-                {
-                    case Player.Red:
-                        m = redMaterial;
-                        break;
-                    case Player.Blue:
-                        m = blueMaterial;
-                        break;
-                    case Player.Green:
-                        m = greenMaterial;
-                        break;
-                    case Player.Yellow:
-                        m = yellowMaterial;
-                        break;
-                    default:
-                        m = redMaterial;
-                        break;
-                }
-
+                Material m = GetPlayerMaterial(playerTags[i]);
+                
                 _occupiedPositions[i] = _spawnPositions[i];
                 PlayerController p = g.GetComponent<PlayerController>();
 
@@ -260,6 +243,8 @@ namespace CoreGame
                 _players.Add(p);
             }
         }
+
+        
 
         private void CheckIfGameIsDone()
         {
@@ -301,6 +286,41 @@ namespace CoreGame
             }
         }
 
+        public int GetDirectionRotation(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Up:
+                    return 90;
+                case Direction.Down:
+                    return -90;
+                case Direction.Right:
+                    return 0;
+                case Direction.Left:
+                    return 180;
+                case Direction.Blank:
+                    return 0;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(direction), direction, "Invalid direction");
+            }
+        }
+        
+        public Material GetPlayerMaterial(Player p)
+        {
+            switch (p)
+            {
+                case Player.Red:
+                    return redMaterial;
+                case Player.Blue:
+                    return blueMaterial;
+                case Player.Green:
+                    return greenMaterial;
+                case Player.Yellow:
+                    return yellowMaterial;
+                default:
+                    return redMaterial;
+            }
+        }
         public Sprite GetSprite(Direction direction)
         {
             switch (direction)

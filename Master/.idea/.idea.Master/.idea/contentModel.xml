@@ -4,8 +4,58 @@
     <e p="C:\Users\mathi\.Rider2019.3\system\extResources" t="IncludeRecursive" />
     <e p="C:\Users\mathi\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Master.-791168200.00" t="ExcludeRecursive" />
     <e p="C:\Users\mathi\Documents\GitHub\SpecialeProjekt\Master" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="LeanTween" t="Include">
+          <e p="Editor" t="Include">
+            <e p="LeanTweenDocumentationEditor.cs" t="Include" />
+          </e>
+          <e p="Examples" t="Include">
+            <e p="Archived" t="Include">
+              <e p="2dUnlitWithFade.shader" t="Include" />
+              <e p="OldGUIExamplesCS.cs" t="Include" />
+              <e p="TestingPunch.cs" t="Include" />
+              <e p="TestingRigidbodyCS.cs" t="Include" />
+            </e>
+            <e p="Scripts" t="Include">
+              <e p="Following.cs" t="Include" />
+              <e p="GeneralAdvancedTechniques.cs" t="Include" />
+              <e p="GeneralBasic.cs" t="Include" />
+              <e p="GeneralBasics2d.cs" t="Include" />
+              <e p="GeneralCameraShake.cs" t="Include" />
+              <e p="GeneralEasingTypes.cs" t="Include" />
+              <e p="GeneralEventsListeners.cs" t="Include" />
+              <e p="GeneralSequencer.cs" t="Include" />
+              <e p="GeneralSimpleUI.cs" t="Include" />
+              <e p="GeneralUISpace.cs" t="Include" />
+              <e p="LogoCinematic.cs" t="Include" />
+              <e p="PathBezier.cs" t="Include" />
+              <e p="PathBezier2d.cs" t="Include" />
+              <e p="PathSpline.cs" t="Include" />
+              <e p="PathSpline2d.cs" t="Include" />
+              <e p="PathSplineEndless.cs" t="Include" />
+              <e p="PathSplinePerformance.cs" t="Include" />
+              <e p="PathSplines.cs" t="Include" />
+              <e p="PathSplineTrack.cs" t="Include" />
+              <e p="TestingUnitTests.cs" t="Include" />
+              <e p="TestingZLegacy.cs" t="Include" />
+              <e p="TestingZLegacyExt.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Framework" t="Include">
+            <e p="LeanAudio.cs" t="Include" />
+            <e p="LeanSmooth.cs" t="Include" />
+            <e p="LeanTest.cs" t="Include" />
+            <e p="LeanTween.cs" t="Include" />
+            <e p="LeanTweenExt.cs" t="Include" />
+            <e p="LTDescr.cs" t="Include" />
+            <e p="LTDescrOptional.cs" t="Include" />
+            <e p="LTSeq.cs" t="Include" />
+          </e>
+          <e p="LICENSE.txt" t="Include" />
+          <e p="readme.txt" t="Include" />
+        </e>
         <e p="NavMeshComponents" t="Include">
           <e p="Assets" t="Include">
             <e p="Examples" t="Include">
@@ -417,8 +467,13 @@
         <e p="Scripts" t="Include">
           <e p="ActivateAllDisplays.cs" t="Include" />
           <e p="AdminGUI" t="Include">
-            <e p="ExternalPlayerControl.cs" t="Include" />
+            <e p="ExternalPlayerControl_Old.cs" t="Include" />
+            <e p="GUIEvents.cs" t="Include" />
+            <e p="SendBtnController.cs" t="Include" />
+            <e p="SequenceController.cs" t="Include" />
             <e p="SequenceUI.cs" t="Include" />
+            <e p="TradeBtnController.cs" t="Include" />
+            <e p="TradeController.cs" t="Include" />
           </e>
           <e p="ArduinoUnityConnection" t="Include">
             <e p="SerialCommunication.cs" t="Include" />
@@ -554,6 +609,7 @@
             <e p="EmojiOne Attribution.txt" t="Include" />
           </e>
         </e>
+        <e p="TweenTest.cs" t="Include" />
       </e>
       <e p="Master.sln" t="IncludeFlat" />
       <e p="NavMeshComponents.csproj" t="IncludeRecursive" />

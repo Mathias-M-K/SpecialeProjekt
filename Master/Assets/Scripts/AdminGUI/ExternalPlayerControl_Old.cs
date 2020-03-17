@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace AdminGUI
 {
-    public class ExternalPlayerControl : MonoBehaviour,ITradeObserver,IMoveObserver
+    public class ExternalPlayerControl_Old : MonoBehaviour,ITradeObserver,IMoveObserver
     {
         [Header("Set Player")] public Player player;
         
