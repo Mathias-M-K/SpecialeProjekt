@@ -48,7 +48,8 @@ public class TestHandler : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartCoroutine(GameHandler.current.PerformSequence(sequenceDelay));
+            GameHandler.current.delayBetweenMoves = sequenceDelay;
+            StartCoroutine(GameHandler.current.PerformSequence());
         }
 
         if (Input.GetKeyDown(KeyCode.H))

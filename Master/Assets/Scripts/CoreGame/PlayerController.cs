@@ -312,6 +312,11 @@ namespace CoreGame
             _moveObservers.Add(imo);
         }
 
+        public void RemoveMoveObserver(IMoveObserver imo)
+        {
+            _moveObservers.Remove(imo);
+        }
+
         public void NotifyTradeObservers(PlayerTrade trade, TradeActions tradeAction)
         {
             foreach (ITradeObserver observer in _tradeObservers)

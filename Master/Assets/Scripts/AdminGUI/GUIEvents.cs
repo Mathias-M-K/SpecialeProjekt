@@ -15,17 +15,13 @@ namespace AdminGUI
         public static GUIEvents current;
 
         public TMP_Dropdown playerDropdown;
+        public Button ManualControlBtn;
         public Player currentChosenPlayer;
-        
-        //Colors
-        public Color32 red = new Color32(229, 80, 57,255);
-        private Color32 blue = new Color32(74, 105, 189,255);
-        private Color32 green = new Color32(120, 224, 143,255);
-        private Color32 yellow = new Color32(246, 185, 59,255);
 
         private void Awake()
         {
             current = this;
+            ManualBtnState1();
         }
 
         public event Action<String> onButtonHit;
@@ -39,40 +35,47 @@ namespace AdminGUI
             {
                 case 0:
                     currentChosenPlayer = Player.Red;
-                    playerDropdown.image.color = red;
                     break;
                 case 1:
                     currentChosenPlayer = Player.Blue;
-                    playerDropdown.image.color = blue;
                     break;
                 case 2:
                     currentChosenPlayer = Player.Green;
-                    playerDropdown.image.color = green;
                     break;
                 case 3:
                     currentChosenPlayer = Player.Yellow;
-                    playerDropdown.image.color = yellow;
                     break;
             }
-            
+
+            playerDropdown.image.color = GameHandler.current.GetPlayerMaterial(currentChosenPlayer).color;
+
             if (onPlayerChange != null) onPlayerChange(currentChosenPlayer);
         }
 
-        public Color32 GetPlayerColor(Player p)
+        private void ManualBtnState1()
         {
-            switch (p)
-            {
-                case Player.Red:
-                    return red;
-                case Player.Blue:
-                    return blue;
-                case Player.Green:
-                    return green;
-                case Player.Yellow:
-                    return yellow;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(p), p, null);
-            }
+            Image img = ManualControlBtn.GetComponent<Image>();
+            LeanTween.color(img.rectTransform, new Color32(96, 163, 188, 255), 1f).setOnComplete(ManualBtnState2)
+                .setEase(LeanTweenType.easeOutSine);
+        }
+
+        private void ManualBtnState2()
+        {
+            Image img = ManualControlBtn.GetComponent<Image>();
+            LeanTween.color(img.rectTransform, new Color32(10, 61, 98, 255), 1f).setOnComplete(ManualBtnState1)
+                .setEase(LeanTweenType.easeOutSine);
+        }
+
+
+        /*
+         * Manual Control Button
+         */
+        public void ManualControl()
+        {
+            PlayerDropdownChanged();
+
+            LeanTween.alpha(ManualControlBtn.GetComponent<Image>().rectTransform, 0, 0.2f).destroyOnComplete = true;
+            NotifyAll("ManualControlBtn");
         }
 
         /*
@@ -95,18 +98,25 @@ namespace AdminGUI
         {
             NotifyAll("ArrowFirst");
         }
+
         public void ArrowSecond()
         {
             NotifyAll("ArrowSecond");
         }
+
         public void ArrowThird()
         {
             NotifyAll("ArrowThird");
         }
+
         public void ArrowForth()
         {
             NotifyAll("ArrowForth");
         }
+
+        /*
+         * Incomming Trade Buttons
+         */
 
         public void IncomingTradeBtn1()
         {
@@ -128,6 +138,34 @@ namespace AdminGUI
             NotifyAll("IncomingTradeBtn4");
         }
 
+        /*
+         * Outgoing Trade Buttons
+         */
+
+        public void OutgoingTradeBtn1()
+        {
+            NotifyAll("OutgoingTradeBtn1");
+        }
+
+        public void OutgoingTradeBtn2()
+        {
+            NotifyAll("OutgoingTradeBtn2");
+        }
+
+        public void OutgoingTradeBtn3()
+        {
+            NotifyAll("OutgoingTradeBtn3");
+        }
+
+        public void OutgoingTradeBtn4()
+        {
+            NotifyAll("OutgoingTradeBtn4");
+        }
+
+        /*
+         * Accept, Reject & Cancel
+         */
+
         public void AcceptBtn()
         {
             NotifyAll("AcceptBtn");
@@ -136,6 +174,11 @@ namespace AdminGUI
         public void RejectBtn()
         {
             NotifyAll("RejectBtn");
+        }
+
+        public void CancelBtn()
+        {
+            NotifyAll("CancelBtn");
         }
 
 

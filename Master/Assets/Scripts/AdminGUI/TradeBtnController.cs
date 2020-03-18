@@ -13,11 +13,17 @@ namespace AdminGUI
         
         protected override void GUIButtonPressed(string key)
         {
+            if (key.Equals("ManualControlBtn"))
+            {
+                enabledAndActive = true;
+            }
+
+            if (!enabledAndActive) return;
             if (key.Equals("TradeBtn"))
             {
                 if (!active)
                 {
-                    SetActive();
+                    SetArrowsActive();
                 }
                 else
                 {
@@ -27,7 +33,7 @@ namespace AdminGUI
                     }
                     else
                     {
-                        SetInactive();
+                        SetArrowsInactive();
                     }
                 }
             } else if (key.Substring(0, 5).Equals("Arrow"))
@@ -48,7 +54,7 @@ namespace AdminGUI
                 }
                 else
                 {
-                    SetInactive();
+                    SetArrowsInactive();
                 }
             }
         }
@@ -61,7 +67,7 @@ namespace AdminGUI
 
         private void SetPlayerPaletteInactive()
         {
-            LeanTween.moveLocalY(PlayerPalette, 80, PlayerPaletteAnimationSpeed).setOnComplete(SetInactive);
+            LeanTween.moveLocalY(PlayerPalette, 80, PlayerPaletteAnimationSpeed).setOnComplete(SetArrowsInactive);
             playerPaletteActive = false;
         }
     }

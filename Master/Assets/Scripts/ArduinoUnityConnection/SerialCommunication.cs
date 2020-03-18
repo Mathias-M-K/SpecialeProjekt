@@ -102,7 +102,7 @@ public class SerialCommunication : MonoBehaviour,ISequenceObserver
                 break;
             case SequenceActions.MoveRemoved:
                 break;
-            case SequenceActions.SequencePlayed:
+            case SequenceActions.SequenceStarted:
                 _oldString = "";
                 break;
             default:

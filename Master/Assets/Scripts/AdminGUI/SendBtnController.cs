@@ -7,8 +7,9 @@ using UnityEngine.UI;
 
 namespace AdminGUI
 {
-    public class SendBtnController : MonoBehaviour, ISequenceObserver
+    public class SendBtnController : MonoBehaviour, IMoveObserver
     {
+        public bool enabledAndActive;    //True after manual control have been initiated
         public bool active;
         public GameObject arrows;
 
@@ -23,24 +24,40 @@ namespace AdminGUI
         {
             GUIEvents.current.onButtonHit += GUIButtonPressed;
             GUIEvents.current.onPlayerChange += PlayerChange;
-            GameHandler.current.AddSequenceObserver(this);
+            //GameHandler.current.AddSequenceObserver(this);
         }
-
+        
         private void PlayerChange(Player p)
         {
+            if (_playerController == null)
+            {
+                _playerController = GameHandler.current.GetPlayerController(p);
+            }
+            else
+            {
+                _playerController.RemoveMoveObserver(this);
+            }
+
+            _playerController = GameHandler.current.GetPlayerController(p);
+            _playerController.AddMoveObserver(this);
             
+            UpdateInfoFromPlayer();
+        }
+
+        private void UpdateInfoFromPlayer()
+        {
             //Settings colors for arrows
             foreach (Transform t in arrows.transform.GetChild(0))
             {
                 Button b = t.GetComponent<Button>();
                 ColorBlock cb = b.colors;
-                cb.selectedColor = GameHandler.current.GetPlayerMaterial(p).color;
-                cb.highlightedColor = GameHandler.current.GetPlayerMaterial(p).color;
+                cb.selectedColor = GameHandler.current.GetPlayerMaterial(_playerController.player).color;
+                cb.highlightedColor = GameHandler.current.GetPlayerMaterial(_playerController.player).color;
 
                 b.colors = cb;
             }
 
-            _playerController = GameHandler.current.GetPlayerController(p);
+            
             int i = 0;
             foreach (Transform t in arrows.transform.GetChild(0))
             {
@@ -64,66 +81,74 @@ namespace AdminGUI
             }
         }
 
+        
+
         protected virtual void GUIButtonPressed(string key)
         {
+            if (key.Equals("ManualControlBtn"))
+            {
+                enabledAndActive = true;
+            }
+
+            if (!enabledAndActive) return;
+            
             if (key.Equals("SendBtn"))
             {
                 if (!active)
                 {
-                    SetActive();
+                    SetArrowsActive();
                 }
                 else
                 {
-                    SetInactive();
+                    SetArrowsInactive();
                 }
             }
             else if (key.Substring(0, 5).Equals("Arrow"))
             {
-                print("ITS ARROW");
-                Direction directionToSend = Direction.Blank;
-                switch (key.Substring(5, key.Length-5))
+                if (active)
                 {
-                    case "First":
-                        directionToSend = _playerController.GetMoves()[0];
-                        break;
-                    case "Second":
-                        directionToSend = _playerController.GetMoves()[1];
-                        break;
-                    case "Third":
-                        directionToSend = _playerController.GetMoves()[2];
-                        break;
-                    case "Forth":
-                        directionToSend = _playerController.GetMoves()[3];
-                        break;
-                }
+                    Direction directionToSend = Direction.Blank;
+                    switch (key.Substring(5, key.Length-5))
+                    {
+                        case "First":
+                            directionToSend = _playerController.GetMoves()[0];
+                            break;
+                        case "Second":
+                            directionToSend = _playerController.GetMoves()[1];
+                            break;
+                        case "Third":
+                            directionToSend = _playerController.GetMoves()[2];
+                            break;
+                        case "Forth":
+                            directionToSend = _playerController.GetMoves()[3];
+                            break;
+                    }
 
-                GameHandler.current.AddMoveToSequence(_playerController.player,directionToSend,_playerController.GetIndexForDirection(directionToSend));
-                PlayerChange(_playerController.player);
+                    GameHandler.current.AddMoveToSequence(_playerController.player,directionToSend,_playerController.GetIndexForDirection(directionToSend));
+                    PlayerChange(_playerController.player); 
+                }
             }
             else
             {
-                SetInactive();
+                SetArrowsInactive();
             }
         }
 
-        public void SetActive()
+        protected void SetArrowsActive()
         {
             LeanTween.moveLocalY(arrows, 0, animationSpeed).setEase(LeanTweenType.easeOutSine);
             active = true;
         }
 
-        public void SetInactive()
+        protected void SetArrowsInactive()
         {
             LeanTween.moveLocalY(arrows, 300, animationSpeed).setEase(LeanTweenType.easeOutSine);
             active = false;
         }
 
-        public void SequenceUpdate(SequenceActions sequenceAction, StoredPlayerMove move)
+        public void MoveInventoryUpdate(Direction[] directions)
         {
-            if (sequenceAction == SequenceActions.SequencePlayed)
-            {
-                PlayerChange(_playerController.player);
-            }
+            UpdateInfoFromPlayer();
         }
     }
 }

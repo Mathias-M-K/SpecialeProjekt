@@ -31,12 +31,11 @@ namespace CoreGame
 
 
         [Header("Player Prefab")] public GameObject playerPrefab;
-
-
-
-        [Space] [Header("Settings")] [Range(1, 6)]
-        public int numberOfPlayers;
-
+        
+        [Space] [Header("Settings")] 
+        [Range(1, 6)] public int numberOfPlayers;
+        [Range(1,10)] public float delayBetweenMoves;
+        
         [SerializeField] private int playersFinished;
 
         [Space] [Header("Player Abilities")] public bool playersCanPhase;
@@ -57,10 +56,7 @@ namespace CoreGame
 
         private void Awake()
         {
-            print("did it");
             current = this;
-
-            
         }
 
         private void Start()
@@ -168,8 +164,11 @@ namespace CoreGame
             NotifySequenceObservers(SequenceActions.MoveRemoved, move);
         }
 
-        public IEnumerator PerformSequence(float delayBetweenMoves)
+        public IEnumerator PerformSequence()
         {
+            //Notifying all sequence observers
+            NotifySequenceObservers(SequenceActions.SequenceStarted, null);
+            
             foreach (StoredPlayerMove pm in _sequenceMoves)
             {
                 PlayerController playerController = GetPlayerController(pm.Player);
@@ -184,7 +183,7 @@ namespace CoreGame
             }
 
             _sequenceMoves.Clear();
-            NotifySequenceObservers(SequenceActions.SequencePlayed, null);
+            NotifySequenceObservers(SequenceActions.SequenceEnded,null);
         }
 
         public PlayerController GetPlayerController(Player p)
@@ -243,9 +242,7 @@ namespace CoreGame
                 _players.Add(p);
             }
         }
-
         
-
         private void CheckIfGameIsDone()
         {
             if (playersFinished >= numberOfPlayers)
