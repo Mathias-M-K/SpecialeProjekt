@@ -307,6 +307,11 @@ namespace CoreGame
             _tradeObservers.Add(ito);
         }
 
+        public void RemoveTradeObserver(ITradeObserver ito)
+        {
+            _tradeObservers.Remove(ito);
+        }
+
         public void AddMoveObserver(IMoveObserver imo)
         {
             _moveObservers.Add(imo);

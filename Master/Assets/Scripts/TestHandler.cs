@@ -71,7 +71,7 @@ public class TestHandler : MonoBehaviour
             _serverActive = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKey(KeyCode.W) && Input.GetKeyDown(KeyCode.O))
         {
             _wifiConnection.WriteToArduino(outgoingString);
         }

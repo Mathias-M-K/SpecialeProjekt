@@ -120,8 +120,7 @@ namespace CoreGame
             combinedObserverList.AddRange(offeringObservers);
             combinedObserverList.AddRange(receivingObservers);
 
-            PlayerTrade trade = new PlayerTrade(playerOffering, playerReceiving, direction, this, directionIndex,
-                combinedObserverList);
+            PlayerTrade trade = new PlayerTrade(playerOffering, playerReceiving, direction, this, directionIndex, combinedObserverList);
 
             trades.Add(trade);
 

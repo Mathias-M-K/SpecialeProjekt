@@ -30,7 +30,7 @@ namespace AdminGUI
                 {
                     if (secondChoiceActive)
                     {
-                        SetSecondChoiseInactive();
+                        SetSecondChoiceInactive();
                     }
                     else
                     {
@@ -64,10 +64,10 @@ namespace AdminGUI
             else
             {
                 SetFirstChoiceInactive();
-                SetSecondChoiseInactive();
+                SetSecondChoiceInactive();
             }
         }
-
+        
         protected void SetFirstChoiceActive()
         {
             LeanTween.moveLocalX(FirstChoice, 0, 0.5f).setEase(LeanTweenType.easeOutExpo);
@@ -86,13 +86,12 @@ namespace AdminGUI
             secondChoiceActive = true;
         }
 
-        private void SetSecondChoiseInactive()
+        private void SetSecondChoiceInactive()
         {
             LeanTween.moveLocalX(SecondChoice, 265, 0.5f).setEase(LeanTweenType.easeOutExpo);
             secondChoiceActive = false;
         }
-
-
+        
         public void TradeUpdate(PlayerTrade playerTrade, TradeActions tradeAction)
         {
             throw new NotImplementedException();
