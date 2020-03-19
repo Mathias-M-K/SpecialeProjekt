@@ -1,8 +1,10 @@
-﻿using CoreGame;
+﻿using System;
+using CoreGame;
 using UnityEngine;
 
 namespace AdminGUI
 {
+    //Parent Class, not to be used directly
     public abstract class _PrimeButton : MonoBehaviour, IMoveObserver
     {
         
@@ -15,7 +17,7 @@ namespace AdminGUI
         
         protected PlayerController _playerController;
 
-        private void SubscribeToEvents()
+        protected virtual void Start()
         {
             GUIEvents.current.onButtonHit += GUIButtonPressed;
             GUIEvents.current.onPlayerChange += PlayerChange;
@@ -30,21 +32,18 @@ namespace AdminGUI
         protected abstract void GUIButtonPressed(string key);
         
 
-        private void PlayerChange(Player newPlayer)
+        protected void PlayerChange(Player newPlayer)
         {
-            if (_playerController == null)
-            {
-                _playerController = GameHandler.current.GetPlayerController(newPlayer);
-            }
-            else
+            if (_playerController != null)
             {
                 _playerController.RemoveMoveObserver(this);
             }
+            
 
             _playerController = GameHandler.current.GetPlayerController(newPlayer);
             _playerController.AddMoveObserver(this);
-
-            GUIMethods.UpdateArrows(arrows,_playerController);
+            
+            GUIMethods.UpdateArrows(arrows.transform.GetChild(0),_playerController);
         }
         
         protected void SetArrowsActive()
@@ -61,7 +60,7 @@ namespace AdminGUI
 
         public void MoveInventoryUpdate(Direction[] directions)
         {
-            GUIMethods.UpdateArrows(arrows,_playerController);
+            GUIMethods.UpdateArrows(arrows.transform.GetChild(0),_playerController);
         }
         
     }

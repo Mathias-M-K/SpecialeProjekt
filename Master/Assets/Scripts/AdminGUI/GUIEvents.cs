@@ -26,7 +26,7 @@ namespace AdminGUI
 
         public event Action<String> onButtonHit;
         public event Action<Player> onPlayerChange;
-        public event Action<Button, TradeActions> onTradeAction;
+        public event Action<Button, TradeActions,Direction> onTradeAction;
         public event Action onManualOverride;
 
 
@@ -41,9 +41,9 @@ namespace AdminGUI
             ManualEnabledNotify();
         }
 
-        public void TradeActionNotify(Button b, TradeActions action)
+        public void TradeActionNotify(Button b, TradeActions action, Direction counterOffer)
         {
-            if (onTradeAction != null) onTradeAction(b, action);
+            if (onTradeAction != null) onTradeAction(b, action,counterOffer);
         }
 
         /*

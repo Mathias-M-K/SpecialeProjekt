@@ -1,12 +1,10 @@
-﻿using System.Runtime.InteropServices;
-using CoreGame;
-using UnityEditor.UIElements;
+﻿using CoreGame;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace AdminGUI
 {
-    public class TradeBtnController : SendBtnController
+    public class TradeButton : _PrimeButton
     {
         [Range(0, 5)] public float PlayerPaletteAnimationSpeed;
         
@@ -17,12 +15,12 @@ namespace AdminGUI
         private Direction activeDirection;
         private Player[] colorOrder = new Player[3];
 
-        protected override void ExternalStartMethod()
+        protected override void Start()
         {
+            base.Start();
             GUIEvents.current.onPlayerChange += UpdatePlayerPalette;
-            
         }
-        
+
         protected override void GUIButtonPressed(string key)
         {
             if (!enabledAndActive) return;

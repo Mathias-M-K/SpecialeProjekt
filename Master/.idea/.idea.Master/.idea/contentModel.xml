@@ -468,15 +468,16 @@
           <e p="ActivateAllDisplays.cs" t="Include" />
           <e p="AdminGUI" t="Include">
             <e p="_PrimeButton.cs" t="Include" />
+            <e p="_PrimeTradeElement.cs" t="Include" />
             <e p="ExternalPlayerControl_Old.cs" t="Include" />
             <e p="GUIEvents.cs" t="Include" />
             <e p="GUIMethods.cs" t="Include" />
-            <e p="IncomingTradeController.cs" t="Include" />
-            <e p="OutgoingTradeBtnController.cs" t="Include" />
-            <e p="SendBtnController.cs" t="Include" />
+            <e p="IncomingTradeElement.cs" t="Include" />
+            <e p="OutgoingTradeElement.cs" t="Include" />
+            <e p="SendButton.cs" t="Include" />
             <e p="SequenceController.cs" t="Include" />
             <e p="TradeAreaController.cs" t="Include" />
-            <e p="TradeBtnController.cs" t="Include" />
+            <e p="TradeButton.cs" t="Include" />
           </e>
           <e p="ArduinoUnityConnection" t="Include">
             <e p="SerialCommunication.cs" t="Include" />

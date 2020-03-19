@@ -909,7 +909,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btnNr: 1
   FirstChoice: {fileID: 1123698553}
+  firstChoiceActive: 0
+  arrows: {fileID: 0}
   SecondChoice: {fileID: 840772545}
+  secondChoiceActive: 0
 --- !u!114 &62112527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1080,7 +1083,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 68652428}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 688484236}
+        m_MethodName: ArrowSecond
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &68652428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2158,7 +2172,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 306493951}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 688484236}
+        m_MethodName: ArrowThird
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &306493951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2661,7 +2686,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 323972345}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 688484236}
+        m_MethodName: ArrowForth
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &323972345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2785,7 +2821,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btnNr: 4
   FirstChoice: {fileID: 1955570575}
+  firstChoiceActive: 0
+  arrows: {fileID: 0}
   SecondChoice: {fileID: 524241018}
+  secondChoiceActive: 0
 --- !u!114 &336077047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3111,7 +3150,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 367237004}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 688484236}
+        m_MethodName: ArrowThird
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &367237004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3332,7 +3382,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btnNr: 2
   FirstChoice: {fileID: 1613712078}
-  SecondChoice: {fileID: 0}
+  firstChoiceActive: 0
 --- !u!114 &381826069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6911,7 +6961,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btnNr: 2
   FirstChoice: {fileID: 1556553152}
+  firstChoiceActive: 0
+  arrows: {fileID: 0}
   SecondChoice: {fileID: 1684869894}
+  secondChoiceActive: 0
 --- !u!114 &882497833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7477,7 +7530,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 935433968}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 688484236}
+        m_MethodName: ArrowFirst
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &935433968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8430,7 +8494,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1013287654}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 688484236}
+        m_MethodName: ArrowSecond
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1013287654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8702,7 +8777,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1039011784}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 688484236}
+        m_MethodName: ArrowFirst
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1039011784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8819,7 +8905,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1064615184}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 688484236}
+        m_MethodName: ArrowForth
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1064615184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9807,7 +9904,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btnNr: 3
   FirstChoice: {fileID: 476173506}
+  firstChoiceActive: 0
+  arrows: {fileID: 0}
   SecondChoice: {fileID: 1237058964}
+  secondChoiceActive: 0
 --- !u!114 &1163947259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10524,8 +10624,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   separationValue: 5
-  animationSpeed: 0.3
+  animationSpeed: 0.5
   elementHeight: 60
+  easeGlobal: 0
+  easeIn: 12
+  easeOut: 11
+  moveIn: 27
+  moveOut: 26
   activeIncomingTrades: 0
   incomingTradesTitle: {fileID: 1023918367}
   outgoingTradesTitle: {fileID: 1854093542}
@@ -10678,7 +10783,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1337265497}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 688484236}
+        m_MethodName: ArrowForth
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1337265497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11406,7 +11522,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1530388012}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 688484236}
+        m_MethodName: ArrowThird
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1530388012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12084,7 +12211,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1573330849}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 688484236}
+        m_MethodName: ArrowFirst
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1573330849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13550,7 +13688,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1767616026}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 688484236}
+        m_MethodName: ArrowThird
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1767616026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14031,7 +14180,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1826305796}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 688484236}
+        m_MethodName: ArrowSecond
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1826305796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14148,7 +14308,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1832679525}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 688484236}
+        m_MethodName: ArrowFirst
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1832679525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15752,7 +15923,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1986883233}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 688484236}
+        m_MethodName: ArrowSecond
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1986883233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15844,7 +16026,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btnNr: 1
   FirstChoice: {fileID: 1803367373}
-  SecondChoice: {fileID: 0}
+  firstChoiceActive: 0
 --- !u!114 &1987120067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16078,7 +16260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btnNr: 3
   FirstChoice: {fileID: 961390870}
-  SecondChoice: {fileID: 0}
+  firstChoiceActive: 0
 --- !u!114 &2012616392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16415,7 +16597,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btnNr: 4
   FirstChoice: {fileID: 1117795684}
-  SecondChoice: {fileID: 0}
+  firstChoiceActive: 0
 --- !u!114 &2031123074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17545,7 +17727,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2143222681}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 688484236}
+        m_MethodName: ArrowForth
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2143222681
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -16,14 +16,19 @@ namespace AdminGUI
         public int separationValue;
         public float animationSpeed;
         public int elementHeight;
+        public LeanTweenType easeGlobal;
+        public LeanTweenType easeIn;
+        public LeanTweenType easeOut;
+        public LeanTweenType moveIn;
+        public LeanTweenType moveOut;
 
         [SerializeField] private int activeIncomingTrades = 0;
         private int activeOutgoingTrades = 0;
 
         private int outgoingTradeHeightOffSet = 0;
 
-        private List<PlayerTrade> incomingTrades = new List<PlayerTrade>();
-        private List<PlayerTrade> outgoingTrades = new List<PlayerTrade>();
+        //private List<PlayerTrade> incomingTrades = new List<PlayerTrade>();
+        //private List<PlayerTrade> outgoingTrades = new List<PlayerTrade>();
         private List<Button> outgoingTradeButtons;
         private List<Button> incomingTradeButtons;
         private Dictionary<PlayerTrade, Button> incomingTradeDictionary = new Dictionary<PlayerTrade, Button>();
@@ -43,51 +48,27 @@ namespace AdminGUI
         public Button outgoingTrade4;
 
         private PlayerController _playerController;
-
-        private PlayerTrade p1;
-        private PlayerTrade p2;
-        private PlayerTrade p3;
-        private PlayerTrade p4;
-
-
+        
         private void Start()
         {
-            GUIEvents.current.onPlayerChange += OnPlayerChanged;
+            GUIEvents.current.onPlayerChange += OnPlayerChange;
             GUIEvents.current.onTradeAction += OnTradeBtn;
             incomingTradeButtons = new List<Button> {incomingTrade1, incomingTrade2, incomingTrade3, incomingTrade4};
             outgoingTradeButtons = new List<Button> {outgoingTrade1, outgoingTrade2, outgoingTrade3, outgoingTrade4};
-
-
-            p1 = new PlayerTrade(Player.Red, Player.Blue, Direction.Up, GameHandler.current, 2, null);
-            p2 = new PlayerTrade(Player.Red, Player.Green, Direction.Down, GameHandler.current, 2, null);
-            p3 = new PlayerTrade(Player.Blue, Player.Yellow, Direction.Left, GameHandler.current, 2, null);
-            p4 = new PlayerTrade(Player.Blue, Player.Red, Direction.Right, GameHandler.current, 2, null);
         }
 
         private void Update()
         {
-            if (Input.GetKey(KeyCode.I) && Input.GetKeyDown(KeyCode.Alpha1)) AddIncomingTrade(p1);
-            if (Input.GetKey(KeyCode.I) && Input.GetKeyDown(KeyCode.Alpha2)) AddIncomingTrade(p2);
-            if (Input.GetKey(KeyCode.I) && Input.GetKeyDown(KeyCode.Alpha3)) AddIncomingTrade(p3);
-            if (Input.GetKey(KeyCode.I) && Input.GetKeyDown(KeyCode.Alpha4)) AddIncomingTrade(p4);
-            
-            if (Input.GetKey(KeyCode.O) && Input.GetKeyDown(KeyCode.Alpha1)) AddOutgoingTrade(p1);
-            if (Input.GetKey(KeyCode.O) && Input.GetKeyDown(KeyCode.Alpha2)) AddOutgoingTrade(p2);
-            if (Input.GetKey(KeyCode.O) && Input.GetKeyDown(KeyCode.Alpha3)) AddOutgoingTrade(p3);
-            if (Input.GetKey(KeyCode.O) && Input.GetKeyDown(KeyCode.Alpha4)) AddOutgoingTrade(p4);
-
-            if (Input.GetKey(KeyCode.D) && Input.GetKeyDown(KeyCode.Alpha1)) RemoveIncomingTrade(p1);
-            if (Input.GetKey(KeyCode.D) && Input.GetKeyDown(KeyCode.Alpha2)) RemoveIncomingTrade(p2);
-            if (Input.GetKey(KeyCode.D) && Input.GetKeyDown(KeyCode.Alpha3)) RemoveIncomingTrade(p3);
-            if (Input.GetKey(KeyCode.D) && Input.GetKeyDown(KeyCode.Alpha4)) RemoveIncomingTrade(p4);
-            
-            if (Input.GetKey(KeyCode.F) && Input.GetKeyDown(KeyCode.Alpha1)) RemoveOutgoingTrade(p1);
-            if (Input.GetKey(KeyCode.F) && Input.GetKeyDown(KeyCode.Alpha2)) RemoveOutgoingTrade(p2);
-            if (Input.GetKey(KeyCode.F) && Input.GetKeyDown(KeyCode.Alpha3)) RemoveOutgoingTrade(p3);
-            if (Input.GetKey(KeyCode.F) && Input.GetKeyDown(KeyCode.Alpha4)) RemoveOutgoingTrade(p4);
+            if (easeGlobal != LeanTweenType.notUsed)
+            {
+                easeIn = easeGlobal;
+                easeOut = easeGlobal;
+                moveOut = easeGlobal;
+            } 
         }
 
-        private void OnTradeBtn(Button b, TradeActions action)
+
+        private void OnTradeBtn(Button b, TradeActions action, Direction counterOffer)
         {
             PlayerTrade playerTrade = null;
 
@@ -116,6 +97,7 @@ namespace AdminGUI
                     playerTrade.RejectTrade(_playerController);
                     break;
                 case TradeActions.TradeAccepted:
+                    playerTrade.AcceptTrade(counterOffer,_playerController);
                     break;
                 case TradeActions.TradeCanceled:
                     playerTrade.CancelTrade(_playerController.player);
@@ -125,12 +107,11 @@ namespace AdminGUI
             }
         }
 
-        private void OnPlayerChanged(Player player)
+        private void OnPlayerChange(Player player)
         {
             if(_playerController != null)
             {
                 _playerController.RemoveTradeObserver(this);
-                _playerController = GameHandler.current.GetPlayerController(player);
             }
             _playerController = GameHandler.current.GetPlayerController(player);
             _playerController.AddTradeObserver(this);
@@ -140,8 +121,7 @@ namespace AdminGUI
 
         private IEnumerator  UpdatePlayerInformation()
         {
-
-            if (incomingTrades.Count > 0 || outgoingTrades.Count > 0)
+            if (activeIncomingTrades > 0 || activeOutgoingTrades > 0)
             {
                 ClearTrades();
             
@@ -165,7 +145,7 @@ namespace AdminGUI
             //If no trades are active
             if (activeIncomingTrades == 0)
             {
-                LeanTween.moveLocalX(incomingTradesTitle.gameObject, 0, animationSpeed);
+                LeanTween.moveLocalX(incomingTradesTitle.gameObject, 0, animationSpeed).setEase(easeIn);
             }
 
             //Move already active trades
@@ -177,12 +157,12 @@ namespace AdminGUI
                                 (elementHeight * (activeIncomingTrades - i)) +
                                 (separationValue * (activeIncomingTrades - i));
 
-                LeanTween.moveLocalY(btn.gameObject, newYPos, animationSpeed);
+                LeanTween.moveLocalY(btn.gameObject, newYPos, animationSpeed).setEase(moveIn);
 
                 //Moving label the the correct spot
                 if (i == 0)
                 {
-                    LeanTween.moveLocalY(incomingTradesTitle.gameObject, newYPos + elementHeight, animationSpeed);
+                    LeanTween.moveLocalY(incomingTradesTitle.gameObject, newYPos + elementHeight, animationSpeed).setEase(moveIn);
                 }
             }
 
@@ -195,11 +175,11 @@ namespace AdminGUI
             t.text = $"{playerTrade.OfferingPlayer} | {playerTrade.DirectionOffer}";
 
             //Moving new Btn in
-            LeanTween.moveLocalX(newBtn.gameObject, 0, animationSpeed);
-            LeanTween.moveLocalY(newBtn.gameObject, -300 + outgoingTradeHeightOffSet, animationSpeed);
+            LeanTween.moveLocalX(newBtn.gameObject, 0, animationSpeed).setEase(easeIn);
+            LeanTween.moveLocalY(newBtn.gameObject, -300 + outgoingTradeHeightOffSet, animationSpeed).setEase(moveIn);
             
             //Adding one to active incoming trades
-            incomingTrades.Add(playerTrade);
+            //incomingTrades.Add(playerTrade);
             activeIncomingTrades++;
         }
         private void RemoveIncomingTrade(PlayerTrade playerTrade)
@@ -211,14 +191,14 @@ namespace AdminGUI
             incomingTradeButtons.Remove(b);
             incomingTradeButtons.Add(b);
             activeIncomingTrades--;
-            incomingTrades.Remove(playerTrade);
+            //incomingTrades.Remove(playerTrade);
 
             float removeYPos = -300 + outgoingTradeHeightOffSet;
-            LeanTween.moveLocalX(b.gameObject, -500, animationSpeed).setOnComplete(doStuff);
+            LeanTween.moveLocalX(b.gameObject, -500, animationSpeed).setOnComplete(doStuff).setEase(easeOut);
 
             void doStuff()
             {
-                LeanTween.moveLocalY(b.gameObject, removeYPos, animationSpeed);
+                LeanTween.moveLocalY(b.gameObject, removeYPos, animationSpeed).setEase(easeOut);
             }
 
             for (int i = 0; i < activeIncomingTrades; i++)
@@ -226,16 +206,16 @@ namespace AdminGUI
                 Button btn = incomingTradeButtons[i];
                 float newYPos = -300 + outgoingTradeHeightOffSet + (elementHeight * (activeIncomingTrades - i-1)) + (separationValue * (activeIncomingTrades - i));
 
-                LeanTween.moveLocalY(btn.gameObject, newYPos, animationSpeed);
+                LeanTween.moveLocalY(btn.gameObject, newYPos, animationSpeed).setEase(moveOut);
                 if (i == 0)
                 {
-                    LeanTween.moveLocalY(incomingTradesTitle.gameObject, newYPos + elementHeight, animationSpeed);
+                    LeanTween.moveLocalY(incomingTradesTitle.gameObject, newYPos + elementHeight, animationSpeed).setEase(moveOut);
                 }
             }
 
             if (activeIncomingTrades == 0)
             {
-                LeanTween.moveLocalX(incomingTradesTitle.gameObject, -500, animationSpeed);
+                LeanTween.moveLocalX(incomingTradesTitle.gameObject, -500, animationSpeed).setEase(easeOut);
             }
         }
 
@@ -243,7 +223,7 @@ namespace AdminGUI
         {
             if (activeOutgoingTrades == 0)
             {
-                LeanTween.moveLocalX(outgoingTradesTitle.gameObject, 0, animationSpeed);
+                LeanTween.moveLocalX(outgoingTradesTitle.gameObject, 0, animationSpeed).setEase(easeIn);
                 outgoingTradeHeightOffSet = elementHeight * 2 + separationValue;
             }
             else
@@ -257,11 +237,11 @@ namespace AdminGUI
 
                 float newYPos = -300  + (elementHeight * (activeOutgoingTrades - i)) + (separationValue * (activeOutgoingTrades - i));
 
-                LeanTween.moveLocalY(btn.gameObject, newYPos, animationSpeed);
+                LeanTween.moveLocalY(btn.gameObject, newYPos, animationSpeed).setEase(moveIn);
 
                 if (i == 0)
                 {
-                    LeanTween.moveLocalY(outgoingTradesTitle.gameObject, newYPos + elementHeight, animationSpeed);
+                    LeanTween.moveLocalY(outgoingTradesTitle.gameObject, newYPos + elementHeight, animationSpeed).setEase(moveIn);
                     
                 }
             }
@@ -272,13 +252,13 @@ namespace AdminGUI
             TextMeshProUGUI t = newBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             t.text = $"{playerTrade.ReceivingPlayer} | {playerTrade.DirectionOffer}";
 
-            LeanTween.moveLocalX(newBtn.gameObject, 0, animationSpeed);
-            LeanTween.moveLocalY(newBtn.gameObject, -300, animationSpeed);
+            LeanTween.moveLocalX(newBtn.gameObject, 0, animationSpeed).setEase(easeIn);
+            LeanTween.moveLocalY(newBtn.gameObject, -300, animationSpeed).setEase(moveIn);
             
             activeOutgoingTrades++;
-            outgoingTrades.Add(playerTrade);
+            //outgoingTrades.Add(playerTrade);
 
-            OnOutgoingBtnChange();
+            OnOutgoingBtnChange(moveIn);
         }
         private void RemoveOutgoingTrade(PlayerTrade playerTrade)
         {
@@ -290,14 +270,14 @@ namespace AdminGUI
             outgoingTradeButtons.Remove(b);
             outgoingTradeButtons.Add(b);
             activeOutgoingTrades--;
-            outgoingTrades.Remove(playerTrade);
+            //outgoingTrades.Remove(playerTrade);
 
             float removeYPos = -300;
-            LeanTween.moveLocalX(b.gameObject, -500, animationSpeed).setOnComplete(DelayedAction);
+            LeanTween.moveLocalX(b.gameObject, -500, animationSpeed).setOnComplete(DelayedAction).setEase(easeOut);
 
             void DelayedAction()
             {
-                LeanTween.moveLocalY(b.gameObject, removeYPos, animationSpeed);
+                LeanTween.moveLocalY(b.gameObject, removeYPos, animationSpeed).setEase(easeOut);
             }
 
             for (int i = 0; i < activeOutgoingTrades; i++)
@@ -305,23 +285,23 @@ namespace AdminGUI
                 Button btn = outgoingTradeButtons[i];
                 float newYPos = -300 + (elementHeight * (activeOutgoingTrades - i-1)) + (separationValue * (activeOutgoingTrades - i));
 
-                LeanTween.moveLocalY(btn.gameObject, newYPos, animationSpeed);
+                LeanTween.moveLocalY(btn.gameObject, newYPos, animationSpeed).setEase(moveOut);
                 if (i == 0)
                 {
-                    LeanTween.moveLocalY(outgoingTradesTitle.gameObject, newYPos + elementHeight, animationSpeed);
+                    LeanTween.moveLocalY(outgoingTradesTitle.gameObject, newYPos + elementHeight, animationSpeed).setEase(moveOut);
                 }
             }
 
             if (activeOutgoingTrades == 0)
             {
-                LeanTween.moveLocalX(outgoingTradesTitle.gameObject, -500, animationSpeed);
+                LeanTween.moveLocalX(outgoingTradesTitle.gameObject, -500, animationSpeed).setEase(easeOut);
                 outgoingTradeHeightOffSet = 0;
             }
 
-            OnOutgoingBtnChange();
+            OnOutgoingBtnChange(moveOut);
         }
 
-        private void OnOutgoingBtnChange()
+        private void OnOutgoingBtnChange(LeanTweenType easeType)
         {
             //Moving all active incomingTrade values up
             for (int i = 0; i < activeIncomingTrades; i++)
@@ -331,11 +311,12 @@ namespace AdminGUI
                 float newYPos = -300 + outgoingTradeHeightOffSet - elementHeight +
                                 (elementHeight * (activeIncomingTrades - i)) +
                                 (separationValue * (activeIncomingTrades - i));
-                LeanTween.moveLocalY(btnToMove.gameObject, newYPos, animationSpeed);
+                
+                LeanTween.moveLocalY(btnToMove.gameObject, newYPos, animationSpeed).setEase(easeType);
 
                 if (i == 0)
                 {
-                    LeanTween.moveLocalY(incomingTradesTitle.gameObject, newYPos + elementHeight, animationSpeed);
+                    LeanTween.moveLocalY(incomingTradesTitle.gameObject, newYPos + elementHeight, animationSpeed).setEase(easeType);
                 }
             }
 
@@ -345,26 +326,26 @@ namespace AdminGUI
                 Button btnToMove = incomingTradeButtons[i];
 
                 float newYPos = -300 + outgoingTradeHeightOffSet;
-                LeanTween.moveLocalY(btnToMove.gameObject, newYPos, animationSpeed);
+                LeanTween.moveLocalY(btnToMove.gameObject, newYPos, animationSpeed).setEase(moveOut);
                 if (i == 0)
                 {
-                    LeanTween.moveLocalY(incomingTradesTitle.gameObject, newYPos + elementHeight, animationSpeed);
+                    LeanTween.moveLocalY(incomingTradesTitle.gameObject, newYPos + elementHeight, animationSpeed).setEase(moveOut);
                 }
             }
         }
 
         private void ClearTrades()
         {
-            List<PlayerTrade> tempTradesIncoming = new List<PlayerTrade>(incomingTrades);
-            foreach (PlayerTrade trade in tempTradesIncoming)
+            Dictionary<PlayerTrade,Button> tempTradesIncoming = new Dictionary<PlayerTrade,Button>(incomingTradeDictionary);
+            foreach (KeyValuePair<PlayerTrade,Button> valuePair in tempTradesIncoming)
             {
-                RemoveIncomingTrade(trade);
+                RemoveIncomingTrade(valuePair.Key);
             }
             
-            List<PlayerTrade> tempTradesOutgoing = new List<PlayerTrade>(outgoingTrades);
-            foreach (PlayerTrade trade in tempTradesOutgoing)
+            Dictionary<PlayerTrade,Button> tempTradesOutgoing = new Dictionary<PlayerTrade,Button>(outgoingTradeDictionary);
+            foreach (KeyValuePair<PlayerTrade,Button> valuePair in tempTradesOutgoing)
             {
-                RemoveOutgoingTrade(trade);
+                RemoveOutgoingTrade(valuePair.Key);
             }
         }
 

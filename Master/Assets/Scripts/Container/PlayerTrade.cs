@@ -55,7 +55,7 @@ namespace Container
             offeringPlayerController.RemoveOutgoingTrade(this);
             acceptingPlayer.RemoveIncomingTrade(this);
             
-            //NotifyObservers(TradeActions.TradeAccepted);
+            NotifyObservers(TradeActions.TradeAccepted);
             _gameHandler.trades.Remove(this);
         }
 

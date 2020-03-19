@@ -1,8 +1,9 @@
-﻿using UnityEngine.UI;
+﻿using CoreGame;
+using UnityEngine.UI;
 
 namespace AdminGUI
 {
-    public class OutgoingTradeBtnController : IncomingTradeController
+    public class OutgoingTradeElement : _PrimeTradeElement
     {
         
         protected override void GUIButtonPressed(string key)
@@ -21,7 +22,7 @@ namespace AdminGUI
             {
                 if (firstChoiceActive)
                 {
-                    GUIEvents.current.TradeActionNotify(gameObject.GetComponent<Button>(),TradeActions.TradeCanceled);
+                    GUIEvents.current.TradeActionNotify(gameObject.GetComponent<Button>(),TradeActions.TradeCanceled,Direction.Blank);
                 }
             }
             else

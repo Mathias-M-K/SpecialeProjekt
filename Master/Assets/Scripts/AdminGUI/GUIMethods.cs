@@ -7,10 +7,10 @@ namespace AdminGUI
 {
     public class GUIMethods : MonoBehaviour
     {
-        public static void UpdateArrows(GameObject _arrows, PlayerController _player)
+        public static void UpdateArrows(Transform _arrows, PlayerController _player)
         {
             //Settings colors for arrows
-            foreach (Transform t in _arrows.transform.GetChild(0))
+            foreach (Transform t in _arrows)
             {
                 Button b = t.GetComponent<Button>();
                 ColorBlock cb = b.colors;
@@ -19,11 +19,10 @@ namespace AdminGUI
 
                 b.colors = cb;
             }
-
-
+            
             //Setting correct arrow directions
             int i = 0;
-            foreach (Transform t in _arrows.transform.GetChild(0))
+            foreach (Transform t in _arrows)
             {
                 Button b = t.GetComponent<Button>();
                 Direction d = _player.GetMoves()[i];
@@ -62,7 +61,7 @@ namespace AdminGUI
                     throw new ArgumentOutOfRangeException(nameof(direction), direction, "Invalid direction");
             }
         }
-        
-        
+
+
     }
 }
