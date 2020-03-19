@@ -9,24 +9,36 @@ namespace AdminGUI
 {
     public class SendBtnController : MonoBehaviour, IMoveObserver
     {
-        public bool enabledAndActive;    //True after manual control have been initiated
-        public bool active;
+        public bool enabledAndActive; //True after manual control have been initiated
+        public bool arrowsActive;
         public GameObject arrows;
 
         [Header("Animation Speed")] [Range(0, 5)]
         public float animationSpeed;
 
 
-        private PlayerController _playerController;
+        protected PlayerController _playerController;
 
 
         private void Start()
         {
             GUIEvents.current.onButtonHit += GUIButtonPressed;
             GUIEvents.current.onPlayerChange += PlayerChange;
+            GUIEvents.current.onManualOverride += ManualControl;
+            ExternalStartMethod();
             //GameHandler.current.AddSequenceObserver(this);
         }
-        
+
+        protected virtual void ExternalStartMethod()
+        {
+            
+        }
+
+        private void ManualControl()
+        {
+            enabledAndActive = true;
+        }
+
         private void PlayerChange(Player p)
         {
             if (_playerController == null)
@@ -40,61 +52,19 @@ namespace AdminGUI
 
             _playerController = GameHandler.current.GetPlayerController(p);
             _playerController.AddMoveObserver(this);
-            
-            UpdateInfoFromPlayer();
-        }
 
-        private void UpdateInfoFromPlayer()
-        {
-            //Settings colors for arrows
-            foreach (Transform t in arrows.transform.GetChild(0))
-            {
-                Button b = t.GetComponent<Button>();
-                ColorBlock cb = b.colors;
-                cb.selectedColor = GameHandler.current.GetPlayerMaterial(_playerController.player).color;
-                cb.highlightedColor = GameHandler.current.GetPlayerMaterial(_playerController.player).color;
-
-                b.colors = cb;
-            }
-
-            
-            int i = 0;
-            foreach (Transform t in arrows.transform.GetChild(0))
-            {
-                Button b = t.GetComponent<Button>();
-                Direction d = _playerController.GetMoves()[i];
-                
-                int rotation = GameHandler.current.GetDirectionRotation(d);
-                if(d != Direction.Blank)b.transform.localRotation = Quaternion.Euler(0, 0, rotation);
-
-                if (d == Direction.Blank)
-                {
-                    b.interactable = false;
-                }
-                else
-                {
-                    b.interactable = true;
-                }
-
-
-                i++;
-            }
+            GUIMethods.UpdateArrows(arrows,_playerController);
         }
 
         
 
         protected virtual void GUIButtonPressed(string key)
         {
-            if (key.Equals("ManualControlBtn"))
-            {
-                enabledAndActive = true;
-            }
-
             if (!enabledAndActive) return;
-            
+
             if (key.Equals("SendBtn"))
             {
-                if (!active)
+                if (!arrowsActive)
                 {
                     SetArrowsActive();
                 }
@@ -105,27 +75,13 @@ namespace AdminGUI
             }
             else if (key.Substring(0, 5).Equals("Arrow"))
             {
-                if (active)
+                if (arrowsActive)
                 {
-                    Direction directionToSend = Direction.Blank;
-                    switch (key.Substring(5, key.Length-5))
-                    {
-                        case "First":
-                            directionToSend = _playerController.GetMoves()[0];
-                            break;
-                        case "Second":
-                            directionToSend = _playerController.GetMoves()[1];
-                            break;
-                        case "Third":
-                            directionToSend = _playerController.GetMoves()[2];
-                            break;
-                        case "Forth":
-                            directionToSend = _playerController.GetMoves()[3];
-                            break;
-                    }
-
-                    GameHandler.current.AddMoveToSequence(_playerController.player,directionToSend,_playerController.GetIndexForDirection(directionToSend));
-                    PlayerChange(_playerController.player); 
+                    int.TryParse(key.Substring(5, key.Length - 5), out int indexFetchValue);
+                    Direction directionToSend = _playerController.GetMoves()[indexFetchValue];
+                    GameHandler.current.AddMoveToSequence(_playerController.player, directionToSend,
+                        _playerController.GetIndexForDirection(directionToSend));
+                    PlayerChange(_playerController.player);
                 }
             }
             else
@@ -133,22 +89,22 @@ namespace AdminGUI
                 SetArrowsInactive();
             }
         }
-
+        
         protected void SetArrowsActive()
         {
             LeanTween.moveLocalY(arrows, 0, animationSpeed).setEase(LeanTweenType.easeOutSine);
-            active = true;
+            arrowsActive = true;
         }
 
         protected void SetArrowsInactive()
         {
             LeanTween.moveLocalY(arrows, 300, animationSpeed).setEase(LeanTweenType.easeOutSine);
-            active = false;
+            arrowsActive = false;
         }
 
         public void MoveInventoryUpdate(Direction[] directions)
         {
-            UpdateInfoFromPlayer();
+            GUIMethods.UpdateArrows(arrows,_playerController);
         }
     }
 }

@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Runtime.InteropServices;
+using CoreGame;
+using UnityEditor.UIElements;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace AdminGUI
 {
@@ -8,20 +12,24 @@ namespace AdminGUI
         
         [Header("TradeBtn Settings")]
         public GameObject PlayerPalette;
-        private bool playerPaletteActive;
         
+        private bool playerPaletteActive;
+        private Direction activeDirection;
+        private Player[] colorOrder = new Player[3];
+
+        protected override void ExternalStartMethod()
+        {
+            GUIEvents.current.onPlayerChange += UpdatePlayerPalette;
+            
+        }
         
         protected override void GUIButtonPressed(string key)
         {
-            if (key.Equals("ManualControlBtn"))
-            {
-                enabledAndActive = true;
-            }
-
             if (!enabledAndActive) return;
+            
             if (key.Equals("TradeBtn"))
             {
-                if (!active)
+                if (!arrowsActive)
                 {
                     SetArrowsActive();
                 }
@@ -38,24 +46,49 @@ namespace AdminGUI
                 }
             } else if (key.Substring(0, 5).Equals("Arrow"))
             {
-                if (active)
+                if (arrowsActive)
                 {
+                    int.TryParse(key.Substring(5, key.Length - 5), out int indexFetchValue);
+                    activeDirection = _playerController.GetMoves()[indexFetchValue];
+                    
                     if (!playerPaletteActive)
                     {
                         SetPlayerPaletteActive();
                     }
                 }
-            }
-            else
+            }else if(key.Substring(0, 5).Equals("Color"))
             {
                 if (playerPaletteActive)
                 {
+                    int.TryParse(key.Substring(5, key.Length - 5), out int indexFetchValue);
+                    _playerController.CreateTrade(activeDirection,colorOrder[indexFetchValue]);
+                    _playerController.NotifyMoveObservers();
                     SetPlayerPaletteInactive();
                 }
                 else
                 {
                     SetArrowsInactive();
                 }
+            }
+            else
+            {
+                SetPlayerPaletteInactive();
+            }
+        }
+
+        private void UpdatePlayerPalette(Player player)
+        {
+            int i = 0;
+            foreach (PlayerController controller in GameHandler.current.GetPlayers())
+            {
+                if (controller == _playerController) continue;
+
+                Image img = PlayerPalette.transform.GetChild(i).GetComponent<Image>();
+
+                img.color = GameHandler.current.GetPlayerMaterial(controller.player).color;
+
+                colorOrder[i] = controller.player;
+                i++;
             }
         }
 
@@ -70,5 +103,7 @@ namespace AdminGUI
             LeanTween.moveLocalY(PlayerPalette, 80, PlayerPaletteAnimationSpeed).setOnComplete(SetArrowsInactive);
             playerPaletteActive = false;
         }
+        
+        
     }
 }

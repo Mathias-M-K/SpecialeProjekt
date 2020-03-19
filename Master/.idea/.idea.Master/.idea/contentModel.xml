@@ -467,8 +467,10 @@
         <e p="Scripts" t="Include">
           <e p="ActivateAllDisplays.cs" t="Include" />
           <e p="AdminGUI" t="Include">
+            <e p="_PrimeButton.cs" t="Include" />
             <e p="ExternalPlayerControl_Old.cs" t="Include" />
             <e p="GUIEvents.cs" t="Include" />
+            <e p="GUIMethods.cs" t="Include" />
             <e p="IncomingTradeController.cs" t="Include" />
             <e p="OutgoingTradeBtnController.cs" t="Include" />
             <e p="SendBtnController.cs" t="Include" />

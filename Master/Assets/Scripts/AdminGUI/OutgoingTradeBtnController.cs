@@ -1,4 +1,6 @@
-﻿namespace AdminGUI
+﻿using UnityEngine.UI;
+
+namespace AdminGUI
 {
     public class OutgoingTradeBtnController : IncomingTradeController
     {
@@ -19,7 +21,7 @@
             {
                 if (firstChoiceActive)
                 {
-                    print("Cancel Trade");
+                    GUIEvents.current.TradeActionNotify(gameObject.GetComponent<Button>(),TradeActions.TradeCanceled);
                 }
             }
             else

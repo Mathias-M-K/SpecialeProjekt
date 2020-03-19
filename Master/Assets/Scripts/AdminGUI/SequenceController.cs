@@ -59,7 +59,7 @@ namespace AdminGUI
             
             LeanTween.color(img.rectTransform, GameHandler.current.GetPlayerMaterial(move.Player).color, 0.3f).setEase(LeanTweenType.easeOutSine);
             
-            int rotationZ = GameHandler.current.GetDirectionRotation(move.Direction);
+            int rotationZ = GUIMethods.GetDirectionRotation(move.Direction);
             Vector3 rotation = new Vector3(0,0,rotationZ);
 
             Vector3 reverseRotation;

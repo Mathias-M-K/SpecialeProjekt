@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using Container;
 using CoreGame;
 using TMPro;
@@ -20,6 +22,8 @@ namespace AdminGUI
 
         private int outgoingTradeHeightOffSet = 0;
 
+        private List<PlayerTrade> incomingTrades = new List<PlayerTrade>();
+        private List<PlayerTrade> outgoingTrades = new List<PlayerTrade>();
         private List<Button> outgoingTradeButtons;
         private List<Button> incomingTradeButtons;
         private Dictionary<PlayerTrade, Button> incomingTradeDictionary = new Dictionary<PlayerTrade, Button>();
@@ -49,6 +53,7 @@ namespace AdminGUI
         private void Start()
         {
             GUIEvents.current.onPlayerChange += OnPlayerChanged;
+            GUIEvents.current.onTradeAction += OnTradeBtn;
             incomingTradeButtons = new List<Button> {incomingTrade1, incomingTrade2, incomingTrade3, incomingTrade4};
             outgoingTradeButtons = new List<Button> {outgoingTrade1, outgoingTrade2, outgoingTrade3, outgoingTrade4};
 
@@ -82,6 +87,44 @@ namespace AdminGUI
             if (Input.GetKey(KeyCode.F) && Input.GetKeyDown(KeyCode.Alpha4)) RemoveOutgoingTrade(p4);
         }
 
+        private void OnTradeBtn(Button b, TradeActions action)
+        {
+            PlayerTrade playerTrade = null;
+
+            foreach (KeyValuePair<PlayerTrade,Button> valuePair in incomingTradeDictionary)
+            {
+                if (valuePair.Value == b)
+                {
+                    playerTrade = valuePair.Key;
+                }
+            }
+
+            foreach (KeyValuePair<PlayerTrade,Button> valuePair in outgoingTradeDictionary)
+            {
+                if (valuePair.Value == b)
+                {
+                    playerTrade = valuePair.Key;
+                }
+            }
+
+            if (playerTrade == null) throw new Exception("We got a problem bois...");
+
+
+            switch (action)
+            {
+                case TradeActions.TradeRejected:
+                    playerTrade.RejectTrade(_playerController);
+                    break;
+                case TradeActions.TradeAccepted:
+                    break;
+                case TradeActions.TradeCanceled:
+                    playerTrade.CancelTrade(_playerController.player);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(action), action, null);
+            }
+        }
+
         private void OnPlayerChanged(Player player)
         {
             if(_playerController != null)
@@ -92,14 +135,28 @@ namespace AdminGUI
             _playerController = GameHandler.current.GetPlayerController(player);
             _playerController.AddTradeObserver(this);
             
-            UpdatePlayerInformation();
+            StartCoroutine(UpdatePlayerInformation());
         }
 
-        private void UpdatePlayerInformation()
+        private IEnumerator  UpdatePlayerInformation()
         {
+
+            if (incomingTrades.Count > 0 || outgoingTrades.Count > 0)
+            {
+                ClearTrades();
+            
+                yield return new WaitForSeconds(animationSpeed);
+            }
+            
+            
             foreach (PlayerTrade trade in _playerController.GetIncomingTrades())
             {
                 AddIncomingTrade(trade);
+            }
+
+            foreach (PlayerTrade trade in _playerController.GetOutgoingTrades())
+            {
+                AddOutgoingTrade(trade);
             }
         }
 
@@ -142,6 +199,7 @@ namespace AdminGUI
             LeanTween.moveLocalY(newBtn.gameObject, -300 + outgoingTradeHeightOffSet, animationSpeed);
             
             //Adding one to active incoming trades
+            incomingTrades.Add(playerTrade);
             activeIncomingTrades++;
         }
         private void RemoveIncomingTrade(PlayerTrade playerTrade)
@@ -153,6 +211,7 @@ namespace AdminGUI
             incomingTradeButtons.Remove(b);
             incomingTradeButtons.Add(b);
             activeIncomingTrades--;
+            incomingTrades.Remove(playerTrade);
 
             float removeYPos = -300 + outgoingTradeHeightOffSet;
             LeanTween.moveLocalX(b.gameObject, -500, animationSpeed).setOnComplete(doStuff);
@@ -211,12 +270,13 @@ namespace AdminGUI
             outgoingTradeDictionary.Add(playerTrade, newBtn);
 
             TextMeshProUGUI t = newBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            t.text = $"{playerTrade.OfferingPlayer} | {playerTrade.DirectionOffer}";
+            t.text = $"{playerTrade.ReceivingPlayer} | {playerTrade.DirectionOffer}";
 
             LeanTween.moveLocalX(newBtn.gameObject, 0, animationSpeed);
             LeanTween.moveLocalY(newBtn.gameObject, -300, animationSpeed);
             
             activeOutgoingTrades++;
+            outgoingTrades.Add(playerTrade);
 
             OnOutgoingBtnChange();
         }
@@ -230,6 +290,7 @@ namespace AdminGUI
             outgoingTradeButtons.Remove(b);
             outgoingTradeButtons.Add(b);
             activeOutgoingTrades--;
+            outgoingTrades.Remove(playerTrade);
 
             float removeYPos = -300;
             LeanTween.moveLocalX(b.gameObject, -500, animationSpeed).setOnComplete(DelayedAction);
@@ -292,9 +353,49 @@ namespace AdminGUI
             }
         }
 
+        private void ClearTrades()
+        {
+            List<PlayerTrade> tempTradesIncoming = new List<PlayerTrade>(incomingTrades);
+            foreach (PlayerTrade trade in tempTradesIncoming)
+            {
+                RemoveIncomingTrade(trade);
+            }
+            
+            List<PlayerTrade> tempTradesOutgoing = new List<PlayerTrade>(outgoingTrades);
+            foreach (PlayerTrade trade in tempTradesOutgoing)
+            {
+                RemoveOutgoingTrade(trade);
+            }
+        }
+
         public void TradeUpdate(PlayerTrade playerTrade, TradeActions tradeAction)
         {
-            throw new NotImplementedException();
+            print("ran it");
+            if (playerTrade.ReceivingPlayer == _playerController.player)
+            {
+                switch (tradeAction)
+                {
+                    case TradeActions.TradeOffered:
+                        AddIncomingTrade(playerTrade);
+                        break;
+                    default:
+                        RemoveIncomingTrade(playerTrade);
+                        break;
+                }
+            }
+
+            if (playerTrade.OfferingPlayer == _playerController.player)    
+            {
+                switch (tradeAction)
+                {
+                    case TradeActions.TradeOffered:
+                        AddOutgoingTrade(playerTrade);
+                        break;
+                    default:
+                        RemoveOutgoingTrade(playerTrade);
+                        break;
+                }
+            }
         }
     }
 }

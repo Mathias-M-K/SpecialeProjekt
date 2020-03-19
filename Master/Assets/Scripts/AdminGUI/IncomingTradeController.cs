@@ -2,6 +2,7 @@
 using Container;
 using CoreGame;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AdminGUI
 {
@@ -52,6 +53,7 @@ namespace AdminGUI
             {
                 if (firstChoiceActive)
                 {
+                    GUIEvents.current.TradeActionNotify(gameObject.GetComponent<Button>(),TradeActions.TradeRejected);
                     SetFirstChoiceInactive();
                 }
             }else if (key.Substring(0, 5).Equals("Arrow"))

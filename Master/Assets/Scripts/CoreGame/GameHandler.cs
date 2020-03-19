@@ -281,25 +281,6 @@ namespace CoreGame
                 }
             }
         }
-
-        public int GetDirectionRotation(Direction direction)
-        {
-            switch (direction)
-            {
-                case Direction.Up:
-                    return 90;
-                case Direction.Down:
-                    return -90;
-                case Direction.Right:
-                    return 0;
-                case Direction.Left:
-                    return 180;
-                case Direction.Blank:
-                    return 0;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(direction), direction, "Invalid direction");
-            }
-        }
         
         public Material GetPlayerMaterial(Player p)
         {

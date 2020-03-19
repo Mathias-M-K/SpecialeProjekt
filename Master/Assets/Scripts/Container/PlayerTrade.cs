@@ -16,7 +16,7 @@ namespace Container
         public Direction DirectionCounterOffer = Direction.Blank;
 
         public int TradeID;
-        public string Status;
+
         
         private readonly int _storedMoveIndex; //The index at which the offered move is stored
         private List<ITradeObserver> _statObservers;
@@ -55,7 +55,7 @@ namespace Container
             offeringPlayerController.RemoveOutgoingTrade(this);
             acceptingPlayer.RemoveIncomingTrade(this);
             
-            NotifyObservers(TradeActions.TradeAccepted);
+            //NotifyObservers(TradeActions.TradeAccepted);
             _gameHandler.trades.Remove(this);
         }
 
@@ -85,7 +85,15 @@ namespace Container
             if (cancellingPlayer != OfferingPlayer) throw new ArgumentException("Only the player that created the trade can cancel it");
             
             NotifyObservers(TradeActions.TradeCanceled);
-            RejectTrade(_gameHandler.GetPlayerController(ReceivingPlayer));
+            
+            PlayerController offeringPlayer = _gameHandler.GetPlayerController(OfferingPlayer);
+            PlayerController rejectingPlayer = GameHandler.current.GetPlayerController(ReceivingPlayer);
+            
+            offeringPlayer.AddMove(DirectionOffer, _storedMoveIndex);
+
+            offeringPlayer.RemoveOutgoingTrade(this);
+            rejectingPlayer.RemoveIncomingTrade(this);
+            
         }
         
 
