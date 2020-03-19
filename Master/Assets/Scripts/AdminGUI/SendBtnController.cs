@@ -25,8 +25,8 @@ namespace AdminGUI
             GUIEvents.current.onButtonHit += GUIButtonPressed;
             GUIEvents.current.onPlayerChange += PlayerChange;
             GUIEvents.current.onManualOverride += ManualControl;
-            ExternalStartMethod();
             //GameHandler.current.AddSequenceObserver(this);
+            ExternalStartMethod();
         }
 
         protected virtual void ExternalStartMethod()

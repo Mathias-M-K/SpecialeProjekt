@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace AdminGUI
 {
-    public class _PrimeButton : MonoBehaviour, IMoveObserver
+    public abstract class _PrimeButton : MonoBehaviour, IMoveObserver
     {
         
         public bool enabledAndActive; //True after manual control have been initiated
@@ -14,13 +14,21 @@ namespace AdminGUI
         public float animationSpeed;
         
         protected PlayerController _playerController;
-        
-        
+
+        private void SubscribeToEvents()
+        {
+            GUIEvents.current.onButtonHit += GUIButtonPressed;
+            GUIEvents.current.onPlayerChange += PlayerChange;
+            GUIEvents.current.onManualOverride += ManualControl;
+        }
         
         private void ManualControl()
         {
             enabledAndActive = true;
         }
+
+        protected abstract void GUIButtonPressed(string key);
+        
 
         private void PlayerChange(Player newPlayer)
         {
