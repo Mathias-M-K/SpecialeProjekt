@@ -191,7 +191,6 @@ namespace AdminGUI
             incomingTradeButtons.Remove(b);
             incomingTradeButtons.Add(b);
             activeIncomingTrades--;
-            //incomingTrades.Remove(playerTrade);
 
             float removeYPos = -300 + outgoingTradeHeightOffSet;
             LeanTween.moveLocalX(b.gameObject, -500, animationSpeed).setOnComplete(doStuff).setEase(easeOut);
@@ -349,9 +348,8 @@ namespace AdminGUI
             }
         }
 
-        public void TradeUpdate(PlayerTrade playerTrade, TradeActions tradeAction)
+        public void OnNewTradeActivity(PlayerTrade playerTrade, TradeActions tradeAction)
         {
-            print("ran it");
             if (playerTrade.ReceivingPlayer == _playerController.player)
             {
                 switch (tradeAction)

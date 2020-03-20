@@ -2,6 +2,6 @@
 {
     public interface IFinishPointObserver
     {
-        void GameProgressUpdate(Player player);
+        void OnGameProgressUpdate(Player player);
     }
 }

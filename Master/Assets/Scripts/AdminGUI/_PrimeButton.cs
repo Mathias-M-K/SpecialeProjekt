@@ -58,7 +58,7 @@ namespace AdminGUI
             arrowsActive = false;
         }
 
-        public void MoveInventoryUpdate(Direction[] directions)
+        public void OnMoveInventoryChange(Direction[] directions)
         {
             GUIMethods.UpdateArrows(arrows.transform.GetChild(0),_playerController);
         }

@@ -6,7 +6,6 @@ namespace Networking.Game
 {
     public class AutoMovingPlayer : MonoBehaviour
     {
-        public Camera camera;
         public NavMeshAgent agent;
 
         // Update is called once per frame
@@ -14,7 +13,7 @@ namespace Networking.Game
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
                 RaycastHit hit;
 

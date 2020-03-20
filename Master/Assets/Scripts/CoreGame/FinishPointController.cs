@@ -19,7 +19,7 @@ namespace CoreGame
         private void OnTriggerEnter(Collider other)
         {
             PlayerController playerController = other.GetComponent<PlayerController>();
-            playerController.gameHandler.NotifyGameProgressObservers(playerController.player);
+            GameHandler.current.NotifyGameProgressObservers(playerController.player);
             playerController.Die();
         }
     }

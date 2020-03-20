@@ -108,12 +108,12 @@ public class BlockHandler : MonoBehaviour, ITradeObserver, IMoveObserver
         return -1;
     }
 
-    public void TradeUpdate(PlayerTrade playerTrade ,TradeActions tradeAction)
+    public void OnNewTradeActivity(PlayerTrade playerTrade ,TradeActions tradeAction)
     {
         throw new NotImplementedException();
     }
 
-    public void MoveInventoryUpdate(Direction[] directions)
+    public void OnMoveInventoryChange(Direction[] directions)
     {
         print($"{GetComponent<PlayerController>().player} got updated");
 

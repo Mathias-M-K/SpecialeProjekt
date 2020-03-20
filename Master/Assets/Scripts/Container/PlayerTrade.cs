@@ -106,7 +106,7 @@ namespace Container
         {
             foreach (ITradeObserver observer in _statObservers)
             {
-                observer.TradeUpdate(this,tradAction);
+                observer.OnNewTradeActivity(this,tradAction);
             }
         }
     }

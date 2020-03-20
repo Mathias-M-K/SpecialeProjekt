@@ -165,6 +165,14 @@ namespace CoreGame
 
         public IEnumerator PerformSequence()
         {
+            foreach (PlayerController player in _players)
+            {
+                if (!player.Ready)
+                {
+                    throw new Exception("All players are not ready!");
+                }
+            }
+            
             //Notifying all sequence observers
             NotifySequenceObservers(SequenceActions.SequenceStarted, null);
             
@@ -235,8 +243,6 @@ namespace CoreGame
                 _occupiedPositions[i] = _spawnPositions[i];
                 PlayerController p = g.GetComponent<PlayerController>();
 
-                p.SetCamera(Camera.main);
-                p.SetGameHandler(this);
                 p.SetPlayer(m);
                 _players.Add(p);
             }
@@ -339,7 +345,7 @@ namespace CoreGame
         {
             foreach (ISequenceObserver observer in _sequenceObservers)
             {
-                observer.SequenceUpdate(sequenceAction, move);
+                observer.OnSequenceChange(sequenceAction, move);
             }
         }
 
@@ -347,7 +353,7 @@ namespace CoreGame
         {
             foreach (IFinishPointObserver observer in _gameProgressObservers)
             {
-                observer.GameProgressUpdate(player1);
+                observer.OnGameProgressUpdate(player1);
             }
 
             playersFinished++;

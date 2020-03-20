@@ -6,7 +6,7 @@ namespace CoreGame.Strategies.Implementations.PlayerFinishImplementations
 {
     public class RemovePlayerFinishStrategy : PlayerFinishStrategy 
     {
-        public void PlayerFinish(PlayerController playerController, GameHandler gameHandler)
+        public void PlayerFinish(PlayerController playerController)
         {
             //Rejecting all trade offers
             List<PlayerTrade> incomingTradesTemp = new List<PlayerTrade>(playerController.incomingTradeOffers);
@@ -22,7 +22,7 @@ namespace CoreGame.Strategies.Implementations.PlayerFinishImplementations
                 trade.CancelTrade(playerController.player);
             }
 
-            List<StoredPlayerMove> moves = new List<StoredPlayerMove>(gameHandler.GetSequence());
+            List<StoredPlayerMove> moves = new List<StoredPlayerMove>(GameHandler.current.GetSequence());
             
             //Remove all moves from player, so they can't continue to play
             for (int i = 0; i < 4; i++)
@@ -35,11 +35,11 @@ namespace CoreGame.Strategies.Implementations.PlayerFinishImplementations
             {
                 if (move.Player == playerController.player)
                 {
-                    gameHandler.RemoveMoveFromSequence(move);
+                    GameHandler.current.RemoveMoveFromSequence(move);
                 }
             }
             
-            gameHandler.RemovePlayer(playerController);
+            GameHandler.current.RemovePlayer(playerController);
             playerController.DestroySelf();
         }
     }

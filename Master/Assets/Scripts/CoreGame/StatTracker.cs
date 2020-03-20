@@ -45,7 +45,7 @@ namespace CoreGame
             _textWriter.WriteLine("{0},{1}", DateTime.Now, gh.GetPlayers().Count);
         }
 
-        public void SequenceUpdate(SequenceActions sequenceAction, StoredPlayerMove move)
+        public void OnSequenceChange(SequenceActions sequenceAction, StoredPlayerMove move)
         {
             //Type | Time | Player | Direction
             switch (sequenceAction)
@@ -69,8 +69,9 @@ namespace CoreGame
             }
         }
     
-        public void TradeUpdate(PlayerTrade playerTrade, TradeActions tradeAction)
+        public void OnNewTradeActivity(PlayerTrade playerTrade, TradeActions tradeAction)
         {
+            if (tradeAction == TradeActions.TradeOffered) _nrOfTrades++;
             //Type | Time | ID | offering player | receiving player | direction | Status | Counter Offer (If Available)
             _textWriter.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7}",
                 "Trade",
@@ -83,7 +84,7 @@ namespace CoreGame
                 playerTrade.DirectionCounterOffer);
         }
     
-        public void GameProgressUpdate(Player player)
+        public void OnGameProgressUpdate(Player player)
         {
             //Type | Time | Player
             _textWriter.WriteLine("{0},{1},{2}","Player Finished",Time.realtimeSinceStartup,player);

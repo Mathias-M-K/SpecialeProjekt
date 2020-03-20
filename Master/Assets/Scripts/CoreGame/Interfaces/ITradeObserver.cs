@@ -2,7 +2,7 @@
 
 public interface ITradeObserver
 {
-    void TradeUpdate(PlayerTrade playerTrade ,TradeActions tradeAction);
+    void OnNewTradeActivity(PlayerTrade playerTrade ,TradeActions tradeAction);
 }
 
 public enum TradeActions

@@ -99,22 +99,6 @@
                 <e p="NavMeshSurface.cs" t="Include" />
               </e>
             </e>
-            <e p="Tests" t="Include">
-              <e p="Editor" t="Include">
-                <e p="NavMeshComponentsTestsEditmode.asmdef" t="Include" />
-                <e p="NavMeshModifierVolumeInPrefabTests.cs" t="Include" />
-                <e p="NavMeshSurfaceInPrefabTests.cs" t="Include" />
-                <e p="NavMeshSurfaceInPrefabVariantTests.cs" t="Include" />
-                <e p="PrefabSavingUtil.cs" t="Include" />
-                <e p="PrefabStageAutoSavingUtil.cs" t="Include" />
-              </e>
-              <e p="NavMeshComponentsTestsPlaymode.asmdef" t="Include" />
-              <e p="NavMeshSurfaceAgentTests.cs" t="Include" />
-              <e p="NavMeshSurfaceLinkTests.cs" t="Include" />
-              <e p="NavMeshSurfaceModifierTests.cs" t="Include" />
-              <e p="NavMeshSurfaceModifierVolumeTests.cs" t="Include" />
-              <e p="NavMeshSurfaceTests.cs" t="Include" />
-            </e>
           </e>
           <e p="ProjectSettings" t="Include">
             <e p="ProjectVersion.txt" t="Include" />
@@ -469,11 +453,11 @@
           <e p="AdminGUI" t="Include">
             <e p="_PrimeButton.cs" t="Include" />
             <e p="_PrimeTradeElement.cs" t="Include" />
-            <e p="ExternalPlayerControl_Old.cs" t="Include" />
             <e p="GUIEvents.cs" t="Include" />
             <e p="GUIMethods.cs" t="Include" />
             <e p="IncomingTradeElement.cs" t="Include" />
             <e p="OutgoingTradeElement.cs" t="Include" />
+            <e p="ReadyButtonController.cs" t="Include" />
             <e p="SendButton.cs" t="Include" />
             <e p="SequenceController.cs" t="Include" />
             <e p="TradeAreaController.cs" t="Include" />
@@ -488,11 +472,13 @@
             <e p="StoredPlayerMove.cs" t="Include" />
           </e>
           <e p="CoreGame" t="Include">
+            <e p="ColorPalette.cs" t="Include" />
             <e p="FinishPointController.cs" t="Include" />
             <e p="GameHandler.cs" t="Include" />
             <e p="Interfaces" t="Include">
               <e p="IFinishPointObserver.cs" t="Include" />
               <e p="IMoveObserver.cs" t="Include" />
+              <e p="IReadyObserver.cs" t="Include" />
               <e p="ISequenceObserver.cs" t="Include" />
               <e p="ITradeObserver.cs" t="Include" />
             </e>
@@ -519,6 +505,9 @@
             </e>
             <e p="TriggerController.cs" t="Include" />
             <e p="WallController.cs" t="Include" />
+          </e>
+          <e p="Editor" t="Include">
+            <e p="GamehandlerTest.cs" t="Include" />
           </e>
           <e p="Moving_block" t="Include">
             <e p="Block.cs" t="Include" />
@@ -620,8 +609,6 @@
       <e p="NavMeshComponentsEditor.csproj" t="IncludeRecursive" />
       <e p="NavMeshComponentsExamples.csproj" t="IncludeRecursive" />
       <e p="NavMeshComponentsExamplesEditor.csproj" t="IncludeRecursive" />
-      <e p="NavMeshComponentsTestsEditmode.csproj" t="IncludeRecursive" />
-      <e p="NavMeshComponentsTestsPlaymode.csproj" t="IncludeRecursive" />
       <e p="obj" t="ExcludeRecursive" />
       <e p="Packages" t="ExcludeRecursive" />
       <e p="PhotonChat.csproj" t="IncludeRecursive" />

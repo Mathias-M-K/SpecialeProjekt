@@ -4,7 +4,7 @@ namespace CoreGame.Interfaces
 {
     public interface ISequenceObserver
     {
-        void SequenceUpdate(SequenceActions sequenceAction, StoredPlayerMove move);
+        void OnSequenceChange(SequenceActions sequenceAction, StoredPlayerMove move);
     }
 }
 

@@ -72,7 +72,6 @@ namespace AdminGUI
             {
                 if (secondChoiceActive)
                 {
-                    print("TradeCompleted");
                     int.TryParse(key.Substring(5, key.Length - 5), out int indexFetchValue);
                     Direction d = _playerController.GetMoves()[indexFetchValue];
                     
@@ -99,7 +98,7 @@ namespace AdminGUI
             secondChoiceActive = false;
         }
 
-        public void MoveInventoryUpdate(Direction[] directions)
+        public void OnMoveInventoryChange(Direction[] directions)
         {
             GUIMethods.UpdateArrows(SecondChoice.transform,_playerController);
         }

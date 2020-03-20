@@ -23,7 +23,7 @@ namespace AdminGUI
             StartCoroutine(ClearSequence(0.02f));
         }
 
-        public void SequenceUpdate(SequenceActions sequenceAction, StoredPlayerMove move)
+        public void OnSequenceChange(SequenceActions sequenceAction, StoredPlayerMove move)
         {
             switch (sequenceAction)
             {

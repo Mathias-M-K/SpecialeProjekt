@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Container;
+using CoreGame.Interfaces;
 using CoreGame.Strategies.Implementations.PlayerFinishImplementations;
 using CoreGame.Strategies.Interfaces;
 using UnityEngine;
@@ -14,24 +14,36 @@ namespace CoreGame
         public Player player;
         [Space] public NavMeshAgent agent;
         [Header("Settings")] public bool enableMouseMovement;
-        [Header("Strateies")] public PlayerFinishStrategyEnum playerFinishStrategy;
+        [Header("Strategies")] public PlayerFinishStrategyEnum playerFinishStrategy;
 
         //Strategies
         private PlayerFinishStrategy _playerFinishStrategy;
-        
-        private Camera _cam;
-        public GameHandler gameHandler;
 
+        //List of moves available for the player
         private Direction[] _moves = {Direction.Up, Direction.Down, Direction.Left, Direction.Right};
-        
-        
+
+        //List of trades
         public List<PlayerTrade> incomingTradeOffers = new List<PlayerTrade>();
         public List<PlayerTrade> outgoingTradeOffers = new List<PlayerTrade>();
-        
+
         //Observers
         private readonly List<ITradeObserver> _tradeObservers = new List<ITradeObserver>();
         private readonly List<IMoveObserver> _moveObservers = new List<IMoveObserver>();
+        private List<IReadyObserver> _readyObservers = new List<IReadyObserver>();
 
+        //Other variables
+        private bool ready = false;
+
+        public bool ReadyChoosen;    //True if the player actively have selected a state
+        public bool Ready
+        {
+            get => ready;
+            set
+            {
+                ready = value; 
+                NotifyReadyObservers();
+            }
+        }
 
         private void Start()
         {
@@ -42,10 +54,10 @@ namespace CoreGame
         private void Update()
         {
             if (!enableMouseMovement) return;
-            
+
             if (Input.GetMouseButtonDown(0))
             {
-                Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
                 RaycastHit hit;
 
@@ -66,11 +78,11 @@ namespace CoreGame
                 }
             }
         }
-        
+
         //Telling game handler that the position is occupied
         private void AnnouncePosition(Vector3 position)
         {
-            gameHandler.RegisterPosition(player, position);
+            GameHandler.current.RegisterPosition(player, position);
         }
 
         //Accept/Reject move from a given player
@@ -94,6 +106,7 @@ namespace CoreGame
                 throw new Exception($"No trade offers from {offeringPlayer}");
             }
         }
+
         public void RejectTradeFrom(Player offeringPlayer)
         {
             PlayerTrade tradeToBeAccepted = null;
@@ -114,36 +127,40 @@ namespace CoreGame
                 throw new Exception($"No trade offers from {offeringPlayer}");
             }
         }
-        
+
         //Create a trade and send it to game handler
         public void CreateTrade(Direction direction, Player receivingPlayer)
         {
             //Doing some checks
             //Checking that the move is in inventory
-            if (GetIndexForDirection(direction) == -1) throw new ArgumentException($"the move {direction} is not in inventory");
-            
-            if(direction == Direction.Blank) throw new ArgumentException("You can't trade a blank move");
-            
+            if (GetIndexForDirection(direction) == -1)
+                throw new ArgumentException($"the move {direction} is not in inventory");
+
+            if (direction == Direction.Blank) throw new ArgumentException("You can't trade a blank move");
+
             //Checking that the player is not trying to trade to himself
-            if(receivingPlayer == player) throw new ArgumentException($"{player} is trying to trade to himself");
-            
-            gameHandler.NewTrade(direction,GetIndexForDirection(direction),receivingPlayer,player);
+            if (receivingPlayer == player) throw new ArgumentException($"{player} is trying to trade to himself");
+
+            GameHandler.current.NewTrade(direction, GetIndexForDirection(direction), receivingPlayer, player);
             RemoveMove(GetIndexForDirection(direction));
         }
-        
+
         //Queuing trade for player to accept or reject
         public void AddIncomingTrade(PlayerTrade playerTrade)
         {
             incomingTradeOffers.Add(playerTrade);
         }
+
         public void AddOutgoingTrade(PlayerTrade playerTrade)
         {
             outgoingTradeOffers.Add(playerTrade);
         }
+
         public void RemoveOutgoingTrade(PlayerTrade playerTrade)
         {
             outgoingTradeOffers.Remove(playerTrade);
         }
+
         public void RemoveIncomingTrade(PlayerTrade playerTrade)
         {
             incomingTradeOffers.Remove(playerTrade);
@@ -155,6 +172,7 @@ namespace CoreGame
             _moves[index] = d;
             NotifyMoveObservers();
         }
+
         public void RemoveMove(int index)
         {
             _moves[index] = Direction.Blank;
@@ -221,18 +239,18 @@ namespace CoreGame
 
             if (navMeshPath.status == NavMeshPathStatus.PathInvalid)
             {
-                Debug.LogError("Position not reachable",this);
+                Debug.LogError("Position not reachable", this);
                 return;
             }
 
-            if (!gameHandler.playersCanPhase && gameHandler.IsPositionOccupied(newGridPos))
+            if (!GameHandler.current.playersCanPhase && GameHandler.current.IsPositionOccupied(newGridPos))
             {
-                Debug.LogError("Position Occupied",this);
+                Debug.LogError("Position Occupied", this);
                 return;
             }
 
             AnnouncePosition(newGridPos);
-            
+
             agent.SetDestination(newGridPos);
         }
 
@@ -250,7 +268,7 @@ namespace CoreGame
             double z = Math.Floor(point.z) + 0.5f;
             */
             print(point);
-            
+
             double x = Math.Round(point.x);
             double z = Math.Round(point.z);
 
@@ -258,14 +276,15 @@ namespace CoreGame
 
             return gridPos;
         }
-        
+
         //Resets the moves for the player
         public void ResetMoves()
         {
             Direction[] defaultMoves = {Direction.Up, Direction.Down, Direction.Left, Direction.Right};
-
             _moves = defaultMoves;
-            
+
+            Ready = false;
+
             NotifyMoveObservers();
         }
 
@@ -292,55 +311,69 @@ namespace CoreGame
             }
         }
 
-        public void SetCamera(Camera camera)
-        {
-            _cam = camera;
-        }
-
-        public void SetGameHandler(GameHandler gameHandler)
-        {
-            this.gameHandler = gameHandler;
-        }
-
+        
+        /*
+         * Trade Observer Methods
+         */
         public void AddTradeObserver(ITradeObserver ito)
         {
             _tradeObservers.Add(ito);
         }
-
         public void RemoveTradeObserver(ITradeObserver ito)
         {
             _tradeObservers.Remove(ito);
         }
-
-        public void AddMoveObserver(IMoveObserver imo)
-        {
-            _moveObservers.Add(imo);
-        }
-
-        public void RemoveMoveObserver(IMoveObserver imo)
-        {
-            _moveObservers.Remove(imo);
-        }
-
         public void NotifyTradeObservers(PlayerTrade trade, TradeActions tradeAction)
         {
             foreach (ITradeObserver observer in _tradeObservers)
             {
-                observer.TradeUpdate(trade,tradeAction);
+                observer.OnNewTradeActivity(trade, tradeAction);
             }
         }
-
+        
+        /*
+         * Move Observer Methods
+         */
+        public void AddMoveObserver(IMoveObserver imo)
+        {
+            _moveObservers.Add(imo);
+        }
+        public void RemoveMoveObserver(IMoveObserver imo)
+        {
+            _moveObservers.Remove(imo);
+        }
         public void NotifyMoveObservers()
         {
             foreach (IMoveObserver observer in _moveObservers)
             {
-                observer.MoveInventoryUpdate(GetMoves());
+                observer.OnMoveInventoryChange(GetMoves());
+            }
+        }
+        
+        /*
+         * Ready Observer Methods
+         */
+        public void AddReadyObserver(IReadyObserver iro)
+        {
+            _readyObservers.Add(iro);
+        }
+
+        public void RemoveReadyObserver(IReadyObserver iro)
+        {
+            _readyObservers.Remove(iro);
+        }
+
+        public void NotifyReadyObservers()
+        {
+            foreach (IReadyObserver observer in _readyObservers)
+            {
+                observer.OnReadyStateChanged(ready);
             }
         }
 
         public void Die()
         {
-            _playerFinishStrategy.PlayerFinish(this,gameHandler);
+            _playerFinishStrategy.PlayerFinish(this);
         }
 
         private void InitializeStrategies()

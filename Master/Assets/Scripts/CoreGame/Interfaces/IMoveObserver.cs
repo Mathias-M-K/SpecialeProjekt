@@ -2,5 +2,5 @@
 
 public interface IMoveObserver
 {
-    void MoveInventoryUpdate(Direction[] directions);
+    void OnMoveInventoryChange(Direction[] directions);
 }

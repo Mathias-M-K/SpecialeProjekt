@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Security.Cryptography.X509Certificates;
 using CoreGame;
 using TMPro;
 using UnityEngine;
@@ -26,7 +24,7 @@ namespace AdminGUI
 
         public event Action<String> onButtonHit;
         public event Action<Player> onPlayerChange;
-        public event Action<Button, TradeActions,Direction> onTradeAction;
+        public event Action<Button, TradeActions, Direction> onTradeAction;
         public event Action onManualOverride;
 
 
@@ -40,10 +38,13 @@ namespace AdminGUI
             LeanTween.alpha(ManualControlBtn.GetComponent<Image>().rectTransform, 0, 0.2f).destroyOnComplete = true;
             ManualEnabledNotify();
         }
-
-        public void TradeActionNotify(Button b, TradeActions action, Direction counterOffer)
+        
+        /*
+         * Ready Button
+         */
+        public void ReadyBtnHit()
         {
-            if (onTradeAction != null) onTradeAction(b, action,counterOffer);
+            NotifyButtonHit("ReadyBtn");
         }
 
         /*
@@ -155,7 +156,6 @@ namespace AdminGUI
 
         public void AcceptBtn()
         {
-            print(EventSystem.current.currentSelectedGameObject.name);
             NotifyButtonHit("AcceptBtn");
         }
 
@@ -173,6 +173,11 @@ namespace AdminGUI
         /*
          * Notify Methods
          */
+        public void TradeActionNotify(Button b, TradeActions action, Direction counterOffer)
+        {
+            if (onTradeAction != null) onTradeAction(b, action, counterOffer);
+        }
+
         private void ManualEnabledNotify()
         {
             if (onManualOverride != null) onManualOverride();

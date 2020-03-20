@@ -2,6 +2,6 @@
 {
     public interface PlayerFinishStrategy
     {
-        void PlayerFinish(PlayerController playerController, GameHandler gameHandler);
+        void PlayerFinish(PlayerController playerController);
     }
 }
