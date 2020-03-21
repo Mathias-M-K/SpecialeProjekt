@@ -233,18 +233,15 @@ namespace CoreGame
             //Creating navMeshPath and testing if is possible
             NavMeshPath navMeshPath = new NavMeshPath();
             agent.CalculatePath(newGridPos, navMeshPath);
-
-
+            
             if (navMeshPath.status == NavMeshPathStatus.PathInvalid)
             {
-                Debug.LogError("Position not reachable", this);
-                return;
+                throw new ArgumentException("Path Invalid");
             }
 
             if (!GameHandler.current.playersCanPhase && GameHandler.current.IsPositionOccupied(newGridPos))
             {
-                Debug.LogError("Position Occupied", this);
-                return;
+                throw new ArgumentException($"{player} is trying to phase though another player, while phaseAllowed is {GameHandler.current.playersCanPhase}");
             }
 
             AnnouncePosition(newGridPos);
@@ -255,7 +252,9 @@ namespace CoreGame
         //Player object will find it's way to the position
         public void MoveToPos(float x, float z)
         {
-            agent.SetDestination(new Vector3(x, 1.5f, z));
+            Vector3 newPos = CalculateGridPos(new Vector3(x, 1, z));
+            AnnouncePosition(newPos);
+            agent.SetDestination(newPos);
         }
 
         //Calculate position on grid from mouse pointer

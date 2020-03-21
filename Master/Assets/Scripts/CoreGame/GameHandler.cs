@@ -40,8 +40,6 @@ namespace CoreGame
         [Space] [Header("Player Abilities")] 
         public bool playersCanPhase;
 
-
-
         private void Awake()
         {
             current = this;
@@ -166,8 +164,18 @@ namespace CoreGame
             {
                 PlayerController playerController = GetPlayerController(pm.Player);
 
-                playerController.MovePlayer(pm.Direction);
+                try
+                {
+                    playerController.MovePlayer(pm.Direction);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
                 yield return new WaitForSeconds(delayBetweenMoves);
+                
+                //playerController.MovePlayer(pm.Direction);
+                //yield return new WaitForSeconds(delayBetweenMoves);
             }
 
             foreach (PlayerController playerController in _players)
@@ -221,11 +229,12 @@ namespace CoreGame
             for (int i = 0; i < numberOfPlayers; i++)
             {
                 Vector3 spawnPosition = new Vector3(_spawnPositions[i].x, 1.55f, _spawnPositions[i].y);
+                _occupiedPositions[i] = spawnPosition;
 
                 GameObject g = Instantiate(playerPrefab, spawnPosition, new Quaternion(0, 0, 0, 0));
                 g.name = playerTags[i].ToString();
                 
-                _occupiedPositions[i] = _spawnPositions[i];
+                _occupiedPositions[i] = spawnPosition;
                 PlayerController p = g.GetComponent<PlayerController>();
 
                 p.SetPlayer(playerTags[i]);
