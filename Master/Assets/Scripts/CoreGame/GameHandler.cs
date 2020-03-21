@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Container;
 using CoreGame.Interfaces;
 using UnityEngine;
-using UnityEngine.AI;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
 // ReSharper disable PossibleLossOfFraction

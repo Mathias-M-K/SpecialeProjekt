@@ -34,15 +34,14 @@ namespace CoreGame
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        
-            GameHandler gh = GetComponent<GameHandler>();
-            gh.AddSequenceObserver(this);
-            gh.AddTradeObserver(this);
-            gh.AddGameProgressObserver(this);
+            
+            GameHandler.current.AddSequenceObserver(this);
+            GameHandler.current.AddTradeObserver(this);
+            GameHandler.current.AddGameProgressObserver(this);
 
             CreateFile();
 
-            _textWriter.WriteLine("{0},{1}", DateTime.Now, gh.GetPlayers().Count);
+            _textWriter.WriteLine("{0},{1}", DateTime.Now, GameHandler.current.GetPlayers().Count);
         }
 
         public void OnSequenceChange(SequenceActions sequenceAction, StoredPlayerMove move)
@@ -53,6 +52,7 @@ namespace CoreGame
                 case SequenceActions.NewMoveAdded:
                     //Type | Time | Player | Direction
                     _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,Time.realtimeSinceStartup,move.Player,move.Direction);
+                    nrOfMoves++;
                     break;
                 case SequenceActions.MoveRemoved:
                     //Type | Time | Player | Direction
