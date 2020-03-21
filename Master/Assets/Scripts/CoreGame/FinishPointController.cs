@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CoreGame.Interfaces;
 using UnityEngine;
+using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 namespace CoreGame
@@ -21,6 +22,13 @@ namespace CoreGame
             PlayerController playerController = other.GetComponent<PlayerController>();
             GameHandler.current.NotifyGameProgressObservers(playerController.player);
             playerController.Die();
+        }
+
+        public void SetIgnoreFromNavMesh(bool value)
+        {
+            NavMeshModifier nmm = GetComponent<NavMeshModifier>();
+
+            nmm.ignoreFromBuild = value;
         }
     }
 }

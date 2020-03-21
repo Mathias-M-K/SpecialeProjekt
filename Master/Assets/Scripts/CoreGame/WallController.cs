@@ -6,50 +6,34 @@ namespace CoreGame
     public class WallController : MonoBehaviour
     {
         public Player owner; 
+        public Direction openDirection;
+        public LeanTweenType easeMethod;
+        
         public float smoothingFactor;
         private Vector3 _openPosition;
-        public Direction openDirection;
-        [SerializeField]private Vector3 closedPosition;
-        private Vector3 _targetPos;
+        private Vector3 closedPosition;
 
         // Start is called before the first frame update
         private void Start()
         {
             closedPosition = transform.position;
-            _targetPos = closedPosition;
             DetermineOpenPos(openDirection);
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            Move();
-        }
-
-        private void Move()
-        {
-            Vector3 pos = transform.position;
-            
-            float xPos = Mathf.Lerp(pos.x, _targetPos.x,Time.deltaTime * smoothingFactor);
-            float yPos = Mathf.Lerp(pos.y, _targetPos.y,Time.deltaTime * smoothingFactor);
-            float zPos = Mathf.Lerp(pos.z, _targetPos.z,Time.deltaTime * smoothingFactor);
-
-            transform.position = new Vector3(xPos, yPos, zPos);
         }
 
         public void Open()
         {
-            _targetPos = _openPosition;
+            LeanTween.move(gameObject, _openPosition, smoothingFactor).setEase(easeMethod);
         }
 
         public void Close()
         {
-            _targetPos = closedPosition;
+            LeanTween.move(gameObject, closedPosition, smoothingFactor).setEase(easeMethod);
         }
 
         public void SetOwner(Player newOwner)
         {
             owner = newOwner;
+            LeanTween.color(gameObject, ColorPalette.current.GetPlayerColor(newOwner), 1);
         }
         
         public void DetermineOpenPos(Direction d)

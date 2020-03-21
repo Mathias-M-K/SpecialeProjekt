@@ -32,9 +32,7 @@ namespace CoreGame
         private List<IReadyObserver> _readyObservers = new List<IReadyObserver>();
 
         //Other variables
-        private bool ready = false;
-
-        public bool ReadyChoosen;    //True if the player actively have selected a state
+        private bool ready;
         public bool Ready
         {
             get => ready;
@@ -288,27 +286,10 @@ namespace CoreGame
             NotifyMoveObservers();
         }
 
-        public void SetPlayer(Material material)
+        public void SetPlayer(Player newPlayerTag)
         {
-            GetComponent<Renderer>().material = material;
-
-            switch (material.name)
-            {
-                case "Blue":
-                    player = Player.Blue;
-                    break;
-                case "Green":
-                    player = Player.Green;
-                    break;
-                case "Red":
-                    player = Player.Red;
-                    break;
-                case "Yellow":
-                    player = Player.Yellow;
-                    break;
-                default:
-                    throw new ArgumentException("Color not valid");
-            }
+            player = newPlayerTag;
+            GetComponent<Renderer>().material.color = ColorPalette.current.GetPlayerColor(newPlayerTag);
         }
 
         

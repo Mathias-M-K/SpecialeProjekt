@@ -208,7 +208,7 @@ namespace AdminGUI
                     break;
             }
 
-            playerDropdown.image.color = GameHandler.current.GetPlayerMaterial(currentChosenPlayer).color;
+            playerDropdown.image.color = ColorPalette.current.GetPlayerColor(currentChosenPlayer);
 
             if (onPlayerChange != null) onPlayerChange(currentChosenPlayer);
         }

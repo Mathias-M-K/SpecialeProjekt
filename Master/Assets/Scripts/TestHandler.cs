@@ -19,6 +19,7 @@ public class TestHandler : MonoBehaviour
     
     private bool _serverActive;
 
+    public MapManager _mapManager;
 
     private readonly WifiConnection _wifiConnection = new WifiConnection();
 
@@ -48,6 +49,12 @@ public class TestHandler : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            foreach (PlayerController controller in GameHandler.current.GetPlayers())
+            {
+                controller.Ready = true;
+            }
+
+            
             GameHandler.current.delayBetweenMoves = sequenceDelay;
             StartCoroutine(GameHandler.current.PerformSequence());
         }
@@ -79,6 +86,11 @@ public class TestHandler : MonoBehaviour
         if (_serverActive)
         {
             incomingValue = _wifiConnection.CurrentValue;
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            _mapManager.GenerateMapValues();
         }
     }
 }

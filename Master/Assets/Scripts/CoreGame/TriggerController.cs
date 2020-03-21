@@ -12,6 +12,7 @@ namespace CoreGame
         private void Awake()
         {
             wall.SetOwner(owner);
+            LeanTween.color(gameObject, ColorPalette.current.GetPlayerColor(owner), 1);
         }
 
         private void OnTriggerEnter(Collider other)

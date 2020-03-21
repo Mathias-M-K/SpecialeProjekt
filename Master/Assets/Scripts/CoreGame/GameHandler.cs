@@ -32,27 +32,16 @@ namespace CoreGame
 
         [Header("Player Prefab")] public GameObject playerPrefab;
         
-        [Space] [Header("Settings")] 
+        [Space] [Header("Game Settings")] 
         [Range(1, 6)] public int numberOfPlayers;
         [Range(1,10)] public float delayBetweenMoves;
         
-        [SerializeField] private int playersFinished;
+        private int playersFinished;
 
-        [Space] [Header("Player Abilities")] public bool playersCanPhase;
+        [Space] [Header("Player Abilities")] 
+        public bool playersCanPhase;
 
-        [Space] [Header("Materials")] 
-        public Material redMaterial;
-        public Material blueMaterial;
-        public Material greenMaterial;
-        public Material yellowMaterial;
 
-        [Space] [Header("Sprites")] 
-        public Sprite leftSprite;
-        public Sprite rightSprite;
-        public Sprite upSprite;
-        public Sprite downSprite;
-        public Sprite blankSprite;
-        public Sprite arrowSprite;
 
         private void Awake()
         {
@@ -61,9 +50,7 @@ namespace CoreGame
 
         private void Start()
         {
-
             RemoveBarricadesForInactivePlayers();
-
         }
 
         public void InitializeGame(MapData mapData)
@@ -237,14 +224,13 @@ namespace CoreGame
                 Vector3 spawnPosition = new Vector3(_spawnPositions[i].x, 1.55f, _spawnPositions[i].y);
 
                 GameObject g = Instantiate(playerPrefab, spawnPosition, new Quaternion(0, 0, 0, 0));
-
-                Material m = GetPlayerMaterial(playerTags[i]);
+                g.name = playerTags[i].ToString();
                 
                 _occupiedPositions[i] = _spawnPositions[i];
                 PlayerController p = g.GetComponent<PlayerController>();
 
-                p.SetPlayer(m);
-                _players.Add(p);
+                p.SetPlayer(playerTags[i]);
+                AddPlayer(p);
             }
         }
         
@@ -259,6 +245,11 @@ namespace CoreGame
         public void RemovePlayer(PlayerController playerController)
         {
             _players.Remove(playerController);
+        }
+
+        public void AddPlayer(PlayerController playerController)
+        {
+            _players.Add(playerController);
         }
 
         public List<PlayerController> GetPlayers()
@@ -287,42 +278,6 @@ namespace CoreGame
                 }
             }
         }
-        
-        public Material GetPlayerMaterial(Player p)
-        {
-            switch (p)
-            {
-                case Player.Red:
-                    return redMaterial;
-                case Player.Blue:
-                    return blueMaterial;
-                case Player.Green:
-                    return greenMaterial;
-                case Player.Yellow:
-                    return yellowMaterial;
-                default:
-                    return redMaterial;
-            }
-        }
-        public Sprite GetSprite(Direction direction)
-        {
-            switch (direction)
-            {
-                case Direction.Up:
-                    return upSprite;
-                case Direction.Down:
-                    return downSprite;
-                case Direction.Right:
-                    return rightSprite;
-                case Direction.Left:
-                    return leftSprite;
-                case Direction.Blank:
-                    return blankSprite;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(direction), direction, "Invalid direction");
-            }
-        }
-
 
         //Add and notify methods for observers
 

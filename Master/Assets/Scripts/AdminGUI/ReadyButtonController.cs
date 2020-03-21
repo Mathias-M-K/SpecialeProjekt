@@ -21,7 +21,7 @@ namespace AdminGUI
         
         private Color32 colorUnready = new Color32(246, 185, 59,255);
         private Color32 colorUnreadyHighlight = new Color32(250, 211, 144,255);
-        */
+        
         
         
         [SerializeField]private Color32 colorReady = new Color32(106, 176, 76,255);
@@ -29,9 +29,16 @@ namespace AdminGUI
         
         private Color32 colorUnready = new Color32(249, 202, 36,255);
         private Color32 colorUnreadyHighlight = new Color32(249, 202, 36,255);
+        */
+
+        private ColorBlock redColors;
+        private ColorBlock greenColors;
         
         private void Start()
         {
+            redColors = ColorPalette.current.redButton;
+            greenColors = ColorPalette.current.greenButton;
+            
             text = readyBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
             GUIEvents.current.onButtonHit += OnBtnHit;
@@ -66,29 +73,31 @@ namespace AdminGUI
             }
             EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(null);
         }
-        [ContextMenu("HEYO")]
+        
         private void SetReady()
         {
             ColorBlock colorBlock = readyBtn.colors;
             
-            colorBlock.normalColor = colorReady;
-            colorBlock.highlightedColor = colorReadyHighlight;
-
+            //colorBlock.normalColor = colorReady;
+            //colorBlock.highlightedColor = colorReadyHighlight;
             text.text = "READY!";
+            colorBlock = greenColors;
 
             readyBtn.colors = colorBlock;
+            //readyBtn.colors = ColorPalette.current.greenButton;
         }
 
         private void SetUnready()
         {
             ColorBlock colorBlock = readyBtn.colors;
             
-            colorBlock.normalColor = colorUnready;
-            colorBlock.highlightedColor = colorUnreadyHighlight;
+            //colorBlock.normalColor = colorUnready;
+            //colorBlock.highlightedColor = colorUnreadyHighlight;
 
+            colorBlock = redColors;
             text.text = "Ready?";
-            
             readyBtn.colors = colorBlock;
+            //readyBtn.colors = ColorPalette.current.redButton;
         }
 
         public void OnReadyStateChanged(bool state)

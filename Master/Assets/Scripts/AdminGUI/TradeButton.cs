@@ -83,7 +83,7 @@ namespace AdminGUI
 
                 Image img = PlayerPalette.transform.GetChild(i).GetComponent<Image>();
 
-                img.color = GameHandler.current.GetPlayerMaterial(controller.player).color;
+                img.color = ColorPalette.current.GetPlayerColor(controller.player);
 
                 colorOrder[i] = controller.player;
                 i++;

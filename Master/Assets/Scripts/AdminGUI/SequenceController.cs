@@ -54,10 +54,10 @@ namespace AdminGUI
         private void AddMove(StoredPlayerMove move)
         {
             Image img = transform.GetChild(nrOfMovesInSequence).GetComponent<Image>();
-            img.color = GameHandler.current.GetPlayerMaterial(move.Player).color;
+            img.color = ColorPalette.current.GetPlayerColor(move.Player);
 
             
-            LeanTween.color(img.rectTransform, GameHandler.current.GetPlayerMaterial(move.Player).color, 0.3f).setEase(LeanTweenType.easeOutSine);
+            LeanTween.color(img.rectTransform, ColorPalette.current.GetPlayerColor(move.Player), 0.3f).setEase(LeanTweenType.easeOutSine);
             
             int rotationZ = GUIMethods.GetDirectionRotation(move.Direction);
             Vector3 rotation = new Vector3(0,0,rotationZ);
