@@ -4,7 +4,6 @@
     <e p="C:\Users\mathi\.Rider2019.3\system\extResources" t="IncludeRecursive" />
     <e p="C:\Users\mathi\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Master.-791168200.00" t="ExcludeRecursive" />
     <e p="C:\Users\mathi\Documents\GitHub\SpecialeProjekt\Master" t="IncludeRecursive">
-      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="_Imports" t="Include">
@@ -54,6 +53,7 @@
               <e p="LTDescrOptional.cs" t="Include" />
               <e p="LTSeq.cs" t="Include" />
             </e>
+            <e p="LeanTweenReferenceMINE.asmref" t="Include" />
             <e p="LICENSE.txt" t="Include" />
             <e p="readme.txt" t="Include" />
           </e>
@@ -234,6 +234,7 @@
             <e p="TriggerController.cs" t="Include" />
             <e p="WallController.cs" t="Include" />
           </e>
+          <e p="GameAssembly.asmdef" t="Include" />
           <e p="Moving_block" t="Include">
             <e p="Block.cs" t="Include" />
             <e p="BlockHandler.cs" t="Include" />
@@ -241,7 +242,12 @@
           <e p="NavMeshManager.cs" t="Include" />
           <e p="TestHandler.cs" t="Include" />
         </e>
+        <e p="Tests" t="Include">
+          <e p="FourPlayerMap_Test.cs" t="Include" />
+          <e p="Tests.asmdef" t="Include" />
+        </e>
       </e>
+      <e p="GameAssembly.csproj" t="IncludeRecursive" />
       <e p="Master.sln" t="IncludeFlat" />
       <e p="NavMeshComponents.csproj" t="IncludeRecursive" />
       <e p="NavMeshComponentsEditor.csproj" t="IncludeRecursive" />
@@ -250,6 +256,7 @@
       <e p="obj" t="ExcludeRecursive" />
       <e p="Packages" t="ExcludeRecursive" />
       <e p="Temp\bin" t="ExcludeRecursive" />
+      <e p="Tests.csproj" t="IncludeRecursive" />
     </e>
   </component>
 </project>
