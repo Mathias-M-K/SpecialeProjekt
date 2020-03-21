@@ -53,7 +53,6 @@ namespace CoreGame
                 case SequenceActions.NewMoveAdded:
                     //Type | Time | Player | Direction
                     _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,Time.realtimeSinceStartup,move.Player,move.Direction);
-                    nrOfMoves++;
                     break;
                 case SequenceActions.MoveRemoved:
                     //Type | Time | Player | Direction

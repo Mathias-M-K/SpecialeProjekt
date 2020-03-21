@@ -11,8 +11,8 @@ public class TestHandler : MonoBehaviour
     public string outgoingString;
     public float incomingValue;
 
-    [Space] [Header("Other")] [Range(0f, 3f)] 
-    public float sequenceDelay;
+    [Space] [Header("Other")] [Range(0f, 3f)] [SerializeField]
+    private float sequenceDelay;
 
     public PlayerController agent1;
     public PlayerController agent2;

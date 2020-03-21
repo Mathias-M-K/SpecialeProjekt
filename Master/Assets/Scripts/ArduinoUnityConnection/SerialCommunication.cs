@@ -20,7 +20,7 @@ public class SerialCommunication : MonoBehaviour,ISequenceObserver
     public string methodSelected;
     private PlayerController _playerController;
 
-    //private bool _isEnabled;
+    private bool _isEnabled;
     public bool begin;
     
 
@@ -91,7 +91,7 @@ public class SerialCommunication : MonoBehaviour,ISequenceObserver
         _stream.ReadTimeout = 1;
         _stream.Open(); //Open the Serial Stream.
         _block = gameObject.AddComponent<BlockHandler>();
-        //_isEnabled = true;
+        _isEnabled = true;
     }
 
     public void OnSequenceChange(SequenceActions sequenceAction, StoredPlayerMove move)
