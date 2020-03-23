@@ -3,7 +3,7 @@ using CoreGame.Strategies.Interfaces;
 
 namespace DefaultNamespace
 {
-    public class NumberBasedFileCreation : FileNamingStrategy
+    public class NumberBasedFileCreation : _FileNamingStrategy
     {
         public string CreateFile(string _directoryPath)
         {

@@ -183,6 +183,7 @@
             <e p="_PrimeTradeElement.cs" t="Include" />
             <e p="GUIEvents.cs" t="Include" />
             <e p="GUIMethods.cs" t="Include" />
+            <e p="GUIPlayerMap.cs" t="Include" />
             <e p="IncomingTradeElement.cs" t="Include" />
             <e p="OutgoingTradeElement.cs" t="Include" />
             <e p="ReadyButtonController.cs" t="Include" />
@@ -203,6 +204,7 @@
             <e p="ColorPalette.cs" t="Include" />
             <e p="FinishPointController.cs" t="Include" />
             <e p="GameHandler.cs" t="Include" />
+            <e p="GateController.cs" t="Include" />
             <e p="Interfaces" t="Include">
               <e p="IFinishPointObserver.cs" t="Include" />
               <e p="IMoveObserver.cs" t="Include" />
@@ -215,23 +217,21 @@
             <e p="PlayerController.cs" t="Include" />
             <e p="StatTracker.cs" t="Include" />
             <e p="Strategies" t="Include">
-              <e p="Implementations" t="Include">
-                <e p="FileNamingImplementations" t="Include">
-                  <e p="DateFileNamingStrategy.cs" t="Include" />
-                  <e p="NumberFileNamingStrategy.cs" t="Include" />
-                </e>
-                <e p="PlayerFinishImplementations" t="Include">
-                  <e p="AllowTradePlayerFinishStrategy.cs" t="Include" />
-                  <e p="RemovePlayerFinishStrategy.cs" t="Include" />
-                </e>
+              <e p="FileNamingImplementations" t="Include">
+                <e p="_FileNamingStrategy.cs" t="Include" />
+                <e p="DateFileNamingStrategy.cs" t="Include" />
+                <e p="NumberFileNamingStrategy.cs" t="Include" />
               </e>
-              <e p="Interfaces" t="Include">
-                <e p="FileNamingStrategy.cs" t="Include" />
-                <e p="PlayerFinishStrategy.cs" t="Include" />
+              <e p="PlayerFinishImplementations" t="Include">
+                <e p="_PlayerFinishStrategy.cs" t="Include" />
+                <e p="AllowTradePlayerFinishStrategy.cs" t="Include" />
+                <e p="RemovePlayerFinishStrategy.cs" t="Include" />
+              </e>
+              <e p="SequenceCheckImplementations" t="Include">
+                <e p="_SequenceCheckStrategy.cs" t="Include" />
               </e>
             </e>
             <e p="TriggerController.cs" t="Include" />
-            <e p="WallController.cs" t="Include" />
           </e>
           <e p="GameAssembly.asmdef" t="Include" />
           <e p="Moving_block" t="Include">
@@ -242,6 +242,9 @@
           <e p="TestHandler.cs" t="Include" />
         </e>
         <e p="Tests" t="Include">
+          <e p="GameHandlerTest.cs" t="Include" />
+          <e p="GatesAndTriggersTest.cs" t="Include" />
+          <e p="MapManagerTest.cs" t="Include" />
           <e p="PlayerMovementTest.cs" t="Include" />
           <e p="Tests.asmdef" t="Include" />
         </e>

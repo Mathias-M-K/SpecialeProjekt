@@ -3,13 +3,32 @@ using UnityEngine;
 
 namespace CoreGame
 {
-    public class WallController : MonoBehaviour
+    public class GateController : MonoBehaviour
     {
-        public Player owner; 
-        public Direction openDirection;
+        private Player owner;
+        public Player Owner
+        {
+            get => owner;
+            set
+            {
+                owner = value;
+                LeanTween.color(gameObject, ColorPalette.current.GetPlayerColor(owner), 1);
+            }
+        }
+
+        [SerializeField]private Direction openDirection;
+        public Direction OpenDirection
+        {
+            get => openDirection;
+            set
+            {
+                openDirection = value;
+                DetermineOpenPos(value);
+            }
+        }
         public LeanTweenType easeMethod;
         
-        public float smoothingFactor;
+        public float animationTime;
         private Vector3 _openPosition;
         private Vector3 closedPosition;
 
@@ -22,21 +41,15 @@ namespace CoreGame
 
         public void Open()
         {
-            LeanTween.move(gameObject, _openPosition, smoothingFactor).setEase(easeMethod);
+            LeanTween.move(gameObject, _openPosition, animationTime).setEase(easeMethod);
         }
 
         public void Close()
         {
-            LeanTween.move(gameObject, closedPosition, smoothingFactor).setEase(easeMethod);
-        }
-
-        public void SetOwner(Player newOwner)
-        {
-            owner = newOwner;
-            LeanTween.color(gameObject, ColorPalette.current.GetPlayerColor(newOwner), 1);
+            LeanTween.move(gameObject, closedPosition, animationTime).setEase(easeMethod);
         }
         
-        public void DetermineOpenPos(Direction d)
+        private void DetermineOpenPos(Direction d)
         {
             //The new position
             Vector3 newGridPos;
@@ -55,6 +68,8 @@ namespace CoreGame
                 case Direction.Right:
                     newGridPos = new Vector3(closedPosition.x + 1, closedPosition.y, closedPosition.z);
                     break;
+                case Direction.Blank:
+                    throw new ArgumentException("Direction blank is not valid");
                 default:
                     newGridPos = new Vector3(closedPosition.x, closedPosition.y, closedPosition.z);
                     break;

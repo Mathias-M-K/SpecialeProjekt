@@ -2,9 +2,9 @@
 using Container;
 using CoreGame.Strategies.Interfaces;
 
-namespace CoreGame.Strategies.Implementations.PlayerFinishImplementations
+namespace CoreGame.Strategies.PlayerFinishImplementations
 {
-    public class AllowTradePlayerFinishStrategy : PlayerFinishStrategy
+    public class AllowTradePlayerFinishStrategy : _PlayerFinishStrategy
     {
         public void PlayerFinish(PlayerController playerController)
         {

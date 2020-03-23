@@ -6,12 +6,12 @@ namespace CoreGame
     public class TriggerController : MonoBehaviour
     {
         public Player owner;
-        public WallController wall;
+        public GateController gate;
         public bool closeOnExit;
 
         private void Awake()
         {
-            wall.SetOwner(owner);
+            gate.Owner = owner;
             LeanTween.color(gameObject, ColorPalette.current.GetPlayerColor(owner), 1);
         }
 
@@ -21,7 +21,7 @@ namespace CoreGame
 
             if (playerController.player == owner)
             {
-                wall.Open();
+                gate.Open();
             }
         }
 
@@ -33,7 +33,7 @@ namespace CoreGame
 
             if (playerController.player == owner)
             {
-                wall.Close();
+                gate.Close();
             }
         }
     }

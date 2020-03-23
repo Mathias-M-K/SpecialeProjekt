@@ -4,8 +4,10 @@ using Container;
 using CoreGame.Interfaces;
 using CoreGame.Strategies.Implementations.PlayerFinishImplementations;
 using CoreGame.Strategies.Interfaces;
+using CoreGame.Strategies.PlayerFinishImplementations;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 namespace CoreGame
 {
@@ -17,7 +19,7 @@ namespace CoreGame
         [Header("Strategies")] public PlayerFinishStrategyEnum playerFinishStrategy;
 
         //Strategies
-        private PlayerFinishStrategy _playerFinishStrategy;
+        private _PlayerFinishStrategy _playerFinishStrategy;
 
         //List of moves available for the player
         private Direction[] _moves = {Direction.Up, Direction.Down, Direction.Left, Direction.Right};
@@ -81,6 +83,12 @@ namespace CoreGame
         private void AnnouncePosition(Vector3 position)
         {
             GameHandler.current.RegisterPosition(player, position);
+        }
+
+        public Vector2 GetPosition()
+        {
+            Vector3 pos = gameObject.transform.position;
+            return new Vector2(pos.x,pos.z);
         }
 
         //Accept/Reject move from a given player
@@ -225,6 +233,8 @@ namespace CoreGame
                 case Direction.Right:
                     newGridPos = new Vector3(agentPos.x + 1, agentPos.y, agentPos.z);
                     break;
+                case Direction.Blank:
+                    throw new ArgumentException("MovePlayer can't be invoked with a blank move");
                 default:
                     newGridPos = new Vector3(agentPos.x, agentPos.y, agentPos.z);
                     break;
@@ -236,12 +246,12 @@ namespace CoreGame
             
             if (navMeshPath.status == NavMeshPathStatus.PathInvalid)
             {
-                throw new ArgumentException("Path Invalid");
+                throw new InvalidOperationException("Path Invalid");
             }
 
-            if (!GameHandler.current.playersCanPhase && GameHandler.current.IsPositionOccupied(newGridPos))
+            if (!GameHandler.current.playersCanPhase && GameHandler.current.IsPositionOccupied(new Vector2(newGridPos.x,newGridPos.z)))
             {
-                throw new ArgumentException($"{player} is trying to phase though another player, while phaseAllowed is {GameHandler.current.playersCanPhase}");
+                throw new InvalidOperationException($"{player} is trying to phase though another player, while phaseAllowed is {GameHandler.current.playersCanPhase}");
             }
 
             AnnouncePosition(newGridPos);
@@ -250,22 +260,21 @@ namespace CoreGame
         }
 
         //Player object will find it's way to the position
-        public void MoveToPos(float x, float z)
+        public void MoveToPos(Vector2 pos)
         {
-            Vector3 newPos = CalculateGridPos(new Vector3(x, 1, z));
+            Vector3 newPos = CalculateGridPos(new Vector3(pos.x, 1, pos.y));
             AnnouncePosition(newPos);
             agent.SetDestination(newPos);
+        }
+        public void MoveToPos(float x, float y)
+        {
+            Vector2 pos = new Vector2(x,y);
+            MoveToPos(pos);
         }
 
         //Calculate position on grid from mouse pointer
         private Vector3 CalculateGridPos(Vector3 point)
-        {
-            /*
-            double x = Math.Floor(point.x) + 0.5f;
-            double z = Math.Floor(point.z) + 0.5f;
-            */
-            print(point);
-
+        { 
             double x = Math.Round(point.x);
             double z = Math.Round(point.z);
 
@@ -275,7 +284,7 @@ namespace CoreGame
         }
 
         //Resets the moves for the player
-        public void ResetMoves()
+        public void ResetAfterSequence()
         {
             Direction[] defaultMoves = {Direction.Up, Direction.Down, Direction.Left, Direction.Right};
             _moves = defaultMoves;
@@ -391,7 +400,7 @@ namespace CoreGame
         Red,
         Blue,
         Green,
-        Yellow
+        Yellow,
     }
 
     public enum PlayerFinishStrategyEnum

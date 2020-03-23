@@ -10,5 +10,6 @@ public enum TradeActions
     TradeOffered,
     TradeRejected,
     TradeAccepted,
-    TradeCanceled
+    TradeCanceled,
+    TradeCanceledByGameHandler
 }

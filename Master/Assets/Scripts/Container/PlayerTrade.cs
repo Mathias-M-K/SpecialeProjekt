@@ -80,12 +80,8 @@ namespace Container
             _gameHandler.trades.Remove(this);
         }
 
-        public void CancelTrade(Player cancellingPlayer)
+        private void CancelTrade()
         {
-            if (cancellingPlayer != OfferingPlayer) throw new ArgumentException("Only the player that created the trade can cancel it");
-            
-            NotifyObservers(TradeActions.TradeCanceled);
-            
             PlayerController offeringPlayer = _gameHandler.GetPlayerController(OfferingPlayer);
             PlayerController rejectingPlayer = GameHandler.current.GetPlayerController(ReceivingPlayer);
             
@@ -93,10 +89,21 @@ namespace Container
 
             offeringPlayer.RemoveOutgoingTrade(this);
             rejectingPlayer.RemoveIncomingTrade(this);
+        }
+
+        public void CancelTrade(Player cancellingPlayer)
+        {
+            if (cancellingPlayer != OfferingPlayer) throw new ArgumentException("Only the player that created the trade can cancel it");
             
+            NotifyObservers(TradeActions.TradeCanceled);
+            CancelTrade();
+        }
+        public void CancelTrade(GameHandler gameHandler)
+        {
+            NotifyObservers(TradeActions.TradeCanceledByGameHandler);
+            CancelTrade();
         }
         
-
         public string Print()
         {
             return OfferingPlayer + " offering: " + DirectionOffer;

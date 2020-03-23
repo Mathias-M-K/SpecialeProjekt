@@ -2,7 +2,7 @@
 
 namespace CoreGame.Strategies.Interfaces
 {
-    public interface FileNamingStrategy
+    public interface _FileNamingStrategy
     {
         string CreateFile(string directoryPath);
     }

@@ -56,7 +56,7 @@ public class TestHandler : MonoBehaviour
 
             
             GameHandler.current.delayBetweenMoves = sequenceDelay;
-            StartCoroutine(GameHandler.current.PerformSequence());
+            //StartCoroutine(GameHandler.current.PerformSequence());
         }
 
         if (Input.GetKeyDown(KeyCode.H))

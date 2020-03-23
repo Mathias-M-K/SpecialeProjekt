@@ -10,14 +10,14 @@ using UnityEngine;
 
 namespace CoreGame
 {
-    public class GameHandler : MonoBehaviour
+    public class GameHandler : MonoBehaviour, IReadyObserver
     {
         public static GameHandler current;
 
         //Game variables
         private readonly List<StoredPlayerMove> _sequenceMoves = new List<StoredPlayerMove>();
         private readonly List<PlayerController> _players = new List<PlayerController>();
-        private readonly Vector3[] _occupiedPositions = new Vector3[4];
+        private readonly Vector2[] _occupiedPositions = new Vector2[4];
         public List<PlayerTrade> trades = new List<PlayerTrade>();
 
         //Map information
@@ -34,33 +34,47 @@ namespace CoreGame
         [Space] [Header("Game Settings")] 
         [Range(1, 6)] public int numberOfPlayers;
         [Range(1,10)] public float delayBetweenMoves;
-        
+        public bool playersAreExternallyControlled;
+
+        private int numberOfSpawnedPlayers;
+        private int numberOfReadyPlayers;
         private int playersFinished;
 
+        //Value for checking if game is done. All IGameEndObservers are automatically updated
+        public bool IsGameDone { get; private set; }
+        
         [Space] [Header("Player Abilities")] 
         public bool playersCanPhase;
-
-        private void Awake()
+        
+        
+        public void Awake()
         {
             current = this;
         }
 
-        private void Start()
+        private void StartGame()
         {
             RemoveBarricadesForInactivePlayers();
         }
 
-        public void InitializeGame(MapData mapData)
+        public void SetMapData(MapData mapData)
         {
             _spawnPositions = mapData.spawnPositions;
-            SpawnMaxPlayers(mapData.maxPlayers);
+            
+            if (numberOfPlayers > mapData.maxPlayers)
+            {
+                Debug.LogError($"Number of max players is to high for this map!, map only allows {mapData.maxPlayers} players",
+                    this);
+                numberOfPlayers = mapData.maxPlayers;
+            }
+            
         }
         
-        public bool IsPositionOccupied(Vector3 position)
+        public bool IsPositionOccupied(Vector2 position)
         {
-            foreach (Vector3 occupiedPosition in _occupiedPositions)
+            foreach (Vector2 occupiedPosition in _occupiedPositions)
             {
-                if (position.x == occupiedPosition.x && position.z == occupiedPosition.z)
+                if (position.x == occupiedPosition.x && position.y == occupiedPosition.y)
                 {
                     return true;
                 }
@@ -72,23 +86,25 @@ namespace CoreGame
         //Lets players announce their position
         public void RegisterPosition(Player player, Vector3 position)
         {
+            int index = 0;
             switch (player)
             {
                 case Player.Red:
-                    _occupiedPositions[0] = position;
+                    index = 0;
                     break;
                 case Player.Blue:
-                    _occupiedPositions[1] = position;
+                    index = 1;
                     break;
                 case Player.Green:
-                    _occupiedPositions[2] = position;
+                    index = 2;
                     break;
                 case Player.Yellow:
-                    _occupiedPositions[3] = position;
+                    index = 3;
                     break;
                 default:
                     throw new ArgumentException("Not a valid player");
             }
+            _occupiedPositions[index] = new Vector2(position.x,position.z);
         }
 
         public void NewTrade(Direction direction, int directionIndex, Player playerReceiving, Player playerOffering)
@@ -120,14 +136,12 @@ namespace CoreGame
 
             if (playerController == null)
             {
-                Debug.LogException(new ArgumentException(p + " is not active"), this);
-                return;
+                throw new ArgumentException(p + " is not active");
             }
 
             if (playerController.GetIndexForDirection(d) == -1)
             {
-                Debug.LogError($"{playerPrefab} does not posses the {d} move");
-                return;
+                throw new InvalidOperationException($"{playerPrefab} does not posses the {d} move");
             }
 
             if (d == Direction.Blank) throw new ArgumentException("Can't add blank moves");
@@ -170,17 +184,19 @@ namespace CoreGame
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    Debug.LogError(e.Message);
                 }
                 yield return new WaitForSeconds(delayBetweenMoves);
-                
-                //playerController.MovePlayer(pm.Direction);
-                //yield return new WaitForSeconds(delayBetweenMoves);
+            }
+
+            foreach (PlayerTrade trade in trades)
+            {
+                trade.CancelTrade(this);
             }
 
             foreach (PlayerController playerController in _players)
             {
-                playerController.ResetMoves();
+                playerController.ResetAfterSequence();
             }
 
             _sequenceMoves.Clear();
@@ -196,7 +212,6 @@ namespace CoreGame
                     return playerController;
                 }
             }
-
             return null;
         }
 
@@ -210,52 +225,58 @@ namespace CoreGame
             return _sequenceMoves;
         }
 
-        //Spawning x player, where x is the number of allowed players
-        private void SpawnMaxPlayers(int mapPlayerLimit)
+        //Spawning players
+        public void SpawnMaxPlayers()
         {
-            if (numberOfPlayers > mapPlayerLimit)
+            List<Player> playerTags = new List<Player>(){Player.Red,Player.Blue,Player.Green,Player.Yellow};
+
+            for (int i = numberOfSpawnedPlayers; i < numberOfPlayers; i++)
             {
-                Debug.LogError($"Number of max players have been exceeded, fallback to {mapPlayerLimit} players",
-                    this);
-                numberOfPlayers = mapPlayerLimit;
+                SpawnNewPlayer();
             }
-
-            List<Player> playerTags = new List<Player>();
-            playerTags.Add(Player.Red);
-            playerTags.Add(Player.Blue);
-            playerTags.Add(Player.Green);
-            playerTags.Add(Player.Yellow);
-
-            for (int i = 0; i < numberOfPlayers; i++)
+        }
+        public Player SpawnNewPlayer()
+        {
+            if (_players.Count >= numberOfPlayers)
             {
-                Vector3 spawnPosition = new Vector3(_spawnPositions[i].x, 1.55f, _spawnPositions[i].y);
-                _occupiedPositions[i] = spawnPosition;
+                throw new InvalidOperationException("Max players have already been reached");
+            }
+            
+            List<Player> playerTags = new List<Player>(){Player.Red,Player.Blue,Player.Green,Player.Yellow};
 
-                GameObject g = Instantiate(playerPrefab, spawnPosition, new Quaternion(0, 0, 0, 0));
-                g.name = playerTags[i].ToString();
+            int spawnNr = _players.Count;
+
+            Vector3 spawnPosition = new Vector3(_spawnPositions[spawnNr].x, 1.55f, _spawnPositions[spawnNr].y);
+            _occupiedPositions[spawnNr] = _spawnPositions[spawnNr];
                 
-                _occupiedPositions[i] = spawnPosition;
-                PlayerController p = g.GetComponent<PlayerController>();
+            GameObject g = Instantiate(playerPrefab, spawnPosition, new Quaternion(0, 0, 0, 0));
+            g.name = playerTags[spawnNr].ToString();
+                
+            PlayerController p = g.GetComponent<PlayerController>();
 
-                p.SetPlayer(playerTags[i]);
-                AddPlayer(p);
-            }
+            p.SetPlayer(playerTags[spawnNr]);
+            AddPlayerController(p);
+
+            p.AddReadyObserver(this);
+            numberOfSpawnedPlayers++;
+            
+            return p.player;
         }
         
         private void CheckIfGameIsDone()
         {
-            if (playersFinished >= numberOfPlayers)
+            if (playersFinished >= numberOfSpawnedPlayers)
             {
-                print("Game Done!");
+                IsGameDone = true;
             }
         }
 
-        public void RemovePlayer(PlayerController playerController)
+        public void RemovePlayerController(PlayerController playerController)
         {
             _players.Remove(playerController);
         }
 
-        public void AddPlayer(PlayerController playerController)
+        private void AddPlayerController(PlayerController playerController)
         {
             _players.Add(playerController);
         }
@@ -267,12 +288,12 @@ namespace CoreGame
 
         private void RemoveBarricadesForInactivePlayers()
         {
-            WallController[] wallControllers = (WallController[]) FindObjectsOfType(typeof(WallController));
+            GateController[] wallControllers = (GateController[]) FindObjectsOfType(typeof(GateController));
             TriggerController[] triggerControllers = (TriggerController[]) FindObjectsOfType(typeof(TriggerController));
 
-            foreach (WallController controller in wallControllers)
+            foreach (GateController controller in wallControllers)
             {
-                if (GetPlayerController(controller.owner) == null)
+                if (GetPlayerController(controller.Owner) == null)
                 {
                     Destroy(controller.gameObject);
                 }
@@ -321,6 +342,24 @@ namespace CoreGame
 
             playersFinished++;
             CheckIfGameIsDone();
+        }
+
+        public void OnReadyStateChanged(bool state)
+        {
+            switch (state)  
+            {
+                case true:
+                    numberOfReadyPlayers++;
+                    break;
+                case false:
+                    numberOfReadyPlayers--;
+                    break;
+            }
+
+            if (numberOfReadyPlayers == numberOfSpawnedPlayers)
+            {
+                StartCoroutine(PerformSequence());
+            }
         }
     }
 }

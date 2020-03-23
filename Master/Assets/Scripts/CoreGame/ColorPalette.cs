@@ -25,6 +25,10 @@ namespace CoreGame
         [Header(("green Button"))]
         public ColorBlock greenButton;
 
+        [Header("Scene Elements")] 
+        public Color32 floor;
+        public Color32 walls;
+
         public Color32 GetPlayerColor(Player player)
         {
             switch (player)

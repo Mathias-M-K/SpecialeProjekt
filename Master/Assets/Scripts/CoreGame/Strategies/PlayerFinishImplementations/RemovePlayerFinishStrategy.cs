@@ -4,7 +4,7 @@ using CoreGame.Strategies.Interfaces;
 
 namespace CoreGame.Strategies.Implementations.PlayerFinishImplementations
 {
-    public class RemovePlayerFinishStrategy : PlayerFinishStrategy 
+    public class RemovePlayerFinishStrategy : _PlayerFinishStrategy 
     {
         public void PlayerFinish(PlayerController playerController)
         {
@@ -39,7 +39,7 @@ namespace CoreGame.Strategies.Implementations.PlayerFinishImplementations
                 }
             }
             
-            GameHandler.current.RemovePlayer(playerController);
+            GameHandler.current.RemovePlayerController(playerController);
             playerController.DestroySelf();
         }
     }

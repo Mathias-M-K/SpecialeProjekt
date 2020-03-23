@@ -18,7 +18,7 @@ namespace CoreGame
         private string _directoryPath = "C:/MasterData/";
         private TextWriter _textWriter;
 
-        public FileNamingStrategy fileCreationStrategy;
+        public _FileNamingStrategy fileCreationStrategy;
 
         private void Start()
         {

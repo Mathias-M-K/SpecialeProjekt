@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Security.Policy;
 using CoreGame;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
-using UnityEditor.PackageManager;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.TestTools;
 using Object = UnityEngine.Object;
+
 
 namespace Tests
 {
@@ -24,6 +19,8 @@ namespace Tests
 
         private GameObject camera;
         private GameObject directionalLight;
+
+        private float moveTime = 0.5f;
 
 
         [SetUp]
@@ -43,8 +40,11 @@ namespace Tests
             MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/ColorPalette"));
 
             _mapManager = go.GetComponent<MapManager>();
-            _mapManager.mapData = Resources.Load<MapData>("Maps/4PlayerLevel");
+            _mapManager.mapData = Resources.Load<MapData>("MapData/4PlayerLevel");
             go.GetComponent<MapManager>().navMeshSurface = navMesh.GetComponent<NavMeshSurface>();
+            
+            LightmapData lmd = new LightmapData();
+
         }
 
         [TearDown]
@@ -65,38 +65,8 @@ namespace Tests
             Object.Destroy(GameObject.Find("Yellow"));
         }
 
-        // A Test behaves as an ordinary method
-        [UnityTest]
-        public IEnumerator TestSpawnPositionOne()
-        {
-            Assert.That(_gameHandler.GetPlayerController(Player.Red).gameObject.transform.position.x, Is.EqualTo(1));
-            Assert.That(_gameHandler.GetPlayerController(Player.Red).gameObject.transform.position.z, Is.EqualTo(10));
-            yield break;
-        }
-
-        [UnityTest]
-        public IEnumerator TestSpawnPositionTwo()
-        {
-            Assert.That(_gameHandler.GetPlayerController(Player.Blue).gameObject.transform.position.x, Is.EqualTo(1));
-            Assert.That(_gameHandler.GetPlayerController(Player.Blue).gameObject.transform.position.z, Is.EqualTo(1));
-            yield break;
-        }
-
-        [UnityTest]
-        public IEnumerator TestSpawnPositionThree()
-        {
-            Assert.That(_gameHandler.GetPlayerController(Player.Green).gameObject.transform.position.x, Is.EqualTo(10));
-            Assert.That(_gameHandler.GetPlayerController(Player.Green).gameObject.transform.position.z, Is.EqualTo(1));
-            yield break;
-        }
-
-        [UnityTest]
-        public IEnumerator TestSpawnPositionFour()
-        {
-            Assert.That(_gameHandler.GetPlayerController(Player.Yellow).gameObject.transform.position.x, Is.EqualTo(10));
-            Assert.That(_gameHandler.GetPlayerController(Player.Yellow).gameObject.transform.position.z, Is.EqualTo(10));
-            yield break;
-        }
+        
+       
         [UnityTest]
         public IEnumerator MoveUpShouldMovePlayerUp()
         {
@@ -105,7 +75,7 @@ namespace Tests
             
             player.MovePlayer(Direction.Up);
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(moveTime);
             
             Assert.That(player.transform.position.x,Is.EqualTo(startPos.x));
             Assert.That(player.transform.position.z,Is.EqualTo(startPos.z+1));
@@ -119,7 +89,7 @@ namespace Tests
             
             player.MovePlayer(Direction.Down);
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(moveTime);
             
             Assert.That(player.transform.position.x,Is.EqualTo(startPos.x));
             Assert.That(player.transform.position.z,Is.EqualTo(startPos.z-1));
@@ -132,7 +102,7 @@ namespace Tests
             
             player.MovePlayer(Direction.Right);
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(moveTime);
             
             Assert.That(player.transform.position.x,Is.EqualTo(startPos.x+1));
             Assert.That(player.transform.position.z,Is.EqualTo(startPos.z));
@@ -146,7 +116,7 @@ namespace Tests
             
             player.MovePlayer(Direction.Left);
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(moveTime);
             
             Assert.That(player.transform.position.x,Is.EqualTo(startPos.x-1));
             Assert.That(player.transform.position.z,Is.EqualTo(startPos.z));
@@ -155,12 +125,15 @@ namespace Tests
         [UnityTest]
         public IEnumerator MoveToPosShouldMovePlayerToPos()
         {
-            Vector3 newPos = new Vector3(8,0,3);
+            Vector3 newPos = new Vector3(1,0,5);
             PlayerController player = _gameHandler.GetPlayerController(Player.Red);
             
             player.MoveToPos(newPos.x,newPos.z);
 
-            yield return new WaitForSeconds(7);
+            while (player.transform.position.z != newPos.z)
+            {
+                yield return null;
+            }
             
             Assert.That(player.transform.position.x,Is.EqualTo(newPos.x));
             Assert.That(player.transform.position.z,Is.EqualTo(newPos.z));
@@ -175,9 +148,25 @@ namespace Tests
             //Moving red so he have a wall to his right
             player.MovePlayer(Direction.Down);
             
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(moveTime);
             
-            Assert.Throws<ArgumentException>(() => player.MovePlayer(Direction.Right));
+            Assert.Throws<InvalidOperationException>(() => player.MovePlayer(Direction.Right));
+        }
+
+        [UnityTest]
+        public IEnumerator PlayerShouldNotBeAbleToPhaseThoughGates()
+        {
+            PlayerController player = _gameHandler.GetPlayerController(Player.Red);
+            
+            Vector2 posThatIsInFronOfGate = new Vector2(3,8);
+            player.MoveToPos(3,8);
+            
+            while (player.transform.position.x == posThatIsInFronOfGate.x)
+            {
+                yield return null;
+            }
+
+            Assert.Throws<InvalidOperationException>(() => player.MovePlayer(Direction.Right));
         }
 
         [UnityTest]
@@ -185,7 +174,7 @@ namespace Tests
         {
             PlayerController player = _gameHandler.GetPlayerController(Player.Red);
             
-            Assert.Throws<ArgumentException>(() => player.MovePlayer(Direction.Left));
+            Assert.Throws<InvalidOperationException>(() => player.MovePlayer(Direction.Left));
             yield break;
         }
 
@@ -193,8 +182,8 @@ namespace Tests
         public IEnumerator PlayerShouldLetGameHandlerKnowNewPosition()
         {
             PlayerController player = _gameHandler.GetPlayerController(Player.Red);
-            Vector3 startPos = player.transform.position;
-            Vector3 endPos = new Vector3(startPos.x,startPos.y,startPos.z-1);
+            Vector2 startPos = player.GetPosition();
+            Vector2 endPos = new Vector3(startPos.x,startPos.y-1);
             
             //Asserting that the current position is occupied, and the next is not
             Assert.True(_gameHandler.IsPositionOccupied(startPos));
@@ -214,17 +203,17 @@ namespace Tests
         public IEnumerator PlayerShouldLetGameHandlerKnowNewPositionExtended()
         {
             PlayerController player = _gameHandler.GetPlayerController(Player.Red);
-            Vector3 startPos = player.transform.position;
-            Vector3 endPos = new Vector3(1,startPos.y,7);
+            Vector2 startPos = player.GetPosition();
+            Vector2 endPos = new Vector2(1,7);
             
             //Asserting that the current position is occupied, and the next is not
             Assert.True(_gameHandler.IsPositionOccupied(startPos));
             Assert.False(_gameHandler.IsPositionOccupied(endPos));
             
-            player.MoveToPos(endPos.x,endPos.z);
+            player.MoveToPos(endPos.x,endPos.y);
             
             yield return new WaitForSeconds(0.5f);
-            while (player.transform.position.z != endPos.z)
+            while (player.GetPosition() != endPos)
             {
                 yield return null;
             }
@@ -232,8 +221,6 @@ namespace Tests
             //Asserting that the new position is now occupied, and the old is not
             Assert.False(_gameHandler.IsPositionOccupied(startPos));
             Assert.True(_gameHandler.IsPositionOccupied(endPos));
-            
-            yield break;
         }
 
         [UnityTest]
@@ -249,7 +236,7 @@ namespace Tests
             {
                 yield return null;
             }
-            Assert.Throws<ArgumentException>(() => red.MovePlayer(Direction.Down));
+            Assert.Throws<InvalidOperationException>(() => red.MovePlayer(Direction.Down));
         }
         [UnityTest]
         public IEnumerator PlayerShouldBeAbleToPhaseThoughOtherPlayersIfEnabled()

@@ -10,6 +10,13 @@ namespace CoreGame
 {
     public class MapManager : MonoBehaviour
     {
+        public static MapManager current;
+
+        private void Awake()
+        {
+            current = this;
+        }
+
         [Header("Level Information")] public MapData mapData;
         public NavMeshSurface navMeshSurface;
 
@@ -20,7 +27,8 @@ namespace CoreGame
             
             navMeshSurface.BuildNavMesh();
             
-            GameHandler.current.InitializeGame(mapData);
+            GameHandler.current.SetMapData(mapData);
+            if(!GameHandler.current.playersAreExternallyControlled) GameHandler.current.SpawnMaxPlayers();
         }
 
         private void Update()
@@ -28,7 +36,7 @@ namespace CoreGame
             navMeshSurface.BuildNavMesh();
         }
 
-        public void GenerateMapValues()
+        public string[,] GenerateMapValues()
         {
             /*
              * Values and meanings
@@ -40,14 +48,11 @@ namespace CoreGame
              * g = green player
              * y = yellow player
              * xt= x trigger eg. rt = red trigger
-             * xw= x wall    eg. rw = red wall
+             * xg= x wall    eg. rw = red gate
              * fp = finish point
              */
-
-            GameObject triggers = mapData.map.transform.GetChild(0).gameObject;
-            GameObject gates = mapData.map.transform.GetChild(1).gameObject;
             
-            string[,] mapValues = new string[11,11];
+            string[,] mapValues = new string[mapData.xSize+1,mapData.ySize+1];
             
             //Setting all to floor
             for (int i = 1; i <= 10; i++)
@@ -74,9 +79,9 @@ namespace CoreGame
                         {
                             mapValues[x, y] = s.Substring(0, 1) + "t";
                         }
-                        if (s.Length > 4 && s.Substring(s.Length-4,4).Equals("wall"))
+                        if (s.Length > 4 && s.Substring(s.Length-4,4).Equals("gate"))
                         {
-                            mapValues[x, y] = s.Substring(0, 1) + "w";
+                            mapValues[x, y] = s.Substring(0, 1) + "g";
                         }
 
                         if (s.Length > 4 && s.Substring(0,4).Equals("wall"))    
@@ -84,7 +89,7 @@ namespace CoreGame
                             mapValues[x, y] = "w";
                         }
 
-                        if (s.Equals("FinishPoint"))
+                        if (s.Equals("finishpoint"))
                         {
                             mapValues[x, y] = "fp";
                         }
@@ -106,20 +111,10 @@ namespace CoreGame
                         }
                     }
                 }
-                
             }
-
-            for (int y = 1; y <= 10; y++)
-            {
-                string s = "";
-                for (int x = 1; x <= 10; x++)
-                {
-                    s += mapValues[x,y];
-                    s += ",";
-                }
-                Debug.Log(s);
-            }
-
+            
+            return mapValues;
         }
+        
     }
 }
