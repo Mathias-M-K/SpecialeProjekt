@@ -14,6 +14,10 @@ namespace AdminGUI
      {
          public GameObject Row;
          public GameObject Tile;
+         
+         [Header("Settings")] 
+         public float MapCreationTime;
+         public float MapPopulationTime;
 
          private void Awake()
          {
@@ -24,18 +28,8 @@ namespace AdminGUI
          {
              GameHandler.current.AddSequenceObserver(this);
              CreateMap();
-             StartCoroutine(PopulateMap(0.3f));
+             StartCoroutine(PopulateMap(MapCreationTime+0.5f));
          }
-
-         private void Update()
-         {
-             if (Input.GetKeyDown(KeyCode.End))
-             {
-                 CreateMap();
-                 StartCoroutine(PopulateMap(0.5f));
-             }
-         }
-
 
          private void CreateMap()
          {

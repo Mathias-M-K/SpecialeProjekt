@@ -9,7 +9,6 @@ namespace AdminGUI
 {
     public class IncomingTradeElement : _PrimeTradeElement, IMoveObserver
     {
-        public GameObject arrows;
         public GameObject SecondChoice;
         [SerializeField]private bool secondChoiceActive;
 
@@ -36,7 +35,7 @@ namespace AdminGUI
         
         protected override void GUIButtonPressed(string key)
         {
-            if (key.Equals("IncomingTradeBtn"+btnNr))
+            if (key.Equals(name))
             {
                 if (!firstChoiceActive)
                 {

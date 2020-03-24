@@ -8,7 +8,7 @@ namespace AdminGUI
         
         protected override void GUIButtonPressed(string key)
         {
-            if (key.Equals("OutgoingTradeBtn" + btnNr))
+            if (key.Equals(name))
             {
                 if (!firstChoiceActive) 
                 {

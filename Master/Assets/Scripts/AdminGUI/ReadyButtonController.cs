@@ -15,22 +15,6 @@ namespace AdminGUI
 
         private PlayerController _playerController;
 
-        /*
-        private Color32 colorReady = new Color32(120, 224, 143,255);
-        private Color32 colorReadyHighlight = new Color32(184, 233, 148,255);
-        
-        private Color32 colorUnready = new Color32(246, 185, 59,255);
-        private Color32 colorUnreadyHighlight = new Color32(250, 211, 144,255);
-        
-        
-        
-        [SerializeField]private Color32 colorReady = new Color32(106, 176, 76,255);
-        private Color32 colorReadyHighlight = new Color32(186, 220, 88,255);
-        
-        private Color32 colorUnready = new Color32(249, 202, 36,255);
-        private Color32 colorUnreadyHighlight = new Color32(249, 202, 36,255);
-        */
-
         private ColorBlock redColors;
         private ColorBlock greenColors;
         
@@ -78,26 +62,19 @@ namespace AdminGUI
         {
             ColorBlock colorBlock = readyBtn.colors;
             
-            //colorBlock.normalColor = colorReady;
-            //colorBlock.highlightedColor = colorReadyHighlight;
             text.text = "READY!";
             colorBlock = greenColors;
 
             readyBtn.colors = colorBlock;
-            //readyBtn.colors = ColorPalette.current.greenButton;
         }
 
         private void SetUnready()
         {
             ColorBlock colorBlock = readyBtn.colors;
-            
-            //colorBlock.normalColor = colorUnready;
-            //colorBlock.highlightedColor = colorUnreadyHighlight;
 
             colorBlock = redColors;
             text.text = "Ready?";
             readyBtn.colors = colorBlock;
-            //readyBtn.colors = ColorPalette.current.redButton;
         }
 
         public void OnReadyStateChanged(bool state)

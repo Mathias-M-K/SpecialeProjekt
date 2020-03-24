@@ -37,7 +37,7 @@ namespace AdminGUI
             PlayerDropdownChanged();
 
 
-            LeanTween.value(ManualControlBtn.GetComponent<RectTransform>().sizeDelta.x,0,0.5f).setOnUpdate(SetWidthOnBtn).setOnComplete(() => Destroy(ManualControlBtn.gameObject));
+            //LeanTween.value(ManualControlBtn.GetComponent<RectTransform>().sizeDelta.x,0,0.5f).setOnUpdate(SetWidthOnBtn).setOnComplete(() => Destroy(ManualControlBtn.gameObject));
 
             ManualEnabledNotify();
         }
@@ -55,9 +55,7 @@ namespace AdminGUI
             NotifyButtonHit("ReadyBtn");
         }
 
-        /*
-         * Prime Buttons
-         */
+        //Prime Buttons
         public void SendBtnHit()
         {
             NotifyButtonHit("SendBtn");
@@ -67,38 +65,15 @@ namespace AdminGUI
         {
             NotifyButtonHit("TradeBtn");
         }
-
-        /*
-         * Arrows
-         */
+        
+        //Arrow
         public void Arrow(Button b)
         {
-            print(b.name);
+            NotifyButtonHit(b.name);
         }
-        public void ArrowFirst()
-        {
-            NotifyButtonHit("Arrow0");
-        }
+      
 
-        public void ArrowSecond()
-        {
-            NotifyButtonHit("Arrow1");
-        }
-
-        public void ArrowThird()
-        {
-            NotifyButtonHit("Arrow2");
-        }
-
-        public void ArrowForth()
-        {
-            NotifyButtonHit("Arrow3");
-        }
-
-        /*
-         * Colors
-         */
-
+        //Colors
         public void ColorFirst()
         {
             NotifyButtonHit("Color0");
@@ -117,49 +92,18 @@ namespace AdminGUI
         /*
          * Incomming Trade Buttons
          */
-
-        public void IncomingTradeBtn1()
+        public void IncomingTradeBtn(Button b)
         {
-            NotifyButtonHit("IncomingTradeBtn1");
-        }
+            NotifyButtonHit(b.name);
 
-        public void IncomingTradeBtn2()
-        {
-            NotifyButtonHit("IncomingTradeBtn2");
-        }
-
-        public void IncomingTradeBtn3()
-        {
-            NotifyButtonHit("IncomingTradeBtn3");
-        }
-
-        public void IncomingTradeBtn4()
-        {
-            NotifyButtonHit("IncomingTradeBtn4");
         }
 
         /*
          * Outgoing Trade Buttons
          */
-
-        public void OutgoingTradeBtn1()
+        public void OutGoingTradeBtn(Button b)
         {
-            NotifyButtonHit("OutgoingTradeBtn1");
-        }
-
-        public void OutgoingTradeBtn2()
-        {
-            NotifyButtonHit("OutgoingTradeBtn2");
-        }
-
-        public void OutgoingTradeBtn3()
-        {
-            NotifyButtonHit("OutgoingTradeBtn3");
-        }
-
-        public void OutgoingTradeBtn4()
-        {
-            NotifyButtonHit("OutgoingTradeBtn4");
+            NotifyButtonHit(b.name);
         }
 
         /*
@@ -224,5 +168,12 @@ namespace AdminGUI
 
             if (onPlayerChange != null) onPlayerChange(currentChosenPlayer);
         }
+    }
+
+    public enum Keys
+    {
+        Mathias,
+        ikkeMathias
+        
     }
 }

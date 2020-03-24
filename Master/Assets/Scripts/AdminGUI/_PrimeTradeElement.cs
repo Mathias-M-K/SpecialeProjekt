@@ -6,7 +6,6 @@ namespace AdminGUI
     //Parent Class, not to be used directly
     public abstract class _PrimeTradeElement : MonoBehaviour
     {
-        [Range(1, 4)] public int btnNr;
         public GameObject FirstChoice;
         
         [SerializeField] protected bool firstChoiceActive;

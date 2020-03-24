@@ -4,7 +4,6 @@
     <e p="C:\Users\mathi\.Rider2019.3\system\extResources" t="IncludeRecursive" />
     <e p="C:\Users\mathi\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Master.-791168200.00" t="ExcludeRecursive" />
     <e p="C:\Users\mathi\Documents\GitHub\SpecialeProjekt\Master" t="IncludeRecursive">
-      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="_Imports" t="Include">
@@ -65,6 +64,7 @@
               <e p="InitMUIP.cs" t="Include" />
               <e p="UIManagerEditor.cs" t="Include" />
             </e>
+            <e p="ModernUIReference.asmref" t="Include" />
             <e p="Read Me.txt" t="Include" />
             <e p="Scripts" t="Include">
               <e p="Animated Icon" t="Include">
@@ -298,6 +298,7 @@
             <e p="_PrimeTradeElement.cs" t="Include" />
             <e p="GUIEvents.cs" t="Include" />
             <e p="GUIMethods.cs" t="Include" />
+            <e p="GUIOverlay.cs" t="Include" />
             <e p="GUIStartScreen.cs" t="Include" />
             <e p="IncomingTradeElement.cs" t="Include" />
             <e p="OutgoingTradeElement.cs" t="Include" />
@@ -359,6 +360,7 @@
             <e p="BlockHandler.cs" t="Include" />
           </e>
           <e p="NavMeshManager.cs" t="Include" />
+          <e p="ScreenHandler.cs" t="Include" />
           <e p="TestHandler.cs" t="Include" />
         </e>
         <e p="Tests" t="Include">

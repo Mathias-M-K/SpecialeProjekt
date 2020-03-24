@@ -37,10 +37,10 @@ namespace AdminGUI
         public TextMeshProUGUI incomingTradesTitle;
         public TextMeshProUGUI outgoingTradesTitle;
 
+        public Button incomingTrade0;
         public Button incomingTrade1;
         public Button incomingTrade2;
         public Button incomingTrade3;
-        public Button incomingTrade4;
 
         public Button outgoingTrade1;
         public Button outgoingTrade2;
@@ -53,7 +53,7 @@ namespace AdminGUI
         {
             GUIEvents.current.onPlayerChange += OnPlayerChange;
             GUIEvents.current.onTradeAction += OnTradeBtn;
-            incomingTradeButtons = new List<Button> {incomingTrade1, incomingTrade2, incomingTrade3, incomingTrade4};
+            incomingTradeButtons = new List<Button> {incomingTrade0, incomingTrade1, incomingTrade2, incomingTrade3};
             outgoingTradeButtons = new List<Button> {outgoingTrade1, outgoingTrade2, outgoingTrade3, outgoingTrade4};
         }
 

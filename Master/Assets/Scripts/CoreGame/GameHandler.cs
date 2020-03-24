@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Container;
 using CoreGame.Interfaces;
+using Michsky.UI.ModernUIPack;
 using UnityEngine;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
@@ -17,7 +18,6 @@ namespace CoreGame
         //Game variables
         private readonly List<StoredPlayerMove> _sequenceMoves = new List<StoredPlayerMove>();
         private readonly List<PlayerController> _players = new List<PlayerController>();
-        //private readonly Vector2[] _occupiedPositions = new Vector2[4];
         private readonly Dictionary<Player,Vector2> _occupiedPositions = new Dictionary<Player, Vector2>();
         public List<PlayerTrade> trades = new List<PlayerTrade>();
         
@@ -46,6 +46,9 @@ namespace CoreGame
         
         [Space] [Header("Player Abilities")] 
         public bool playersCanPhase;
+
+        [Space] [Header("Other")] 
+        public ModalWindowManager endScreen;
         
         
         public void Awake()
@@ -259,6 +262,7 @@ namespace CoreGame
             if (playersFinished >= numberOfSpawnedPlayers)
             {
                 IsGameDone = true;
+                endScreen.OpenWindow();
             }
         }
 
