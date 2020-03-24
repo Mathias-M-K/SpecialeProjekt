@@ -61,7 +61,5 @@ namespace AdminGUI
                     throw new ArgumentOutOfRangeException(nameof(direction), direction, "Invalid direction");
             }
         }
-
-
     }
 }

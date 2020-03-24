@@ -13,5 +13,6 @@ public enum SequenceActions
     NewMoveAdded,
     MoveRemoved,
     SequenceStarted,
-    SequenceEnded
+    SequenceEnded,
+    MovePerformed
 }

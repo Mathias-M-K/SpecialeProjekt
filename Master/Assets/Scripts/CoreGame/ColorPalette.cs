@@ -7,27 +7,25 @@ namespace CoreGame
     public class ColorPalette : MonoBehaviour
     {
         public static ColorPalette current;
-        
+
         private void Awake()
         {
             current = this;
         }
 
-        [Header("Player Colors")] 
-        public Color32 playerRed;
+        [Header("Player Colors")] public Color32 playerRed;
         public Color32 playerBlue;
         public Color32 playerGreen;
         public Color32 playerYellow;
-        
-        [Header(("Red Button"))]
-        public ColorBlock redButton;
-        
-        [Header(("green Button"))]
-        public ColorBlock greenButton;
 
-        [Header("Scene Elements")] 
-        public Color32 floor;
-        public Color32 walls;
+        [Header("Scene Elements")] public Color32 floorColor;
+        public Color32 wallsColor;
+        public Color32 finishPointColor;
+
+        [Header(("Yellow Button"))] public ColorBlock yellowButton;
+
+        [Header(("Green Button"))] public ColorBlock greenButton;
+
 
         public Color32 GetPlayerColor(Player player)
         {
@@ -45,5 +43,22 @@ namespace CoreGame
                     throw new ArgumentOutOfRangeException(nameof(player), player, null);
             }
         }
+        public Color32 GetPlayerColor(string firstLetter)
+        {
+            switch (firstLetter)
+            {
+                case "r":
+                    return playerRed;
+                case "b":
+                    return playerBlue;
+                case "g":
+                    return playerGreen;
+                case "y":
+                    return playerYellow;
+                default:
+                    throw new ArgumentException($"{firstLetter} is not recognized");
+            }
+        }
+        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using CoreGame;
 using TMPro;
 using UnityEngine;
@@ -35,8 +36,15 @@ namespace AdminGUI
         {
             PlayerDropdownChanged();
 
-            LeanTween.alpha(ManualControlBtn.GetComponent<Image>().rectTransform, 0, 0.2f).destroyOnComplete = true;
+
+            LeanTween.value(ManualControlBtn.GetComponent<RectTransform>().sizeDelta.x,0,0.5f).setOnUpdate(SetWidthOnBtn).setOnComplete(() => Destroy(ManualControlBtn.gameObject));
+
             ManualEnabledNotify();
+        }
+
+        private void SetWidthOnBtn(float width)
+        {
+            ManualControlBtn.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,width);
         }
         
         /*
@@ -63,6 +71,10 @@ namespace AdminGUI
         /*
          * Arrows
          */
+        public void Arrow(Button b)
+        {
+            print(b.name);
+        }
         public void ArrowFirst()
         {
             NotifyButtonHit("Arrow0");

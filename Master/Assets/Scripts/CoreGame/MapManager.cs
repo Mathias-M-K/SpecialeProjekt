@@ -55,9 +55,9 @@ namespace CoreGame
             string[,] mapValues = new string[mapData.xSize+1,mapData.ySize+1];
             
             //Setting all to floor
-            for (int i = 1; i <= 10; i++)
+            for (int i = 1; i <= mapData.xSize; i++)
             {
-                for (int j = 1; j <= 10; j++)
+                for (int j = 1; j <= mapData.ySize; j++)
                 {
                     mapValues[i,j] = "f";
                 }

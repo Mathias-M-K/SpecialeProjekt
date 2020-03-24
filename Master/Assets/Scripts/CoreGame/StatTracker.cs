@@ -63,6 +63,10 @@ namespace CoreGame
                     _textWriter.WriteLine("{0},{1}",sequenceAction,Time.realtimeSinceStartup);
                     break;
                 case SequenceActions.SequenceEnded:
+                    _textWriter.WriteLine("{0},{1}",sequenceAction,Time.realtimeSinceStartup);
+                    break;
+                case SequenceActions.MovePerformed:
+                    _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,Time.realtimeSinceStartup,move.Player,move.Direction);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(sequenceAction), sequenceAction, null);

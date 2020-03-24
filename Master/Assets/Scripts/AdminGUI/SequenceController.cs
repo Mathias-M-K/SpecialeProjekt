@@ -37,15 +37,9 @@ namespace AdminGUI
                     float delay = GameHandler.current.delayBetweenMoves;
                     StartCoroutine(ClearSequence(delay));
                     break;
-                case SequenceActions.SequenceEnded:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(sequenceAction), sequenceAction, null);
             }
         }
-
         
-
         private void RemoveMove(StoredPlayerMove move)
         {
             nrOfMovesInSequence--;

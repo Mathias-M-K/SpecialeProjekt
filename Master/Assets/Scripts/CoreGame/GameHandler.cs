@@ -17,8 +17,15 @@ namespace CoreGame
         //Game variables
         private readonly List<StoredPlayerMove> _sequenceMoves = new List<StoredPlayerMove>();
         private readonly List<PlayerController> _players = new List<PlayerController>();
-        private readonly Vector2[] _occupiedPositions = new Vector2[4];
+        //private readonly Vector2[] _occupiedPositions = new Vector2[4];
+        private readonly Dictionary<Player,Vector2> _occupiedPositions = new Dictionary<Player, Vector2>();
         public List<PlayerTrade> trades = new List<PlayerTrade>();
+        
+        private int numberOfSpawnedPlayers;
+        private int numberOfReadyPlayers;
+        private int playersFinished;
+
+        public bool IsGameDone { get; private set; }
 
         //Map information
         private Vector2[] _spawnPositions;
@@ -29,19 +36,13 @@ namespace CoreGame
         private readonly List<IFinishPointObserver> _gameProgressObservers = new List<IFinishPointObserver>();
 
 
-        [Header("Player Prefab")] public GameObject playerPrefab;
+        [Header("Player Prefab")] 
+        public GameObject playerPrefab;
         
         [Space] [Header("Game Settings")] 
         [Range(1, 6)] public int numberOfPlayers;
         [Range(1,10)] public float delayBetweenMoves;
         public bool playersAreExternallyControlled;
-
-        private int numberOfSpawnedPlayers;
-        private int numberOfReadyPlayers;
-        private int playersFinished;
-
-        //Value for checking if game is done. All IGameEndObservers are automatically updated
-        public bool IsGameDone { get; private set; }
         
         [Space] [Header("Player Abilities")] 
         public bool playersCanPhase;
@@ -70,11 +71,13 @@ namespace CoreGame
             
         }
         
+        
+        //Checks if the given position is occupied by another player
         public bool IsPositionOccupied(Vector2 position)
         {
-            foreach (Vector2 occupiedPosition in _occupiedPositions)
+            foreach (KeyValuePair<Player,Vector2> occupiedPosition in _occupiedPositions)
             {
-                if (position.x == occupiedPosition.x && position.y == occupiedPosition.y)
+                if (position.x == occupiedPosition.Value.x && position.y == occupiedPosition.Value.y)
                 {
                     return true;
                 }
@@ -82,31 +85,14 @@ namespace CoreGame
 
             return false;
         }
-
-        //Lets players announce their position
-        public void RegisterPosition(Player player, Vector3 position)
+        
+        //Lets player announce their new position
+        public void RegisterPosition(Player player, Vector2 position)
         {
-            int index = 0;
-            switch (player)
-            {
-                case Player.Red:
-                    index = 0;
-                    break;
-                case Player.Blue:
-                    index = 1;
-                    break;
-                case Player.Green:
-                    index = 2;
-                    break;
-                case Player.Yellow:
-                    index = 3;
-                    break;
-                default:
-                    throw new ArgumentException("Not a valid player");
-            }
-            _occupiedPositions[index] = new Vector2(position.x,position.z);
+            _occupiedPositions[player] = position;
         }
 
+        //Creates new PlayerTrade
         public void NewTrade(Direction direction, int directionIndex, Player playerReceiving, Player playerOffering)
         {
             PlayerController playerReceivingController = GetPlayerController(playerReceiving);
@@ -130,6 +116,7 @@ namespace CoreGame
             trade.NotifyObservers(TradeActions.TradeOffered);
         }
 
+        //Adds a move to the common sequence
         public void AddMoveToSequence(Player p, Direction d, int index)
         {
             PlayerController playerController = GetPlayerController(p);
@@ -155,12 +142,14 @@ namespace CoreGame
             NotifySequenceObservers(SequenceActions.NewMoveAdded, playerMove);
         }
 
+        //Removes a move from the common sequence
         public void RemoveMoveFromSequence(StoredPlayerMove move)
         {
             _sequenceMoves.Remove(move);
             NotifySequenceObservers(SequenceActions.MoveRemoved, move);
         }
 
+        //Performs the sequence, by moving the players in their decired directions
         public IEnumerator PerformSequence()
         {
             foreach (PlayerController player in _players)
@@ -181,10 +170,11 @@ namespace CoreGame
                 try
                 {
                     playerController.MovePlayer(pm.Direction);
+                    NotifySequenceObservers(SequenceActions.MovePerformed,pm);
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError(e.Message);
+                    Debug.LogError(e);
                 }
                 yield return new WaitForSeconds(delayBetweenMoves);
             }
@@ -203,6 +193,7 @@ namespace CoreGame
             NotifySequenceObservers(SequenceActions.SequenceEnded,null);
         }
 
+        
         public PlayerController GetPlayerController(Player p)
         {
             foreach (var playerController in _players)
@@ -247,7 +238,7 @@ namespace CoreGame
             int spawnNr = _players.Count;
 
             Vector3 spawnPosition = new Vector3(_spawnPositions[spawnNr].x, 1.55f, _spawnPositions[spawnNr].y);
-            _occupiedPositions[spawnNr] = _spawnPositions[spawnNr];
+            _occupiedPositions[playerTags[spawnNr]] = _spawnPositions[spawnNr];
                 
             GameObject g = Instantiate(playerPrefab, spawnPosition, new Quaternion(0, 0, 0, 0));
             g.name = playerTags[spawnNr].ToString();

@@ -9,7 +9,6 @@ namespace AdminGUI
 {
     public class SendButton : _PrimeButton
     {
-        
         protected override void GUIButtonPressed(string key)
         {
             if (!enabledAndActive) return;
@@ -31,7 +30,7 @@ namespace AdminGUI
                 {
                     int.TryParse(key.Substring(5, key.Length - 5), out int indexFetchValue);
                     Direction directionToSend = _playerController.GetMoves()[indexFetchValue];
-                    GameHandler.current.AddMoveToSequence(_playerController.player, directionToSend, _playerController.GetIndexForDirection(directionToSend));
+                    GameHandler.current.AddMoveToSequence(_playerController.player, directionToSend, indexFetchValue);
                     
                     PlayerChange(_playerController.player);
                 }

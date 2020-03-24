@@ -80,7 +80,7 @@ namespace CoreGame
         }
 
         //Telling game handler that the position is occupied
-        private void AnnouncePosition(Vector3 position)
+        private void AnnouncePosition(Vector2 position)
         {
             GameHandler.current.RegisterPosition(player, position);
         }
@@ -254,7 +254,7 @@ namespace CoreGame
                 throw new InvalidOperationException($"{player} is trying to phase though another player, while phaseAllowed is {GameHandler.current.playersCanPhase}");
             }
 
-            AnnouncePosition(newGridPos);
+            AnnouncePosition(new Vector2(newGridPos.x,newGridPos.z));
 
             agent.SetDestination(newGridPos);
         }
@@ -263,7 +263,7 @@ namespace CoreGame
         public void MoveToPos(Vector2 pos)
         {
             Vector3 newPos = CalculateGridPos(new Vector3(pos.x, 1, pos.y));
-            AnnouncePosition(newPos);
+            AnnouncePosition(new Vector2(newPos.x,newPos.z));
             agent.SetDestination(newPos);
         }
         public void MoveToPos(float x, float y)
@@ -352,7 +352,7 @@ namespace CoreGame
             _readyObservers.Remove(iro);
         }
 
-        public void NotifyReadyObservers()
+        private void NotifyReadyObservers()
         {
             foreach (IReadyObserver observer in _readyObservers)
             {

@@ -36,7 +36,7 @@ namespace AdminGUI
         
         private void Start()
         {
-            redColors = ColorPalette.current.redButton;
+            redColors = ColorPalette.current.yellowButton;
             greenColors = ColorPalette.current.greenButton;
             
             text = readyBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
