@@ -38,14 +38,14 @@ namespace AdminGUI
              int rowName = mm.mapData.ySize;
              for (int i = 0; i < mm.mapData.ySize; i++)
              {
-                 GameObject row = Instantiate(Row, transform, true);
+                 GameObject row = Instantiate(Row, transform, false);
                  row.name = rowName.ToString();
                  rowName--;
 
                  int tileName = mm.mapData.xSize;
                  for (int j = 0; j < mm.mapData.xSize; j++)
                  {
-                     GameObject tile = Instantiate(Tile, row.transform, true);
+                     GameObject tile = Instantiate(Tile, row.transform, false);
                      tile.name = tileName.ToString();
                      tileName--;
                      tile.transform.SetAsFirstSibling();

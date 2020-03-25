@@ -8,7 +8,8 @@ public class ScreenHandler : MonoBehaviour
     public Canvas GameCanvas;
     public bool GameCanvasActive = true;
 
-
+        
+    
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))

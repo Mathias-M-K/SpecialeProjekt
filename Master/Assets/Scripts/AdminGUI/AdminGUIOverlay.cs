@@ -1,16 +1,32 @@
 ﻿using System;
 using Michsky.UI.ModernUIPack;
+using UnityEditorInternal.VersionControl;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AdminGUI
 {
-    public class GUIOverlay : MonoBehaviour
+    public class AdminGUIOverlay : MonoBehaviour
     {
         public ModalWindowManager SettingsOverlay;
         private bool OverLayActive;
 
+        private new bool enabled;
+
+        private void Start()
+        {
+            GUIEvents.current.onManualOverride += OnManualControl;
+        }
+
+        private void OnManualControl()
+        {
+            enabled = true;
+        }
+        
         private void Update()
         {
+            if (!enabled) return;
+            
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if (OverLayActive)
@@ -23,6 +39,12 @@ namespace AdminGUI
                 }
                 OverLayActive = !OverLayActive;
             }
+        }
+
+        public void ApplicationQuit()
+        {
+            print("Application Quit");
+            Application.Quit();
         }
     }
 }

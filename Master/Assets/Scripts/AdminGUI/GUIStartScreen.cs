@@ -34,7 +34,7 @@ namespace AdminGUI
             yield return new WaitForSeconds(2);
             
             sandGlass.ClickEvent();
-            LeanTween.moveLocalY(background, -Screen.height, backgroundSpeed).setEase(backgroundEase);
+            LeanTween.moveLocalY(background, -1440, backgroundSpeed).setEase(backgroundEase);
         }
     }
 }

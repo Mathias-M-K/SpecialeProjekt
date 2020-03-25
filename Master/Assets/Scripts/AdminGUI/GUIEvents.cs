@@ -32,13 +32,11 @@ namespace AdminGUI
         /*
          * Manual Control Button
          */
-        public void ManualControl()
+        public void ManualControl(Button b)
         {
+            b.interactable = false;
             PlayerDropdownChanged();
-
-
-            //LeanTween.value(ManualControlBtn.GetComponent<RectTransform>().sizeDelta.x,0,0.5f).setOnUpdate(SetWidthOnBtn).setOnComplete(() => Destroy(ManualControlBtn.gameObject));
-
+            
             ManualEnabledNotify();
         }
 
