@@ -10,12 +10,13 @@ public class GameStartScreen : MonoBehaviour
 
     private void Start()
     {
-        GUIEvents.current.onButtonHit += OnBtnHit;
+        AdminGUIEvents.current.onButtonHit += OnBtnHit;
     }
 
     private void OnBtnHit(string key)
     {
-        if (key.Equals("SpawnPanel"))
+        print(key);
+        if (key.Equals("SpawnPlayers"))
         {
             LeanTween.moveLocalY(SpawnPanel, 0, spawnPanelTime).setEase(spawnPanelEase);
         }   

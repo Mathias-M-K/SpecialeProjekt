@@ -21,7 +21,7 @@ namespace AdminGUI
 
          private void Awake()
          {
-             GUIEvents.current.onManualOverride += OnManualOverride;
+             AdminGUIEvents.current.onManualOverride += OnManualOverride;
          }
 
          private void OnManualOverride()

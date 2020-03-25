@@ -18,7 +18,7 @@ namespace AdminGUI
         protected override void Start()
         {
             base.Start();
-            GUIEvents.current.onPlayerChange += UpdatePlayerPalette;
+            AdminGUIEvents.current.onPlayerChange += UpdatePlayerPalette;
         }
 
         protected override void GUIButtonPressed(string key)

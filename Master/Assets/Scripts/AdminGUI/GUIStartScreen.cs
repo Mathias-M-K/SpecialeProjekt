@@ -26,8 +26,8 @@ namespace AdminGUI
 
         private void Start()
         {
-            GUIEvents.current.onManualOverride += OnManualOverride;
-            GUIEvents.current.onGameStart += OnGameStart;
+            AdminGUIEvents.current.onManualOverride += OnManualOverride;
+            AdminGUIEvents.current.onGameStart += OnGameStart;
             
         }
 

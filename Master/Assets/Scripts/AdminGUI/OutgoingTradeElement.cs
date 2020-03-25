@@ -22,7 +22,7 @@ namespace AdminGUI
             {
                 if (firstChoiceActive)
                 {
-                    GUIEvents.current.TradeActionNotify(gameObject.GetComponent<Button>(),TradeActions.TradeCanceled,Direction.Blank);
+                    AdminGUIEvents.current.TradeActionNotify(gameObject.GetComponent<Button>(),TradeActions.TradeCanceled,Direction.Blank);
                 }
             }
             else

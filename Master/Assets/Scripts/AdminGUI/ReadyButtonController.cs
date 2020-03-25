@@ -25,8 +25,8 @@ namespace AdminGUI
             
             text = readyBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
-            GUIEvents.current.onButtonHit += OnBtnHit;
-            GUIEvents.current.onPlayerChange += OnPlayerChange;
+            AdminGUIEvents.current.onButtonHit += OnBtnHit;
+            AdminGUIEvents.current.onPlayerChange += OnPlayerChange;
         }
 
         private void OnPlayerChange(Player player)

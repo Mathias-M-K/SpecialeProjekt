@@ -15,7 +15,7 @@ namespace AdminGUI
 
         private void Start()
         {
-            GUIEvents.current.onManualOverride += OnManualControl;
+            AdminGUIEvents.current.onManualOverride += OnManualControl;
         }
 
         private void OnManualControl()

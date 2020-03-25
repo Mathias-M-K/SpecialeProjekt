@@ -17,7 +17,7 @@ namespace AdminGUI
         protected override void Start()
         {
             base.Start();
-            GUIEvents.current.onPlayerChange += OnPlayerChange;
+            AdminGUIEvents.current.onPlayerChange += OnPlayerChange;
         }
 
         private void OnPlayerChange(Player newPlayer)
@@ -64,7 +64,7 @@ namespace AdminGUI
             {
                 if (firstChoiceActive)
                 {
-                    GUIEvents.current.TradeActionNotify(gameObject.GetComponent<Button>(),TradeActions.TradeRejected,Direction.Blank);
+                    AdminGUIEvents.current.TradeActionNotify(gameObject.GetComponent<Button>(),TradeActions.TradeRejected,Direction.Blank);
                     SetFirstChoiceInactive();
                 }
             }else if (key.Substring(0, 5).Equals("Arrow"))
@@ -74,7 +74,7 @@ namespace AdminGUI
                     int.TryParse(key.Substring(5, key.Length - 5), out int indexFetchValue);
                     Direction d = _playerController.GetMoves()[indexFetchValue];
                     
-                    GUIEvents.current.TradeActionNotify(gameObject.GetComponent<Button>(),TradeActions.TradeAccepted,d);
+                    AdminGUIEvents.current.TradeActionNotify(gameObject.GetComponent<Button>(),TradeActions.TradeAccepted,d);
                     
                 }
             }

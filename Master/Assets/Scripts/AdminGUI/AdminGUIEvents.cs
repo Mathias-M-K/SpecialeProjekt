@@ -10,9 +10,9 @@ using UnityEngine.UI;
 
 namespace AdminGUI
 {
-    public class GUIEvents : MonoBehaviour
+    public class AdminGUIEvents : MonoBehaviour
     {
-        public static GUIEvents current;
+        public static AdminGUIEvents current;
         
         private Player CurrentChosenPlayer;
         
