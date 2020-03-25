@@ -9,6 +9,7 @@ namespace Tests
 {
     public class MapManagerTest
     {
+        private GameObject game;
         private GameHandler _gameHandler;
         private MapManager _mapManager;
 
@@ -17,42 +18,32 @@ namespace Tests
         private GameObject camera;
         private GameObject directionalLight;
 
-        private float waitTime = 0.2f;
-        
+        private float waitTime;
+
+
         [SetUp]
         public void Setup()
         {
-            camera = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/MainCamera"));
-            directionalLight = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/DirectionalLight"));
-            GameObject go = new GameObject();
-            go.AddComponent<GameHandler>();
-            go.AddComponent<MapManager>();
+            game = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Game"));
 
-            _gameHandler = go.GetComponent<GameHandler>();
+
+            _gameHandler = game.GetComponentInChildren<GameHandler>();
             _gameHandler.playerPrefab = Resources.Load<GameObject>("Prefabs/Player");
             _gameHandler.numberOfPlayers = 4;
-
-            navMesh = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/NavMesh"));
-            MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/ColorPalette"));
-
-            _mapManager = go.GetComponent<MapManager>();
-            _mapManager.mapData = Resources.Load<MapData>("MapData/4PlayerLevel");
-            go.GetComponent<MapManager>().navMeshSurface = navMesh.GetComponent<NavMeshSurface>();
             
-            LightmapData lmd = new LightmapData();
+            _mapManager = game.GetComponentInChildren<MapManager>();
+            _mapManager.mapData = Resources.Load<MapData>("MapData/4PlayerLevel");
+            _mapManager.SendMapDataToGameHandler();
+            
+            waitTime = 0.2f;
 
         }
 
         [TearDown]
         public void Teardown()
         {
-            Object.Destroy(camera);
-            Object.Destroy(directionalLight);
-            Object.Destroy(_gameHandler.gameObject);
-            Object.Destroy(navMesh);
+            Object.Destroy(game);
 
-            Object.Destroy(ColorPalette.current.gameObject);
-            
             Object.Destroy(GameObject.Find("4 Player Level(Clone)"));
             Object.Destroy(GameObject.Find("Red"));
             Object.Destroy(GameObject.Find("Blue"));
@@ -66,6 +57,7 @@ namespace Tests
         [UnityTest]
         public IEnumerator IndexXOneYOneShouldBePlayerBlue()
         {
+            _gameHandler.StartGame();
             yield return new WaitForSeconds(waitTime);
             string[,] mapValues = _mapManager.GenerateMapValues();
             
@@ -113,6 +105,7 @@ namespace Tests
         public IEnumerator RedShouldBeOnFirstSpawnPosition()
         {
             //Red is always the first one spawned
+            _gameHandler.SpawnNewPlayer();
             Assert.That(_gameHandler.GetPlayerController(Player.Red).GetPosition(), Is.EqualTo(_gameHandler.GetSpawnLocations()[0]));
             yield break;
         }
@@ -120,7 +113,10 @@ namespace Tests
         [UnityTest]
         public IEnumerator BlueShouldBeOnSecondSpawnPosition()
         {
-            //Blue is always the third one spawned
+            //Blue is always the second one spawned
+            _gameHandler.SpawnNewPlayer();
+            _gameHandler.SpawnNewPlayer();
+            
             Assert.That(_gameHandler.GetPlayerController(Player.Blue).GetPosition(), Is.EqualTo(_gameHandler.GetSpawnLocations()[1]));
             yield break;
         }
@@ -128,7 +124,10 @@ namespace Tests
         [UnityTest]
         public IEnumerator GreenShouldBeOnThirdSpawnPosition()
         {
-            //Red is always the first one spawned
+            _gameHandler.SpawnNewPlayer();
+            _gameHandler.SpawnNewPlayer();
+            _gameHandler.SpawnNewPlayer();
+            
             Assert.That(_gameHandler.GetPlayerController(Player.Green).GetPosition(), Is.EqualTo(_gameHandler.GetSpawnLocations()[2]));
             yield break;
         }
@@ -136,7 +135,7 @@ namespace Tests
         [UnityTest]
         public IEnumerator YellowShouldBeOnForthSpawnPosition()
         {
-            //Red is always the first one spawned
+            _gameHandler.SpawnMaxPlayers();
             Assert.That(_gameHandler.GetPlayerController(Player.Yellow).GetPosition(), Is.EqualTo(_gameHandler.GetSpawnLocations()[3]));
             yield break;
         }

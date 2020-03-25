@@ -18,11 +18,17 @@ public class ScreenHandler : MonoBehaviour
             {
                 AdminCanvas.targetDisplay = 0;
                 GameCanvas.targetDisplay = 1;
+                
+                AdminCanvas.sortingOrder = 1;
+                GameCanvas.sortingOrder = 0;
             }
             else
             {
                 AdminCanvas.targetDisplay = 1;
                 GameCanvas.targetDisplay = 0;
+                
+                AdminCanvas.sortingOrder = 0;
+                GameCanvas.sortingOrder = 1;
             }
 
             GameCanvasActive = !GameCanvasActive;

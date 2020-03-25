@@ -21,6 +21,9 @@ namespace CoreGame
         private readonly Dictionary<Player,Vector2> _occupiedPositions = new Dictionary<Player, Vector2>();
         public List<PlayerTrade> trades = new List<PlayerTrade>();
         
+        //Predefined game variables
+        List<Player> playerTags = new List<Player>(){Player.Red,Player.Blue,Player.Green,Player.Yellow};
+        
         private int numberOfSpawnedPlayers;
         private int numberOfReadyPlayers;
         private int playersFinished;
@@ -56,8 +59,13 @@ namespace CoreGame
             current = this;
         }
 
-        private void StartGame()
+        public void StartGame()
         {
+            if (!playersAreExternallyControlled)
+            {
+                SpawnMaxPlayers();
+            }
+
             RemoveBarricadesForInactivePlayers();
         }
 
@@ -222,24 +230,22 @@ namespace CoreGame
         //Spawning players
         public void SpawnMaxPlayers()
         {
-            List<Player> playerTags = new List<Player>(){Player.Red,Player.Blue,Player.Green,Player.Yellow};
-
             for (int i = numberOfSpawnedPlayers; i < numberOfPlayers; i++)
             {
                 SpawnNewPlayer();
             }
         }
-        public Player SpawnNewPlayer()
+        
+        /// <summary>Class <c>SpawnNewPlayer</c> Spawns a specific player on a preselected position</summary>
+        public void SpawnNewPlayer(Player player)
         {
-            if (_players.Count >= numberOfPlayers)
-            {
-                throw new InvalidOperationException("Max players have already been reached");
-            }
+            //Checks
+            if (_players.Count >= numberOfPlayers) throw new InvalidOperationException("Max players have already been reached");
+            if (_players.IndexOf(GetPlayerController(player)) != -1) throw new ArgumentException($"player {player} already exist");
             
-            List<Player> playerTags = new List<Player>(){Player.Red,Player.Blue,Player.Green,Player.Yellow};
-
-            int spawnNr = _players.Count;
-
+            //Code
+            int spawnNr = playerTags.IndexOf(player);
+            
             Vector3 spawnPosition = new Vector3(_spawnPositions[spawnNr].x, 1.55f, _spawnPositions[spawnNr].y);
             _occupiedPositions[playerTags[spawnNr]] = _spawnPositions[spawnNr];
                 
@@ -253,8 +259,21 @@ namespace CoreGame
 
             p.AddReadyObserver(this);
             numberOfSpawnedPlayers++;
+        }
+        
+        /// <summary>Class <c>SpawnNewPlayer</c> Spawns the next player in line, and returns said player</summary>
+        public Player SpawnNewPlayer()
+        {
+            foreach (Player player in playerTags)
+            {
+                if (GetPlayerController(player) == null)
+                {
+                    SpawnNewPlayer(player);
+                    return player;
+                }
+            }
             
-            return p.player;
+            throw new InvalidOperationException("All players have been spawned");
         }
         
         private void CheckIfGameIsDone()

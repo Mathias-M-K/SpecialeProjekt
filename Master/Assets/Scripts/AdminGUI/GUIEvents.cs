@@ -27,6 +27,7 @@ namespace AdminGUI
         public event Action<Player> onPlayerChange;
         public event Action<Button, TradeActions, Direction> onTradeAction;
         public event Action onManualOverride;
+        public event Action onGameStart;
 
 
         /*
@@ -39,10 +40,12 @@ namespace AdminGUI
             
             ManualEnabledNotify();
         }
-
-        private void SetWidthOnBtn(float width)
+        
+        //Start game
+        public void StartGame()
         {
-            ManualControlBtn.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,width);
+            GameHandler.current.StartGame();
+            if (onGameStart != null) onGameStart();
         }
         
         /*
@@ -166,12 +169,5 @@ namespace AdminGUI
 
             if (onPlayerChange != null) onPlayerChange(currentChosenPlayer);
         }
-    }
-
-    public enum Keys
-    {
-        Mathias,
-        ikkeMathias
-        
     }
 }

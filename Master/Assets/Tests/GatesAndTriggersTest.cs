@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Threading;
 using CoreGame;
 using NUnit.Framework;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace Tests
 {
     public class GatesAndTriggersTest
     {
+        private GameObject game;
         private GameHandler _gameHandler;
         private MapManager _mapManager;
 
@@ -16,29 +18,22 @@ namespace Tests
 
         private GameObject camera;
         private GameObject directionalLight;
-        private float waitTime;
+
+        private int waitTime;
 
 
         [SetUp]
         public void Setup()
         {
-            camera = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/MainCamera"));
-            directionalLight = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/DirectionalLight"));
-            GameObject go = new GameObject();
-            go.AddComponent<GameHandler>();
-            go.AddComponent<MapManager>();
-
-            _gameHandler = go.GetComponent<GameHandler>();
+            game = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Game"));
+            
+            _gameHandler = game.GetComponentInChildren<GameHandler>();
             _gameHandler.playerPrefab = Resources.Load<GameObject>("Prefabs/Player");
             _gameHandler.numberOfPlayers = 4;
-
-            navMesh = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/NavMesh"));
-            MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/ColorPalette"));
-
-            _mapManager = go.GetComponent<MapManager>();
+            
+            _mapManager = game.GetComponentInChildren<MapManager>();
             _mapManager.mapData = Resources.Load<MapData>("MapData/4PlayerLevel");
-            go.GetComponent<MapManager>().navMeshSurface = navMesh.GetComponent<NavMeshSurface>();
-
+            
             waitTime = 1;
 
         }
@@ -46,13 +41,8 @@ namespace Tests
         [TearDown]
         public void Teardown()
         {
-            Object.Destroy(camera);
-            Object.Destroy(directionalLight);
-            Object.Destroy(_gameHandler.gameObject);
-            Object.Destroy(navMesh);
+            Object.Destroy(game);
 
-            Object.Destroy(ColorPalette.current.gameObject);
-            
             Object.Destroy(GameObject.Find("4 Player Level(Clone)"));
             Object.Destroy(GameObject.Find("Red"));
             Object.Destroy(GameObject.Find("Blue"));
@@ -150,6 +140,8 @@ namespace Tests
         [UnityTest]
         public IEnumerator GreenWallShouldMoveIfGreenReachesGreenTrigger()
         {
+            _gameHandler.SpawnNewPlayer(Player.Green);
+            
             PlayerController pc = _gameHandler.GetPlayerController(Player.Green);
             GameObject GreenGate = GameObject.Find("GreenGate");
 
@@ -170,6 +162,7 @@ namespace Tests
         [UnityTest]
         public IEnumerator GreenWallShouldNotMoveIfYellowReachesGreenTrigger()
         {
+            _gameHandler.SpawnNewPlayer(Player.Yellow);
             PlayerController pc = _gameHandler.GetPlayerController(Player.Yellow);
             GameObject GreenGate = GameObject.Find("GreenGate");
 
@@ -190,6 +183,7 @@ namespace Tests
         [UnityTest]
         public IEnumerator GreenWallShouldCloseWhenGreenLeavesTriggerAndGateCloseOnTriggerIsEnabled()
         {
+            _gameHandler.SpawnNewPlayer(Player.Green);
             TriggerController tc = GameObject.Find("GreenTrigger").GetComponent<TriggerController>();
             tc.closeOnExit = true;
             

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using CoreGame;
+using JetBrains.Annotations;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.AI;
@@ -11,6 +12,7 @@ namespace Tests
 {
     public class GameHandlerTest
     {
+        private GameObject game;
         private GameHandler _gameHandler;
         private MapManager _mapManager;
 
@@ -23,36 +25,24 @@ namespace Tests
         [SetUp]
         public void Setup()
         {
-            camera = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/MainCamera"));
-            directionalLight = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/DirectionalLight"));
-            GameObject go = new GameObject();
-            go.AddComponent<GameHandler>();
+            game = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Game"));
 
 
-            _gameHandler = go.GetComponent<GameHandler>();
+            _gameHandler = game.GetComponentInChildren<GameHandler>();
             _gameHandler.playersAreExternallyControlled = true;
             _gameHandler.playerPrefab = Resources.Load<GameObject>("Prefabs/Player");
             _gameHandler.numberOfPlayers = 4;
 
-            go.AddComponent<MapManager>();
-            _mapManager = go.GetComponent<MapManager>();
+            _mapManager = game.GetComponentInChildren<MapManager>();
             _mapManager.mapData = Resources.Load<MapData>("MapData/4PlayerLevel");
-
-            navMesh = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/NavMesh"));
-            MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/ColorPalette"));
-
-            go.GetComponent<MapManager>().navMeshSurface = navMesh.GetComponent<NavMeshSurface>();
+            
+            _gameHandler.StartGame();
         }
 
         [TearDown]
         public void Teardown()
         {
-            Object.Destroy(camera);
-            Object.Destroy(directionalLight);
-            Object.Destroy(_gameHandler.gameObject);
-            Object.Destroy(navMesh);
-
-            Object.Destroy(ColorPalette.current.gameObject);
+            Object.Destroy(game);
 
             Object.Destroy(GameObject.Find("4 Player Level(Clone)"));
             Object.Destroy(GameObject.Find("Red"));
@@ -309,6 +299,19 @@ namespace Tests
         }
 
         [UnityTest]
+        public IEnumerator GetPlayerControllerShouldReturnTheCorrectPlayerController()
+        {
+            _gameHandler.SpawnMaxPlayers();
+            
+            Assert.That(_gameHandler.GetPlayerController(Player.Red).player == Player.Red);
+            Assert.That(_gameHandler.GetPlayerController(Player.Blue).player == Player.Blue);
+            Assert.That(_gameHandler.GetPlayerController(Player.Green).player == Player.Green);
+            Assert.That(_gameHandler.GetPlayerController(Player.Yellow).player == Player.Yellow);
+            
+            yield break;
+        }
+
+        [UnityTest]
         public IEnumerator SequencePlaysTwoOfTwoPlayersAreReady()
         {
             _gameHandler.SpawnNewPlayer();
@@ -388,6 +391,70 @@ namespace Tests
             Assert.True(_gameHandler.GetPlayerController(Player.Red) != null);
             Assert.True(_gameHandler.GetPlayerController(Player.Blue) != null);
             Assert.True(_gameHandler.GetPlayerController(Player.Green) != null);
+            Assert.True(_gameHandler.GetPlayerController(Player.Yellow) != null);
+            
+            yield break;
+        }
+
+        [UnityTest]
+        public IEnumerator SpawningSpecificPlayerShouldSpawnThatPlayerAndNoOther()
+        {
+            _gameHandler.SpawnNewPlayer(Player.Green);
+            yield return new WaitForSeconds(2);
+            
+            //player that should be spawned
+            Assert.True(_gameHandler.GetPlayerController(Player.Green) != null);
+            
+            //players that should not be spawned
+            Assert.True(_gameHandler.GetPlayerController(Player.Red) == null);
+            Assert.True(_gameHandler.GetPlayerController(Player.Blue) == null);
+            Assert.True(_gameHandler.GetPlayerController(Player.Yellow) == null);
+            
+        }
+
+        [UnityTest]
+        public IEnumerator SpawnNewPlayerShouldSpawnNextPlayerInLine()
+        {
+            _gameHandler.SpawnNewPlayer(Player.Green);
+            
+            //the next player to be spawned should be red, so just making sure he is not there already
+            Assert.True(_gameHandler.GetPlayerController(Player.Green) != null);
+            Assert.True(_gameHandler.GetPlayerController(Player.Red) == null);
+
+            _gameHandler.SpawnNewPlayer();
+            Assert.True(_gameHandler.GetPlayerController(Player.Red) != null);
+            
+            yield break;
+        }
+
+        [UnityTest]
+        public IEnumerator PlayerCanNotBeSpawnedMoreThanOneTime()
+        {
+            _gameHandler.SpawnNewPlayer(Player.Green);
+
+            Assert.Throws<ArgumentException>(() => _gameHandler.SpawnNewPlayer(Player.Green));
+            yield break;
+        }
+
+        [UnityTest]
+        public IEnumerator PlayerBlueIsNotNextInLineIfAlreadySpawned()
+        {
+            _gameHandler.SpawnNewPlayer(Player.Blue);
+            Assert.True(_gameHandler.GetPlayerController(Player.Blue) != null);
+            Assert.True(_gameHandler.GetPlayerController(Player.Red) == null);
+
+            //this should spawn red
+            _gameHandler.SpawnNewPlayer();
+            Assert.True(_gameHandler.GetPlayerController(Player.Red) != null);
+            Assert.True(_gameHandler.GetPlayerController(Player.Green) == null);
+
+            //Should spawn green
+            _gameHandler.SpawnNewPlayer();
+            Assert.True(_gameHandler.GetPlayerController(Player.Green) != null);
+            Assert.True(_gameHandler.GetPlayerController(Player.Yellow) == null);
+            
+            //Should spawn yellow
+            _gameHandler.SpawnNewPlayer();
             Assert.True(_gameHandler.GetPlayerController(Player.Yellow) != null);
             
             yield break;

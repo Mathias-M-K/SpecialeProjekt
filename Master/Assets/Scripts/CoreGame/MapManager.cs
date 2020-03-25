@@ -26,9 +26,14 @@ namespace CoreGame
             if(Camera.main != null) Camera.main.transform.position = new Vector3((mapData.xSize / 2) + 0.5f, 15, (mapData.ySize / 2) + 0.5f);
             
             navMeshSurface.BuildNavMesh();
-            
+
+            SendMapDataToGameHandler();
+            //if(!GameHandler.current.playersAreExternallyControlled) GameHandler.current.SpawnMaxPlayers();
+        }
+
+        public void SendMapDataToGameHandler()
+        {
             GameHandler.current.SetMapData(mapData);
-            if(!GameHandler.current.playersAreExternallyControlled) GameHandler.current.SpawnMaxPlayers();
         }
 
         private void Update()

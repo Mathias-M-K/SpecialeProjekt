@@ -355,6 +355,7 @@
             <e p="TriggerController.cs" t="Include" />
           </e>
           <e p="GameAssembly.asmdef" t="Include" />
+          <e p="GameStartScreen.cs" t="Include" />
           <e p="Moving_block" t="Include">
             <e p="Block.cs" t="Include" />
             <e p="BlockHandler.cs" t="Include" />
