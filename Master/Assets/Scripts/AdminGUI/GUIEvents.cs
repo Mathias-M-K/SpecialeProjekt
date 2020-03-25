@@ -13,11 +13,9 @@ namespace AdminGUI
     public class GUIEvents : MonoBehaviour
     {
         public static GUIEvents current;
-
-        public TMP_Dropdown playerDropdown;
-        public Button ManualControlBtn;
-        public Player currentChosenPlayer;
-
+        
+        private Player CurrentChosenPlayer;
+        
         private void Awake()
         {
             current = this;
@@ -29,28 +27,59 @@ namespace AdminGUI
         public event Action onManualOverride;
         public event Action onGameStart;
 
-
-        /*
-         * Manual Control Button
-         */
-        public void ManualControl(Button b)
+        //
+        public void PlayerDropdown(TMP_Dropdown dropdown)
         {
-            b.interactable = false;
-            PlayerDropdownChanged();
             
-            ManualEnabledNotify();
+            NotifyButtonHit("DropdownChanged");
+
+            switch (dropdown.value)
+            {
+                case 0:
+                    CurrentChosenPlayer = Player.Red;
+                    break;
+                case 1:
+                    CurrentChosenPlayer = Player.Blue;
+                    break;
+                case 2:
+                    CurrentChosenPlayer = Player.Green;
+                    break;
+                case 3:
+                    CurrentChosenPlayer = Player.Yellow;
+                    break;
+            }
+
+            dropdown.image.color = ColorPalette.current.GetPlayerColor(CurrentChosenPlayer);
+            OnPlayerChange();
         }
-        
+        /*
+         * GAME BUTTONS
+         */
         //Start game
         public void StartGame()
         {
             GameHandler.current.StartGame();
             if (onGameStart != null) onGameStart();
         }
-        
+
+        public void BtnHit(Button b)
+        {
+            NotifyButtonHit(b.name);
+        }
+
         /*
-         * Ready Button
+         * ADMIN GUI BUTTONS
          */
+        //Manual Control Button
+        public void ManualControl(Button b)
+        {
+            b.interactable = false;
+            OnPlayerChange();
+            
+            ManualEnabledNotify();
+        }
+        
+        //Ready Button
         public void ReadyBtnHit()
         {
             NotifyButtonHit("ReadyBtn");
@@ -90,27 +119,22 @@ namespace AdminGUI
             NotifyButtonHit("Color2");
         }
 
-        /*
-         * Incomming Trade Buttons
-         */
+        //Incoming Trade Buttons
         public void IncomingTradeBtn(Button b)
         {
             NotifyButtonHit(b.name);
 
         }
 
-        /*
-         * Outgoing Trade Buttons
-         */
-        public void OutGoingTradeBtn(Button b)
+        
+          //Outgoing Trade Buttonn
+          public void OutGoingTradeBtn(Button b)
         {
             NotifyButtonHit(b.name);
         }
 
-        /*
-         * Accept, Reject & Cancel
-         */
-
+        
+        //Accept, Reject & Cancel
         public void AcceptBtn()
         {
             NotifyButtonHit("AcceptBtn");
@@ -127,9 +151,7 @@ namespace AdminGUI
             NotifyButtonHit("CancelBtn");
         }
 
-        /*
-         * Notify Methods
-         */
+        //Notify Methods
         public void TradeActionNotify(Button b, TradeActions action, Direction counterOffer)
         {
             if (onTradeAction != null) onTradeAction(b, action, counterOffer);
@@ -145,29 +167,9 @@ namespace AdminGUI
             if (onButtonHit != null) onButtonHit(key);
         }
 
-        public void PlayerDropdownChanged()
+        private void OnPlayerChange()
         {
-            NotifyButtonHit("DropdownChanged");
-
-            switch (playerDropdown.value)
-            {
-                case 0:
-                    currentChosenPlayer = Player.Red;
-                    break;
-                case 1:
-                    currentChosenPlayer = Player.Blue;
-                    break;
-                case 2:
-                    currentChosenPlayer = Player.Green;
-                    break;
-                case 3:
-                    currentChosenPlayer = Player.Yellow;
-                    break;
-            }
-
-            playerDropdown.image.color = ColorPalette.current.GetPlayerColor(currentChosenPlayer);
-
-            if (onPlayerChange != null) onPlayerChange(currentChosenPlayer);
+            if (onPlayerChange != null) onPlayerChange(CurrentChosenPlayer);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Tests
             _mapManager = game.GetComponentInChildren<MapManager>();
             _mapManager.mapData = Resources.Load<MapData>("MapData/4PlayerLevel");
             
-            _gameHandler.StartGame();
+            _gameHandler.SetMapData(_mapManager.mapData);
         }
 
         [TearDown]

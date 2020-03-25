@@ -59,12 +59,24 @@ namespace CoreGame
             current = this;
         }
 
+        public void StartGame(bool Override)
+        {
+            if (!Override) return;
+            
+            AddPlayerController(new PlayerController());
+            StartGame();
+        }
         public void StartGame()
         {
             if (!playersAreExternallyControlled)
             {
                 SpawnMaxPlayers();
             }
+            else
+            {
+                if(_players.Count < 1) throw new InvalidOperationException("Can't start game without any players");
+            }
+
 
             RemoveBarricadesForInactivePlayers();
         }
