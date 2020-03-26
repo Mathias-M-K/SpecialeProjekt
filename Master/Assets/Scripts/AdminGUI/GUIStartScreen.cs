@@ -28,7 +28,6 @@ namespace AdminGUI
         {
             AdminGUIEvents.current.onManualOverride += OnManualOverride;
             AdminGUIEvents.current.onGameStart += OnGameStart;
-            
         }
 
         private void OnGameStart()
@@ -40,11 +39,15 @@ namespace AdminGUI
         {
             if (!gameStarted)
             {
-                
+                LeanTween.moveLocalY(errorText.gameObject, 0, backgroundSpeed).setEase(backgroundEase);
+            }
+            else
+            {
+                LeanTween.moveLocalY(sandGlass.gameObject, 0, sandGlassSpeed).setEase(sandGlassEase).setOnComplete(() => sandGlass.ClickEvent());
+                StartCoroutine(RemoveBackground());
             }
             
-            LeanTween.moveLocalY(sandGlass.gameObject, 0, sandGlassSpeed).setEase(sandGlassEase).setOnComplete(() => sandGlass.ClickEvent());
-            StartCoroutine(RemoveBackground());
+            
         }
 
         private IEnumerator RemoveBackground()

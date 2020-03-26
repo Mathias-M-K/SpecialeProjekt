@@ -73,10 +73,11 @@ namespace AdminGUI
         //Manual Control Button
         public void ManualControl(Button b)
         {
-            b.interactable = false;
-            OnPlayerChange();
+            //b.interactable = false;
+            //OnPlayerChange();
             
-            ManualEnabledNotify();
+            //ManualEnabledNotify();
+            
         }
         
         //Ready Button
