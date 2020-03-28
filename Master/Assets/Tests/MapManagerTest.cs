@@ -35,6 +35,7 @@ namespace Tests
             _mapManager.mapData = Resources.Load<MapData>("MapData/4PlayerLevel");
             _mapManager.SendMapDataToGameHandler();
             
+            GameObject.Find("StartScreen").SetActive(false);
             waitTime = 0.2f;
 
         }

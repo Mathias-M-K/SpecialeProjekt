@@ -1,11 +1,12 @@
 ﻿using System;
 using CoreGame;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AdminGUI
 {
     //Parent Class, not to be used directly
-    public abstract class _PrimeButton : MonoBehaviour, IMoveObserver
+    public abstract class _PrimeButton : MonoBehaviour, IInventoryObserver
     {
         
         public bool enabledAndActive; //True after manual control have been initiated
@@ -19,9 +20,9 @@ namespace AdminGUI
 
         protected virtual void Start()
         {
-            AdminGUIEvents.current.onButtonHit += GUIButtonPressed;
-            AdminGUIEvents.current.onPlayerChange += PlayerChange;
-            AdminGUIEvents.current.onManualOverride += ManualControl;
+            GUIEvents.current.onButtonHit += GUIButtonPressed;
+            GUIEvents.current.onPlayerChange += PlayerChange;
+            GUIEvents.current.onManualOverride += ManualControl;
         }
         
         private void ManualControl()
@@ -29,19 +30,19 @@ namespace AdminGUI
             enabledAndActive = true;
         }
 
-        protected abstract void GUIButtonPressed(string key);
+        protected abstract void GUIButtonPressed(Button button);
         
 
         protected void PlayerChange(Player newPlayer)
         {
             if (_playerController != null)
             {
-                _playerController.RemoveMoveObserver(this);
+                _playerController.RemoveInventoryObserver(this);
             }
             
 
             _playerController = GameHandler.current.GetPlayerController(newPlayer);
-            _playerController.AddMoveObserver(this);
+            _playerController.AddInventoryObserver(this);
             
             GUIMethods.UpdateArrows(arrows.transform.GetChild(0),_playerController);
         }

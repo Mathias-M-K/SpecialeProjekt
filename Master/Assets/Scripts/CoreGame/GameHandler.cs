@@ -161,7 +161,7 @@ namespace CoreGame
 
             playerController.RemoveMove(index);
 
-            playerController.NotifyMoveObservers();
+            playerController.NotifyInventoryObservers();
             NotifySequenceObservers(SequenceActions.NewMoveAdded, playerMove);
         }
 

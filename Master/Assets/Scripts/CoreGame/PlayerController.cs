@@ -30,7 +30,7 @@ namespace CoreGame
 
         //Observers
         private readonly List<ITradeObserver> _tradeObservers = new List<ITradeObserver>();
-        private readonly List<IMoveObserver> _moveObservers = new List<IMoveObserver>();
+        private readonly List<IInventoryObserver> _moveObservers = new List<IInventoryObserver>();
         private List<IReadyObserver> _readyObservers = new List<IReadyObserver>();
 
         //Other variables
@@ -176,13 +176,13 @@ namespace CoreGame
         public void AddMove(Direction d, int index)
         {
             _moves[index] = d;
-            NotifyMoveObservers();
+            NotifyInventoryObservers();
         }
 
         public void RemoveMove(int index)
         {
             _moves[index] = Direction.Blank;
-            NotifyMoveObservers();
+            NotifyInventoryObservers();
         }
 
         //Returns the index of where the move/direction d is stored
@@ -291,7 +291,7 @@ namespace CoreGame
 
             Ready = false;
 
-            NotifyMoveObservers();
+            NotifyInventoryObservers();
         }
 
         public void SetPlayer(Player newPlayerTag)
@@ -323,17 +323,17 @@ namespace CoreGame
         /*
          * Move Observer Methods
          */
-        public void AddMoveObserver(IMoveObserver imo)
+        public void AddInventoryObserver(IInventoryObserver imo)
         {
             _moveObservers.Add(imo);
         }
-        public void RemoveMoveObserver(IMoveObserver imo)
+        public void RemoveInventoryObserver(IInventoryObserver imo)
         {
             _moveObservers.Remove(imo);
         }
-        public void NotifyMoveObservers()
+        public void NotifyInventoryObservers()
         {
-            foreach (IMoveObserver observer in _moveObservers)
+            foreach (IInventoryObserver observer in _moveObservers)
             {
                 observer.OnMoveInventoryChange(GetMoves());
             }

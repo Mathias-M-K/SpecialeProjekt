@@ -7,6 +7,13 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="_Imports" t="Include">
+          <e p="Flat Screen Transitions" t="Include">
+            <e p="Read Me.txt" t="Include" />
+            <e p="Scripts" t="Include">
+              <e p="FSTDemoManager.cs" t="Include" />
+              <e p="LaunchURL.cs" t="Include" />
+            </e>
+          </e>
           <e p="LeanTween" t="Include">
             <e p="Editor" t="Include">
               <e p="LeanTweenDocumentationEditor.cs" t="Include" />
@@ -296,7 +303,6 @@
           <e p="AdminGUI" t="Include">
             <e p="_PrimeButton.cs" t="Include" />
             <e p="_PrimeTradeElement.cs" t="Include" />
-            <e p="AdminGUIEvents.cs" t="Include" />
             <e p="AdminGUIOverlay.cs" t="Include" />
             <e p="GUIMethods.cs" t="Include" />
             <e p="GUIStartScreen.cs" t="Include" />
@@ -328,7 +334,7 @@
             <e p="GateController.cs" t="Include" />
             <e p="Interfaces" t="Include">
               <e p="IFinishPointObserver.cs" t="Include" />
-              <e p="IMoveObserver.cs" t="Include" />
+              <e p="IInventoryObserver.cs" t="Include" />
               <e p="IReadyObserver.cs" t="Include" />
               <e p="ISequenceObserver.cs" t="Include" />
               <e p="ITradeObserver.cs" t="Include" />
@@ -356,6 +362,7 @@
           </e>
           <e p="GameAssembly.asmdef" t="Include" />
           <e p="GameStartScreen.cs" t="Include" />
+          <e p="GUIEvents.cs" t="Include" />
           <e p="Moving_block" t="Include">
             <e p="Block.cs" t="Include" />
             <e p="BlockHandler.cs" t="Include" />

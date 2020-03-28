@@ -9,8 +9,9 @@ namespace AdminGUI
 {
     public class SendButton : _PrimeButton
     {
-        protected override void GUIButtonPressed(string key)
+        protected override void GUIButtonPressed(Button button)
         {
+            string key = button.name;
             if (!enabledAndActive) return;
 
             if (key.Equals("SendBtn"))

@@ -7,7 +7,7 @@ using Container;
 using CoreGame;
 using UnityEngine;
 
-public class BlockHandler : MonoBehaviour, ITradeObserver, IMoveObserver
+public class BlockHandler : MonoBehaviour, ITradeObserver, IInventoryObserver
 {
     private List<Block> listOfBlock = new List<Block>();
     private int maxAmountOfBlocks = 4;
@@ -17,7 +17,7 @@ public class BlockHandler : MonoBehaviour, ITradeObserver, IMoveObserver
     private void Start()
     {
         _playerController = GetComponent<PlayerController>();
-        _playerController.AddMoveObserver(this);
+        _playerController.AddInventoryObserver(this);
     }
 
     public void AddBlock(string id)

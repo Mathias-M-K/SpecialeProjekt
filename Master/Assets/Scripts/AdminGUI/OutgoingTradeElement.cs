@@ -6,8 +6,9 @@ namespace AdminGUI
     public class OutgoingTradeElement : _PrimeTradeElement
     {
         
-        protected override void GUIButtonPressed(string key)
+        protected override void GUIButtonPressed(Button button)
         {
+            string key = button.name;
             if (key.Equals(name))
             {
                 if (!firstChoiceActive) 
@@ -22,7 +23,7 @@ namespace AdminGUI
             {
                 if (firstChoiceActive)
                 {
-                    AdminGUIEvents.current.TradeActionNotify(gameObject.GetComponent<Button>(),TradeActions.TradeCanceled,Direction.Blank);
+                    GUIEvents.current.TradeActionNotify(gameObject.GetComponent<Button>(),TradeActions.TradeCanceled,Direction.Blank);
                 }
             }
             else

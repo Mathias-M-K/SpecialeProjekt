@@ -1,5 +1,6 @@
 ﻿using CoreGame;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AdminGUI
 {
@@ -14,10 +15,10 @@ namespace AdminGUI
 
         protected virtual void Start()
         {
-            AdminGUIEvents.current.onButtonHit += GUIButtonPressed;
+            GUIEvents.current.onButtonHit += GUIButtonPressed;
         }
 
-        protected abstract void GUIButtonPressed(string key);
+        protected abstract void GUIButtonPressed(Button button);
         
         protected void SetFirstChoiceActive()
         {

@@ -18,11 +18,12 @@ namespace AdminGUI
         protected override void Start()
         {
             base.Start();
-            AdminGUIEvents.current.onPlayerChange += UpdatePlayerPalette;
+            GUIEvents.current.onPlayerChange += UpdatePlayerPalette;
         }
 
-        protected override void GUIButtonPressed(string key)
+        protected override void GUIButtonPressed(Button button)
         {
+            string key = button.name;
             if (!enabledAndActive) return;
             
             if (key.Equals("TradeBtn"))
@@ -60,7 +61,7 @@ namespace AdminGUI
                 {
                     int.TryParse(key.Substring(5, key.Length - 5), out int indexFetchValue);
                     _playerController.CreateTrade(activeDirection,colorOrder[indexFetchValue]);
-                    _playerController.NotifyMoveObservers();
+                    _playerController.NotifyInventoryObservers();
                     SetPlayerPaletteInactive();
                 }
                 else

@@ -34,6 +34,7 @@ namespace Tests
             _mapManager = game.GetComponentInChildren<MapManager>();
             _mapManager.mapData = Resources.Load<MapData>("MapData/4PlayerLevel");
             
+            GameObject.Find("StartScreen").SetActive(false);
             waitTime = 1;
 
         }

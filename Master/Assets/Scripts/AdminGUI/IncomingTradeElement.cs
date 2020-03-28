@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace AdminGUI
 {
-    public class IncomingTradeElement : _PrimeTradeElement, IMoveObserver
+    public class IncomingTradeElement : _PrimeTradeElement, IInventoryObserver
     {
         public GameObject SecondChoice;
         [SerializeField]private bool secondChoiceActive;
@@ -17,24 +17,25 @@ namespace AdminGUI
         protected override void Start()
         {
             base.Start();
-            AdminGUIEvents.current.onPlayerChange += OnPlayerChange;
+            GUIEvents.current.onPlayerChange += OnPlayerChange;
         }
 
         private void OnPlayerChange(Player newPlayer)
         {
             if (_playerController != null)
             {
-                _playerController.RemoveMoveObserver(this);
+                _playerController.RemoveInventoryObserver(this);
             }
             
             _playerController = GameHandler.current.GetPlayerController(newPlayer);
-            _playerController.AddMoveObserver(this);
+            _playerController.AddInventoryObserver(this);
             
             GUIMethods.UpdateArrows(SecondChoice.transform,_playerController);
         }
         
-        protected override void GUIButtonPressed(string key)
+        protected override void GUIButtonPressed(Button button)
         {
+            string key = button.name;
             if (key.Equals(name))
             {
                 if (!firstChoiceActive)
@@ -64,7 +65,7 @@ namespace AdminGUI
             {
                 if (firstChoiceActive)
                 {
-                    AdminGUIEvents.current.TradeActionNotify(gameObject.GetComponent<Button>(),TradeActions.TradeRejected,Direction.Blank);
+                    GUIEvents.current.TradeActionNotify(gameObject.GetComponent<Button>(),TradeActions.TradeRejected,Direction.Blank);
                     SetFirstChoiceInactive();
                 }
             }else if (key.Substring(0, 5).Equals("Arrow"))
@@ -74,7 +75,7 @@ namespace AdminGUI
                     int.TryParse(key.Substring(5, key.Length - 5), out int indexFetchValue);
                     Direction d = _playerController.GetMoves()[indexFetchValue];
                     
-                    AdminGUIEvents.current.TradeActionNotify(gameObject.GetComponent<Button>(),TradeActions.TradeAccepted,d);
+                    GUIEvents.current.TradeActionNotify(gameObject.GetComponent<Button>(),TradeActions.TradeAccepted,d);
                     
                 }
             }

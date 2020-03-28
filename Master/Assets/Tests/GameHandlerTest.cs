@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using AdminGUI;
 using CoreGame;
 using JetBrains.Annotations;
 using NUnit.Framework;
@@ -36,7 +37,7 @@ namespace Tests
             _mapManager = game.GetComponentInChildren<MapManager>();
             _mapManager.mapData = Resources.Load<MapData>("MapData/4PlayerLevel");
             
-            _gameHandler.SetMapData(_mapManager.mapData);
+            GameObject.Find("StartScreen").SetActive(false);
         }
 
         [TearDown]

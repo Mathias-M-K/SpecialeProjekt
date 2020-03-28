@@ -25,8 +25,8 @@ namespace AdminGUI
             
             text = readyBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
-            AdminGUIEvents.current.onButtonHit += OnBtnHit;
-            AdminGUIEvents.current.onPlayerChange += OnPlayerChange;
+            GUIEvents.current.onButtonHit += OnBtnHit;
+            GUIEvents.current.onPlayerChange += OnPlayerChange;
         }
 
         private void OnPlayerChange(Player player)
@@ -49,8 +49,9 @@ namespace AdminGUI
             }
         }
         
-        private void OnBtnHit(string key)
+        private void OnBtnHit(Button button)
         {
+            string key = button.name;
             if (key.Equals("ReadyBtn"))
             {
                 _playerController.Ready = !_playerController.Ready;

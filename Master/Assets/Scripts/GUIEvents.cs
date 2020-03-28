@@ -10,9 +10,9 @@ using UnityEngine.UI;
 
 namespace AdminGUI
 {
-    public class AdminGUIEvents : MonoBehaviour
+    public class GUIEvents : MonoBehaviour
     {
-        public static AdminGUIEvents current;
+        public static GUIEvents current;
         
         private Player CurrentChosenPlayer;
         
@@ -21,7 +21,7 @@ namespace AdminGUI
             current = this;
         }
 
-        public event Action<String> onButtonHit;
+        public event Action<Button> onButtonHit;
         public event Action<Player> onPlayerChange;
         public event Action<Button, TradeActions, Direction> onTradeAction;
         public event Action onManualOverride;
@@ -30,8 +30,7 @@ namespace AdminGUI
         //
         public void PlayerDropdown(TMP_Dropdown dropdown)
         {
-            
-            NotifyButtonHit("DropdownChanged");
+            NotifyButtonHit();
 
             switch (dropdown.value)
             {
@@ -64,94 +63,19 @@ namespace AdminGUI
 
         public void BtnHit(Button b)
         {
-            NotifyButtonHit(b.name);
+            NotifyButtonHit(b);
         }
 
         /*
          * ADMIN GUI BUTTONS
          */
         //Manual Control Button
-        public void ManualControl(Button b)
+        public void OnManualControl()
         {
-            //b.interactable = false;
-            //OnPlayerChange();
-            
-            //ManualEnabledNotify();
-            
+            OnPlayerChange();
+            ManualEnabledNotify();
         }
         
-        //Ready Button
-        public void ReadyBtnHit()
-        {
-            NotifyButtonHit("ReadyBtn");
-        }
-
-        //Prime Buttons
-        public void SendBtnHit()
-        {
-            NotifyButtonHit("SendBtn");
-        }
-
-        public void TradeBtnHit()
-        {
-            NotifyButtonHit("TradeBtn");
-        }
-        
-        //Arrow
-        public void Arrow(Button b)
-        {
-            NotifyButtonHit(b.name);
-        }
-      
-
-        //Colors
-        public void ColorFirst()
-        {
-            NotifyButtonHit("Color0");
-        }
-
-        public void ColorSecond()
-        {
-            NotifyButtonHit("Color1");
-        }
-
-        public void ColorThird()
-        {
-            NotifyButtonHit("Color2");
-        }
-
-        //Incoming Trade Buttons
-        public void IncomingTradeBtn(Button b)
-        {
-            NotifyButtonHit(b.name);
-
-        }
-
-        
-          //Outgoing Trade Buttonn
-          public void OutGoingTradeBtn(Button b)
-        {
-            NotifyButtonHit(b.name);
-        }
-
-        
-        //Accept, Reject & Cancel
-        public void AcceptBtn()
-        {
-            NotifyButtonHit("AcceptBtn");
-        }
-
-        public void RejectBtn()
-        {
-            print(EventSystem.current.currentSelectedGameObject.name);
-            NotifyButtonHit("RejectBtn");
-        }
-
-        public void CancelBtn()
-        {
-            NotifyButtonHit("CancelBtn");
-        }
-
         //Notify Methods
         public void TradeActionNotify(Button b, TradeActions action, Direction counterOffer)
         {
@@ -163,9 +87,18 @@ namespace AdminGUI
             if (onManualOverride != null) onManualOverride();
         }
 
-        private void NotifyButtonHit(string key)
+        private void NotifyButtonHit()
         {
-            if (onButtonHit != null) onButtonHit(key);
+            GameObject go = new GameObject("FakeGameObject");
+            Button b = go.AddComponent<Button>();
+            
+            Destroy(go,1);
+            
+            NotifyButtonHit(b);
+        }
+        private void NotifyButtonHit(Button button)
+        {
+            if (onButtonHit != null) onButtonHit(button);
         }
 
         private void OnPlayerChange()

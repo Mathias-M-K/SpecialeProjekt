@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections;
-using AdminGUI.PlayerMap;
 using Container;
 using CoreGame;
 using CoreGame.Interfaces;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace AdminGUI
+namespace AdminGUI.PlayerMap
  {
      public class GUIPlayerMap : MonoBehaviour,ISequenceObserver
      {
@@ -19,9 +17,9 @@ namespace AdminGUI
          public float MapCreationTime;
          public float MapPopulationTime;
 
-         private void Awake()
+         private void Start()
          {
-             AdminGUIEvents.current.onManualOverride += OnManualOverride;
+             GUIEvents.current.onManualOverride += OnManualOverride;    
          }
 
          private void OnManualOverride()

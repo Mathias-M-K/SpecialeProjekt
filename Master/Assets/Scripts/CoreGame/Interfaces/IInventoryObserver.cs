@@ -1,6 +1,6 @@
 ﻿using CoreGame;
 
-public interface IMoveObserver
+public interface IInventoryObserver
 {
     void OnMoveInventoryChange(Direction[] directions);
 }
