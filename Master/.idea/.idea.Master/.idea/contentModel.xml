@@ -71,7 +71,7 @@
               <e p="InitMUIP.cs" t="Include" />
               <e p="UIManagerEditor.cs" t="Include" />
             </e>
-            <e p="ModernUIReference.asmref" t="Include" />
+            <e p="ModernUIAssembly.asmdef" t="Include" />
             <e p="Read Me.txt" t="Include" />
             <e p="Scripts" t="Include">
               <e p="Animated Icon" t="Include">
@@ -737,6 +737,7 @@
       </e>
       <e p="GameAssembly.csproj" t="IncludeRecursive" />
       <e p="Master.sln" t="IncludeFlat" />
+      <e p="ModernUIAssembly.csproj" t="IncludeRecursive" />
       <e p="NavMeshComponents.csproj" t="IncludeRecursive" />
       <e p="NavMeshComponentsEditor.csproj" t="IncludeRecursive" />
       <e p="NavMeshComponentsExamples.csproj" t="IncludeRecursive" />

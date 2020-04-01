@@ -1,8 +1,5 @@
-﻿using System;
-using Michsky.UI.ModernUIPack;
-using UnityEditorInternal.VersionControl;
+﻿using Michsky.UI.ModernUIPack;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace AdminGUI
 {
