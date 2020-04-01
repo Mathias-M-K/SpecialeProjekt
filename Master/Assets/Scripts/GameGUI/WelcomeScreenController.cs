@@ -14,7 +14,8 @@ namespace GameGUI
         [Header("Content")] 
         public GameObject mainContent;
         public float contentAnimationTime;
-        public LeanTweenType contentEaseType;
+        public LeanTweenType contentEaseOutType;
+        public LeanTweenType contentEaseInType;
         
         [Header("Buttons")] 
         public Button startBtn;
@@ -28,7 +29,14 @@ namespace GameGUI
         public GameObject networkLocalButtons;
         public float animationTime1;
         public LeanTweenType easeType1;
-        
+
+
+        private void Start()
+        {
+            LeanTween.moveLocalX(mainContent, -1236, 0);
+            LeanTween.moveLocalX(mainContent, 0, contentAnimationTime).setEase(contentEaseInType);
+        }
+
         public void ButtonHit(Button b)
         {
             print(b.name);
@@ -56,7 +64,7 @@ namespace GameGUI
         public void OnlineGame()
         {
             LeanTween.moveLocalX(mainContent, -1236, contentAnimationTime).
-                setEase(contentEaseType).
+                setEase(contentEaseOutType).
                 setOnComplete(() => SceneManager.LoadScene(NetworkScene));
         }
 

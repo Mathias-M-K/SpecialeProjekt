@@ -635,8 +635,9 @@ MonoBehaviour:
   NetworkScene: 1
   LocalScene: 2
   mainContent: {fileID: 1584795365}
-  contentAnimationTime: 1
-  contentEaseType: 8
+  contentAnimationTime: 0.5
+  contentEaseOutType: 11
+  contentEaseInType: 12
   startBtn: {fileID: 1375009435}
   OnlineBtn: {fileID: 683163932}
   LocalBtn: {fileID: 708898008}
