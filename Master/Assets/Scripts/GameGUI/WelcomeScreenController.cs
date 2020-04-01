@@ -1,11 +1,21 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace GameGUI
 {
     public class WelcomeScreenController : MonoBehaviour
     {
+        [Header("Scene Index")] 
+        public int NetworkScene;
+        public int LocalScene;
+
+        [Header("Content")] 
+        public GameObject mainContent;
+        public float contentAnimationTime;
+        public LeanTweenType contentEaseType;
+        
         [Header("Buttons")] 
         public Button startBtn;
         public Button OnlineBtn;
@@ -18,19 +28,7 @@ namespace GameGUI
         public GameObject networkLocalButtons;
         public float animationTime1;
         public LeanTweenType easeType1;
-
-
-        [Header("Online")] 
-        public GameObject createJoinButtons;
-        public float animationTime2;
-        public LeanTweenType easeType2;
-
-        [Header("Local")] 
-        public GameObject StartGameBtn;
-        public float animationTime3;
-        public LeanTweenType easeType3;
-
-
+        
         public void ButtonHit(Button b)
         {
             print(b.name);
@@ -40,38 +38,12 @@ namespace GameGUI
                 b.interactable = false;
                 LeanTween.moveLocalY(networkLocalButtons, 0, animationTime1).setEase(easeType1);
             }
-
-            if (b.name.Equals("OnlineBtn"))
-            {
-                b.interactable = false;
-                LocalChoicesClose();
-                    
-                LeanTween.moveLocalX(createJoinButtons, -84, animationTime2).setEase(easeType2);
-            }
-            if (b.name.Equals("LocalBtn"))
-            {
-                b.interactable = false;
-                OnlineChoicesClose();
-
-                LeanTween.moveLocalX(StartGameBtn, 0, animationTime3).setEase(easeType3);
-            }
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                if (!OnlineBtn.interactable)
-                {
-                    OnlineChoicesClose();
-                    return;
-                }
-
-                if (!LocalBtn.interactable)
-                {
-                    LocalChoicesClose();
-                    return;
-                }
                 if (!startBtn.interactable)
                 {
                     startBtn.interactable = true;
@@ -80,16 +52,17 @@ namespace GameGUI
             }
         }
 
-        private void OnlineChoicesClose()
+        //Btn method
+        public void OnlineGame()
         {
-            OnlineBtn.interactable = true;
-            LeanTween.moveLocalX(createJoinButtons, -512, animationTime2).setEase(easeType2);
+            LeanTween.moveLocalX(mainContent, -1236, contentAnimationTime).
+                setEase(contentEaseType).
+                setOnComplete(() => SceneManager.LoadScene(NetworkScene));
         }
 
-        private void LocalChoicesClose()
+        public void LocalGame()
         {
-            LocalBtn.interactable = true;
-            LeanTween.moveLocalX(StartGameBtn, -235, animationTime3).setEase(easeType3);
+            SceneManager.LoadScene(LocalScene);
         }
     }
 }
