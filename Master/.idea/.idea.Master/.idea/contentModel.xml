@@ -361,6 +361,9 @@
             <e p="TriggerController.cs" t="Include" />
           </e>
           <e p="GameAssembly.asmdef" t="Include" />
+          <e p="GameGUI" t="Include">
+            <e p="WelcomeScreenController.cs" t="Include" />
+          </e>
           <e p="GameStartScreen.cs" t="Include" />
           <e p="GUIEvents.cs" t="Include" />
           <e p="Moving_block" t="Include">
