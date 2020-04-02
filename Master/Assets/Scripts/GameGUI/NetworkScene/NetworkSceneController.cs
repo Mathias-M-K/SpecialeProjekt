@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using System;
+using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
@@ -10,7 +11,8 @@ namespace GameGUI.NetworkScene
     public class NetworkSceneController : MonoBehaviourPunCallbacks
     {
         [Header("Assistant Classes")] 
-        public RoomCreatorPanelUIController createRoomUI;
+        public CreateRoomPanelUIController CreateRoomUI;
+        public JoinRoomPanelUIController JoinRoomUI;
         
         [Header("Content")] 
         public GameObject mainContent;
@@ -19,9 +21,9 @@ namespace GameGUI.NetworkScene
         public LeanTweenType contentEaseOutType;
 
         [Header("Buttons")] 
-        public GameObject BackBtn;
-        public GameObject CreateRoomBtn;
-        public GameObject LoadingBtn;
+        public GameObject backBtn;
+        public GameObject createRoomBtn;
+        public GameObject loadingBtn;
         
         public float buttonAnimationTime;
         public LeanTweenType buttonEaseType;
@@ -33,12 +35,12 @@ namespace GameGUI.NetworkScene
             
             if (!PhotonNetwork.IsConnected)
             {
-                LeanTween.moveLocalY(BackBtn, BackBtn.transform.localPosition.y + 55+10, 0);
-                LeanTween.moveLocalY(CreateRoomBtn, CreateRoomBtn.transform.localPosition.y + 55 + 10, 0);
+                LeanTween.moveLocalY(backBtn, backBtn.transform.localPosition.y + 55+10, 0);
+                LeanTween.moveLocalY(createRoomBtn, createRoomBtn.transform.localPosition.y + 55 + 10, 0);
             }
             else
             {
-                LoadingBtn.SetActive(false);
+                loadingBtn.SetActive(false);
             }
         }
 
@@ -53,20 +55,24 @@ namespace GameGUI.NetworkScene
                 () => SceneManager.LoadScene(0));
         }
 
+
+        /*
+         * Network Stuff
+         */
         public override void OnConnectedToMaster()
         {
             PhotonNetwork.AutomaticallySyncScene = true;
             
-            LeanTween.moveLocalY(BackBtn, BackBtn.transform.localPosition.y - 55 - 10, buttonAnimationTime)
+            LeanTween.moveLocalY(backBtn, backBtn.transform.localPosition.y - 55 - 10, buttonAnimationTime)
                 .setEase(buttonEaseType);
 
-            LeanTween.moveLocalY(CreateRoomBtn, CreateRoomBtn.transform.localPosition.y - 55 - 10, buttonAnimationTime)
+            LeanTween.moveLocalY(createRoomBtn, createRoomBtn.transform.localPosition.y - 55 - 10, buttonAnimationTime)
                 .setEase(buttonEaseType);
             
-            LeanTween.alpha(LoadingBtn.GetComponent<Image>().rectTransform, 0, buttonAnimationTime)
-                .setEase(buttonEaseType);
+            LeanTween.alpha(loadingBtn.GetComponent<Image>().rectTransform, 0, buttonAnimationTime)
+                .setEase(buttonEaseType).destroyOnComplete =true;
 
-            TextMeshProUGUI loadingBtnText = LoadingBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI loadingBtnText = loadingBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
             LeanTween.value(loadingBtnText.gameObject, a =>
             {
@@ -78,19 +84,31 @@ namespace GameGUI.NetworkScene
 
         public void CreateRoom()
         {
-            int.TryParse(createRoomUI.GetSizeField(), out int roomSize);
+            int.TryParse(CreateRoomUI.GetSizeField(), out int roomSize);
             RoomOptions roomOps = new RoomOptions(){IsVisible = true,IsOpen = true,MaxPlayers = (byte) roomSize};
 
-            PhotonNetwork.CreateRoom(createRoomUI.GetNameField(), roomOps);
+            PhotonNetwork.CreateRoom(CreateRoomUI.GetNameField(), roomOps);
         }
+        
+        public override void OnCreateRoomFailed(short returnCode, string message)
+        {
+            CreateRoomUI.RunRoomFailedAnimation();  
+        }
+
+        public void JoinRoom()
+        {
+            Debug.Log("Joining Room...");
+            GlobalValues.SetNickName(JoinRoomUI.GetNicknameField());
+            PhotonNetwork.JoinRoom(JoinRoomUI.GetNameField());
+            
+        }
+        
+        
         public override void OnJoinedRoom()
         {
             SceneManager.LoadScene(GlobalValues.waitingRoomScene);
         }
-
-        public override void OnJoinRoomFailed(short returnCode, string message)
-        {
-            createRoomUI.RunRoomFailedAnimation();
-        }
+        
+        
     }
 }

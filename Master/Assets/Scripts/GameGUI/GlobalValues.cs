@@ -13,5 +13,13 @@ namespace GameGUI
         public const int networkScene = 1;
         public const int waitingRoomScene = 2;
         public const int gameScene = 3;
+
+        [Header("PlayerSettings")] 
+        public static string nickname;
+
+        public static void SetNickName(string newNickName)
+        {
+            nickname = newNickName;
+        }
     }
 }

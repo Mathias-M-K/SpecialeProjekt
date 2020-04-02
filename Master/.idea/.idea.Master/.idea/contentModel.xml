@@ -713,8 +713,9 @@
           <e p="GameGUI" t="Include">
             <e p="GlobalValues.cs" t="Include" />
             <e p="NetworkScene" t="Include">
+              <e p="CreateRoomPanelUIController.cs" t="Include" />
+              <e p="JoinRoomPanelUIController.cs" t="Include" />
               <e p="NetworkSceneController.cs" t="Include" />
-              <e p="RoomCreatorPanelUIController.cs" t="Include" />
             </e>
             <e p="WelcomeScene" t="Include">
               <e p="WelcomeScreenController.cs" t="Include" />
