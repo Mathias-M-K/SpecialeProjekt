@@ -7,10 +7,6 @@ namespace GameGUI
 {
     public class WelcomeScreenController : MonoBehaviour
     {
-        [Header("Scene Index")] 
-        public int NetworkScene;
-        public int LocalScene;
-
         [Header("Content")] 
         public GameObject mainContent;
         public float contentAnimationTime;
@@ -65,12 +61,12 @@ namespace GameGUI
         {
             LeanTween.moveLocalX(mainContent, -1236, contentAnimationTime).
                 setEase(contentEaseOutType).
-                setOnComplete(() => SceneManager.LoadScene(NetworkScene));
+                setOnComplete(() => SceneManager.LoadScene(GlobalValues.networkScene));
         }
 
         public void LocalGame()
         {
-            SceneManager.LoadScene(LocalScene);
+            SceneManager.LoadScene(GlobalValues.gameScene);
         }
     }
 }

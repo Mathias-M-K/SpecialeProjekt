@@ -1,14 +1,17 @@
-﻿using System;
-using Photon.Pun;
+﻿using Photon.Pun;
+using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace GameGUI
+namespace GameGUI.NetworkScene
 {
     public class NetworkSceneController : MonoBehaviourPunCallbacks
     {
+        [Header("Assistant Classes")] 
+        public RoomCreatorPanelUIController createRoomUI;
+        
         [Header("Content")] 
         public GameObject mainContent;
         public float contentAnimationTime;
@@ -52,6 +55,8 @@ namespace GameGUI
 
         public override void OnConnectedToMaster()
         {
+            PhotonNetwork.AutomaticallySyncScene = true;
+            
             LeanTween.moveLocalY(BackBtn, BackBtn.transform.localPosition.y - 55 - 10, buttonAnimationTime)
                 .setEase(buttonEaseType);
 
@@ -69,12 +74,23 @@ namespace GameGUI
                 textColor.a = (byte) a;
                 loadingBtnText.color = textColor;
             }, 255, 0, 0.2f);
-
-
-
         }
-        
-        
-        
+
+        public void CreateRoom()
+        {
+            int.TryParse(createRoomUI.GetSizeField(), out int roomSize);
+            RoomOptions roomOps = new RoomOptions(){IsVisible = true,IsOpen = true,MaxPlayers = (byte) roomSize};
+
+            PhotonNetwork.CreateRoom(createRoomUI.GetNameField(), roomOps);
+        }
+        public override void OnJoinedRoom()
+        {
+            SceneManager.LoadScene(GlobalValues.waitingRoomScene);
+        }
+
+        public override void OnJoinRoomFailed(short returnCode, string message)
+        {
+            createRoomUI.RunRoomFailedAnimation();
+        }
     }
 }
