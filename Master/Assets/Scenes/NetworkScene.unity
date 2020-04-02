@@ -4081,7 +4081,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ae746ffdc542918d6d2e34975aab4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  createCreateRoomUi: {fileID: 0}
+  CreateRoomUI: {fileID: 268101520}
+  JoinRoomUI: {fileID: 1029135383}
   mainContent: {fileID: 1584795365}
   contentAnimationTime: 0.5
   contentEaseInType: 12

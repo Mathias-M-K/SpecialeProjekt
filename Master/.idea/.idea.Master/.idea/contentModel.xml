@@ -730,6 +730,7 @@
           <e p="NavMeshManager.cs" t="Include" />
           <e p="Networking" t="Include">
             <e p="NetworkController.cs" t="Include" />
+            <e p="WaitingRoomController.cs" t="Include" />
           </e>
           <e p="ScreenHandler.cs" t="Include" />
           <e p="TestHandler.cs" t="Include" />
