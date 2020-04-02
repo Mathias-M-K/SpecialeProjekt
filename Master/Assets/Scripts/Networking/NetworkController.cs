@@ -1,3 +1,4 @@
+using System;
 using Photon.Pun;
 
 namespace Networking
@@ -6,7 +7,16 @@ namespace Networking
     {
         private void Start()
         {
-            PhotonNetwork.ConnectUsingSettings();
+            try
+            {
+                PhotonNetwork.ConnectUsingSettings();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
         }
 
         public override void OnConnectedToMaster()
