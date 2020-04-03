@@ -57,7 +57,7 @@ namespace GameGUI.NetworkScene
             LeanTween.moveLocalX(mainContent, 1243, contentAnimationTime).setEase(contentEaseOutType).setOnComplete(
                 () => SceneManager.LoadScene(0));
         }
-
+        
 
         /*
          * Network Stuff
@@ -88,7 +88,7 @@ namespace GameGUI.NetworkScene
                 loadingBtnText.color = textColor;
             }, 255, 0, 0.2f);
         }
-
+        
         public void CreateRoom()
         {
             int.TryParse(CreateRoomUI.GetSizeField(), out int roomSize);

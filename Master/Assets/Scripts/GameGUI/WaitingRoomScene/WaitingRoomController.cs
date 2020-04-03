@@ -53,6 +53,19 @@ namespace GameGUI.WaitingRoomScene
             uiController.RemovePlayerFromList(otherPlayer);
         }
 
+
+        /*public override void OnDisconnected(DisconnectCause cause)
+        {
+            
+        }*/
+
+        public override void OnDisconnected(DisconnectCause cause)
+        {
+            PhotonNetwork.ReconnectAndRejoin();
+        }
+        
+        
+
         public void StartGame()
         {
             if (!PhotonNetwork.IsMasterClient) return;
