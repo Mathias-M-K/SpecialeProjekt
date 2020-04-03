@@ -1,4 +1,3 @@
-using System;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
@@ -8,35 +7,31 @@ namespace GameGUI.WaitingRoomScene
 {
     public class WaitingRoomController : MonoBehaviourPunCallbacks
     {
-        public WaitingRoomUIController UiController;
-        private PhotonView myPhotonView;
-        
+        private PhotonView _myPhotonView;
+
         public TextMeshProUGUI roomCountDisplay;
+        public WaitingRoomUIController uiController;
+
 
         private void Start()
         {
-            myPhotonView = GetComponent<PhotonView>();
+            _myPhotonView = GetComponent<PhotonView>();
             UpdateCounter();
-            
-            foreach (Player player in PhotonNetwork.PlayerList) 
-            {
-                UiController.AddPlayerToList(player);
-            }
-            
+
+            foreach (var player in PhotonNetwork.PlayerList) uiController.AddPlayerToList(player);
         }
 
         private void UpdateCounter()
         {
             roomCountDisplay.text = $"{PhotonNetwork.CurrentRoom.Players.Count}:{PhotonNetwork.CurrentRoom.MaxPlayers}";
         }
-        
+
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
             print(newPlayer.NickName + " joined");
-            
-            UpdateCounter();
-            UiController.AddPlayerToList(newPlayer);
 
+            UpdateCounter();
+            uiController.AddPlayerToList(newPlayer);
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -44,9 +39,9 @@ namespace GameGUI.WaitingRoomScene
             print(otherPlayer.NickName + " left");
 
             UpdateCounter();
-            UiController.RemovePlayerFromList(otherPlayer);
+            uiController.RemovePlayerFromList(otherPlayer);
         }
-        
+
         public void StartGame()
         {
             if (!PhotonNetwork.IsMasterClient) return;
@@ -54,15 +49,12 @@ namespace GameGUI.WaitingRoomScene
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.LoadLevel(GlobalValues.gameScene);
         }
-        
+
         [PunRPC]
         public void Cancel()
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                myPhotonView.RPC("Cancel",RpcTarget.Others);
-            }
-            
+            if (PhotonNetwork.IsMasterClient) _myPhotonView.RPC("Cancel", RpcTarget.Others);
+
             PhotonNetwork.AutomaticallySyncScene = false;
             PhotonNetwork.LeaveRoom();
             SceneManager.LoadScene(GlobalValues.networkScene);

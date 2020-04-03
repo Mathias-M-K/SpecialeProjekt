@@ -27,13 +27,16 @@ namespace GameGUI.NetworkScene
         {
             if (!roomNameField.text.Equals("") && !roomSizeField.text.Equals(""))
             {
-                LeanTween.alpha(createRoomBtn.GetComponent<Image>().rectTransform, 1, 0.4f).setOnComplete(() => createRoomBtn.GetComponent<Button>().interactable = true);
+                createRoomBtn.GetComponent<Button>().interactable = true;
                 readyToCreateRoom = true;
+                LeanTween.alpha(createRoomBtn.GetComponent<Image>().rectTransform, 1, 0.4f); //setOnComplete(() => createRoomBtn.GetComponent<Button>().interactable = true);
+
             }
             else
             {
-                LeanTween.alpha(createRoomBtn.GetComponent<Image>().rectTransform, 0, 0.4f).setOnComplete(() => createRoomBtn.GetComponent<Button>().interactable = false);
+                createRoomBtn.GetComponent<Button>().interactable = false;
                 readyToCreateRoom = false;
+                LeanTween.alpha(createRoomBtn.GetComponent<Image>().rectTransform, 0, 0.4f);//setOnComplete(() => createRoomBtn.GetComponent<Button>().interactable = false);
             }
 
             if (Input.GetKeyDown(KeyCode.Tab) && panelActive)
