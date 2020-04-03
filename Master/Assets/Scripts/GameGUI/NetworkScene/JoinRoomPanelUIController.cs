@@ -19,6 +19,7 @@ namespace GameGUI.NetworkScene
         public LeanTweenType flyOutEase;
 
         private bool readyToJoinRoom;
+        private bool panelActive;
 
         public NetworkSceneController NetworkSceneController;
 
@@ -35,7 +36,7 @@ namespace GameGUI.NetworkScene
                 readyToJoinRoom = false;
             }
 
-            if (Input.GetKeyDown(KeyCode.Tab))
+            if (Input.GetKeyDown(KeyCode.Tab) && panelActive)
             {
                 if (roomNameField.isFocused)
                 {
@@ -70,11 +71,13 @@ namespace GameGUI.NetworkScene
         public void FlyIn()
         {
             LeanTween.moveLocalY(gameObject, 0, flyInTime).setEase(flyInEase);
+            panelActive = true;
         }
 
         public void FlyOut()
         {
             LeanTween.moveLocalY(gameObject, -238, flyOutTime).setEase(flyOutEase);
+            panelActive = false;
         }
         
         public void RunFailedJoinAnimation()
