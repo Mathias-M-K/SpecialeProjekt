@@ -55,7 +55,6 @@ namespace GameGUI.WaitingRoomScene
             PhotonNetwork.LoadLevel(GlobalValues.gameScene);
         }
         
-        
         [PunRPC]
         public void Cancel()
         {
