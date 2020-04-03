@@ -61,6 +61,10 @@ namespace GameGUI.NetworkScene
          */
         public override void OnConnectedToMaster()
         {
+            if (GlobalValues.connected) return;
+            
+            GlobalValues.SetConnected(true);
+            
             PhotonNetwork.AutomaticallySyncScene = true;
             
             LeanTween.moveLocalY(backBtn, backBtn.transform.localPosition.y - 55 - 10, buttonAnimationTime)

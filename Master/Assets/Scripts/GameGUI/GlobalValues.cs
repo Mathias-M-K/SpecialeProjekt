@@ -14,12 +14,12 @@ namespace GameGUI
         public const int waitingRoomScene = 2;
         public const int gameScene = 3;
 
-        [Header("PlayerSettings")] 
-        public static string nickname;
+        [Header("Network Values")] 
+        public static bool connected;
 
-        public static void SetNickName(string newNickName)
+        public static void SetConnected(bool connectedStatus)
         {
-            nickname = newNickName;
+            connected = connectedStatus;
         }
     }
 }

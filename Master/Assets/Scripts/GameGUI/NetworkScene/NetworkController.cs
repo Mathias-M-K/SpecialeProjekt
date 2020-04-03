@@ -7,16 +7,7 @@ namespace GameGUI.NetworkScene
     {
         private void Start()
         {
-            try
-            {
-                PhotonNetwork.ConnectUsingSettings();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-            
+            PhotonNetwork.ConnectUsingSettings();
         }
 
         public override void OnConnectedToMaster()

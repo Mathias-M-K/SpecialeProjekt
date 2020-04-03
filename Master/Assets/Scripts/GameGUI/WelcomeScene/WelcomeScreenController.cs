@@ -35,7 +35,6 @@ namespace GameGUI
 
         public void ButtonHit(Button b)
         {
-            print(b.name);
             if (b.name.Equals("StartBtn"))
             {
                 startBtn = b;
