@@ -4,6 +4,7 @@
     <e p="C:\Users\mathi\.Rider2019.3\system\extResources" t="IncludeRecursive" />
     <e p="C:\Users\mathi\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Master.-791168200.00" t="ExcludeRecursive" />
     <e p="C:\Users\mathi\Documents\GitHub\SpecialeProjekt\Master" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="_Imports" t="Include">
@@ -71,7 +72,6 @@
               <e p="InitMUIP.cs" t="Include" />
               <e p="UIManagerEditor.cs" t="Include" />
             </e>
-            <e p="ModernUIAssembly.asmdef" t="Include" />
             <e p="Read Me.txt" t="Include" />
             <e p="Scripts" t="Include">
               <e p="Animated Icon" t="Include">
@@ -709,13 +709,17 @@
             </e>
             <e p="TriggerController.cs" t="Include" />
           </e>
-          <e p="GameAssembly.asmdef" t="Include" />
           <e p="GameGUI" t="Include">
             <e p="GlobalValues.cs" t="Include" />
             <e p="NetworkScene" t="Include">
               <e p="CreateRoomPanelUIController.cs" t="Include" />
               <e p="JoinRoomPanelUIController.cs" t="Include" />
+              <e p="NetworkController.cs" t="Include" />
               <e p="NetworkSceneController.cs" t="Include" />
+            </e>
+            <e p="WaitingRoomScene" t="Include">
+              <e p="WaitingRoomController.cs" t="Include" />
+              <e p="WaitingRoomUIController.cs" t="Include" />
             </e>
             <e p="WelcomeScene" t="Include">
               <e p="WelcomeScreenController.cs" t="Include" />
@@ -728,24 +732,11 @@
             <e p="BlockHandler.cs" t="Include" />
           </e>
           <e p="NavMeshManager.cs" t="Include" />
-          <e p="Networking" t="Include">
-            <e p="NetworkController.cs" t="Include" />
-            <e p="WaitingRoomController.cs" t="Include" />
-          </e>
           <e p="ScreenHandler.cs" t="Include" />
           <e p="TestHandler.cs" t="Include" />
         </e>
-        <e p="Tests" t="Include">
-          <e p="GameHandlerTest.cs" t="Include" />
-          <e p="GatesAndTriggersTest.cs" t="Include" />
-          <e p="MapManagerTest.cs" t="Include" />
-          <e p="PlayerMovementTest.cs" t="Include" />
-          <e p="Tests.asmdef" t="Include" />
-        </e>
       </e>
-      <e p="GameAssembly.csproj" t="IncludeRecursive" />
       <e p="Master.sln" t="IncludeFlat" />
-      <e p="ModernUIAssembly.csproj" t="IncludeRecursive" />
       <e p="NavMeshComponents.csproj" t="IncludeRecursive" />
       <e p="NavMeshComponentsEditor.csproj" t="IncludeRecursive" />
       <e p="NavMeshComponentsExamples.csproj" t="IncludeRecursive" />
@@ -764,7 +755,6 @@
       <e p="PunDemos.DemoHubEditor.csproj" t="IncludeRecursive" />
       <e p="PunDemos.DemoSlotcarEditor.csproj" t="IncludeRecursive" />
       <e p="Temp\bin" t="ExcludeRecursive" />
-      <e p="Tests.csproj" t="IncludeRecursive" />
     </e>
   </component>
 </project>

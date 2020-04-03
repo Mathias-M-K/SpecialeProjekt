@@ -1,7 +1,7 @@
 using System;
 using Photon.Pun;
 
-namespace Networking
+namespace GameGUI.NetworkScene
 {
     public class NetworkController : MonoBehaviourPunCallbacks
     {
