@@ -1,6 +1,8 @@
+using System;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace GameGUI.WaitingRoomScene
@@ -11,8 +13,17 @@ namespace GameGUI.WaitingRoomScene
 
         public TextMeshProUGUI roomCountDisplay;
         public WaitingRoomUIController uiController;
+        
+        [Header("UI's")] 
+        public GameObject hostUi;
+        public GameObject playerUi;
 
-
+        private void Awake()
+        {
+            hostUi.SetActive(PhotonNetwork.IsMasterClient);
+            playerUi.SetActive(!PhotonNetwork.IsMasterClient);
+        }
+        
         private void Start()
         {
             _myPhotonView = GetComponent<PhotonView>();

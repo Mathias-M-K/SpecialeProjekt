@@ -32,7 +32,10 @@ namespace GameGUI.NetworkScene
         private void Awake()
         {
             LeanTween.moveLocalX(mainContent, 1243, 0);
-            
+            if (Application.internetReachability == NetworkReachability.NotReachable)           
+            {
+                print("No network detected");
+            }
             if (!PhotonNetwork.IsConnected)
             {
                 LeanTween.moveLocalY(backBtn, backBtn.transform.localPosition.y + 55+10, 0);

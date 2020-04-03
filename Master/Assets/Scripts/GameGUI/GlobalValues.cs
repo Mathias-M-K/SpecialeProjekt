@@ -14,12 +14,20 @@ namespace GameGUI
         public const int waitingRoomScene = 2;
         public const int gameScene = 3;
 
+        [Header("Welcome Screen")] 
+        public static bool StartBtnInteractable = true;
+        
         [Header("Network Values")] 
         public static bool connected;
 
         public static void SetConnected(bool connectedStatus)
         {
             connected = connectedStatus;
+        }
+        
+        public static void SetStartBtnInteractable(bool newValue)
+        {
+            StartBtnInteractable = newValue;
         }
     }
 }

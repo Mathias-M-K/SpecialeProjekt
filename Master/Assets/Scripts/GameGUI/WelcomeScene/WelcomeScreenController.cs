@@ -15,12 +15,7 @@ namespace GameGUI
         
         [Header("Buttons")] 
         public Button startBtn;
-        public Button OnlineBtn;
-        public Button LocalBtn;
-
-        public Button CreateRoomBtn;
-        public Button JoinRoomBtn;
-
+        
         [Header("Network / Local")] 
         public GameObject networkLocalButtons;
         public float animationTime1;
@@ -31,6 +26,12 @@ namespace GameGUI
         {
             LeanTween.moveLocalX(mainContent, -1236, 0);
             LeanTween.moveLocalX(mainContent, 0, contentAnimationTime).setEase(contentEaseInType);
+
+            if (!GlobalValues.StartBtnInteractable)
+            {
+                startBtn.interactable = false;
+                LeanTween.moveLocalY(networkLocalButtons, 0, 0);
+            }
         }
 
         public void ButtonHit(Button b)
@@ -40,17 +41,19 @@ namespace GameGUI
                 startBtn = b;
                 b.interactable = false;
                 LeanTween.moveLocalY(networkLocalButtons, 0, animationTime1).setEase(easeType1);
+                GlobalValues.SetStartBtnInteractable(false);
             }
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Mouse1))
+            if (Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.Escape))
             {
                 if (!startBtn.interactable)
                 {
                     startBtn.interactable = true;
                     LeanTween.moveLocalY(networkLocalButtons, 140, animationTime1).setEase(easeType1);
+                    GlobalValues.SetStartBtnInteractable(true);
                 }
             }
         }

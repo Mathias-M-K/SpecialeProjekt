@@ -12,20 +12,20 @@ namespace GameGUI.WaitingRoomScene
         public WaitingRoomController roomController;
         public GameObject playerList;
         public GameObject playerNameElement;
-        private Dictionary<string, GameObject> activePlayers = new Dictionary<string, GameObject>();
+        private readonly Dictionary<string, GameObject> _activePlayers = new Dictionary<string, GameObject>();
         
         public void AddPlayerToList(Player player)
         {
             GameObject go = Instantiate(playerNameElement, playerList.transform, false);
             go.GetComponent<TextMeshProUGUI>().text = player.NickName;
             
-            activePlayers.Add(player.NickName,go);
+            _activePlayers.Add(player.NickName,go);
         }
 
         public void RemovePlayerFromList(Player player)
         {
-            GameObject go = activePlayers[player.NickName];
-            activePlayers.Remove(player.NickName);
+            GameObject go = _activePlayers[player.NickName];
+            _activePlayers.Remove(player.NickName);
             DestroyImmediate(go,true);
             Destroy(go);
         }
