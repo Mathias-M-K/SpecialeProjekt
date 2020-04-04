@@ -30,6 +30,7 @@ public class ChickenController : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        Camera.main.GetComponent<CustomCameraMovement>().SetChicken(gameObject);
     }
 
     // Update is called once per frame
