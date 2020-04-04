@@ -11,12 +11,18 @@ namespace GameGUI.WaitingRoomScene
     {
         private PhotonView _myPhotonView;
 
-        public TextMeshProUGUI roomCountDisplay;
-        public WaitingRoomUIController uiController;
+        
         
         [Header("UI's")] 
         public GameObject hostUi;
         public GameObject playerUi;
+        [Space]
+        public WaitingRoomUIController uiController;
+        [Space] 
+        public TextMeshProUGUI playerName;
+        public TextMeshProUGUI connectionStatus;
+        public TextMeshProUGUI roomName;
+        public TextMeshProUGUI role;
 
         private void Awake()
         {
@@ -27,21 +33,36 @@ namespace GameGUI.WaitingRoomScene
         private void Start()
         {
             _myPhotonView = GetComponent<PhotonView>();
-            UpdateCounter();
+            UpdatePlayerCounter();
 
+            //Setting infopanel text
+            playerName.text = PhotonNetwork.NickName;
+            connectionStatus.text = "Connected";
+            UpdatePlayerCounter();
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                role.text = "Role: Host";
+            }
+            else
+            {
+                role.text = "Role: Participant";
+            }
+            
             foreach (var player in PhotonNetwork.PlayerList) uiController.AddPlayerToList(player);
+            
         }
 
-        private void UpdateCounter()
+        private void UpdatePlayerCounter()
         {
-            roomCountDisplay.text = $"{PhotonNetwork.CurrentRoom.Players.Count}:{PhotonNetwork.CurrentRoom.MaxPlayers}";
+            roomName.text = $"{PhotonNetwork.CurrentRoom.Name} | {PhotonNetwork.CurrentRoom.Players.Count}:{PhotonNetwork.CurrentRoom.MaxPlayers}";
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
             print(newPlayer.NickName + " joined");
 
-            UpdateCounter();
+            UpdatePlayerCounter();
             uiController.AddPlayerToList(newPlayer);
         }
 
@@ -49,18 +70,13 @@ namespace GameGUI.WaitingRoomScene
         {
             print(otherPlayer.NickName + " left");
 
-            UpdateCounter();
+            UpdatePlayerCounter();
             uiController.RemovePlayerFromList(otherPlayer);
         }
-
-
-        /*public override void OnDisconnected(DisconnectCause cause)
-        {
-            
-        }*/
-
+        
         public override void OnDisconnected(DisconnectCause cause)
         {
+            connectionStatus.text = "Disconnected";
             PhotonNetwork.ReconnectAndRejoin();
         }
         

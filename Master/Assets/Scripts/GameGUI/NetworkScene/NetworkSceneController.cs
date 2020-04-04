@@ -94,7 +94,7 @@ namespace GameGUI.NetworkScene
             int.TryParse(CreateRoomUI.GetSizeField(), out int roomSize);
             RoomOptions roomOps = new RoomOptions(){IsVisible = true,IsOpen = true,MaxPlayers = (byte) roomSize};
 
-            PhotonNetwork.LocalPlayer.NickName = "Host";
+            PhotonNetwork.LocalPlayer.NickName = "Mr. Host";
             PhotonNetwork.CreateRoom(CreateRoomUI.GetNameField(), roomOps);
         }
         

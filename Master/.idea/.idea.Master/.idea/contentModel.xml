@@ -711,6 +711,7 @@
             <e p="TriggerController.cs" t="Include" />
           </e>
           <e p="GameGUI" t="Include">
+            <e p="GameSetupController.cs" t="Include" />
             <e p="GlobalValues.cs" t="Include" />
             <e p="NetworkScene" t="Include">
               <e p="CreateRoomPanelUIController.cs" t="Include" />
