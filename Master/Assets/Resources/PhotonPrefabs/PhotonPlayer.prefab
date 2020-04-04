@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 6381712396146276183}
   - component: {fileID: 3436887679265974263}
   m_Layer: 0
-  m_Name: ChickenPrefab
+  m_Name: PhotonPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

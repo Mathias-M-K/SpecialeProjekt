@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class ChickenController : MonoBehaviour
 {
+    private PhotonView _photonView;
+    
     public CharacterController controller;
     private float velX;
     private float velY;
@@ -29,6 +32,7 @@ public class ChickenController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _photonView = GetComponent<PhotonView>();
         controller = GetComponent<CharacterController>();
         Camera.main.GetComponent<CustomCameraMovement>().SetChicken(gameObject);
     }
@@ -36,18 +40,20 @@ public class ChickenController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*_actualVel = controller.velocity;
-        if (_actualVel.x != 0)
-        {
-            _movement = true;
-        }
-        if (_movement)
-        {
-            if (_actualVel.x == 0.0f)
+        if (!_photonView.IsMine) return;
+
+            /*_actualVel = controller.velocity;
+            if (_actualVel.x != 0)
             {
-                velX = 0;
+                _movement = true;
             }
-        }*/
+            if (_movement)
+            {
+                if (_actualVel.x == 0.0f)
+                {
+                    velX = 0;
+                }
+            }*/
         
         
         //Ground Movement Control

@@ -26,7 +26,7 @@ public class CustomCameraMovement : MonoBehaviour
     void Update()
     {
 
-        if (!begin) return;
+        if (!begin || chicken == null) return;
         
         float xPos = Mathf.Lerp(transform.position.x, chicken.transform.position.x+offsetX, Time.deltaTime * smoothingFactor);
         float zPos = Mathf.Lerp(transform.position.z, chicken.transform.position.z+offsetY, Time.deltaTime * smoothingFactor);
