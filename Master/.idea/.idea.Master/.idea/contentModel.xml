@@ -716,6 +716,7 @@
             <e p="NetworkScene" t="Include">
               <e p="CreateRoomPanelUIController.cs" t="Include" />
               <e p="JoinRoomPanelUIController.cs" t="Include" />
+              <e p="LoadingBtnController.cs" t="Include" />
               <e p="NetworkController.cs" t="Include" />
               <e p="NetworkSceneController.cs" t="Include" />
             </e>

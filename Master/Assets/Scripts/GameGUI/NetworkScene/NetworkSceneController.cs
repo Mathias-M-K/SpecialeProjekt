@@ -62,6 +62,13 @@ namespace GameGUI.NetworkScene
         /*
          * Network Stuff
          */
+
+        public void RetryConnection()
+        {
+            PhotonNetwork.ConnectUsingSettings();
+        }
+        
+        
         public override void OnConnectedToMaster()
         {
             if (GlobalValues.connected) return;
@@ -69,6 +76,7 @@ namespace GameGUI.NetworkScene
             GlobalValues.SetConnected(true);
             
             PhotonNetwork.AutomaticallySyncScene = true;
+            
             
             LeanTween.moveLocalY(backBtn, backBtn.transform.localPosition.y - 55 - 10, buttonAnimationTime)
                 .setEase(buttonEaseType);
