@@ -1,4 +1,5 @@
 ﻿using System;
+using Michsky.UI.ModernUIPack;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
@@ -13,7 +14,7 @@ namespace GameGUI.NetworkScene
         [Header("Assistant Classes")] 
         public CreateRoomPanelUIController CreateRoomUI;
         public JoinRoomPanelUIController JoinRoomUI;
-        
+
         [Header("Content")] 
         public GameObject mainContent;
         public float contentAnimationTime;
@@ -27,7 +28,6 @@ namespace GameGUI.NetworkScene
         
         public float buttonAnimationTime;
         public LeanTweenType buttonEaseType;
-        
 
         private void Awake()
         {
@@ -57,36 +57,43 @@ namespace GameGUI.NetworkScene
             LeanTween.moveLocalX(mainContent, 1243, contentAnimationTime).setEase(contentEaseOutType).setOnComplete(
                 () => SceneManager.LoadScene(0));
         }
-        
+
+        private void Update()
+        {
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                if (!GlobalValues.connected) return;
+                OnConnectionLost();
+            }
+        }
+
 
         /*
          * Network Stuff
          */
-
         public void RetryConnection()
         {
+            loadingBtn.GetComponent<LoadingBtnController>().StartLoadingAnimation();
             PhotonNetwork.ConnectUsingSettings();
         }
-        
-        
-        public override void OnConnectedToMaster()
+
+        public void OnConnectionLost()
         {
-            if (GlobalValues.connected) return;
+            GlobalValues.SetConnected(false);
+            Image img = loadingBtn.GetComponent<Image>();
+            LeanTween.color(img.rectTransform, new Color32(255, 255, 255, 255), 1);
+            loadingBtn.GetComponent<LoadingBtnController>().SetAsRetryBtn();
             
-            GlobalValues.SetConnected(true);
-            
-            PhotonNetwork.AutomaticallySyncScene = true;
-            
-            
-            LeanTween.moveLocalY(backBtn, backBtn.transform.localPosition.y - 55 - 10, buttonAnimationTime)
+            LeanTween.moveLocalY(backBtn, backBtn.transform.localPosition.y + 55 + 10, buttonAnimationTime)
                 .setEase(buttonEaseType);
 
-            LeanTween.moveLocalY(createRoomBtn, createRoomBtn.transform.localPosition.y - 55 - 10, buttonAnimationTime)
+            LeanTween.moveLocalY(createRoomBtn, createRoomBtn.transform.localPosition.y + 55 + 10, buttonAnimationTime)
                 .setEase(buttonEaseType);
-            
-            LeanTween.alpha(loadingBtn.GetComponent<Image>().rectTransform, 0, buttonAnimationTime)
-                .setEase(buttonEaseType).destroyOnComplete =true;
 
+            loadingBtn.SetActive(true);
+            LeanTween.alpha(loadingBtn.GetComponent<Image>().rectTransform, 1, buttonAnimationTime)
+                .setEase(buttonEaseType);
+                
             TextMeshProUGUI loadingBtnText = loadingBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
             LeanTween.value(loadingBtnText.gameObject, a =>
@@ -94,8 +101,44 @@ namespace GameGUI.NetworkScene
                 Color32 textColor = loadingBtnText.color;
                 textColor.a = (byte) a;
                 loadingBtnText.color = textColor;
-            }, 255, 0, 0.2f);
+            }, 0, 255, 0.4f);
         }
+        
+        public override void OnConnectedToMaster()
+        {
+            print("We connected");
+            if (GlobalValues.connected) return;
+            
+            GlobalValues.SetConnected(true);
+            
+            PhotonNetwork.AutomaticallySyncScene = true;
+            
+            loadingBtn.GetComponent<LoadingBtnController>().StopLoadingAnimation();
+            loadingBtn.GetComponent<LoadingBtnController>().SetText("Connected!");
+            Image img = loadingBtn.GetComponent<Image>();
+
+            LeanTween.color(img.rectTransform, new Color32(0,250,126,255), 1).setOnComplete(() =>
+            {
+                LeanTween.moveLocalY(backBtn, backBtn.transform.localPosition.y - 55 - 10, buttonAnimationTime)
+                    .setEase(buttonEaseType);
+
+                LeanTween.moveLocalY(createRoomBtn, createRoomBtn.transform.localPosition.y - 55 - 10, buttonAnimationTime)
+                    .setEase(buttonEaseType);
+
+                LeanTween.alpha(loadingBtn.GetComponent<Image>().rectTransform, 0, buttonAnimationTime)
+                    .setEase(buttonEaseType).setOnComplete(() => loadingBtn.SetActive(false));
+                
+                TextMeshProUGUI loadingBtnText = loadingBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+
+                LeanTween.value(loadingBtnText.gameObject, a =>
+                {
+                    Color32 textColor = loadingBtnText.color;
+                    textColor.a = (byte) a;
+                    loadingBtnText.color = textColor;
+                }, 255, 0, 0.2f);
+            });
+        }
+        
         
         public void CreateRoom()
         {
@@ -117,10 +160,13 @@ namespace GameGUI.NetworkScene
 
             PhotonNetwork.LocalPlayer.NickName = JoinRoomUI.GetNicknameField();
             PhotonNetwork.JoinRoom(JoinRoomUI.GetNameField());
-            
         }
-        
-        
+
+        public override void OnJoinRoomFailed(short returnCode, string message)
+        {
+            JoinRoomUI.RunFailedJoinAnimation();
+        }
+
         public override void OnJoinedRoom()
         {
             SceneManager.LoadScene(GlobalValues.waitingRoomScene);

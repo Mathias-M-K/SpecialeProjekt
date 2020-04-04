@@ -648,6 +648,8 @@
             </e>
           </e>
         </e>
+        <e p="ChickenController.cs" t="Include" />
+        <e p="CustomCameraMovement.cs" t="Include" />
         <e p="Scripts" t="Include">
           <e p="ActivateAllDisplays.cs" t="Include" />
           <e p="AdminGUI" t="Include">
