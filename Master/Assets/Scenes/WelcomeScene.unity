@@ -637,10 +637,6 @@ MonoBehaviour:
   contentEaseOutType: 11
   contentEaseInType: 12
   startBtn: {fileID: 1375009435}
-  OnlineBtn: {fileID: 683163932}
-  LocalBtn: {fileID: 708898008}
-  CreateRoomBtn: {fileID: 0}
-  JoinRoomBtn: {fileID: 0}
   networkLocalButtons: {fileID: 1028660226}
   animationTime1: 0.3
   easeType1: 27

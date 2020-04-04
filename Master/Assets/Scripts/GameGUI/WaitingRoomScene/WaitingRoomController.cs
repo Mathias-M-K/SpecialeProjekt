@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using Michsky.UI.ModernUIPack;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
@@ -11,9 +13,10 @@ namespace GameGUI.WaitingRoomScene
     {
         private PhotonView _myPhotonView;
 
-        
-        
+
+
         [Header("UI's")] 
+        public NotificationManager notification;
         public GameObject hostUi;
         public GameObject playerUi;
         [Space]
@@ -23,6 +26,8 @@ namespace GameGUI.WaitingRoomScene
         public TextMeshProUGUI connectionStatus;
         public TextMeshProUGUI roomName;
         public TextMeshProUGUI role;
+
+        private bool _leaving;
 
         private void Awake()
         {
@@ -53,6 +58,31 @@ namespace GameGUI.WaitingRoomScene
             
         }
 
+        private void Update()
+        {
+            //Checking network connection
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                connectionStatus.text = "Disconnected";
+                connectionStatus.color = Color.red;
+
+                if (!_leaving)
+                {
+                    notification.description = "Internet connection lost. Leaving room in 3 seconds";
+                    notification.title = "Connection Trouble";
+                    notification.OpenNotification();
+                    StartCoroutine(DelayedLeave(3));
+                    _leaving = true;
+                }
+            }
+        }
+
+        private IEnumerator DelayedLeave(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            Cancel();
+        }
+
         private void UpdatePlayerCounter()
         {
             roomName.text = $"{PhotonNetwork.CurrentRoom.Name} | {PhotonNetwork.CurrentRoom.Players.Count}:{PhotonNetwork.CurrentRoom.MaxPlayers}";
@@ -73,13 +103,6 @@ namespace GameGUI.WaitingRoomScene
             UpdatePlayerCounter();
             uiController.RemovePlayerFromList(otherPlayer);
         }
-        
-        public override void OnDisconnected(DisconnectCause cause)
-        {
-            connectionStatus.text = "Disconnected";
-            PhotonNetwork.ReconnectAndRejoin();
-        }
-        
         
 
         public void StartGame()
