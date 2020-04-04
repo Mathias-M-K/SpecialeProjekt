@@ -117,7 +117,7 @@ namespace GameGUI.NetworkScene
             loadingBtn.GetComponent<LoadingBtnController>().SetText("Connected!");
             Image img = loadingBtn.GetComponent<Image>();
 
-            LeanTween.color(img.rectTransform, new Color32(0,250,126,255), 1).setOnComplete(() =>
+            LeanTween.color(img.rectTransform, new Color32(0,250,126,255), 0.5f).setOnComplete(() =>
             {
                 LeanTween.moveLocalY(backBtn, backBtn.transform.localPosition.y - 55 - 10, buttonAnimationTime)
                     .setEase(buttonEaseType);

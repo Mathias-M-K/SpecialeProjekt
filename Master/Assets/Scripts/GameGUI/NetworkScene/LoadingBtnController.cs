@@ -46,7 +46,6 @@ namespace GameGUI.NetworkScene
                     if (!_loading) yield break;
                     _loadingText.text += ".";
                     yield return new WaitForSeconds(0.4f);
-                    print("add");
                 }
                 
                 for (int i = 0; i < 3; i++)
@@ -54,7 +53,6 @@ namespace GameGUI.NetworkScene
                     if (!_loading) yield break;
                     _loadingText.text = _loadingText.text.Remove(_loadingText.text.Length - 1);
                     yield return new WaitForSeconds(0.4f);
-                    print("remove");
                 }
 
                 counter++;

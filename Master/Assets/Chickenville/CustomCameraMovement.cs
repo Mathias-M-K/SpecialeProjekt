@@ -9,11 +9,11 @@ public class CustomCameraMovement : MonoBehaviour
 
     public float offsetX;
     public float offsetY;
+    public float offsetZ;
 
 
-    public float smoothingFactor = 10;
-    public float cameraHeight;
-    public float cameraDistance;
+    public float smoothingFactor;
+    public float jumpSmoothingFactor;
 
     private bool begin;
 
@@ -29,9 +29,11 @@ public class CustomCameraMovement : MonoBehaviour
         if (!begin || chicken == null) return;
         
         float xPos = Mathf.Lerp(transform.position.x, chicken.transform.position.x+offsetX, Time.deltaTime * smoothingFactor);
-        float zPos = Mathf.Lerp(transform.position.z, chicken.transform.position.z+offsetY, Time.deltaTime * smoothingFactor);
+        float zPos = Mathf.Lerp(transform.position.z, chicken.transform.position.z+offsetZ, Time.deltaTime * smoothingFactor);
+        
+        float yPos = Mathf.Lerp(transform.position.y, chicken.transform.position.y+offsetY, Time.deltaTime * jumpSmoothingFactor);
 
-        mainCamera.transform.position = new Vector3(xPos, cameraHeight, zPos);
+        mainCamera.transform.position = new Vector3(xPos, yPos, zPos);
     }
 
     public void SetChicken(GameObject gameObject)

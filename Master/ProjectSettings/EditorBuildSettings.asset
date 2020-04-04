@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/NetworkWaitScene.unity
     guid: 29151ffaeaa6d704bba3c3f5957e16ff
   - enabled: 1
-    path: Assets/Scenes/_TempGameScene.unity
+    path: Assets/Scenes/ChickenGame.unity
     guid: 743ab73ac230f3a44ac459a6ca6bfed8
   m_configObjects: {}

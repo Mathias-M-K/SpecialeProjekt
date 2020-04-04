@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using Photon.Pun;
+using TMPro;
 using UnityEngine;
 
 public class ChickenController : MonoBehaviourPunCallbacks
@@ -14,12 +16,11 @@ public class ChickenController : MonoBehaviourPunCallbacks
     private float velZ;
 
     private Vector3 _actualVel;
-
-
-
+    
     public float maxSpeed;
     public float jumpSpeed;
     public float speed;
+    public float airSpeed;
     public float gravity;
     public float deAccValue;
     
@@ -27,6 +28,10 @@ public class ChickenController : MonoBehaviourPunCallbacks
     
     private List<Color32> colors = new List<Color32>(){new Color32(255,162,162,255),new Color32(162,214,255,255),new Color32(132,255,140,255),new Color32(255,255,255,255)};
     private int colorCounter = 0;
+
+    [Header("Message Components")] 
+    public GameObject speechBubbleObj;
+    public TextMeshProUGUI speechBubbleText;
     
 
 
@@ -38,7 +43,11 @@ public class ChickenController : MonoBehaviourPunCallbacks
         _photonView = GetComponent<PhotonView>();
         controller = GetComponent<CharacterController>();
 
-        if (_photonView.IsMine) Camera.main.GetComponent<CustomCameraMovement>().SetChicken(gameObject);
+        if (_photonView.IsMine)
+        {
+            Camera.main.GetComponent<CustomCameraMovement>().SetChicken(gameObject);
+            UIController.current.SetChickenController(this);
+        }
     }
 
     
@@ -55,31 +64,43 @@ public class ChickenController : MonoBehaviourPunCallbacks
         
         if (!_photonView.IsMine) return;
 
-            /*_actualVel = controller.velocity;
-            if (_actualVel.x != 0)
-            {
-                _movement = true;
-            }
-            if (_movement)
-            {
-                if (_actualVel.x == 0.0f)
-                {
-                    velX = 0;
-                }
-            }*/
-        
-        
         //Ground Movement Control
+        
+        
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            velZ += speed;
+            if (velZ < 0)
+            {
+                velZ = 0;
+            }
+
+            if (controller.isGrounded)
+            {
+                velZ += speed;
+            }else
+            {
+                velZ += airSpeed;
+            }
             if (velZ > maxSpeed)
             {
                 velZ = maxSpeed;
             }
         }else if (Input.GetKey(KeyCode.DownArrow))
         {
-            velZ -= speed;
+            //Breaking if we're going the other way
+            if (velZ > 0)
+            {
+                velZ = 0;
+            }
+            //if we're on the ground
+            if (controller.isGrounded)
+            {
+                velZ -= speed;
+            }else
+            {
+                velZ -= airSpeed;
+            }
+            
             if (velZ < -maxSpeed)
             {
                 velZ = -maxSpeed;
@@ -87,10 +108,12 @@ public class ChickenController : MonoBehaviourPunCallbacks
         }
         else
         {
+            //Deaccelarate 
             if (Math.Abs(velZ - 0) < 1)
             {
                 velZ = 0;
             }
+            
             if (velZ > 0)
             {
                 velZ -= deAccValue;
@@ -104,19 +127,40 @@ public class ChickenController : MonoBehaviourPunCallbacks
         
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            velX -= speed;
+            if (velX > 0)
+            {
+                velX = 0;
+            }
+            if (controller.isGrounded)
+            {
+                velX -= speed;
+            }else
+            {
+                velX -= airSpeed;
+            }
             if (velX < -maxSpeed)
             {
                 velX = -maxSpeed;
             }
         }else if (Input.GetKey(KeyCode.RightArrow))
         {
-            velX += speed;
+            if (velX < 0)
+            {
+                velX = 0;
+            }
+            
+            if (controller.isGrounded)
+            {
+                velX += speed;
+            }else
+            {
+                velX += airSpeed;
+            }
+            
             if (velX > maxSpeed)
             {
                 velX = maxSpeed;
             }
-            velX += speed;
         }
         else
         {
@@ -172,5 +216,28 @@ public class ChickenController : MonoBehaviourPunCallbacks
         {
             colorCounter = 0;
         }
+    }
+
+    [PunRPC]
+    public void ReceiveMessage(string message, int viewID)
+    {
+        if (viewID == _photonView.ViewID)
+        {
+            StartCoroutine(ShowMessageForSeconds(message,4));
+        }
+    }
+
+    private IEnumerator ShowMessageForSeconds(string message, int seconds)
+    {
+        speechBubbleObj.SetActive(true);
+        speechBubbleText.text = message;
+
+        yield return new WaitForSeconds(seconds);
+        speechBubbleObj.SetActive(false);
+    }
+    
+    public void SendMessage(string message)
+    {
+        _photonView.RPC("ReceiveMessage",RpcTarget.All,message,_photonView.ViewID);
     }
 }
