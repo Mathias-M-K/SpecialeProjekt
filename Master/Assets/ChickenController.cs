@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class ChickenController : MonoBehaviour
+public class ChickenController : MonoBehaviourPunCallbacks
 {
     private PhotonView _photonView;
     
@@ -25,6 +25,9 @@ public class ChickenController : MonoBehaviour
     
     private bool _movement;
     
+    private List<Color32> colors = new List<Color32>(){new Color32(255,162,162,255),new Color32(162,214,255,255),new Color32(132,255,140,255),new Color32(255,255,255,255)};
+    private int colorCounter = 0;
+    
 
 
 
@@ -34,12 +37,22 @@ public class ChickenController : MonoBehaviour
     {
         _photonView = GetComponent<PhotonView>();
         controller = GetComponent<CharacterController>();
-        Camera.main.GetComponent<CustomCameraMovement>().SetChicken(gameObject);
+
+        if (_photonView.IsMine) Camera.main.GetComponent<CustomCameraMovement>().SetChicken(gameObject);
     }
 
+    
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (!_photonView.IsMine) return;
+            ChangeColor(_photonView.ViewID);
+            
+            _photonView.RPC("ChangeColor",RpcTarget.Others,_photonView.ViewID);
+        }
+        
         if (!_photonView.IsMine) return;
 
             /*_actualVel = controller.velocity;
@@ -145,5 +158,19 @@ public class ChickenController : MonoBehaviour
         controller.Move(new Vector3(velX * Time.deltaTime, velY * Time.deltaTime, velZ * Time.deltaTime));
 
         
+    }
+    
+    [PunRPC]
+    private void ChangeColor(int viewId)
+    {
+        if (photonView.ViewID != viewId) return;
+        GetComponent<Renderer>().material.color = colors[colorCounter];
+
+        colorCounter++;
+
+        if (colorCounter > 3)
+        {
+            colorCounter = 0;
+        }
     }
 }

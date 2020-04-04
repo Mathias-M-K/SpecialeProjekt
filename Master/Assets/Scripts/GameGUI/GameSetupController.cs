@@ -17,7 +17,10 @@ namespace Networking
         private void CreatePlayer()
         {
             Debug.Log("Creating Player");
-            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonPlayer"), new Vector3(1,1,1), Quaternion.identity);
+
+            int xSpawnPos = Random.Range(0, 14);
+            int zSpawnPos = Random.Range(-13, 5);
+            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonPlayer"), new Vector3(xSpawnPos,2,zSpawnPos), Quaternion.identity);
         }
     }
 }
