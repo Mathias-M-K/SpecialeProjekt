@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class ChickenController : MonoBehaviourPunCallbacks
 {
-    private PhotonView _photonView;
+    public PhotonView _photonView;
     
     public CharacterController controller;
     private float velX;
@@ -32,6 +32,9 @@ public class ChickenController : MonoBehaviourPunCallbacks
     [Header("Message Components")] 
     public GameObject speechBubbleObj;
     public TextMeshProUGUI speechBubbleText;
+
+    private bool _messageBeingShowed;
+    private bool _messageInQue;
     
 
 
@@ -224,6 +227,13 @@ public class ChickenController : MonoBehaviourPunCallbacks
         if (viewID == _photonView.ViewID)
         {
             StartCoroutine(ShowMessageForSeconds(message,4));
+
+            if (_messageBeingShowed)
+            {
+                _messageInQue = true;
+            }
+
+            _messageBeingShowed = true;
         }
     }
 
@@ -233,10 +243,18 @@ public class ChickenController : MonoBehaviourPunCallbacks
         speechBubbleText.text = message;
 
         yield return new WaitForSeconds(seconds);
+
+        if (_messageInQue)
+        {
+            _messageInQue = false;
+            yield break;
+        }
         speechBubbleObj.SetActive(false);
+        _messageInQue = false;
+        _messageBeingShowed = false;
     }
     
-    public void SendMessage(string message)
+    public void SendChickenMessage(string message)
     {
         _photonView.RPC("ReceiveMessage",RpcTarget.All,message,_photonView.ViewID);
     }

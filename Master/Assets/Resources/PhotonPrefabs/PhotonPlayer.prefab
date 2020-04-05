@@ -472,7 +472,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.35, y: 1, z: 1}
+  m_Size: {x: 0.35, y: 1, z: 0.75}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3551725636435312167
 MonoBehaviour:
@@ -486,6 +486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c3d8a2e47c6768489ba751be852a9a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _photonView: {fileID: 1244304551707443353}
   controller: {fileID: 3551725636435312165}
   maxSpeed: 6
   jumpSpeed: 15
