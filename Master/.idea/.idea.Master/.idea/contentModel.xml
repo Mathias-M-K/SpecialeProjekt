@@ -652,7 +652,10 @@
           <e p="ChickenController.cs" t="Include" />
           <e p="ChickenGameController.cs" t="Include" />
           <e p="CustomCameraMovement.cs" t="Include" />
+          <e p="ElevatorButtonController.cs" t="Include" />
+          <e p="ElevatorController.cs" t="Include" />
           <e p="FixRotation.cs" t="Include" />
+          <e p="PlatformAttach.cs" t="Include" />
           <e p="UIController.cs" t="Include" />
         </e>
         <e p="Scripts" t="Include">

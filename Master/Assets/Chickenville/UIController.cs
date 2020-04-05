@@ -29,6 +29,7 @@ namespace DefaultNamespace
 
         private void Update()
         {
+            if (chickenController == null) return;
             if (!chickenController._photonView.IsMine) return;
             
             if (Input.GetKeyDown(KeyCode.Return))

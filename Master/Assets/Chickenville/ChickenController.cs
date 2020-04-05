@@ -15,6 +15,10 @@ public class ChickenController : MonoBehaviourPunCallbacks
     private float velY;
     private float velZ;
 
+    private bool outOfBounds;
+    [HideInInspector]public Vector3 moveVector;
+    public Vector3 externalVelocity = Vector3.zero;
+
     private Vector3 _actualVel;
     
     public float maxSpeed;
@@ -36,10 +40,6 @@ public class ChickenController : MonoBehaviourPunCallbacks
     private bool _messageBeingShowed;
     private bool _messageInQue;
     
-
-
-
-    
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +57,22 @@ public class ChickenController : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        
+        //Anti suicide code
+        if (outOfBounds) return;
+        if (transform.position.y < -4)
+        {
+            
+            outOfBounds = true;
+            LeanTween.moveLocalY(gameObject, 5, 2).setEase(LeanTweenType.easeInOutElastic).setOnComplete(() =>
+                {
+                    LeanTween.moveLocal(gameObject, new Vector3(7, 5, -7), 2).setEase(LeanTweenType.easeInOutExpo).setOnComplete(() => outOfBounds = false);
+                });
+        }
+
+        
+        
+        
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (!_photonView.IsMine) return;
@@ -184,25 +200,21 @@ public class ChickenController : MonoBehaviourPunCallbacks
 
         if (controller.isGrounded)
         {
+            velY = 0;
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 velY = jumpSpeed;
             }
         }
 
-        if (velX > maxSpeed)
-        {
-            
-        }
-        
-
         velY -= gravity * Time.deltaTime;
         
         Vector3 newPosition = new Vector3(velX, 0.0f, velZ);
         transform.LookAt(newPosition + transform.position);
-        
-        
-        controller.Move(new Vector3(velX * Time.deltaTime, velY * Time.deltaTime, velZ * Time.deltaTime));
+
+
+        moveVector = new Vector3(velX * Time.deltaTime, velY * Time.deltaTime, velZ * Time.deltaTime) + (externalVelocity*Time.deltaTime);
+        controller.Move(moveVector);
 
         
     }
