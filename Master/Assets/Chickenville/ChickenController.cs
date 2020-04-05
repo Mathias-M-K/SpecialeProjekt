@@ -197,7 +197,7 @@ public class ChickenController : MonoBehaviourPunCallbacks
                 velX += deAccValue;
             }
         }
-
+        
         if (controller.isGrounded)
         {
             velY = 0;
@@ -206,12 +206,11 @@ public class ChickenController : MonoBehaviourPunCallbacks
                 velY = jumpSpeed;
             }
         }
-
+        
         velY -= gravity * Time.deltaTime;
         
         Vector3 newPosition = new Vector3(velX, 0.0f, velZ);
         transform.LookAt(newPosition + transform.position);
-
 
         moveVector = new Vector3(velX * Time.deltaTime, velY * Time.deltaTime, velZ * Time.deltaTime) + (externalVelocity*Time.deltaTime);
         controller.Move(moveVector);

@@ -7,7 +7,8 @@ namespace DefaultNamespace
 {
     public class ElevatorButtonController : MonoBehaviour
     {
-        public PlatformDirection Direction;
+        public int ElevatorID;
+        public PlatformDirection direction;
         public ElevatorController elevator;
         
         [Header("ElevatorBtn")]
@@ -27,26 +28,27 @@ namespace DefaultNamespace
         {
             if (elevatorActive) return;
             
+            ChickenGameController.Current.OnElevatorBtnPushed(ElevatorID);
             StartCoroutine(ElevatorActivated());
         }
 
-        private IEnumerator ElevatorActivated()
+        public IEnumerator ElevatorActivated()
         {
             elevatorActive = true;
             LeanTween.moveLocal(elevatorBtn, buttonInactivePos, 0.5f).setEase(buttonEaseType);
             
-            elevator.DoAction(Direction);
+            elevator.DoAction(direction);
             yield return new WaitForSeconds(elevator.animationTime);
 
             elevatorActive = false;
             LeanTween.moveLocal(elevatorBtn, buttonActivePos, 0.5f).setEase(buttonEaseType);
-            if (Direction == PlatformDirection.Origin)
+            if (direction == PlatformDirection.Origin)
             {
-                Direction = PlatformDirection.Target;
+                direction = PlatformDirection.Target;
             }
             else
             {
-                Direction = PlatformDirection.Origin;
+                direction = PlatformDirection.Origin;
             }
         }
     }

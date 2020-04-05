@@ -13,7 +13,7 @@ namespace DefaultNamespace
             Current = this;
         }
 
-        public ElevatorController[] elevators;
+        public ElevatorButtonController[] elevators;
         private PhotonView _myPhotonView;
         
         private void Start()
@@ -30,5 +30,23 @@ namespace DefaultNamespace
                 _myPhotonView.RPC("PrintOut",RpcTarget.Others,"Test message");
             }
         }
+
+        public void OnElevatorBtnPushed(int elevatorId)
+        {
+            _myPhotonView.RPC("RPC_ElevatorEvent",RpcTarget.Others,elevatorId);
+        }
+
+        [PunRPC]
+        public void RPC_ElevatorEvent(int elevatorId)
+        {
+            foreach (ElevatorButtonController elevator in elevators)
+            {
+                if (elevator.ElevatorID == elevatorId)
+                {
+                    StartCoroutine(elevator.ElevatorActivated());
+                }
+            }
+        }
+        
     }
 }
