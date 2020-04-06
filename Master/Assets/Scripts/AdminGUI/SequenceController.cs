@@ -18,7 +18,7 @@ namespace AdminGUI
 
         private void Start()
         {
-            GameHandler.current.AddSequenceObserver(this);
+            GameHandler.Current.AddSequenceObserver(this);
             
             StartCoroutine(ClearSequence(0.02f));
         }
@@ -34,7 +34,7 @@ namespace AdminGUI
                     RemoveMove(move);
                     break;
                 case SequenceActions.SequenceStarted:
-                    float delay = GameHandler.current.delayBetweenMoves;
+                    float delay = GameHandler.Current.delayBetweenMoves;
                     StartCoroutine(ClearSequence(delay));
                     break;
             }

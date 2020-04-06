@@ -60,7 +60,7 @@ public class SerialCommunication : MonoBehaviour,ISequenceObserver
                 {
                     //TODO: trigger add move to sequence
                     print($"direction: {_block.GetDirectionFromId(id)}");
-                    GameHandler.current.AddMoveToSequence(_playerController.playerTags,_block.GetDirectionFromId(id),_block.GetIndexFromId(id));
+                    GameHandler.Current.AddMoveToSequence(_playerController.playerTags,_block.GetDirectionFromId(id),_block.GetIndexFromId(id));
                 }
                 
             }
@@ -84,7 +84,7 @@ public class SerialCommunication : MonoBehaviour,ISequenceObserver
     public void Begin(string portNr)
     {
         _playerController = GetComponent<PlayerController>();
-        GameHandler.current.AddSequenceObserver(this);
+        GameHandler.Current.AddSequenceObserver(this);
         
         
         _stream = new SerialPort(portNr, 9600,Parity.Even,7,StopBits.One);

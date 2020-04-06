@@ -41,7 +41,7 @@ namespace AdminGUI
             }
             
 
-            _playerController = GameHandler.current.GetPlayerController(newPlayerTags);
+            _playerController = GameHandler.Current.GetPlayerController(newPlayerTags);
             _playerController.AddInventoryObserver(this);
             
             GUIMethods.UpdateArrows(arrows.transform.GetChild(0),_playerController);

@@ -35,13 +35,13 @@ namespace CoreGame
                     throw new ArgumentOutOfRangeException();
             }
             
-            GameHandler.current.AddSequenceObserver(this);
-            GameHandler.current.AddTradeObserver(this);
-            GameHandler.current.AddGameProgressObserver(this);
+            GameHandler.Current.AddSequenceObserver(this);
+            GameHandler.Current.AddTradeObserver(this);
+            GameHandler.Current.AddGameProgressObserver(this);
 
             CreateFile();
 
-            _textWriter.WriteLine("{0},{1}", DateTime.Now, GameHandler.current.GetPlayers().Count);
+            _textWriter.WriteLine("{0},{1}", DateTime.Now, GameHandler.Current.GetPlayers().Count);
         }
 
         public void OnSequenceChange(SequenceActions sequenceAction, StoredPlayerMove move)

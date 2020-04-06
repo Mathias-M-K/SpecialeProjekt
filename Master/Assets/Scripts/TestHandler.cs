@@ -1,27 +1,21 @@
 ﻿using System.Collections.Generic;
-using ArduinoUnityConnection;
 using CoreGame;
 using UnityEngine;
 
 
 public class TestHandler : MonoBehaviour
 {
-    [Header("Wireless Connection")] public string ipAdress;
-    public int port;
-    public string outgoingString;
-    public float incomingValue;
-
     [Space] [Header("Other")] [Range(0f, 3f)]
     public float sequenceDelay;
 
     public PlayerController agent1;
-    public PlayerController agent2;
+
     
     private bool _serverActive;
 
     public MapManager _mapManager;
 
-    private readonly WifiConnection _wifiConnection = new WifiConnection();
+
 
 
     // Update is called once per frame
@@ -49,44 +43,29 @@ public class TestHandler : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            foreach (PlayerController controller in GameHandler.current.GetPlayers())
+            foreach (PlayerController controller in GameHandler.Current.GetPlayers())
             {
                 controller.Ready = true;
             }
 
             
-            GameHandler.current.delayBetweenMoves = sequenceDelay;
+            GameHandler.Current.delayBetweenMoves = sequenceDelay;
             //StartCoroutine(GameHandler.current.PerformSequence());
         }
 
         if (Input.GetKeyDown(KeyCode.H))
         {
-            Vector2[] positions = GameHandler.current.GetSpawnLocations();
+            Vector2[] positions = GameHandler.Current.GetSpawnLocations();
 
             int i = 0;
-            foreach (PlayerController playerController in GameHandler.current.GetPlayers())
+            foreach (PlayerController playerController in GameHandler.Current.GetPlayers())
             {
                 playerController.MoveToPos(positions[i].x, positions[i].y);
                 i++;
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            _wifiConnection.Begin(ipAdress, port);
-
-            _serverActive = true;
-        }
-
-        if (Input.GetKey(KeyCode.W) && Input.GetKeyDown(KeyCode.O))
-        {
-            _wifiConnection.WriteToArduino(outgoingString);
-        }
-
-        if (_serverActive)
-        {
-            incomingValue = _wifiConnection.CurrentValue;
-        }
+   
 
         if (Input.GetKeyDown(KeyCode.T))
         {

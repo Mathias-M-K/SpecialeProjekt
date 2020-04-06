@@ -11,6 +11,7 @@ namespace DefaultNamespace
     {
         private PhotonView _photonView;
         private PlayerTags _playerTag;
+        private GameHandler _gameHandler;
 
         private void Start()
         {
@@ -19,19 +20,24 @@ namespace DefaultNamespace
             if (!_photonView.IsMine) return;
             
             //Master task below this line
+            GameHandler.Current.SetNetworkedAgent(this);
             GUIEvents.current.OnButtonHit += OnBtnHit;
         }
 
         private void OnBtnHit(Button button)
         {
-            print("HEy");
             if (button.name.Equals("SpawnPlayers"))
             {
                 foreach (Player player in PhotonNetwork.PlayerList)
                 {
-                    _photonView.RPC("RPC_SetPlayerTag",player,GameHandler.current.SpawnNewPlayer());
+                    _photonView.RPC("RPC_SetPlayerTag",player,GameHandler.Current.SpawnNewPlayer());
                 }
             }
+        }
+        
+        public void SetGameHandler(GameHandler gameHandler)
+        {
+            _gameHandler = gameHandler;
         }
 
         [PunRPC]
@@ -40,6 +46,19 @@ namespace DefaultNamespace
             Debug.Log($"Received Player Tag {playerTag}");
             _playerTag = playerTag;
             GUIEvents.current.SetGameTag(playerTag);
+        }
+
+
+        public void SpawnNewPlayer()
+        {
+            _photonView.RPC("RPC_SpawnPlayer",RpcTarget.Others);
+        }
+
+        [PunRPC]
+        public void RPC_SpawnPlayer()
+        {
+            print("RPC_SPAWNPLAYER");
+            //_gameHandler.SpawnNewPlayer();
         }
 
 

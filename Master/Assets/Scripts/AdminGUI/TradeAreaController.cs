@@ -113,7 +113,7 @@ namespace AdminGUI
             {
                 _playerController.RemoveTradeObserver(this);
             }
-            _playerController = GameHandler.current.GetPlayerController(playerTags);
+            _playerController = GameHandler.Current.GetPlayerController(playerTags);
             _playerController.AddTradeObserver(this);
             
             StartCoroutine(UpdatePlayerInformation());

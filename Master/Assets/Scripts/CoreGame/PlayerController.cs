@@ -82,7 +82,7 @@ namespace CoreGame
         //Telling game handler that the position is occupied
         private void AnnouncePosition(Vector2 position)
         {
-            GameHandler.current.RegisterPosition(playerTags, position);
+            GameHandler.Current.RegisterPosition(playerTags, position);
         }
 
         public Vector2 GetPosition()
@@ -147,7 +147,7 @@ namespace CoreGame
             //Checking that the player is not trying to trade to himself
             if (receivingPlayerTags == playerTags) throw new ArgumentException($"{playerTags} is trying to trade to himself");
 
-            GameHandler.current.NewTrade(direction, GetIndexForDirection(direction), receivingPlayerTags, playerTags);
+            GameHandler.Current.NewTrade(direction, GetIndexForDirection(direction), receivingPlayerTags, playerTags);
             RemoveMove(GetIndexForDirection(direction));
         }
 
@@ -249,9 +249,9 @@ namespace CoreGame
                 throw new InvalidOperationException("Path Invalid");
             }
 
-            if (!GameHandler.current.playersCanPhase && GameHandler.current.IsPositionOccupied(new Vector2(newGridPos.x,newGridPos.z)))
+            if (!GameHandler.Current.playersCanPhase && GameHandler.Current.IsPositionOccupied(new Vector2(newGridPos.x,newGridPos.z)))
             {
-                throw new InvalidOperationException($"{playerTags} is trying to phase though another player, while phaseAllowed is {GameHandler.current.playersCanPhase}");
+                throw new InvalidOperationException($"{playerTags} is trying to phase though another player, while phaseAllowed is {GameHandler.Current.playersCanPhase}");
             }
 
             AnnouncePosition(new Vector2(newGridPos.x,newGridPos.z));
@@ -401,6 +401,7 @@ namespace CoreGame
         Blue,
         Green,
         Yellow,
+        NoPlayer
     }
 
     public enum PlayerFinishStrategyEnum

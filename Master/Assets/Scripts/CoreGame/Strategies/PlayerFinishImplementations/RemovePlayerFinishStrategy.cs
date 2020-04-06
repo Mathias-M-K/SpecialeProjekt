@@ -22,7 +22,7 @@ namespace CoreGame.Strategies.Implementations.PlayerFinishImplementations
                 trade.CancelTrade(playerController.playerTags);
             }
 
-            List<StoredPlayerMove> moves = new List<StoredPlayerMove>(GameHandler.current.GetSequence());
+            List<StoredPlayerMove> moves = new List<StoredPlayerMove>(GameHandler.Current.GetSequence());
             
             //Remove all moves from player, so they can't continue to play
             for (int i = 0; i < 4; i++)
@@ -35,11 +35,11 @@ namespace CoreGame.Strategies.Implementations.PlayerFinishImplementations
             {
                 if (move.PlayerTags == playerController.playerTags)
                 {
-                    GameHandler.current.RemoveMoveFromSequence(move);
+                    GameHandler.Current.RemoveMoveFromSequence(move);
                 }
             }
             
-            GameHandler.current.RemovePlayerController(playerController);
+            GameHandler.Current.RemovePlayerController(playerController);
             playerController.DestroySelf();
         }
     }

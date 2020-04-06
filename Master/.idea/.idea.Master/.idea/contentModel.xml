@@ -680,10 +680,6 @@
             <e p="TradeAreaController.cs" t="Include" />
             <e p="TradeButton.cs" t="Include" />
           </e>
-          <e p="ArduinoUnityConnection" t="Include">
-            <e p="SerialCommunication.cs" t="Include" />
-            <e p="WifiConnection.cs" t="Include" />
-          </e>
           <e p="Container" t="Include">
             <e p="PlayerTrade.cs" t="Include" />
             <e p="StoredPlayerMove.cs" t="Include" />
@@ -741,6 +737,7 @@
           </e>
           <e p="GameNetworking" t="Include">
             <e p="NetworkAgentController.cs" t="Include" />
+            <e p="NetworkedGameHandler.cs" t="Include" />
           </e>
           <e p="GameStartScreen.cs" t="Include" />
           <e p="GUIEvents.cs" t="Include" />

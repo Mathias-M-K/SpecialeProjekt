@@ -78,7 +78,7 @@ namespace AdminGUI
         private void UpdatePlayerPalette(PlayerTags playerTags)
         {
             int i = 0;
-            foreach (PlayerController controller in GameHandler.current.GetPlayers())
+            foreach (PlayerController controller in GameHandler.Current.GetPlayers())
             {
                 if (controller == _playerController) continue;
 

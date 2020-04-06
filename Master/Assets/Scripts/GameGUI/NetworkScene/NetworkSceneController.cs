@@ -106,7 +106,6 @@ namespace GameGUI.NetworkScene
         
         public override void OnConnectedToMaster()
         {
-            print("We connected");
             if (GlobalValues.Connected) return;
             
             GlobalValues.SetConnected(true);

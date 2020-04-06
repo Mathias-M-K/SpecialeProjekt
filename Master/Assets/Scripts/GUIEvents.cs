@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 using CoreGame;
+using DefaultNamespace;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -33,7 +34,7 @@ namespace AdminGUI
         //Start game
         public void StartGame()
         {
-            GameHandler.current.StartGame();
+            GameHandler.Current.StartGame();
             if (OnGameStart != null) OnGameStart();
         }
 

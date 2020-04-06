@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Container;
 using CoreGame.Interfaces;
+using DefaultNamespace;
 using Michsky.UI.ModernUIPack;
 using Photon.Pun;
 using UnityEngine;
@@ -14,8 +15,12 @@ namespace CoreGame
 {
     public class GameHandler : MonoBehaviour, IReadyObserver
     {
-        public static GameHandler current;
-
+        public static GameHandler Current;
+        public virtual void Awake()
+        {
+            if (GameHandler.Current != null) return;
+            Current = this;
+        }
         //Game variables
         private readonly List<StoredPlayerMove> _sequenceMoves = new List<StoredPlayerMove>();
         private readonly List<PlayerController> _players = new List<PlayerController>();
@@ -26,11 +31,11 @@ namespace CoreGame
         //Predefined game variables
         private readonly List<PlayerTags> _playerTags = new List<PlayerTags>(){PlayerTags.Red,PlayerTags.Blue,PlayerTags.Green,PlayerTags.Yellow};
         
-        private int numberOfSpawnedPlayers;
-        private int numberOfReadyPlayers;
-        private int playersFinished;
+        private int _numberOfSpawnedPlayers;
+        private int _numberOfReadyPlayers;
+        private int _playersFinished;
 
-        public bool IsGameDone { get; private set; }
+        public bool isGameDone { get; private set; }
 
         //Map information
         private Vector2[] _spawnPositions;
@@ -39,6 +44,9 @@ namespace CoreGame
         private readonly List<ISequenceObserver> _sequenceObservers = new List<ISequenceObserver>();
         private readonly List<ITradeObserver> _tradeObservers = new List<ITradeObserver>();
         private readonly List<IFinishPointObserver> _gameProgressObservers = new List<IFinishPointObserver>();
+        
+        //Networked Agent
+        protected NetworkAgentController MyNetworkedAgent;
 
 
         [Header("Player Prefab")] 
@@ -55,11 +63,6 @@ namespace CoreGame
         [Space] [Header("Other")] 
         public ModalWindowManager endScreen;
         
-        
-        public void Awake()
-        {
-            current = this;
-        }
 
         public void StartGame(bool Override)
         {
@@ -82,7 +85,7 @@ namespace CoreGame
             RemoveBarricadesForInactivePlayers();
         }
 
-        public void SetMapData(MapData mapData)
+        public virtual void SetMapData(MapData mapData)
         {
             _spawnPositions = mapData.spawnPositions;
             
@@ -240,12 +243,15 @@ namespace CoreGame
         }
 
         //Networked Players
-        
+        public virtual void SetNetworkedAgent(NetworkAgentController netController)
+        {
+            MyNetworkedAgent = netController;
+        }
         
         //Spawning players
         public void SpawnMaxPlayers()
         {
-            for (int i = numberOfSpawnedPlayers; i < numberOfPlayers; i++)
+            for (int i = _numberOfSpawnedPlayers; i < numberOfPlayers; i++)
             {
                 SpawnNewPlayer();
             }
@@ -273,11 +279,11 @@ namespace CoreGame
             AddPlayerController(p);
 
             p.AddReadyObserver(this);
-            numberOfSpawnedPlayers++;
+            _numberOfSpawnedPlayers++;
         }
         
         /// <summary>Class <c>SpawnNewPlayer</c> Spawns the next player in line, and returns said player</summary>
-        public PlayerTags SpawnNewPlayer()
+        public virtual PlayerTags SpawnNewPlayer()
         {
             foreach (PlayerTags player in _playerTags)
             {
@@ -293,9 +299,9 @@ namespace CoreGame
         
         private void CheckIfGameIsDone()
         {
-            if (playersFinished >= numberOfSpawnedPlayers)
+            if (_playersFinished >= _numberOfSpawnedPlayers)
             {
-                IsGameDone = true;
+                isGameDone = true;
                 endScreen.OpenWindow();
             }
         }
@@ -369,7 +375,7 @@ namespace CoreGame
                 observer.OnGameProgressUpdate(player1);
             }
 
-            playersFinished++;
+            _playersFinished++;
             CheckIfGameIsDone();
         }
 
@@ -378,14 +384,14 @@ namespace CoreGame
             switch (state)  
             {
                 case true:
-                    numberOfReadyPlayers++;
+                    _numberOfReadyPlayers++;
                     break;
                 case false:
-                    numberOfReadyPlayers--;
+                    _numberOfReadyPlayers--;
                     break;
             }
 
-            if (numberOfReadyPlayers == numberOfSpawnedPlayers)
+            if (_numberOfReadyPlayers == _numberOfSpawnedPlayers)
             {
                 StartCoroutine(PerformSequence());
             }

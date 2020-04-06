@@ -24,7 +24,7 @@ namespace AdminGUI.PlayerMap
 
          private void OnManualOverride()
          {
-             GameHandler.current.AddSequenceObserver(this);
+             GameHandler.Current.AddSequenceObserver(this);
              CreateMap();
              StartCoroutine(PopulateMap(MapCreationTime+0.5f));
          }

@@ -36,7 +36,7 @@ namespace AdminGUI
                 _playerController.RemoveReadyObserver(this);
             }
 
-            _playerController = GameHandler.current.GetPlayerController(playerTags);
+            _playerController = GameHandler.Current.GetPlayerController(playerTags);
             _playerController.AddReadyObserver(this);
 
             if (_playerController.Ready)

@@ -9,13 +9,13 @@ namespace CoreGame.Strategies.PlayerFinishImplementations
         public void PlayerFinish(PlayerController playerController)
         {
             
-            List<StoredPlayerMove> moves = new List<StoredPlayerMove>(GameHandler.current.GetSequence());
+            List<StoredPlayerMove> moves = new List<StoredPlayerMove>(GameHandler.Current.GetSequence());
             //Removing all moves from the common sequence
             foreach (StoredPlayerMove move in moves)
             {
                 if (move.PlayerTags == playerController.playerTags)
                 {
-                    GameHandler.current.RemoveMoveFromSequence(move);
+                    GameHandler.Current.RemoveMoveFromSequence(move);
                 }
             }
             

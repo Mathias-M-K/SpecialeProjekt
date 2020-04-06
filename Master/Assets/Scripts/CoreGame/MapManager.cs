@@ -35,7 +35,7 @@ namespace CoreGame
 
         public void SendMapDataToGameHandler()
         {
-            GameHandler.current.SetMapData(mapData);
+            GameHandler.Current.SetMapData(mapData);
         }
 
         private void Update()
