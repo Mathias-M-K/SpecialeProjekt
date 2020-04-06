@@ -19,7 +19,7 @@ namespace AdminGUI.PlayerMap
 
          private void Start()
          {
-             GUIEvents.current.onManualOverride += OnManualOverride;    
+             GUIEvents.current.OnManualOverride += OnManualOverride;    
          }
 
          private void OnManualOverride()

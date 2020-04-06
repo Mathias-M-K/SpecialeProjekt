@@ -27,9 +27,9 @@ namespace AdminGUI
 
         private void Start()
         {
-            GUIEvents.current.onButtonHit += OnButtonHit;
-            GUIEvents.current.onManualOverride += OnManualOverride;
-            GUIEvents.current.onGameStart += OnGameStart;
+            GUIEvents.current.OnButtonHit += OnButtonHit;
+            GUIEvents.current.OnManualOverride += OnManualOverride;
+            GUIEvents.current.OnGameStart += OnGameStart;
         }
 
         private void OnButtonHit(Button button)

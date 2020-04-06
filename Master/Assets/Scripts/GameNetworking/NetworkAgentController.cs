@@ -19,7 +19,7 @@ namespace DefaultNamespace
             if (!_photonView.IsMine) return;
             
             //Master task below this line
-            GUIEvents.current.onButtonHit += OnBtnHit;
+            GUIEvents.current.OnButtonHit += OnBtnHit;
         }
 
         private void OnBtnHit(Button button)
@@ -37,9 +37,9 @@ namespace DefaultNamespace
         [PunRPC]
         public void RPC_SetPlayerTag(PlayerTags playerTag)
         {
-            print("RPC_SetPlayer Activated");
+            Debug.Log($"Received Player Tag {playerTag}");
             _playerTag = playerTag;
-            Debug.LogError(_playerTag);
+            GUIEvents.current.SetGameTag(playerTag);
         }
 
 

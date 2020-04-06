@@ -15,7 +15,7 @@ namespace AdminGUI
 
         protected virtual void Start()
         {
-            GUIEvents.current.onButtonHit += GUIButtonPressed;
+            GUIEvents.current.OnButtonHit += GUIButtonPressed;
         }
 
         protected abstract void GUIButtonPressed(Button button);

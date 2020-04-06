@@ -20,9 +20,9 @@ namespace AdminGUI
 
         protected virtual void Start()
         {
-            GUIEvents.current.onButtonHit += GUIButtonPressed;
+            GUIEvents.current.OnButtonHit += GUIButtonPressed;
             GUIEvents.current.onPlayerChange += PlayerChange;
-            GUIEvents.current.onManualOverride += ManualControl;
+            GUIEvents.current.OnManualOverride += ManualControl;
         }
         
         private void ManualControl()

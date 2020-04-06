@@ -52,7 +52,7 @@ namespace AdminGUI
         private void Start()
         {
             GUIEvents.current.onPlayerChange += OnPlayerChange;
-            GUIEvents.current.onTradeAction += OnTradeBtn;
+            GUIEvents.current.OnTradeAction += OnTradeBtn;
             incomingTradeButtons = new List<Button> {incomingTrade0, incomingTrade1, incomingTrade2, incomingTrade3};
             outgoingTradeButtons = new List<Button> {outgoingTrade1, outgoingTrade2, outgoingTrade3, outgoingTrade4};
         }

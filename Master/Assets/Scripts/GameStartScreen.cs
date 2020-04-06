@@ -18,8 +18,8 @@ public class GameStartScreen : MonoBehaviour
 
     private void Start()
     {
-        GUIEvents.current.onButtonHit += OnBtnHit;
-        GUIEvents.current.onGameStart += OnGameStart;
+        GUIEvents.current.OnButtonHit += OnBtnHit;
+        GUIEvents.current.OnGameStart += OnGameStart;
     }
 
     private void OnBtnHit(Button button)

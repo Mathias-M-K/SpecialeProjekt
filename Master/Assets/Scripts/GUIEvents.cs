@@ -14,18 +14,18 @@ namespace AdminGUI
     {
         public static GUIEvents current;
 
-        private PlayerTags _currentChosenPlayerTags;
+        private PlayerTags _currentChosenPlayerTag;
         
         private void Awake()
         {
             current = this;
         }
 
-        public event Action<Button> onButtonHit;
+        public event Action<Button> OnButtonHit;
         public event Action<PlayerTags> onPlayerChange;
-        public event Action<Button, TradeActions, Direction> onTradeAction;
-        public event Action onManualOverride;
-        public event Action onGameStart;
+        public event Action<Button, TradeActions, Direction> OnTradeAction;
+        public event Action OnManualOverride;
+        public event Action OnGameStart;
         
         /*
          * GAME BUTTONS
@@ -33,9 +33,8 @@ namespace AdminGUI
         //Start game
         public void StartGame()
         {
-            _currentChosenPlayerTags = PlayerTags.Red;
             GameHandler.current.StartGame();
-            if (onGameStart != null) onGameStart();
+            if (OnGameStart != null) OnGameStart();
         }
 
         public void BtnHit(Button b)
@@ -43,6 +42,11 @@ namespace AdminGUI
             NotifyButtonHit(b);
         }
 
+        public void SetGameTag(PlayerTags playerTag)
+        {
+            _currentChosenPlayerTag = playerTag;
+        }
+        
         /*
          * ADMIN GUI BUTTONS
          */
@@ -56,12 +60,12 @@ namespace AdminGUI
         //Notify Methods
         public void TradeActionNotify(Button b, TradeActions action, Direction counterOffer)
         {
-            if (onTradeAction != null) onTradeAction(b, action, counterOffer);
+            if (OnTradeAction != null) OnTradeAction(b, action, counterOffer);
         }
 
         private void ManualEnabledNotify()
         {
-            if (onManualOverride != null) onManualOverride();
+            if (OnManualOverride != null) OnManualOverride();
         }
 
         private void NotifyButtonHit()
@@ -75,12 +79,12 @@ namespace AdminGUI
         }
         private void NotifyButtonHit(Button button)
         {
-            if (onButtonHit != null) onButtonHit(button);
+            if (OnButtonHit != null) OnButtonHit(button);
         }
 
         private void OnPlayerChange()
         {
-            if (onPlayerChange != null) onPlayerChange(_currentChosenPlayerTags);
+            if (onPlayerChange != null) onPlayerChange(_currentChosenPlayerTag);
         }
     }
 }
