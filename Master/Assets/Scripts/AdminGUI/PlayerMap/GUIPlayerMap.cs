@@ -31,7 +31,7 @@ namespace AdminGUI.PlayerMap
 
          private void CreateMap()
          {
-             MapManager mm = MapManager.current;
+             MapManager mm = MapManager.Current;
 
              int rowName = mm.mapData.ySize;
              for (int i = 0; i < mm.mapData.ySize; i++)
@@ -54,11 +54,11 @@ namespace AdminGUI.PlayerMap
          private IEnumerator PopulateMap(float delay)
          {
              yield return new WaitForSeconds(delay);
-             string[,] mapValues = MapManager.current.GenerateMapValues();
+             string[,] mapValues = MapManager.Current.GenerateMapValues();
 
-             for (int y = 1; y <= MapManager.current.mapData.ySize; y++)
+             for (int y = 1; y <= MapManager.Current.mapData.ySize; y++)
              {
-                 for (int x = 1; x <= MapManager.current.mapData.xSize; x++)
+                 for (int x = 1; x <= MapManager.Current.mapData.xSize; x++)
                  {
                      Color32 color;
                      switch (mapValues[x,y])

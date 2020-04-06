@@ -668,6 +668,7 @@
             <e p="GUIStartScreen.cs" t="Include" />
             <e p="IncomingTradeElement.cs" t="Include" />
             <e p="OutgoingTradeElement.cs" t="Include" />
+            <e p="PlayerGUITagController.cs" t="Include" />
             <e p="PlayerMap" t="Include">
               <e p="GUIGateElement.cs" t="Include" />
               <e p="GUIPlayerMap.cs" t="Include" />
@@ -737,6 +738,9 @@
             <e p="WelcomeScene" t="Include">
               <e p="WelcomeScreenController.cs" t="Include" />
             </e>
+          </e>
+          <e p="GameNetworking" t="Include">
+            <e p="NetworkAgentController.cs" t="Include" />
           </e>
           <e p="GameStartScreen.cs" t="Include" />
           <e p="GUIEvents.cs" t="Include" />

@@ -1,4 +1,5 @@
 using System.IO;
+using AdminGUI;
 using CoreGame;
 using Photon.Pun;
 using UnityEngine;
@@ -7,8 +8,6 @@ namespace Networking
 {
     public class GameSetupController : MonoBehaviourPunCallbacks
     {
-        private PhotonView myPhotonView;
-        
         private void Start()
         {
             if (!PhotonNetwork.IsConnected) return;

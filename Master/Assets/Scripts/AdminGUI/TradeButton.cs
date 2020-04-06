@@ -13,7 +13,7 @@ namespace AdminGUI
         
         private bool playerPaletteActive;
         private Direction activeDirection;
-        private Player[] colorOrder = new Player[3];
+        private PlayerTags[] colorOrder = new PlayerTags[3];
 
         protected override void Start()
         {
@@ -75,7 +75,7 @@ namespace AdminGUI
             }
         }
 
-        private void UpdatePlayerPalette(Player player)
+        private void UpdatePlayerPalette(PlayerTags playerTags)
         {
             int i = 0;
             foreach (PlayerController controller in GameHandler.current.GetPlayers())
@@ -84,9 +84,9 @@ namespace AdminGUI
 
                 Image img = PlayerPalette.transform.GetChild(i).GetComponent<Image>();
 
-                img.color = ColorPalette.current.GetPlayerColor(controller.player);
+                img.color = ColorPalette.current.GetPlayerColor(controller.playerTags);
 
-                colorOrder[i] = controller.player;
+                colorOrder[i] = controller.playerTags;
                 i++;
             }
         }

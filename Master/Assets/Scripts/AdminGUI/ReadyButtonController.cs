@@ -29,14 +29,14 @@ namespace AdminGUI
             GUIEvents.current.onPlayerChange += OnPlayerChange;
         }
 
-        private void OnPlayerChange(Player player)
+        private void OnPlayerChange(PlayerTags playerTags)
         {
             if (_playerController != null)
             {
                 _playerController.RemoveReadyObserver(this);
             }
 
-            _playerController = GameHandler.current.GetPlayerController(player);
+            _playerController = GameHandler.current.GetPlayerController(playerTags);
             _playerController.AddReadyObserver(this);
 
             if (_playerController.Ready)

@@ -100,20 +100,20 @@ namespace AdminGUI
                     playerTrade.AcceptTrade(counterOffer,_playerController);
                     break;
                 case TradeActions.TradeCanceled:
-                    playerTrade.CancelTrade(_playerController.player);
+                    playerTrade.CancelTrade(_playerController.playerTags);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(action), action, null);
             }
         }
 
-        private void OnPlayerChange(Player player)
+        private void OnPlayerChange(PlayerTags playerTags)
         {
             if(_playerController != null)
             {
                 _playerController.RemoveTradeObserver(this);
             }
-            _playerController = GameHandler.current.GetPlayerController(player);
+            _playerController = GameHandler.current.GetPlayerController(playerTags);
             _playerController.AddTradeObserver(this);
             
             StartCoroutine(UpdatePlayerInformation());
@@ -172,7 +172,7 @@ namespace AdminGUI
 
             //Setting text on new btn
             TextMeshProUGUI t = newBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            t.text = $"{playerTrade.OfferingPlayer} | {playerTrade.DirectionOffer}";
+            t.text = $"{playerTrade.OfferingPlayerTags} | {playerTrade.DirectionOffer}";
 
             //Moving new Btn in
             LeanTween.moveLocalX(newBtn.gameObject, 0, animationSpeed).setEase(easeIn);
@@ -249,7 +249,7 @@ namespace AdminGUI
             outgoingTradeDictionary.Add(playerTrade, newBtn);
 
             TextMeshProUGUI t = newBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            t.text = $"{playerTrade.ReceivingPlayer} | {playerTrade.DirectionOffer}";
+            t.text = $"{playerTrade.ReceivingPlayerTags} | {playerTrade.DirectionOffer}";
 
             LeanTween.moveLocalX(newBtn.gameObject, 0, animationSpeed).setEase(easeIn);
             LeanTween.moveLocalY(newBtn.gameObject, -300, animationSpeed).setEase(moveIn);
@@ -350,7 +350,7 @@ namespace AdminGUI
 
         public void OnNewTradeActivity(PlayerTrade playerTrade, TradeActions tradeAction)
         {
-            if (playerTrade.ReceivingPlayer == _playerController.player)
+            if (playerTrade.ReceivingPlayerTags == _playerController.playerTags)
             {
                 switch (tradeAction)
                 {
@@ -363,7 +363,7 @@ namespace AdminGUI
                 }
             }
 
-            if (playerTrade.OfferingPlayer == _playerController.player)    
+            if (playerTrade.OfferingPlayerTags == _playerController.playerTags)    
             {
                 switch (tradeAction)
                 {

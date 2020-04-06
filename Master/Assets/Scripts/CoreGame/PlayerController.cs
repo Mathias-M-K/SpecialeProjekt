@@ -13,7 +13,7 @@ namespace CoreGame
 {
     public class PlayerController : MonoBehaviour
     {
-        public Player player;
+        public PlayerTags playerTags;
         [Space] public NavMeshAgent agent;
         [Header("Settings")] public bool enableMouseMovement;
         [Header("Strategies")] public PlayerFinishStrategyEnum playerFinishStrategy;
@@ -82,7 +82,7 @@ namespace CoreGame
         //Telling game handler that the position is occupied
         private void AnnouncePosition(Vector2 position)
         {
-            GameHandler.current.RegisterPosition(player, position);
+            GameHandler.current.RegisterPosition(playerTags, position);
         }
 
         public Vector2 GetPosition()
@@ -92,12 +92,12 @@ namespace CoreGame
         }
 
         //Accept/Reject move from a given player
-        public void AcceptTradeFrom(Player offeringPlayer, Direction counterOffer)
+        public void AcceptTradeFrom(PlayerTags offeringPlayerTags, Direction counterOffer)
         {
             PlayerTrade tradeToBeAccepted = null;
             foreach (PlayerTrade playerTrade in incomingTradeOffers)
             {
-                if (playerTrade.OfferingPlayer == offeringPlayer)
+                if (playerTrade.OfferingPlayerTags == offeringPlayerTags)
                 {
                     tradeToBeAccepted = playerTrade;
                 }
@@ -109,16 +109,16 @@ namespace CoreGame
             }
             else
             {
-                throw new Exception($"No trade offers from {offeringPlayer}");
+                throw new Exception($"No trade offers from {offeringPlayerTags}");
             }
         }
 
-        public void RejectTradeFrom(Player offeringPlayer)
+        public void RejectTradeFrom(PlayerTags offeringPlayerTags)
         {
             PlayerTrade tradeToBeAccepted = null;
             foreach (PlayerTrade playerTrade in incomingTradeOffers)
             {
-                if (playerTrade.OfferingPlayer == offeringPlayer)
+                if (playerTrade.OfferingPlayerTags == offeringPlayerTags)
                 {
                     tradeToBeAccepted = playerTrade;
                 }
@@ -130,12 +130,12 @@ namespace CoreGame
             }
             else
             {
-                throw new Exception($"No trade offers from {offeringPlayer}");
+                throw new Exception($"No trade offers from {offeringPlayerTags}");
             }
         }
 
         //Create a trade and send it to game handler
-        public void CreateTrade(Direction direction, Player receivingPlayer)
+        public void CreateTrade(Direction direction, PlayerTags receivingPlayerTags)
         {
             //Doing some checks
             //Checking that the move is in inventory
@@ -145,9 +145,9 @@ namespace CoreGame
             if (direction == Direction.Blank) throw new ArgumentException("You can't trade a blank move");
 
             //Checking that the player is not trying to trade to himself
-            if (receivingPlayer == player) throw new ArgumentException($"{player} is trying to trade to himself");
+            if (receivingPlayerTags == playerTags) throw new ArgumentException($"{playerTags} is trying to trade to himself");
 
-            GameHandler.current.NewTrade(direction, GetIndexForDirection(direction), receivingPlayer, player);
+            GameHandler.current.NewTrade(direction, GetIndexForDirection(direction), receivingPlayerTags, playerTags);
             RemoveMove(GetIndexForDirection(direction));
         }
 
@@ -251,7 +251,7 @@ namespace CoreGame
 
             if (!GameHandler.current.playersCanPhase && GameHandler.current.IsPositionOccupied(new Vector2(newGridPos.x,newGridPos.z)))
             {
-                throw new InvalidOperationException($"{player} is trying to phase though another player, while phaseAllowed is {GameHandler.current.playersCanPhase}");
+                throw new InvalidOperationException($"{playerTags} is trying to phase though another player, while phaseAllowed is {GameHandler.current.playersCanPhase}");
             }
 
             AnnouncePosition(new Vector2(newGridPos.x,newGridPos.z));
@@ -294,10 +294,10 @@ namespace CoreGame
             NotifyInventoryObservers();
         }
 
-        public void SetPlayer(Player newPlayerTag)
+        public void SetPlayer(PlayerTags newPlayerTagsTag)
         {
-            player = newPlayerTag;
-            GetComponent<Renderer>().material.color = ColorPalette.current.GetPlayerColor(newPlayerTag);
+            playerTags = newPlayerTagsTag;
+            GetComponent<Renderer>().material.color = ColorPalette.current.GetPlayerColor(newPlayerTagsTag);
         }
 
         
@@ -395,7 +395,7 @@ namespace CoreGame
         Blank
     }
 
-    public enum Player
+    public enum PlayerTags
     {
         Red,
         Blue,

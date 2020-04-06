@@ -5,8 +5,8 @@ namespace CoreGame
 {
     public class GateController : MonoBehaviour
     {
-        private Player owner;
-        public Player Owner
+        private PlayerTags owner;
+        public PlayerTags Owner
         {
             get => owner;
             set

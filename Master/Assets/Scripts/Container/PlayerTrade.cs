@@ -10,8 +10,8 @@ namespace Container
 {
     public class PlayerTrade
     {
-        public readonly Player OfferingPlayer; //Player offering a trade
-        public readonly Player ReceivingPlayer; //Player to which the move is being offered
+        public readonly PlayerTags OfferingPlayerTags; //Player offering a trade
+        public readonly PlayerTags ReceivingPlayerTags; //Player to which the move is being offered
         public readonly Direction DirectionOffer; //the move being offered
         public Direction DirectionCounterOffer = Direction.Blank;
 
@@ -23,29 +23,29 @@ namespace Container
 
         private readonly GameHandler _gameHandler;
 
-        public PlayerTrade(Player offeringPlayer, Player receivingPlayer, Direction directionOffer, GameHandler gameHandler, int storedMoveIndex,List<ITradeObserver> observers)
+        public PlayerTrade(PlayerTags offeringPlayerTags, PlayerTags receivingPlayerTags, Direction directionOffer, GameHandler gameHandler, int storedMoveIndex,List<ITradeObserver> observers)
         {
             TradeID = Random.Range(0, 10000);
-            OfferingPlayer = offeringPlayer;
+            OfferingPlayerTags = offeringPlayerTags;
             DirectionOffer = directionOffer;
             _gameHandler = gameHandler;
             _storedMoveIndex = storedMoveIndex;
-            ReceivingPlayer = receivingPlayer;
+            ReceivingPlayerTags = receivingPlayerTags;
             _statObservers = observers;
         }
 
         public void AcceptTrade(Direction counteroffer, PlayerController acceptingPlayer)
         {
-            if (acceptingPlayer.player != ReceivingPlayer)
-                throw new Exception($"Offer was not for {acceptingPlayer.player}");
+            if (acceptingPlayer.playerTags != ReceivingPlayerTags)
+                throw new Exception($"Offer was not for {acceptingPlayer.playerTags}");
             
             if (acceptingPlayer.GetIndexForDirection(counteroffer) == -1)
-                throw new ArgumentException($"{acceptingPlayer.player} does not posses the move {counteroffer}");
+                throw new ArgumentException($"{acceptingPlayer.playerTags} does not posses the move {counteroffer}");
 
             if (counteroffer == Direction.Blank) 
                 throw new ArgumentException("Can't use blank to trade with");
 
-            PlayerController offeringPlayerController = _gameHandler.GetPlayerController(OfferingPlayer);
+            PlayerController offeringPlayerController = _gameHandler.GetPlayerController(OfferingPlayerTags);
 
             DirectionCounterOffer = counteroffer;
             
@@ -61,12 +61,12 @@ namespace Container
 
         public void RejectTrade(PlayerController rejectingPlayer)
         {
-            if (rejectingPlayer.player != ReceivingPlayer)
+            if (rejectingPlayer.playerTags != ReceivingPlayerTags)
             {
-                throw new Exception($"Offer was not for {rejectingPlayer.player}");
+                throw new Exception($"Offer was not for {rejectingPlayer.playerTags}");
             }
 
-            PlayerController offeringPlayerController = _gameHandler.GetPlayerController(OfferingPlayer);
+            PlayerController offeringPlayerController = _gameHandler.GetPlayerController(OfferingPlayerTags);
             
             offeringPlayerController.AddMove(DirectionOffer, _storedMoveIndex);
 
@@ -82,8 +82,8 @@ namespace Container
 
         private void CancelTrade()
         {
-            PlayerController offeringPlayer = _gameHandler.GetPlayerController(OfferingPlayer);
-            PlayerController rejectingPlayer = GameHandler.current.GetPlayerController(ReceivingPlayer);
+            PlayerController offeringPlayer = _gameHandler.GetPlayerController(OfferingPlayerTags);
+            PlayerController rejectingPlayer = GameHandler.current.GetPlayerController(ReceivingPlayerTags);
             
             offeringPlayer.AddMove(DirectionOffer, _storedMoveIndex);
 
@@ -91,9 +91,9 @@ namespace Container
             rejectingPlayer.RemoveIncomingTrade(this);
         }
 
-        public void CancelTrade(Player cancellingPlayer)
+        public void CancelTrade(PlayerTags cancellingPlayerTags)
         {
-            if (cancellingPlayer != OfferingPlayer) throw new ArgumentException("Only the player that created the trade can cancel it");
+            if (cancellingPlayerTags != OfferingPlayerTags) throw new ArgumentException("Only the player that created the trade can cancel it");
             
             NotifyObservers(TradeActions.TradeCanceled);
             CancelTrade();
@@ -106,7 +106,7 @@ namespace Container
         
         public string Print()
         {
-            return OfferingPlayer + " offering: " + DirectionOffer;
+            return OfferingPlayerTags + " offering: " + DirectionOffer;
         }
 
         public void NotifyObservers(TradeActions tradAction)

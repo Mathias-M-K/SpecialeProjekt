@@ -51,12 +51,12 @@ namespace CoreGame
             {
                 case SequenceActions.NewMoveAdded:
                     //Type | Time | Player | Direction
-                    _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,Time.realtimeSinceStartup,move.Player,move.Direction);
+                    _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,Time.realtimeSinceStartup,move.PlayerTags,move.Direction);
                     nrOfMoves++;
                     break;
                 case SequenceActions.MoveRemoved:
                     //Type | Time | Player | Direction
-                    _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,Time.realtimeSinceStartup,move.Player,move.Direction);
+                    _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,Time.realtimeSinceStartup,move.PlayerTags,move.Direction);
                     break;
                 case SequenceActions.SequenceStarted:
                     //Type | Time 
@@ -66,7 +66,7 @@ namespace CoreGame
                     _textWriter.WriteLine("{0},{1}",sequenceAction,Time.realtimeSinceStartup);
                     break;
                 case SequenceActions.MovePerformed:
-                    _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,Time.realtimeSinceStartup,move.Player,move.Direction);
+                    _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,Time.realtimeSinceStartup,move.PlayerTags,move.Direction);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(sequenceAction), sequenceAction, null);
@@ -81,17 +81,17 @@ namespace CoreGame
                 "Trade",
                 Time.realtimeSinceStartup,
                 playerTrade.TradeID,
-                playerTrade.OfferingPlayer,
-                playerTrade.ReceivingPlayer,
+                playerTrade.OfferingPlayerTags,
+                playerTrade.ReceivingPlayerTags,
                 playerTrade.DirectionOffer,
                 tradeAction,
                 playerTrade.DirectionCounterOffer);
         }
     
-        public void OnGameProgressUpdate(Player player)
+        public void OnGameProgressUpdate(PlayerTags playerTags)
         {
             //Type | Time | Player
-            _textWriter.WriteLine("{0},{1},{2}","Player Finished",Time.realtimeSinceStartup,player);
+            _textWriter.WriteLine("{0},{1},{2}","Player Finished",Time.realtimeSinceStartup,playerTags);
         }
     
         private void CreateFile()

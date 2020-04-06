@@ -5,12 +5,12 @@ namespace Container
 {
     public class StoredPlayerMove
     {
-        public Player Player;
+        public PlayerTags PlayerTags;
         public Direction Direction;
     
-        public StoredPlayerMove(Player pc,Direction d)
+        public StoredPlayerMove(PlayerTags pc,Direction d)
         {
-            Player = pc;
+            PlayerTags = pc;
             Direction = d;
         }
     }

@@ -20,14 +20,14 @@ namespace AdminGUI
             GUIEvents.current.onPlayerChange += OnPlayerChange;
         }
 
-        private void OnPlayerChange(Player newPlayer)
+        private void OnPlayerChange(PlayerTags newPlayerTags)
         {
             if (_playerController != null)
             {
                 _playerController.RemoveInventoryObserver(this);
             }
             
-            _playerController = GameHandler.current.GetPlayerController(newPlayer);
+            _playerController = GameHandler.current.GetPlayerController(newPlayerTags);
             _playerController.AddInventoryObserver(this);
             
             GUIMethods.UpdateArrows(SecondChoice.transform,_playerController);

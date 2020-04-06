@@ -10,11 +10,13 @@ namespace CoreGame
 {
     public class MapManager : MonoBehaviour
     {
-        public static MapManager current;
+        public static MapManager Current;
+
+        private float _cameraXOffset = -4;
 
         private void Awake()
         {
-            current = this;
+            Current = this;
         }
 
         [Header("Level Information")] public MapData mapData;
@@ -23,7 +25,7 @@ namespace CoreGame
         private void Start()
         {
             Instantiate(mapData.map, new Vector3(0.5f, 0, 10.5f), new Quaternion(0, 0, 0, 0));
-            if(Camera.main != null) Camera.main.transform.position = new Vector3((mapData.xSize / 2) + 0.5f, 15, (mapData.ySize / 2) + 0.5f);
+            if(Camera.main != null) Camera.main.transform.position = new Vector3((mapData.xSize / 2) + 0.5f+_cameraXOffset, 15, (mapData.ySize / 2) + 0.5f);
             
             navMeshSurface.BuildNavMesh();
 

@@ -27,20 +27,20 @@ namespace CoreGame
         [Header(("Green Button"))] public ColorBlock greenButton;
 
 
-        public Color32 GetPlayerColor(Player player)
+        public Color32 GetPlayerColor(PlayerTags playerTags)
         {
-            switch (player)
+            switch (playerTags)
             {
-                case Player.Red:
+                case PlayerTags.Red:
                     return playerRed;
-                case Player.Blue:
+                case PlayerTags.Blue:
                     return playerBlue;
-                case Player.Green:
+                case PlayerTags.Green:
                     return playerGreen;
-                case Player.Yellow:
+                case PlayerTags.Yellow:
                     return playerYellow;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(player), player, null);
+                    throw new ArgumentOutOfRangeException(nameof(playerTags), playerTags, null);
             }
         }
         public Color32 GetPlayerColor(string firstLetter)

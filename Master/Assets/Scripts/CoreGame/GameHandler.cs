@@ -19,11 +19,12 @@ namespace CoreGame
         //Game variables
         private readonly List<StoredPlayerMove> _sequenceMoves = new List<StoredPlayerMove>();
         private readonly List<PlayerController> _players = new List<PlayerController>();
-        private readonly Dictionary<Player,Vector2> _occupiedPositions = new Dictionary<Player, Vector2>();
+        private readonly Dictionary<PlayerTags,Vector2> _occupiedPositions = new Dictionary<PlayerTags, Vector2>();
+        private readonly List<PhotonView> _networkedPlayers = new List<PhotonView>();
         public List<PlayerTrade> trades = new List<PlayerTrade>();
         
         //Predefined game variables
-        private readonly List<Player> _playerTags = new List<Player>(){Player.Red,Player.Blue,Player.Green,Player.Yellow};
+        private readonly List<PlayerTags> _playerTags = new List<PlayerTags>(){PlayerTags.Red,PlayerTags.Blue,PlayerTags.Green,PlayerTags.Yellow};
         
         private int numberOfSpawnedPlayers;
         private int numberOfReadyPlayers;
@@ -46,7 +47,7 @@ namespace CoreGame
         [Space] [Header("Game Settings")] 
         [Range(1, 6)] public int numberOfPlayers;
         [Range(1,10)] public float delayBetweenMoves;
-        public bool playersAreExternallyControlled;
+        public bool playersAreExternallyControlled = true;
         
         [Space] [Header("Player Abilities")] 
         public bool playersCanPhase;
@@ -77,8 +78,7 @@ namespace CoreGame
             {
                 if(_players.Count < 1) throw new InvalidOperationException("Can't start game without any players");
             }
-
-
+            
             RemoveBarricadesForInactivePlayers();
         }
 
@@ -99,7 +99,7 @@ namespace CoreGame
         //Checks if the given position is occupied by another player
         public bool IsPositionOccupied(Vector2 position)
         {
-            foreach (KeyValuePair<Player,Vector2> occupiedPosition in _occupiedPositions)
+            foreach (KeyValuePair<PlayerTags,Vector2> occupiedPosition in _occupiedPositions)
             {
                 if (position.x == occupiedPosition.Value.x && position.y == occupiedPosition.Value.y)
                 {
@@ -111,16 +111,16 @@ namespace CoreGame
         }
         
         //Lets player announce their new position
-        public void RegisterPosition(Player player, Vector2 position)
+        public void RegisterPosition(PlayerTags playerTags, Vector2 position)
         {
-            _occupiedPositions[player] = position;
+            _occupiedPositions[playerTags] = position;
         }
 
         //Creates new PlayerTrade
-        public void NewTrade(Direction direction, int directionIndex, Player playerReceiving, Player playerOffering)
+        public void NewTrade(Direction direction, int directionIndex, PlayerTags playerTagsReceiving, PlayerTags playerTagsOffering)
         {
-            PlayerController playerReceivingController = GetPlayerController(playerReceiving);
-            PlayerController playerOfferingController = GetPlayerController(playerOffering);
+            PlayerController playerReceivingController = GetPlayerController(playerTagsReceiving);
+            PlayerController playerOfferingController = GetPlayerController(playerTagsOffering);
 
             List<ITradeObserver> combinedObserverList = new List<ITradeObserver>();
             List<ITradeObserver> offeringObservers = playerOfferingController.GetTradeObservers();
@@ -130,7 +130,7 @@ namespace CoreGame
             combinedObserverList.AddRange(offeringObservers);
             combinedObserverList.AddRange(receivingObservers);
 
-            PlayerTrade trade = new PlayerTrade(playerOffering, playerReceiving, direction, this, directionIndex, combinedObserverList);
+            PlayerTrade trade = new PlayerTrade(playerTagsOffering, playerTagsReceiving, direction, this, directionIndex, combinedObserverList);
 
             trades.Add(trade);
 
@@ -141,7 +141,7 @@ namespace CoreGame
         }
 
         //Adds a move to the common sequence
-        public void AddMoveToSequence(Player p, Direction d, int index)
+        public void AddMoveToSequence(PlayerTags p, Direction d, int index)
         {
             PlayerController playerController = GetPlayerController(p);
 
@@ -189,7 +189,7 @@ namespace CoreGame
             
             foreach (StoredPlayerMove pm in _sequenceMoves)
             {
-                PlayerController playerController = GetPlayerController(pm.Player);
+                PlayerController playerController = GetPlayerController(pm.PlayerTags);
 
                 try
                 {
@@ -216,13 +216,12 @@ namespace CoreGame
             _sequenceMoves.Clear();
             NotifySequenceObservers(SequenceActions.SequenceEnded,null);
         }
-
         
-        public PlayerController GetPlayerController(Player p)
+        public PlayerController GetPlayerController(PlayerTags p)
         {
             foreach (var playerController in _players)
             {
-                if (playerController.player == p)
+                if (playerController.playerTags == p)
                 {
                     return playerController;
                 }
@@ -240,6 +239,9 @@ namespace CoreGame
             return _sequenceMoves;
         }
 
+        //Networked Players
+        
+        
         //Spawning players
         public void SpawnMaxPlayers()
         {
@@ -250,14 +252,14 @@ namespace CoreGame
         }
         
         /// <summary>Class <c>SpawnNewPlayer</c> Spawns a specific player on a preselected position</summary>
-        public void SpawnNewPlayer(Player player)
+        public void SpawnNewPlayer(PlayerTags playerTags)
         {
             //Checks
             if (_players.Count >= numberOfPlayers) throw new InvalidOperationException("Max players have already been reached");
-            if (_players.IndexOf(GetPlayerController(player)) != -1) throw new ArgumentException($"player {player} already exist");
+            if (_players.IndexOf(GetPlayerController(playerTags)) != -1) throw new ArgumentException($"player {playerTags} already exist");
             
             //Code
-            int spawnNr = _playerTags.IndexOf(player);
+            int spawnNr = _playerTags.IndexOf(playerTags);
             
             Vector3 spawnPosition = new Vector3(_spawnPositions[spawnNr].x, 1.55f, _spawnPositions[spawnNr].y);
             _occupiedPositions[_playerTags[spawnNr]] = _spawnPositions[spawnNr];
@@ -275,9 +277,9 @@ namespace CoreGame
         }
         
         /// <summary>Class <c>SpawnNewPlayer</c> Spawns the next player in line, and returns said player</summary>
-        public Player SpawnNewPlayer()
+        public PlayerTags SpawnNewPlayer()
         {
-            foreach (Player player in _playerTags)
+            foreach (PlayerTags player in _playerTags)
             {
                 if (GetPlayerController(player) == null)
                 {
@@ -360,7 +362,7 @@ namespace CoreGame
             }
         }
 
-        public void NotifyGameProgressObservers(Player player1)
+        public void NotifyGameProgressObservers(PlayerTags player1)
         {
             foreach (IFinishPointObserver observer in _gameProgressObservers)
             {

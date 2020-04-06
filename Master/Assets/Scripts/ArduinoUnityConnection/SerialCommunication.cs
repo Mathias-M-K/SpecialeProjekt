@@ -53,14 +53,14 @@ public class SerialCommunication : MonoBehaviour,ISequenceObserver
                 if (methodSelected.Equals("swap"))
                 {
                     //TODO: trigger swap function
-                    _playerController.CreateTrade(_block.GetDirectionFromId(id),Player.Blue);
+                    _playerController.CreateTrade(_block.GetDirectionFromId(id),PlayerTags.Blue);
                 }
 
                 if (methodSelected.Equals("sequence"))
                 {
                     //TODO: trigger add move to sequence
                     print($"direction: {_block.GetDirectionFromId(id)}");
-                    GameHandler.current.AddMoveToSequence(_playerController.player,_block.GetDirectionFromId(id),_block.GetIndexFromId(id));
+                    GameHandler.current.AddMoveToSequence(_playerController.playerTags,_block.GetDirectionFromId(id),_block.GetIndexFromId(id));
                 }
                 
             }

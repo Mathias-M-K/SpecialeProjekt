@@ -14,7 +14,7 @@ namespace AdminGUI
     {
         public static GUIEvents current;
 
-        private Player CurrentChosenPlayer;
+        private PlayerTags _currentChosenPlayerTags;
         
         private void Awake()
         {
@@ -22,7 +22,7 @@ namespace AdminGUI
         }
 
         public event Action<Button> onButtonHit;
-        public event Action<Player> onPlayerChange;
+        public event Action<PlayerTags> onPlayerChange;
         public event Action<Button, TradeActions, Direction> onTradeAction;
         public event Action onManualOverride;
         public event Action onGameStart;
@@ -33,7 +33,7 @@ namespace AdminGUI
         //Start game
         public void StartGame()
         {
-            CurrentChosenPlayer = Player.Red;
+            _currentChosenPlayerTags = PlayerTags.Red;
             GameHandler.current.StartGame();
             if (onGameStart != null) onGameStart();
         }
@@ -80,7 +80,7 @@ namespace AdminGUI
 
         private void OnPlayerChange()
         {
-            if (onPlayerChange != null) onPlayerChange(CurrentChosenPlayer);
+            if (onPlayerChange != null) onPlayerChange(_currentChosenPlayerTags);
         }
     }
 }

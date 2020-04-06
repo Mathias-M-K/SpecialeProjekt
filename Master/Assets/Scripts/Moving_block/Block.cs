@@ -8,13 +8,13 @@ public class Block
 {
     private string _id;
     private Direction _state;
-    private Player _player;
+    private PlayerTags _playerTags;
     
-    public Block(string id, Direction state, Player player)
+    public Block(string id, Direction state, PlayerTags playerTags)
     {
         _id = id;
         _state = state;
-        _player = player;
+        _playerTags = playerTags;
     }
 
     public string Id
@@ -29,9 +29,9 @@ public class Block
         set => _state = value;
     }
 
-    public Player player
+    public PlayerTags playerTags
     {
-        get => _player;
-        set => _player = value;
+        get => _playerTags;
+        set => _playerTags = value;
     }
 }

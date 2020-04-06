@@ -31,9 +31,9 @@ namespace AdminGUI
                 {
                     int.TryParse(key.Substring(5, key.Length - 5), out int indexFetchValue);
                     Direction directionToSend = _playerController.GetMoves()[indexFetchValue];
-                    GameHandler.current.AddMoveToSequence(_playerController.player, directionToSend, indexFetchValue);
+                    GameHandler.current.AddMoveToSequence(_playerController.playerTags, directionToSend, indexFetchValue);
                     
-                    PlayerChange(_playerController.player);
+                    PlayerChange(_playerController.playerTags);
                 }
             }
             else

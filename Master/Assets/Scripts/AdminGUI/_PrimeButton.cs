@@ -33,7 +33,7 @@ namespace AdminGUI
         protected abstract void GUIButtonPressed(Button button);
         
 
-        protected void PlayerChange(Player newPlayer)
+        protected void PlayerChange(PlayerTags newPlayerTags)
         {
             if (_playerController != null)
             {
@@ -41,7 +41,7 @@ namespace AdminGUI
             }
             
 
-            _playerController = GameHandler.current.GetPlayerController(newPlayer);
+            _playerController = GameHandler.current.GetPlayerController(newPlayerTags);
             _playerController.AddInventoryObserver(this);
             
             GUIMethods.UpdateArrows(arrows.transform.GetChild(0),_playerController);

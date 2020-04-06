@@ -5,7 +5,7 @@ namespace CoreGame
 {
     public class TriggerController : MonoBehaviour
     {
-        public Player owner;
+        public PlayerTags owner;
         public GateController gate;
         public bool closeOnExit;
 
@@ -19,7 +19,7 @@ namespace CoreGame
         {
             PlayerController playerController = other.GetComponent<PlayerController>();
 
-            if (playerController.player == owner)
+            if (playerController.playerTags == owner)
             {
                 gate.Open();
             }
@@ -31,7 +31,7 @@ namespace CoreGame
             
             PlayerController playerController = other.GetComponent<PlayerController>();
 
-            if (playerController.player == owner)
+            if (playerController.playerTags == owner)
             {
                 gate.Close();
             }

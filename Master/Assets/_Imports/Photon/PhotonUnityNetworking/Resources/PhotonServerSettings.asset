@@ -31,20 +31,16 @@ MonoBehaviour:
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
+  - Cancel
+  - ChangeColor
   - ClickRpc
   - DestroyRpc
   - DestroySpaceship
   - Fire
-  - RespawnSpaceship
-  - DelayCancel
-  - RPC_SendTimer
-  - Cancel
-  - ChangeColor
-  - ShowMessage
-  - RecieveMessage
   - ReceiveMessage
-  - PrintOut
+  - RespawnSpaceship
   - RPC_ElevatorEvent
+  - RPC_SetPlayerTag
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
