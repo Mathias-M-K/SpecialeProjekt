@@ -15,7 +15,10 @@ namespace DefaultNamespace
         private void Start()
         {
             _photonView = GetComponent<PhotonView>();
-
+            
+            if (!_photonView.IsMine) return;
+            
+            //Master task below this line
             GUIEvents.current.onButtonHit += OnBtnHit;
         }
 
