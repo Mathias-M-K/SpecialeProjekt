@@ -1,4 +1,5 @@
 using System.IO;
+using CoreGame;
 using Photon.Pun;
 using UnityEngine;
 
@@ -10,17 +11,14 @@ namespace Networking
         
         private void Start()
         {
-            //if (GameHandler.gameHandler.gameType == GameType.Local) return;
+            if (!PhotonNetwork.IsConnected) return;
             CreatePlayer();
         }
 
         private void CreatePlayer()
         {
             Debug.Log("Creating Player");
-
-            int xSpawnPos = Random.Range(0, 14);
-            int zSpawnPos = Random.Range(-13, 5);
-            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonPlayer"), new Vector3(xSpawnPos,2,zSpawnPos), Quaternion.identity);
+            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonPlayer"), new Vector3(0,0,0), Quaternion.identity);
         }
     }
 }

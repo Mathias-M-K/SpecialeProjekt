@@ -13,7 +13,7 @@ namespace AdminGUI
     public class GUIEvents : MonoBehaviour
     {
         public static GUIEvents current;
-        
+
         private Player CurrentChosenPlayer;
         
         private void Awake()
@@ -26,37 +26,14 @@ namespace AdminGUI
         public event Action<Button, TradeActions, Direction> onTradeAction;
         public event Action onManualOverride;
         public event Action onGameStart;
-
-        //
-        public void PlayerDropdown(TMP_Dropdown dropdown)
-        {
-            NotifyButtonHit();
-
-            switch (dropdown.value)
-            {
-                case 0:
-                    CurrentChosenPlayer = Player.Red;
-                    break;
-                case 1:
-                    CurrentChosenPlayer = Player.Blue;
-                    break;
-                case 2:
-                    CurrentChosenPlayer = Player.Green;
-                    break;
-                case 3:
-                    CurrentChosenPlayer = Player.Yellow;
-                    break;
-            }
-
-            dropdown.image.color = ColorPalette.current.GetPlayerColor(CurrentChosenPlayer);
-            OnPlayerChange();
-        }
+        
         /*
          * GAME BUTTONS
          */
         //Start game
         public void StartGame()
         {
+            CurrentChosenPlayer = Player.Red;
             GameHandler.current.StartGame();
             if (onGameStart != null) onGameStart();
         }

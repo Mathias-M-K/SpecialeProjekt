@@ -63,12 +63,12 @@ namespace GameGUI
         {
             LeanTween.moveLocalX(mainContent, -1236, contentAnimationTime).
                 setEase(contentEaseOutType).
-                setOnComplete(() => SceneManager.LoadScene(GlobalValues.networkScene));
+                setOnComplete(() => SceneManager.LoadScene(GlobalValues.NetworkScene));
         }
 
         public void LocalGame()
         {
-            SceneManager.LoadScene(GlobalValues.gameScene);
+            SceneManager.LoadScene(GlobalValues.GameScene);
         }
     }
 }

@@ -651,6 +651,7 @@
         <e p="Chickenville" t="Include">
           <e p="ChickenController.cs" t="Include" />
           <e p="ChickenGameController.cs" t="Include" />
+          <e p="ChickenGameSetupController.cs" t="Include" />
           <e p="CustomCameraMovement.cs" t="Include" />
           <e p="ElevatorButtonController.cs" t="Include" />
           <e p="ElevatorController.cs" t="Include" />
@@ -663,7 +664,6 @@
           <e p="AdminGUI" t="Include">
             <e p="_PrimeButton.cs" t="Include" />
             <e p="_PrimeTradeElement.cs" t="Include" />
-            <e p="AdminGUIOverlay.cs" t="Include" />
             <e p="GUIMethods.cs" t="Include" />
             <e p="GUIStartScreen.cs" t="Include" />
             <e p="IncomingTradeElement.cs" t="Include" />

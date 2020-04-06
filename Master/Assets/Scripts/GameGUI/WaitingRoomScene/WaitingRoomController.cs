@@ -110,7 +110,7 @@ namespace GameGUI.WaitingRoomScene
             if (!PhotonNetwork.IsMasterClient) return;
 
             PhotonNetwork.CurrentRoom.IsOpen = false;
-            PhotonNetwork.LoadLevel(GlobalValues.gameScene);
+            PhotonNetwork.LoadLevel(GlobalValues.GameScene);
         }
 
         [PunRPC]
@@ -120,7 +120,7 @@ namespace GameGUI.WaitingRoomScene
 
             PhotonNetwork.AutomaticallySyncScene = false;
             PhotonNetwork.LeaveRoom();
-            SceneManager.LoadScene(GlobalValues.networkScene);
+            SceneManager.LoadScene(GlobalValues.NetworkScene);
         }
     }
 }

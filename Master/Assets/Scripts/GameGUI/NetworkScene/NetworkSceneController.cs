@@ -62,7 +62,7 @@ namespace GameGUI.NetworkScene
         {
             if (Application.internetReachability == NetworkReachability.NotReachable)
             {
-                if (!GlobalValues.connected) return;
+                if (!GlobalValues.Connected) return;
                 OnConnectionLost();
             }
         }
@@ -107,7 +107,7 @@ namespace GameGUI.NetworkScene
         public override void OnConnectedToMaster()
         {
             print("We connected");
-            if (GlobalValues.connected) return;
+            if (GlobalValues.Connected) return;
             
             GlobalValues.SetConnected(true);
             
@@ -169,7 +169,7 @@ namespace GameGUI.NetworkScene
 
         public override void OnJoinedRoom()
         {
-            SceneManager.LoadScene(GlobalValues.waitingRoomScene);
+            SceneManager.LoadScene(GlobalValues.WaitingRoomScene);
         }
         
         

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Container;
 using CoreGame.Interfaces;
 using Michsky.UI.ModernUIPack;
+using Photon.Pun;
 using UnityEngine;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
@@ -22,7 +23,7 @@ namespace CoreGame
         public List<PlayerTrade> trades = new List<PlayerTrade>();
         
         //Predefined game variables
-        List<Player> playerTags = new List<Player>(){Player.Red,Player.Blue,Player.Green,Player.Yellow};
+        private readonly List<Player> _playerTags = new List<Player>(){Player.Red,Player.Blue,Player.Green,Player.Yellow};
         
         private int numberOfSpawnedPlayers;
         private int numberOfReadyPlayers;
@@ -256,17 +257,17 @@ namespace CoreGame
             if (_players.IndexOf(GetPlayerController(player)) != -1) throw new ArgumentException($"player {player} already exist");
             
             //Code
-            int spawnNr = playerTags.IndexOf(player);
+            int spawnNr = _playerTags.IndexOf(player);
             
             Vector3 spawnPosition = new Vector3(_spawnPositions[spawnNr].x, 1.55f, _spawnPositions[spawnNr].y);
-            _occupiedPositions[playerTags[spawnNr]] = _spawnPositions[spawnNr];
+            _occupiedPositions[_playerTags[spawnNr]] = _spawnPositions[spawnNr];
                 
             GameObject g = Instantiate(playerPrefab, spawnPosition, new Quaternion(0, 0, 0, 0));
-            g.name = playerTags[spawnNr].ToString();
+            g.name = _playerTags[spawnNr].ToString();
                 
             PlayerController p = g.GetComponent<PlayerController>();
 
-            p.SetPlayer(playerTags[spawnNr]);
+            p.SetPlayer(_playerTags[spawnNr]);
             AddPlayerController(p);
 
             p.AddReadyObserver(this);
@@ -276,7 +277,7 @@ namespace CoreGame
         /// <summary>Class <c>SpawnNewPlayer</c> Spawns the next player in line, and returns said player</summary>
         public Player SpawnNewPlayer()
         {
-            foreach (Player player in playerTags)
+            foreach (Player player in _playerTags)
             {
                 if (GetPlayerController(player) == null)
                 {
