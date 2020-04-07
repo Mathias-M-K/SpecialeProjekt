@@ -1,19 +1,22 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using Container;
 using CoreGame;
+using CoreGame.Interfaces;
 using Photon.Pun;
+using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class NetworkedGameHandler : GameHandler
+    public class NetworkedGameHandler : GameHandler,IGameHandlerInterface
     {
         public GameHandler localGameHandler;
 
         public override void Awake()
         {
-            localGameHandler = gameObject.AddComponent<GameHandler>();
             GameHandler.Current = this;
         }
-        private PhotonView _photonView;
         
         private void Start()
         {
@@ -25,38 +28,137 @@ namespace DefaultNamespace
             localGameHandler.playersCanPhase = playersCanPhase;
             localGameHandler.endScreen = endScreen;
         }
+        
 
-        /**
-         * Setup
+        public override void SetNetworkedAgent(NetworkAgentController netController)
+        {
+            MyNetworkedAgent = netController;
+        }
+
+
+        /*
+         * Networked
+         */
+        public override void StartGame()
+        {
+            MyNetworkedAgent.StartGame();
+            localGameHandler.StartGame();
+        }
+        
+        
+        /*
+         * Not Networked
          */
         public override void SetMapData(MapData mapData)
         {
             localGameHandler.SetMapData(mapData);
         }
-        
-        public void SetPhotonView(PhotonView photonView)
+        public override bool IsPositionOccupied(Vector2 position)
         {
-            _photonView = photonView;
+            return localGameHandler.IsPositionOccupied(position);
         }
-
-        public override void SetNetworkedAgent(NetworkAgentController netController)
+        public override void RegisterPosition(PlayerTags playerTags, Vector2 position)
         {
-            MyNetworkedAgent = netController;
-            netController.SetGameHandler(localGameHandler);
+            localGameHandler.RegisterPosition(playerTags, position);
         }
         
         
-        /**
-         * Network Methods
+        /*
+         * Networked
          */
+        public override void NewTrade(Direction direction, int directionIndex, PlayerTags playerTagsReceiving, PlayerTags playerTagsOffering)
+        {
+            MyNetworkedAgent.NewTrade(direction, directionIndex, playerTagsReceiving, playerTagsOffering);
+            localGameHandler.NewTrade(direction, directionIndex, playerTagsReceiving, playerTagsOffering);
+        }
+        public override void AddMoveToSequence(PlayerTags p, Direction d, int index)
+        {
+            MyNetworkedAgent.AddMoveToSequence(p, d, index);
+            localGameHandler.AddMoveToSequence(p, d, index);
+        }
+        public override void RemoveMoveFromSequence(StoredPlayerMove move)
+        {
+            MyNetworkedAgent.RemoveMoveFromSequence(move);
+            localGameHandler.RemoveMoveFromSequence(move);
+        }
+        public override IEnumerator PerformSequence()
+        {
+            yield return StartCoroutine(MyNetworkedAgent.PerformSequence());
+            yield return StartCoroutine(localGameHandler.PerformSequence());
+        }
 
+        
+        /*
+         * Not Networked
+         */
+        public override PlayerController GetPlayerController(PlayerTags p)
+        {
+            return localGameHandler.GetPlayerController(p);
+        }
+        public override Vector2[] GetSpawnLocations()
+        {
+            return localGameHandler.GetSpawnLocations();
+        }
+        public override List<StoredPlayerMove> GetSequence()
+        {
+            return localGameHandler.GetSequence();
+        }
+
+        /*
+         * Networked
+         */
+        public override void SpawnMaxPlayers()
+        {
+            MyNetworkedAgent.SpawnMaxPlayers();
+            localGameHandler.SpawnMaxPlayers();
+        }
+        public override void SpawnNewPlayer(PlayerTags playerTag)
+        {
+            MyNetworkedAgent.SpawnNewPlayer(playerTag);
+            localGameHandler.SpawnNewPlayer(playerTag);
+        }
         public override PlayerTags SpawnNewPlayer()
         {
-            print("Lol");
             MyNetworkedAgent.SpawnNewPlayer();
             return localGameHandler.SpawnNewPlayer();
         }
-
         
+        /*
+         * Not Networked
+         */
+        public override void RemovePlayerController(PlayerController playerController)
+        {
+            
+            localGameHandler.RemovePlayerController(playerController);
+        }
+        public override List<PlayerController> GetPlayers()
+        {
+            return localGameHandler.GetPlayers();
+        }
+        public override void AddSequenceObserver(ISequenceObserver iso)
+        {
+            localGameHandler.AddSequenceObserver(iso);
+        }
+        public override void AddTradeObserver(ITradeObserver ito)
+        {
+            localGameHandler.AddTradeObserver(ito);
+        }
+        public override void AddGameProgressObserver(IFinishPointObserver ifo)
+        {
+            localGameHandler.AddGameProgressObserver(ifo);
+        }
+        public override void NotifyGameProgressObservers(PlayerTags player1)
+        {
+            localGameHandler.NotifyGameProgressObservers(player1);
+        }
+        
+        
+        /*
+         * Networked
+         */
+        public override void OnReadyStateChanged(bool state)
+        {
+            MyNetworkedAgent.OnReadyStateChanged(state);
+        }
     }
 }

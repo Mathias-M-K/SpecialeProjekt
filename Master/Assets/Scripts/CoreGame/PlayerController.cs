@@ -34,13 +34,13 @@ namespace CoreGame
         private List<IReadyObserver> _readyObservers = new List<IReadyObserver>();
 
         //Other variables
-        private bool ready;
+        private bool _ready;
         public bool Ready
         {
-            get => ready;
+            get => _ready;
             set
             {
-                ready = value; 
+                _ready = value; 
                 NotifyReadyObservers();
             }
         }
@@ -356,7 +356,7 @@ namespace CoreGame
         {
             foreach (IReadyObserver observer in _readyObservers)
             {
-                observer.OnReadyStateChanged(ready);
+                observer.OnReadyStateChanged(_ready);
             }
         }
 
@@ -401,7 +401,7 @@ namespace CoreGame
         Blue,
         Green,
         Yellow,
-        NoPlayer
+        Blank
     }
 
     public enum PlayerFinishStrategyEnum

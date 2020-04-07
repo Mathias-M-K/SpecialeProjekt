@@ -41,7 +41,7 @@ namespace CoreGame
 
             CreateFile();
 
-            _textWriter.WriteLine("{0},{1}", DateTime.Now, GameHandler.Current.GetPlayers().Count);
+            //_textWriter.WriteLine("{0},{1}", DateTime.Now, GameHandler.Current.GetPlayers().Count);
         }
 
         public void OnSequenceChange(SequenceActions sequenceAction, StoredPlayerMove move)

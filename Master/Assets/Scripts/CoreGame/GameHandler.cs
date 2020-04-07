@@ -8,12 +8,9 @@ using Michsky.UI.ModernUIPack;
 using Photon.Pun;
 using UnityEngine;
 
-// ReSharper disable CompareOfFloatsByEqualityOperator
-// ReSharper disable PossibleLossOfFraction
-
 namespace CoreGame
 {
-    public class GameHandler : MonoBehaviour, IReadyObserver
+    public class GameHandler : MonoBehaviour, IReadyObserver, IGameHandlerInterface
     {
         public static GameHandler Current;
         public virtual void Awake()
@@ -21,6 +18,7 @@ namespace CoreGame
             if (GameHandler.Current != null) return;
             Current = this;
         }
+        
         //Game variables
         private readonly List<StoredPlayerMove> _sequenceMoves = new List<StoredPlayerMove>();
         private readonly List<PlayerController> _players = new List<PlayerController>();
@@ -62,16 +60,11 @@ namespace CoreGame
 
         [Space] [Header("Other")] 
         public ModalWindowManager endScreen;
-        
 
-        public void StartGame(bool Override)
-        {
-            if (!Override) return;
-            
-            AddPlayerController(new PlayerController());
-            StartGame();
-        }
-        public void StartGame()
+        /// <summary>
+        /// starts game
+        /// </summary>
+        public virtual void StartGame()
         {
             if (!playersAreExternallyControlled)
             {
@@ -85,6 +78,10 @@ namespace CoreGame
             RemoveBarricadesForInactivePlayers();
         }
 
+        /// <summary>
+        /// Sets spawn positions and max allowed players
+        /// </summary>
+        /// <param name="mapData"></param>
         public virtual void SetMapData(MapData mapData)
         {
             _spawnPositions = mapData.spawnPositions;
@@ -97,10 +94,13 @@ namespace CoreGame
             }
             
         }
-        
-        
-        //Checks if the given position is occupied by another player
-        public bool IsPositionOccupied(Vector2 position)
+
+        /// <summary>
+        /// Checks if the given position is occupied by another player
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        public virtual bool IsPositionOccupied(Vector2 position)
         {
             foreach (KeyValuePair<PlayerTags,Vector2> occupiedPosition in _occupiedPositions)
             {
@@ -109,18 +109,28 @@ namespace CoreGame
                     return true;
                 }
             }
-
+            
             return false;
         }
-        
-        //Lets player announce their new position
-        public void RegisterPosition(PlayerTags playerTags, Vector2 position)
+
+        /// <summary>
+        /// Lets player announce their new position
+        /// </summary>
+        /// <param name="playerTags"></param>
+        /// <param name="position"></param>
+        public virtual void RegisterPosition(PlayerTags playerTags, Vector2 position)
         {
             _occupiedPositions[playerTags] = position;
         }
 
-        //Creates new PlayerTrade
-        public void NewTrade(Direction direction, int directionIndex, PlayerTags playerTagsReceiving, PlayerTags playerTagsOffering)
+        /// <summary>
+        /// Creates new PlayerTrade
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="directionIndex"></param>
+        /// <param name="playerTagsReceiving"></param>
+        /// <param name="playerTagsOffering"></param>
+        public virtual void NewTrade(Direction direction, int directionIndex, PlayerTags playerTagsReceiving, PlayerTags playerTagsOffering)
         {
             PlayerController playerReceivingController = GetPlayerController(playerTagsReceiving);
             PlayerController playerOfferingController = GetPlayerController(playerTagsOffering);
@@ -143,8 +153,13 @@ namespace CoreGame
             trade.NotifyObservers(TradeActions.TradeOffered);
         }
 
-        //Adds a move to the common sequence
-        public void AddMoveToSequence(PlayerTags p, Direction d, int index)
+        /// <summary>
+        /// Adds a move to the common sequence
+        /// </summary>
+        /// <param name="p - playerTag"></param>
+        /// <param name="d - direction"></param>
+        /// <param name="index - index of move"></param>
+        public virtual void AddMoveToSequence(PlayerTags p, Direction d, int index)
         {
             PlayerController playerController = GetPlayerController(p);
 
@@ -169,15 +184,21 @@ namespace CoreGame
             NotifySequenceObservers(SequenceActions.NewMoveAdded, playerMove);
         }
 
-        //Removes a move from the common sequence
-        public void RemoveMoveFromSequence(StoredPlayerMove move)
+        /// <summary>
+        /// Removes a move from the common sequence
+        /// </summary>
+        /// <param name="move"></param>
+        public virtual void RemoveMoveFromSequence(StoredPlayerMove move)
         {
             _sequenceMoves.Remove(move);
             NotifySequenceObservers(SequenceActions.MoveRemoved, move);
         }
 
-        //Performs the sequence, by moving the players in their decired directions
-        public IEnumerator PerformSequence()
+        /// <summary>
+        /// Performs the sequence, by moving the players in their desired directions
+        /// </summary>
+        /// <returns></returns>
+        public virtual IEnumerator PerformSequence()
         {
             foreach (PlayerController player in _players)
             {
@@ -215,12 +236,17 @@ namespace CoreGame
             {
                 playerController.ResetAfterSequence();
             }
-
+ 
             _sequenceMoves.Clear();
             NotifySequenceObservers(SequenceActions.SequenceEnded,null);
         }
-        
-        public PlayerController GetPlayerController(PlayerTags p)
+
+        /// <summary>
+        /// Gets a specific playercontroller based on the playertag.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns>PlayerController</returns>
+        public virtual PlayerController GetPlayerController(PlayerTags p)
         {
             foreach (var playerController in _players)
             {
@@ -232,40 +258,56 @@ namespace CoreGame
             return null;
         }
 
-        public Vector2[] GetSpawnLocations()
+        /// <summary>
+        /// Returns the predefined spawn positions that are dictated by the mapdata file
+        /// </summary>
+        /// <returns></returns>
+        public virtual Vector2[] GetSpawnLocations()
         {
             return _spawnPositions;
         }
 
-        public List<StoredPlayerMove> GetSequence()
+        /// <summary>
+        /// Returns all moves that are currently in que to be played
+        /// </summary>
+        /// <returns>Player moves</returns>
+        public virtual List<StoredPlayerMove> GetSequence()
         {
             return _sequenceMoves;
         }
 
-        //Networked Players
+        /// <summary>
+        /// When the locally owned photonview spawns, it sets itself as the networked agent
+        /// </summary>
+        /// <param name="netController"></param>
         public virtual void SetNetworkedAgent(NetworkAgentController netController)
         {
             MyNetworkedAgent = netController;
         }
-        
-        //Spawning players
-        public void SpawnMaxPlayers()
+
+        /// <summary>
+        /// Spawn the max amount of players that the mapdata dictates are allowed
+        /// </summary>
+        public virtual void SpawnMaxPlayers()
         {
             for (int i = _numberOfSpawnedPlayers; i < numberOfPlayers; i++)
             {
                 SpawnNewPlayer();
             }
         }
-        
-        /// <summary>Class <c>SpawnNewPlayer</c> Spawns a specific player on a preselected position</summary>
-        public void SpawnNewPlayer(PlayerTags playerTags)
+
+        /// <summary>
+        /// Spawns a specific player on a preselected position
+        /// </summary>
+        /// <param name="playerTag"></param>
+        public virtual void SpawnNewPlayer(PlayerTags playerTag)
         {
             //Checks
             if (_players.Count >= numberOfPlayers) throw new InvalidOperationException("Max players have already been reached");
-            if (_players.IndexOf(GetPlayerController(playerTags)) != -1) throw new ArgumentException($"player {playerTags} already exist");
+            if (_players.IndexOf(GetPlayerController(playerTag)) != -1) throw new ArgumentException($"player {playerTag} already exist");
             
             //Code
-            int spawnNr = _playerTags.IndexOf(playerTags);
+            int spawnNr = _playerTags.IndexOf(playerTag);
             
             Vector3 spawnPosition = new Vector3(_spawnPositions[spawnNr].x, 1.55f, _spawnPositions[spawnNr].y);
             _occupiedPositions[_playerTags[spawnNr]] = _spawnPositions[spawnNr];
@@ -281,8 +323,11 @@ namespace CoreGame
             p.AddReadyObserver(this);
             _numberOfSpawnedPlayers++;
         }
-        
-        /// <summary>Class <c>SpawnNewPlayer</c> Spawns the next player in line, and returns said player</summary>
+
+        /// <summary>
+        /// Spawns the next player in line, and returns said player
+        /// </summary>
+        /// <returns>Spawned player</returns>
         public virtual PlayerTags SpawnNewPlayer()
         {
             foreach (PlayerTags player in _playerTags)
@@ -296,7 +341,10 @@ namespace CoreGame
             
             throw new InvalidOperationException("All players have been spawned");
         }
-        
+
+        /// <summary>
+        /// Checks if the game is done
+        /// </summary>
         private void CheckIfGameIsDone()
         {
             if (_playersFinished >= _numberOfSpawnedPlayers)
@@ -306,7 +354,11 @@ namespace CoreGame
             }
         }
 
-        public void RemovePlayerController(PlayerController playerController)
+        /// <summary>
+        /// Removes a player controller from _players list
+        /// </summary>
+        /// <param name="playerController"></param>
+        public virtual void RemovePlayerController(PlayerController playerController)
         {
             _players.Remove(playerController);
         }
@@ -316,7 +368,11 @@ namespace CoreGame
             _players.Add(playerController);
         }
 
-        public List<PlayerController> GetPlayers()
+        /// <summary>
+        /// Returns all active player controllers
+        /// </summary>
+        /// <returns></returns>
+        public virtual List<PlayerController> GetPlayers()
         {
             return _players;
         }
@@ -342,25 +398,27 @@ namespace CoreGame
                 }
             }
         }
-
-        //Add and notify methods for observers
-
-        public void AddSequenceObserver(ISequenceObserver iso)
+        
+        
+        /**
+         * Add and notify methods
+         */
+        public virtual void AddSequenceObserver(ISequenceObserver iso)
         {
             _sequenceObservers.Add(iso);
         }
 
-        public void AddTradeObserver(ITradeObserver ito)
+        public virtual void AddTradeObserver(ITradeObserver ito)
         {
             _tradeObservers.Add(ito);
         }
 
-        public void AddGameProgressObserver(IFinishPointObserver ifo)
+        public virtual void AddGameProgressObserver(IFinishPointObserver ifo)
         {
             _gameProgressObservers.Add(ifo);
         }
 
-        private void NotifySequenceObservers(SequenceActions sequenceAction, StoredPlayerMove move)
+        public void NotifySequenceObservers(SequenceActions sequenceAction, StoredPlayerMove move)
         {
             foreach (ISequenceObserver observer in _sequenceObservers)
             {
@@ -368,18 +426,18 @@ namespace CoreGame
             }
         }
 
-        public void NotifyGameProgressObservers(PlayerTags player1)
+        public virtual void NotifyGameProgressObservers(PlayerTags player1)
         {
             foreach (IFinishPointObserver observer in _gameProgressObservers)
             {
                 observer.OnGameProgressUpdate(player1);
             }
-
+            
             _playersFinished++;
             CheckIfGameIsDone();
         }
 
-        public void OnReadyStateChanged(bool state)
+        public virtual void OnReadyStateChanged(bool state)
         {
             switch (state)  
             {

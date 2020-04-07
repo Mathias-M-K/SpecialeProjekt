@@ -1222,6 +1222,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2447744721626138543, guid: aabaa0a708637424da15fce32ed96655,
+        type: 3}
+      propertyPath: gameHandler
+      value: 
+      objectReference: {fileID: 5762466042623775691}
     - target: {fileID: 46903813754203339, guid: aabaa0a708637424da15fce32ed96655,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2652,7 +2657,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 15, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!1 &213654611
@@ -9295,14 +9300,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 955517552}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce172f5b782455348930f0e43cd5445e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequenceDelay: 0.4
-  agent1: {fileID: 0}
-  _mapManager: {fileID: 0}
 --- !u!4 &955517554
 Transform:
   m_ObjectHideFlags: 0
@@ -11436,12 +11438,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1215405103}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71607a064b0912c4d83fb56bc1f9f798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileNameStrategy: 1
+  fileNameStrategy: 0
   nrOfMoves: 0
 --- !u!4 &1215405105
 Transform:
@@ -11671,8 +11673,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 413, y: 0}
-  m_SizeDelta: {x: 786, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1248145399
 MonoBehaviour:
@@ -17054,7 +17056,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1080, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 826, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1753065833
@@ -20798,6 +20800,7 @@ GameObject:
   - component: {fileID: 6697057764461468487}
   - component: {fileID: 1794207712975168962}
   - component: {fileID: 5762466042623775690}
+  - component: {fileID: 5762466042623775691}
   m_Layer: 0
   m_Name: GameHandler
   m_TagString: Untagged
@@ -20824,7 +20827,25 @@ MonoBehaviour:
   playersAreExternallyControlled: 1
   playersCanPhase: 0
   endScreen: {fileID: 0}
-  localGameHandler: {fileID: 0}
+  localGameHandler: {fileID: 5762466042623775691}
+--- !u!114 &5762466042623775691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5762466042623775689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53e779480c1368c44ac29d2b86342ecc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 0}
+  numberOfPlayers: 0
+  delayBetweenMoves: 0
+  playersAreExternallyControlled: 1
+  playersCanPhase: 0
+  endScreen: {fileID: 0}
 --- !u!114 &5867046309639280535
 MonoBehaviour:
   m_ObjectHideFlags: 0

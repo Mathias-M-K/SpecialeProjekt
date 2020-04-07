@@ -54,7 +54,14 @@ namespace AdminGUI
             string key = button.name;
             if (key.Equals("ReadyBtn"))
             {
-                _playerController.Ready = !_playerController.Ready;
+                if (_playerController.Ready)
+                {
+                    _playerController.Ready = false;
+                }
+                else
+                {
+                    _playerController.Ready = true;
+                }
             }
             EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(null);
         }

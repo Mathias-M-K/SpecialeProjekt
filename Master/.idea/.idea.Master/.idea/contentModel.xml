@@ -690,6 +690,7 @@
             <e p="GameHandler.cs" t="Include" />
             <e p="GateController.cs" t="Include" />
             <e p="Interfaces" t="Include">
+              <e p="GameHandlerInterface.cs" t="Include" />
               <e p="IFinishPointObserver.cs" t="Include" />
               <e p="IInventoryObserver.cs" t="Include" />
               <e p="IReadyObserver.cs" t="Include" />
