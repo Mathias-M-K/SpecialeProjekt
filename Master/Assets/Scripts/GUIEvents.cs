@@ -35,7 +35,6 @@ namespace AdminGUI
         public void StartGame()
         {
             GameHandler.Current.StartGame();
-            GameHandler.Current.GetPlayerController(_currentChosenPlayerTag).AddReadyObserver(GameHandler.Current);
             if (OnGameStart != null) OnGameStart();
         }
 
@@ -47,6 +46,7 @@ namespace AdminGUI
         public void SetGameTag(PlayerTags playerTag)
         {
             _currentChosenPlayerTag = playerTag;
+            GameHandler.Current.GetPlayerController(_currentChosenPlayerTag).AddReadyObserver(GameHandler.Current);
         }
         
         /*
