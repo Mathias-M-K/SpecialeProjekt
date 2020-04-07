@@ -39,18 +39,16 @@ MonoBehaviour:
   - Fire
   - ReceiveMessage
   - RespawnSpaceship
+  - RPC_AddMoveToSequence
   - RPC_ElevatorEvent
+  - RPC_NewTrade
+  - RPC_OnReadyStateChanged
+  - RPC_PerformSequence
+  - RPC_RemoveMoveFromSequence
   - RPC_SetPlayerTag
-  - RPC_SpawnPlayer
+  - RPC_SpawnMaxPlayers
   - RPC_SpawnNewPlayer
   - RPC_StartGame
-  - RPC_SetMapData
-  - RPC_AddMoveToSequence
-  - RPC_NewTrade
-  - RPC_RemoveMoveFromSequence
-  - RPC_PerformSequence
-  - RPC_SpawnMaxPlayers
-  - RPC_OnReadyStateChanged
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

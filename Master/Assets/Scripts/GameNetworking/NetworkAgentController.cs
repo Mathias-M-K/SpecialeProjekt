@@ -20,9 +20,6 @@ namespace DefaultNamespace
         private void Start()
         {
             _photonView = GetComponent<PhotonView>();
-            
-            if (!_photonView.IsMine) return;
-            
             //Master task below this line
             GameHandler.Current.SetNetworkedAgent(this);
             GUIEvents.current.OnButtonHit += OnBtnHit;
@@ -135,6 +132,7 @@ namespace DefaultNamespace
         /// <returns></returns>
         public IEnumerator PerformSequence()
         {
+            Debug.Log("Calling remote sequences");
             photonView.RPC("RPC_PerformSequence",RpcTarget.Others);
             yield break;
         }
@@ -245,12 +243,28 @@ namespace DefaultNamespace
         
         public void OnReadyStateChanged(bool state)
         {
-            photonView.RPC("RPC_OnReadyStateChanged",RpcTarget.Others,state);
+            Debug.Log($"Contacting master with new state: {state}");
+            photonView.RPC("RPC_OnReadyStateChanged",RpcTarget.MasterClient,state);
         }
         [PunRPC]
         public void RPC_OnReadyStateChanged(bool state)
         {
+            Debug.Log($"New state received: {state}");
+            GameHandler.Current.OnReadyStateChanged(state);
             gameHandler.OnReadyStateChanged(state);
+        }
+        
+        
+        /*
+         * Other network related methods
+         */
+
+        public override void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            if (otherPlayer.NickName.Equals("Mr. Host"))
+            {
+                Application.Quit();
+            }
         }
     }
 }

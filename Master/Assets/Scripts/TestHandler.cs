@@ -16,7 +16,7 @@ public class TestHandler : MonoBehaviour
             List<PlayerController> tempList = GameHandler.Current.GetPlayers();
             foreach (PlayerController controller in GameHandler.Current.GetPlayers())
             {
-                controller.Ready = true;
+                controller.ready = true;
             }
         }
 

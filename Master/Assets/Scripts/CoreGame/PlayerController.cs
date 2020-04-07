@@ -35,7 +35,7 @@ namespace CoreGame
 
         //Other variables
         private bool _ready;
-        public bool Ready
+        public bool ready
         {
             get => _ready;
             set
@@ -289,7 +289,7 @@ namespace CoreGame
             Direction[] defaultMoves = {Direction.Up, Direction.Down, Direction.Left, Direction.Right};
             _moves = defaultMoves;
 
-            Ready = false;
+            ready = false;
 
             NotifyInventoryObservers();
         }
@@ -356,6 +356,7 @@ namespace CoreGame
         {
             foreach (IReadyObserver observer in _readyObservers)
             {
+                print($"Notifying {observer}");
                 observer.OnReadyStateChanged(_ready);
             }
         }

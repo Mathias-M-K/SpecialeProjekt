@@ -29,8 +29,8 @@ namespace CoreGame
         //Predefined game variables
         private readonly List<PlayerTags> _playerTags = new List<PlayerTags>(){PlayerTags.Red,PlayerTags.Blue,PlayerTags.Green,PlayerTags.Yellow};
         
-        private int _numberOfSpawnedPlayers;
-        private int _numberOfReadyPlayers;
+        public int numberOfSpawnedPlayers;
+        private protected int _numberOfReadyPlayers;
         private int _playersFinished;
 
         public bool isGameDone { get; private set; }
@@ -200,13 +200,14 @@ namespace CoreGame
         /// <returns></returns>
         public virtual IEnumerator PerformSequence()
         {
+            /*
             foreach (PlayerController player in _players)
             {
                 if (!player.Ready)
                 {
                     throw new Exception("All players are not ready!");
                 }
-            }
+            }*/
             
             //Notifying all sequence observers
             NotifySequenceObservers(SequenceActions.SequenceStarted, null);
@@ -290,7 +291,7 @@ namespace CoreGame
         /// </summary>
         public virtual void SpawnMaxPlayers()
         {
-            for (int i = _numberOfSpawnedPlayers; i < numberOfPlayers; i++)
+            for (int i = numberOfSpawnedPlayers; i < numberOfPlayers; i++)
             {
                 SpawnNewPlayer();
             }
@@ -321,7 +322,7 @@ namespace CoreGame
             AddPlayerController(p);
 
             p.AddReadyObserver(this);
-            _numberOfSpawnedPlayers++;
+            numberOfSpawnedPlayers++;
         }
 
         /// <summary>
@@ -347,7 +348,7 @@ namespace CoreGame
         /// </summary>
         private void CheckIfGameIsDone()
         {
-            if (_playersFinished >= _numberOfSpawnedPlayers)
+            if (_playersFinished >= numberOfSpawnedPlayers)
             {
                 isGameDone = true;
                 endScreen.OpenWindow();
@@ -439,6 +440,7 @@ namespace CoreGame
 
         public virtual void OnReadyStateChanged(bool state)
         {
+            print($"Local i ready observer called with state: {state}");
             switch (state)  
             {
                 case true:
@@ -449,8 +451,9 @@ namespace CoreGame
                     break;
             }
 
-            if (_numberOfReadyPlayers == _numberOfSpawnedPlayers)
+            if (_numberOfReadyPlayers == numberOfSpawnedPlayers)
             {
+                Debug.LogError("Performing sequence on local gamehandler");
                 StartCoroutine(PerformSequence());
             }
         }

@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class NetworkedGameHandler : GameHandler,IGameHandlerInterface
+    public class NetworkedGameHandler : GameHandler, IReadyObserver
     {
         public GameHandler localGameHandler;
 
@@ -158,7 +158,33 @@ namespace DefaultNamespace
          */
         public override void OnReadyStateChanged(bool state)
         {
-            MyNetworkedAgent.OnReadyStateChanged(state);
+            print($"Networked i ready observer called with state {state}");
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                switch (state)  
+                {
+                    case true:
+                        _numberOfReadyPlayers++;
+                        break;
+                    case false:
+                        _numberOfReadyPlayers--;
+                        break;
+                }
+                
+                if (_numberOfReadyPlayers == localGameHandler.numberOfSpawnedPlayers)
+                {
+                    print("Performing sequence on networked gamehandler");
+                    StartCoroutine(MyNetworkedAgent.PerformSequence());
+                    _numberOfReadyPlayers = 0;
+                }
+            }
+
+            if (!PhotonNetwork.IsMasterClient)
+            {
+                MyNetworkedAgent.OnReadyStateChanged(state);
+            }
+            
         }
     }
 }

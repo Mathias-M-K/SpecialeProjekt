@@ -39,7 +39,7 @@ namespace AdminGUI
             _playerController = GameHandler.Current.GetPlayerController(playerTags);
             _playerController.AddReadyObserver(this);
 
-            if (_playerController.Ready)
+            if (_playerController.ready)
             {
                 SetReady();
             }
@@ -54,13 +54,13 @@ namespace AdminGUI
             string key = button.name;
             if (key.Equals("ReadyBtn"))
             {
-                if (_playerController.Ready)
+                if (_playerController.ready)
                 {
-                    _playerController.Ready = false;
+                    _playerController.ready = false;
                 }
                 else
                 {
-                    _playerController.Ready = true;
+                    _playerController.ready = true;
                 }
             }
             EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(null);

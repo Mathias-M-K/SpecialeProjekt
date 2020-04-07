@@ -726,7 +726,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -1168,7 +1168,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -1294,6 +1294,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aabaa0a708637424da15fce32ed96655, type: 3}
+--- !u!114 &86368740 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -2447744721626138543, guid: aabaa0a708637424da15fce32ed96655,
+    type: 3}
+  m_PrefabInstance: {fileID: 86368739}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d6d49663fd65ab4b9e26145438967a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &90808817
 GameObject:
   m_ObjectHideFlags: 0
@@ -1732,7 +1744,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -2657,7 +2669,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 15, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!1 &213654611
@@ -2845,7 +2857,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -3605,7 +3617,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -3861,7 +3873,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -4611,7 +4623,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -5266,7 +5278,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -5394,7 +5406,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -6687,7 +6699,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -7381,7 +7393,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -8945,7 +8957,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -9073,7 +9085,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -11673,8 +11685,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 413, y: 0}
+  m_SizeDelta: {x: 786, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1248145399
 MonoBehaviour:
@@ -12357,7 +12369,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -13116,7 +13128,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -13245,7 +13257,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -13664,7 +13676,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -14656,7 +14668,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -15087,7 +15099,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -15689,7 +15701,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -16189,7 +16201,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -16970,7 +16982,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -17056,7 +17068,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1280, y: 0}
   m_SizeDelta: {x: 826, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1753065833
@@ -17285,7 +17297,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -17603,7 +17615,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -19137,7 +19149,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -19433,7 +19445,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -20178,7 +20190,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -20394,7 +20406,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1063202079}
         m_MethodName: BtnHit
         m_Mode: 2
         m_Arguments:
@@ -20820,6 +20832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d3f1c953199409b8915b69c65f9e9e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyNetworkedAgent: {fileID: 86368740}
   playerPrefab: {fileID: 149702325251908316, guid: 3e22c98172b415e47a06f76c06edd850,
     type: 3}
   numberOfPlayers: 4
@@ -20840,6 +20853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e779480c1368c44ac29d2b86342ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyNetworkedAgent: {fileID: 0}
   playerPrefab: {fileID: 0}
   numberOfPlayers: 0
   delayBetweenMoves: 0
