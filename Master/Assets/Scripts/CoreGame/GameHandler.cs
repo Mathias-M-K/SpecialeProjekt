@@ -450,6 +450,15 @@ namespace CoreGame
                     _numberOfReadyPlayers--;
                     break;
             }
+            
+            /*
+             * This is a stupid network fix. Basically, all client will report back to
+             * the master and say they are not ready. At the same time, the master itself will also set
+             * players to not be ready. The result is that the master thinks that -4 players are ready
+             * after a sequence have been played, which should be 0.
+             */
+
+            if (_numberOfReadyPlayers < 0) _numberOfReadyPlayers = 0;
 
             if (_numberOfReadyPlayers == numberOfSpawnedPlayers)
             {
