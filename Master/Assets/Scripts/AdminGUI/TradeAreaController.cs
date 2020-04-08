@@ -102,6 +102,9 @@ namespace AdminGUI
                 case TradeActions.TradeCanceled:
                     playerTrade.CancelTrade(_playerController.playerTags);
                     break;
+                case TradeActions.TradeCanceledByGameHandler:
+                    playerTrade.CancelTrade(GameHandler.Current);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(action), action, null);
             }
