@@ -27,6 +27,8 @@ namespace DefaultNamespace
             localGameHandler.playersAreExternallyControlled = playersAreExternallyControlled;
             localGameHandler.playersCanPhase = playersCanPhase;
             localGameHandler.endScreen = endScreen;
+            
+            localGameHandler.AddTradeObserver(this);
         }
         
         
@@ -78,7 +80,6 @@ namespace DefaultNamespace
          */
         public override void NewTrade(Direction direction, int directionIndex, PlayerTags playerTagsReceiving, PlayerTags playerTagsOffering, int tradeId)
         {
-            localGameHandler.AddTradeObserver(this);
             MyNetworkedAgent.NewTrade(direction, directionIndex, playerTagsReceiving, playerTagsOffering, tradeId);
             localGameHandler.NewTrade(direction, directionIndex, playerTagsReceiving, playerTagsOffering,tradeId);
         }

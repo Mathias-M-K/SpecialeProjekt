@@ -281,11 +281,11 @@ namespace DefaultNamespace
              * which will contact all players with the new change, which will do the exact same. Basically it will just
              * loop forever. This if statement prevents that
              */
-            if (_processingNewTradeAction)
+            /*if (_processingNewTradeAction)
             {
                 _processingNewTradeAction = false;
                 return;
-            }
+            }*/
             
             photonView.RPC("RPC_OnNewTradeActivity",RpcTarget.Others,trade.TradeID,tradeAction,trade.OfferingPlayerTags,trade.ReceivingPlayerTags,trade.DirectionCounterOffer);
         }
@@ -293,7 +293,7 @@ namespace DefaultNamespace
         public void RPC_OnNewTradeActivity(int tradeId,TradeActions tradeAction,PlayerTags offeringPlayer, PlayerTags receivingPlayer, Direction counterMove)
         {
             print($"Received: {tradeId}, {tradeAction}, {offeringPlayer}, {receivingPlayer}, {counterMove}");
-            _processingNewTradeAction = true;
+            //_processingNewTradeAction = true;
         }
         
         /*
