@@ -83,12 +83,13 @@ namespace Container
         private void CancelTrade()
         {
             PlayerController offeringPlayer = _gameHandler.GetPlayerController(OfferingPlayerTags);
-            PlayerController rejectingPlayer = GameHandler.Current.GetPlayerController(ReceivingPlayerTags);
+            PlayerController rejectingPlayer = _gameHandler.GetPlayerController(ReceivingPlayerTags);
             
             offeringPlayer.AddMove(DirectionOffer, _storedMoveIndex);
 
             offeringPlayer.RemoveOutgoingTrade(this);
             rejectingPlayer.RemoveIncomingTrade(this);
+            _gameHandler.trades.Remove(this);
         }
 
         public void CancelTrade(PlayerTags cancellingPlayerTags)

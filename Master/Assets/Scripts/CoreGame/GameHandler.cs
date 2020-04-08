@@ -238,7 +238,8 @@ namespace CoreGame
                 yield return new WaitForSeconds(delayBetweenMoves);
             }
 
-            foreach (PlayerTrade trade in trades)
+            List<PlayerTrade> tempTrades = new List<PlayerTrade>(trades);
+            foreach (PlayerTrade trade in tempTrades)
             {
                 trade.CancelTrade(this);
             }
@@ -472,7 +473,7 @@ namespace CoreGame
 
             if (_numberOfReadyPlayers == numberOfSpawnedPlayers)
             {
-                Debug.LogError("Performing sequence on local gamehandler");
+                Debug.Log("Performing sequence on local gamehandler");
                 StartCoroutine(PerformSequence());
             }
         }
