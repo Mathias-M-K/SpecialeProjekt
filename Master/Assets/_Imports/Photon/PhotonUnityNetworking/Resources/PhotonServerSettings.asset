@@ -49,6 +49,7 @@ MonoBehaviour:
   - RPC_SpawnMaxPlayers
   - RPC_SpawnNewPlayer
   - RPC_StartGame
+  - RPC_OnNewTradeActivity
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

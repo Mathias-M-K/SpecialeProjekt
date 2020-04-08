@@ -8,6 +8,7 @@ using CoreGame.Strategies.PlayerFinishImplementations;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 namespace CoreGame
 {
@@ -141,13 +142,14 @@ namespace CoreGame
             //Checking that the move is in inventory
             if (GetIndexForDirection(direction) == -1)
                 throw new ArgumentException($"the move {direction} is not in inventory");
-
+            
             if (direction == Direction.Blank) throw new ArgumentException("You can't trade a blank move");
 
             //Checking that the player is not trying to trade to himself
             if (receivingPlayerTags == playerTags) throw new ArgumentException($"{playerTags} is trying to trade to himself");
 
-            GameHandler.Current.NewTrade(direction, GetIndexForDirection(direction), receivingPlayerTags, playerTags);
+            int tradeId = Random.Range(1, 10000);
+            GameHandler.Current.NewTrade(direction, GetIndexForDirection(direction), receivingPlayerTags, playerTags,tradeId);
             RemoveMove(GetIndexForDirection(direction));
         }
 

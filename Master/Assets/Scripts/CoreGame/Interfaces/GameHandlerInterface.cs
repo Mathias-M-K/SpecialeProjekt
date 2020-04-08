@@ -8,7 +8,6 @@ using UnityEngine;
 namespace CoreGame.Interfaces
 {
     public interface IGameHandlerInterface
-
     {
     /// <summary>
     /// starts game
@@ -42,15 +41,18 @@ namespace CoreGame.Interfaces
     /// <param name="directionIndex"></param>
     /// <param name="playerTagsReceiving"></param>
     /// <param name="playerTagsOffering"></param>
-    void NewTrade(Direction direction, int directionIndex, PlayerTags playerTagsReceiving,
-        PlayerTags playerTagsOffering);
+    /// <param name="tradeId"></param>
+    void NewTrade(Direction direction, int directionIndex, PlayerTags playerTagsReceiving, PlayerTags playerTagsOffering, int tradeId);
 
+    /// <summary>
+    /// Returns all current playerTrades
+    /// </summary>
+    /// <returns></returns>
+    List<PlayerTrade> GetTrades();
+    
     /// <summary>
     /// Adds a move to the common sequence
     /// </summary>
-    /// <param name="p - playerTag"></param>
-    /// <param name="d - direction"></param>
-    /// <param name="index - index of move"></param>
     void AddMoveToSequence(PlayerTags p, Direction d, int index);
 
     /// <summary>

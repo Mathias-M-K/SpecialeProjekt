@@ -130,7 +130,8 @@ namespace CoreGame
         /// <param name="directionIndex"></param>
         /// <param name="playerTagsReceiving"></param>
         /// <param name="playerTagsOffering"></param>
-        public virtual void NewTrade(Direction direction, int directionIndex, PlayerTags playerTagsReceiving, PlayerTags playerTagsOffering)
+        /// <param name="tradeId"></param>
+        public virtual void NewTrade(Direction direction, int directionIndex, PlayerTags playerTagsReceiving, PlayerTags playerTagsOffering, int tradeId)
         {
             PlayerController playerReceivingController = GetPlayerController(playerTagsReceiving);
             PlayerController playerOfferingController = GetPlayerController(playerTagsOffering);
@@ -143,7 +144,7 @@ namespace CoreGame
             combinedObserverList.AddRange(offeringObservers);
             combinedObserverList.AddRange(receivingObservers);
 
-            PlayerTrade trade = new PlayerTrade(playerTagsOffering, playerTagsReceiving, direction, this, directionIndex, combinedObserverList);
+            PlayerTrade trade = new PlayerTrade(playerTagsOffering, playerTagsReceiving, direction, this, directionIndex, combinedObserverList,tradeId);
 
             trades.Add(trade);
 
@@ -151,6 +152,15 @@ namespace CoreGame
             playerOfferingController.AddOutgoingTrade(trade);
 
             trade.NotifyObservers(TradeActions.TradeOffered);
+        }
+
+        /// <summary>
+        /// Returns all current playerTrades
+        /// </summary>
+        /// <returns></returns>
+        public virtual List<PlayerTrade> GetTrades()
+        {
+            return trades;
         }
 
         /// <summary>

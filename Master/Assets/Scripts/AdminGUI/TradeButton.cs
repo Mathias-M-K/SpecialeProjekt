@@ -6,13 +6,13 @@ namespace AdminGUI
 {
     public class TradeButton : _PrimeButton
     {
-        [Range(0, 5)] public float PlayerPaletteAnimationSpeed;
+        [Range(0, 5)] public float playerPaletteAnimationSpeed;
         
         [Header("TradeBtn Settings")]
-        public GameObject PlayerPalette;
+        public GameObject playerPalette;
         
-        private bool playerPaletteActive;
-        private Direction activeDirection;
+        private bool _playerPaletteActive;
+        private Direction _activeDirection;
         private PlayerTags[] colorOrder = new PlayerTags[3];
 
         protected override void Start()
@@ -34,7 +34,7 @@ namespace AdminGUI
                 }
                 else
                 {
-                    if (playerPaletteActive)
+                    if (_playerPaletteActive)
                     {
                         SetPlayerPaletteInactive();
                     }
@@ -48,19 +48,19 @@ namespace AdminGUI
                 if (arrowsActive)
                 {
                     int.TryParse(key.Substring(5, key.Length - 5), out int indexFetchValue);
-                    activeDirection = _playerController.GetMoves()[indexFetchValue];
+                    _activeDirection = _playerController.GetMoves()[indexFetchValue];
                     
-                    if (!playerPaletteActive)
+                    if (!_playerPaletteActive)
                     {
                         SetPlayerPaletteActive();
                     }
                 }
             }else if(key.Substring(0, 5).Equals("Color"))
             {
-                if (playerPaletteActive)
+                if (_playerPaletteActive)
                 {
                     int.TryParse(key.Substring(5, key.Length - 5), out int indexFetchValue);
-                    _playerController.CreateTrade(activeDirection,colorOrder[indexFetchValue]);
+                    _playerController.CreateTrade(_activeDirection,colorOrder[indexFetchValue]);
                     _playerController.NotifyInventoryObservers();
                     SetPlayerPaletteInactive();
                 }
@@ -82,7 +82,7 @@ namespace AdminGUI
             {
                 if (controller == _playerController) continue;
 
-                Image img = PlayerPalette.transform.GetChild(i).GetComponent<Image>();
+                Image img = playerPalette.transform.GetChild(i).GetComponent<Image>();
 
                 img.color = ColorPalette.current.GetPlayerColor(controller.playerTags);
 
@@ -93,14 +93,14 @@ namespace AdminGUI
 
         private void SetPlayerPaletteActive()
         {
-            LeanTween.moveLocalY(PlayerPalette, 0, PlayerPaletteAnimationSpeed);
-            playerPaletteActive = true;
+            LeanTween.moveLocalY(playerPalette, 0, playerPaletteAnimationSpeed);
+            _playerPaletteActive = true;
         }
 
         private void SetPlayerPaletteInactive()
         {
-            LeanTween.moveLocalY(PlayerPalette, 80, PlayerPaletteAnimationSpeed).setOnComplete(SetArrowsInactive);
-            playerPaletteActive = false;
+            LeanTween.moveLocalY(playerPalette, 80, playerPaletteAnimationSpeed).setOnComplete(SetArrowsInactive);
+            _playerPaletteActive = false;
         }
         
         

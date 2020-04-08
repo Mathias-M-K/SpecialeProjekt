@@ -23,9 +23,9 @@ namespace Container
 
         private readonly GameHandler _gameHandler;
 
-        public PlayerTrade(PlayerTags offeringPlayerTags, PlayerTags receivingPlayerTags, Direction directionOffer, GameHandler gameHandler, int storedMoveIndex,List<ITradeObserver> observers)
+        public PlayerTrade(PlayerTags offeringPlayerTags, PlayerTags receivingPlayerTags, Direction directionOffer, GameHandler gameHandler, int storedMoveIndex,List<ITradeObserver> observers, int tradeId)
         {
-            TradeID = Random.Range(0, 10000);
+            TradeID = tradeId;
             OfferingPlayerTags = offeringPlayerTags;
             DirectionOffer = directionOffer;
             _gameHandler = gameHandler;

@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class NetworkedGameHandler : GameHandler, IReadyObserver
+    public class NetworkedGameHandler : GameHandler, ITradeObserver
     {
         public GameHandler localGameHandler;
 
@@ -29,7 +29,17 @@ namespace DefaultNamespace
             localGameHandler.endScreen = endScreen;
         }
         
-
+        
+        /*
+         * Class specific methods
+         */
+        public void OnNewTradeActivity(PlayerTrade playerTrade, TradeActions tradeAction)
+        {
+            print("Networked game handler: OnNewTradeActivity()");
+            if (tradeAction == TradeActions.TradeOffered) return;
+            
+            MyNetworkedAgent.OnNewTradeActivity(playerTrade,tradeAction);
+        }
         public override void SetNetworkedAgent(NetworkAgentController netController)
         {
             MyNetworkedAgent = netController;
@@ -66,11 +76,26 @@ namespace DefaultNamespace
         /*
          * Networked
          */
-        public override void NewTrade(Direction direction, int directionIndex, PlayerTags playerTagsReceiving, PlayerTags playerTagsOffering)
+        public override void NewTrade(Direction direction, int directionIndex, PlayerTags playerTagsReceiving, PlayerTags playerTagsOffering, int tradeId)
         {
-            MyNetworkedAgent.NewTrade(direction, directionIndex, playerTagsReceiving, playerTagsOffering);
-            localGameHandler.NewTrade(direction, directionIndex, playerTagsReceiving, playerTagsOffering);
+            localGameHandler.AddTradeObserver(this);
+            MyNetworkedAgent.NewTrade(direction, directionIndex, playerTagsReceiving, playerTagsOffering, tradeId);
+            localGameHandler.NewTrade(direction, directionIndex, playerTagsReceiving, playerTagsOffering,tradeId);
         }
+        
+        
+        /*
+         * Not Networked
+         */
+        public override List<PlayerTrade> GetTrades()
+        {
+            return localGameHandler.GetTrades();
+        }
+        
+        
+        /*
+         * Networked
+         */
         public override void AddMoveToSequence(PlayerTags p, Direction d, int index)
         {
             MyNetworkedAgent.AddMoveToSequence(p, d, index);
@@ -193,5 +218,8 @@ namespace DefaultNamespace
             }
             
         }
+
+        
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using AdminGUI;
 using Container;
@@ -16,6 +17,8 @@ namespace DefaultNamespace
         private PhotonView _photonView;
         private PlayerTags _playerTag;
         public GameHandler gameHandler;
+
+        private bool _processingNewTradeAction;
 
         private void Start()
         {
@@ -83,14 +86,24 @@ namespace DefaultNamespace
         /// <param name="directionIndex"></param>
         /// <param name="playerTagsReceiving"></param>
         /// <param name="playerTagsOffering"></param>
-        public void NewTrade(Direction direction, int directionIndex, PlayerTags playerTagsReceiving, PlayerTags playerTagsOffering)
+        /// <param name="tradeId"></param>
+        public void NewTrade(Direction direction, int directionIndex, PlayerTags playerTagsReceiving, PlayerTags playerTagsOffering, int tradeId)
         {
-            photonView.RPC("RPC_NewTrade",RpcTarget.Others,direction,directionIndex,playerTagsReceiving,playerTagsOffering);
+            photonView.RPC("RPC_NewTrade",RpcTarget.Others,direction,directionIndex,playerTagsReceiving,playerTagsOffering,tradeId);
         }
         [PunRPC]
-        public void RPC_NewTrade(Direction direction, int directionIndex, PlayerTags playerTagsReceiving, PlayerTags playerTagsOffering)
+        public void RPC_NewTrade(Direction direction, int directionIndex, PlayerTags playerTagsReceiving, PlayerTags playerTagsOffering, int tradeId)
         {
-            gameHandler.NewTrade(direction,directionIndex,playerTagsReceiving,playerTagsOffering);
+            gameHandler.NewTrade(direction,directionIndex,playerTagsReceiving,playerTagsOffering,tradeId);
+        }
+        
+        
+        /*
+         * Not Implemented
+         */
+        public List<PlayerTrade> GetTrades()
+        {
+            throw new NotImplementedException();
         }
         
         
@@ -253,7 +266,35 @@ namespace DefaultNamespace
             GameHandler.Current.OnReadyStateChanged(state);
             gameHandler.OnReadyStateChanged(state);
         }
+
         
+        /// <summary>
+        /// Communicating new trade updates to all
+        /// </summary>
+        /// <param name="trade"></param>
+        /// <param name="tradeAction"></param>
+        public void OnNewTradeActivity(PlayerTrade trade, TradeActions tradeAction)
+        {
+            /*
+             * When i contact the agent and tell it there is a change in one of the trades
+             * it will find the trade and apply the change. This will in turn notify the local networkgamehandler,
+             * which will contact all players with the new change, which will do the exact same. Basically it will just
+             * loop forever. This if statement prevents that
+             */
+            if (_processingNewTradeAction)
+            {
+                _processingNewTradeAction = false;
+                return;
+            }
+            
+            photonView.RPC("RPC_OnNewTradeActivity",RpcTarget.Others,trade.TradeID,tradeAction,trade.OfferingPlayerTags,trade.ReceivingPlayerTags,trade.DirectionCounterOffer);
+        }
+        [PunRPC]
+        public void RPC_OnNewTradeActivity(int tradeId,TradeActions tradeAction,PlayerTags offeringPlayer, PlayerTags receivingPlayer, Direction counterMove)
+        {
+            print($"Received: {tradeId}, {tradeAction}, {offeringPlayer}, {receivingPlayer}, {counterMove}");
+            _processingNewTradeAction = true;
+        }
         
         /*
          * Other network related methods
