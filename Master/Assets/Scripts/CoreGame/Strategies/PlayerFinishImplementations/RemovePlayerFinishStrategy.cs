@@ -19,7 +19,7 @@ namespace CoreGame.Strategies.Implementations.PlayerFinishImplementations
             List<PlayerTrade> outgoingTradesTemp = new List<PlayerTrade>(playerController.outgoingTradeOffers);
             foreach (PlayerTrade trade in outgoingTradesTemp)
             {
-                trade.CancelTrade(playerController.playerTags);
+                trade.CancelTrade(playerController.playerTag);
             }
 
             List<StoredPlayerMove> moves = new List<StoredPlayerMove>(GameHandler.Current.GetSequence());
@@ -33,7 +33,7 @@ namespace CoreGame.Strategies.Implementations.PlayerFinishImplementations
             //Removing all moves from the common sequence
             foreach (StoredPlayerMove move in moves)
             {
-                if (move.PlayerTags == playerController.playerTags)
+                if (move.PlayerTags == playerController.playerTag)
                 {
                     GameHandler.Current.RemoveMoveFromSequence(move);
                 }

@@ -42,6 +42,7 @@ MonoBehaviour:
   - RPC_AddMoveToSequence
   - RPC_ElevatorEvent
   - RPC_NewTrade
+  - RPC_OnNewTradeActivity
   - RPC_OnReadyStateChanged
   - RPC_PerformSequence
   - RPC_RemoveMoveFromSequence
@@ -49,7 +50,6 @@ MonoBehaviour:
   - RPC_SpawnMaxPlayers
   - RPC_SpawnNewPlayer
   - RPC_StartGame
-  - RPC_OnNewTradeActivity
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

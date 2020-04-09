@@ -2205,7 +2205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomController: {fileID: 2092960566}
   playerList: {fileID: 2008558020}
-  playerNameElement: {fileID: 8454244781435138364, guid: ab1e5f0a257db9f41b30c966fc7f3490,
+  playerNameElement: {fileID: 5918205172179958782, guid: ab1e5f0a257db9f41b30c966fc7f3490,
     type: 3}
 --- !u!1 &732164454
 GameObject:
@@ -3143,7 +3143,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -162}
+  m_AnchoredPosition: {x: 0, y: -189}
   m_SizeDelta: {x: 262.1, y: 55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1090004311
@@ -4335,7 +4335,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -162}
+  m_AnchoredPosition: {x: 0, y: -189}
   m_SizeDelta: {x: 262.1, y: 55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1636861678
@@ -5070,8 +5070,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 89}
-  m_SizeDelta: {x: 262.1, y: 397.7}
+  m_AnchoredPosition: {x: 0, y: 70.4}
+  m_SizeDelta: {x: 262.1, y: 434.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2008558022
 MonoBehaviour:
@@ -5124,10 +5124,10 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 10
+    m_Top: 3
     m_Bottom: 0
   m_ChildAlignment: 1
-  m_Spacing: 10
+  m_Spacing: 2.9
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0

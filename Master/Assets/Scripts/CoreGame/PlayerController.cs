@@ -14,7 +14,7 @@ namespace CoreGame
 {
     public class PlayerController : MonoBehaviour
     {
-        public PlayerTags playerTags;
+        public PlayerTags playerTag;
         [Space] public NavMeshAgent agent;
         [Header("Settings")] public bool enableMouseMovement;
         [Header("Strategies")] public PlayerFinishStrategyEnum playerFinishStrategy;
@@ -83,7 +83,7 @@ namespace CoreGame
         //Telling game handler that the position is occupied
         private void AnnouncePosition(Vector2 position)
         {
-            GameHandler.Current.RegisterPosition(playerTags, position);
+            GameHandler.Current.RegisterPosition(playerTag, position);
         }
 
         public Vector2 GetPosition()
@@ -146,10 +146,10 @@ namespace CoreGame
             if (direction == Direction.Blank) throw new ArgumentException("You can't trade a blank move");
 
             //Checking that the player is not trying to trade to himself
-            if (receivingPlayerTags == playerTags) throw new ArgumentException($"{playerTags} is trying to trade to himself");
+            if (receivingPlayerTags == playerTag) throw new ArgumentException($"{playerTag} is trying to trade to himself");
 
             int tradeId = Random.Range(1, 10000);
-            GameHandler.Current.NewTrade(direction, GetIndexForDirection(direction), receivingPlayerTags, playerTags,tradeId);
+            GameHandler.Current.NewTrade(direction, GetIndexForDirection(direction), receivingPlayerTags, playerTag,tradeId);
             RemoveMove(GetIndexForDirection(direction));
         }
 
@@ -253,7 +253,7 @@ namespace CoreGame
 
             if (!GameHandler.Current.playersCanPhase && GameHandler.Current.IsPositionOccupied(new Vector2(newGridPos.x,newGridPos.z)))
             {
-                throw new InvalidOperationException($"{playerTags} is trying to phase though another player, while phaseAllowed is {GameHandler.Current.playersCanPhase}");
+                throw new InvalidOperationException($"{playerTag} is trying to phase though another player, while phaseAllowed is {GameHandler.Current.playersCanPhase}");
             }
 
             AnnouncePosition(new Vector2(newGridPos.x,newGridPos.z));
@@ -298,7 +298,7 @@ namespace CoreGame
 
         public void SetPlayer(PlayerTags newPlayerTagsTag)
         {
-            playerTags = newPlayerTagsTag;
+            playerTag = newPlayerTagsTag;
             GetComponent<Renderer>().material.color = ColorPalette.current.GetPlayerColor(newPlayerTagsTag);
         }
 
@@ -403,6 +403,18 @@ namespace CoreGame
         Blue,
         Green,
         Yellow,
+        Black,
+        Sand,
+        Pink,
+        Gray,
+        Orange,
+        Purple,
+        DarkGreen,
+        LightBlue,
+        White,
+        Turquoise,
+        NavyBlue,
+        LightGreen,
         Blank
     }
 

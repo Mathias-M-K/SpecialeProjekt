@@ -37,7 +37,7 @@ public class BlockHandler : MonoBehaviour, ITradeObserver, IInventoryObserver
             }
 
 
-            PlayerTags p = _playerController.playerTags;
+            PlayerTags p = _playerController.playerTag;
             
             Block _block = new Block(input, state, p);
             listOfBlock.Add(_block);
@@ -115,7 +115,7 @@ public class BlockHandler : MonoBehaviour, ITradeObserver, IInventoryObserver
 
     public void OnMoveInventoryChange(Direction[] directions)
     {
-        print($"{GetComponent<PlayerController>().playerTags} got updated");
+        print($"{GetComponent<PlayerController>().playerTag} got updated");
 
         
         

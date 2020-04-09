@@ -14,8 +14,8 @@ namespace AdminGUI
             {
                 Button b = t.GetComponent<Button>();
                 ColorBlock cb = b.colors;
-                cb.selectedColor = ColorPalette.current.GetPlayerColor(_player.playerTags);
-                cb.highlightedColor = ColorPalette.current.GetPlayerColor(_player.playerTags);
+                cb.selectedColor = ColorPalette.current.GetPlayerColor(_player.playerTag);
+                cb.highlightedColor = ColorPalette.current.GetPlayerColor(_player.playerTag);
 
                 b.colors = cb;
             }

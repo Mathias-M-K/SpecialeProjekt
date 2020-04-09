@@ -23,12 +23,20 @@ namespace CoreGame
         private readonly List<StoredPlayerMove> _sequenceMoves = new List<StoredPlayerMove>();
         private readonly List<PlayerController> _players = new List<PlayerController>();
         private readonly Dictionary<PlayerTags,Vector2> _occupiedPositions = new Dictionary<PlayerTags, Vector2>();
-        private readonly List<PhotonView> _networkedPlayers = new List<PhotonView>();
+        //private readonly List<PhotonView> _networkedPlayers = new List<PhotonView>();
         public List<PlayerTrade> trades = new List<PlayerTrade>();
         
         //Predefined game variables
-        private readonly List<PlayerTags> _playerTags = new List<PlayerTags>(){PlayerTags.Red,PlayerTags.Blue,PlayerTags.Green,PlayerTags.Yellow};
-        
+        private readonly List<PlayerTags> _playerTags = new List<PlayerTags>();
+
+        private void Start()
+        {
+            foreach(PlayerTags playerTag in Enum.GetValues(typeof(PlayerTags)))
+            {
+                _playerTags.Add(playerTag);
+            }
+        }
+
         public int numberOfSpawnedPlayers;
         private protected int _numberOfReadyPlayers;
         private int _playersFinished;
@@ -51,8 +59,8 @@ namespace CoreGame
         public GameObject playerPrefab;
         
         [Space] [Header("Game Settings")] 
-        [Range(1, 6)] public int numberOfPlayers;
-        [Range(1,10)] public float delayBetweenMoves;
+        [Range(1, 16)] public int numberOfPlayers;
+        [Range(0,10)] public float delayBetweenMoves;
         public bool playersAreExternallyControlled = true;
         
         [Space] [Header("Player Abilities")] 
@@ -263,7 +271,7 @@ namespace CoreGame
         {
             foreach (var playerController in _players)
             {
-                if (playerController.playerTags == p)
+                if (playerController.playerTag == p)
                 {
                     return playerController;
                 }

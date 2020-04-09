@@ -19,7 +19,7 @@ namespace CoreGame
         {
             PlayerController playerController = other.GetComponent<PlayerController>();
 
-            if (playerController.playerTags == owner)
+            if (playerController.playerTag == owner)
             {
                 gate.Open();
             }
@@ -31,7 +31,7 @@ namespace CoreGame
             
             PlayerController playerController = other.GetComponent<PlayerController>();
 
-            if (playerController.playerTags == owner)
+            if (playerController.playerTag == owner)
             {
                 gate.Close();
             }

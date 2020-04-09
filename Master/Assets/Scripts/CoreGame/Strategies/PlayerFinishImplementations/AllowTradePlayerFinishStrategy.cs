@@ -13,7 +13,7 @@ namespace CoreGame.Strategies.PlayerFinishImplementations
             //Removing all moves from the common sequence
             foreach (StoredPlayerMove move in moves)
             {
-                if (move.PlayerTags == playerController.playerTags)
+                if (move.PlayerTags == playerController.playerTag)
                 {
                     GameHandler.Current.RemoveMoveFromSequence(move);
                 }

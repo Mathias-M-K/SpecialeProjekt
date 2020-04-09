@@ -36,11 +36,11 @@ namespace Container
 
         public void AcceptTrade(Direction counteroffer, PlayerController acceptingPlayer)
         {
-            if (acceptingPlayer.playerTags != ReceivingPlayerTags)
-                throw new Exception($"Offer was not for {acceptingPlayer.playerTags}");
+            if (acceptingPlayer.playerTag != ReceivingPlayerTags)
+                throw new Exception($"Offer was not for {acceptingPlayer.playerTag}");
             
             if (acceptingPlayer.GetIndexForDirection(counteroffer) == -1)
-                throw new ArgumentException($"{acceptingPlayer.playerTags} does not posses the move {counteroffer}");
+                throw new ArgumentException($"{acceptingPlayer.playerTag} does not posses the move {counteroffer}");
 
             if (counteroffer == Direction.Blank) 
                 throw new ArgumentException("Can't use blank to trade with");
@@ -61,9 +61,9 @@ namespace Container
 
         public void RejectTrade(PlayerController rejectingPlayer)
         {
-            if (rejectingPlayer.playerTags != ReceivingPlayerTags)
+            if (rejectingPlayer.playerTag != ReceivingPlayerTags)
             {
-                throw new Exception($"Offer was not for {rejectingPlayer.playerTags}");
+                throw new Exception($"Offer was not for {rejectingPlayer.playerTag}");
             }
 
             PlayerController offeringPlayerController = _gameHandler.GetPlayerController(OfferingPlayerTags);

@@ -100,7 +100,7 @@ namespace AdminGUI
                     playerTrade.AcceptTrade(counterOffer,_playerController);
                     break;
                 case TradeActions.TradeCanceled:
-                    playerTrade.CancelTrade(_playerController.playerTags);
+                    playerTrade.CancelTrade(_playerController.playerTag);
                     break;
                 case TradeActions.TradeCanceledByGameHandler:
                     playerTrade.CancelTrade(GameHandler.Current);
@@ -353,7 +353,7 @@ namespace AdminGUI
 
         public void OnNewTradeActivity(PlayerTrade playerTrade, TradeActions tradeAction)
         {
-            if (playerTrade.ReceivingPlayerTags == _playerController.playerTags)
+            if (playerTrade.ReceivingPlayerTags == _playerController.playerTag)
             {
                 switch (tradeAction)
                 {
@@ -366,7 +366,7 @@ namespace AdminGUI
                 }
             }
 
-            if (playerTrade.OfferingPlayerTags == _playerController.playerTags)    
+            if (playerTrade.OfferingPlayerTags == _playerController.playerTag)    
             {
                 switch (tradeAction)
                 {
