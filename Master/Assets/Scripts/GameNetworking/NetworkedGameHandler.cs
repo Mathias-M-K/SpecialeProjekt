@@ -37,7 +37,6 @@ namespace DefaultNamespace
          */
         public void OnNewTradeActivity(PlayerTrade playerTrade, TradeActions tradeAction)
         {
-            print("Networked game handler: OnNewTradeActivity()");
             if (tradeAction == TradeActions.TradeOffered) return;
             
             MyNetworkedAgent.OnNewTradeActivity(playerTrade,tradeAction);
@@ -104,7 +103,7 @@ namespace DefaultNamespace
         }
         public override void RemoveMoveFromSequence(StoredPlayerMove move)
         {
-            MyNetworkedAgent.RemoveMoveFromSequence(move);
+            //MyNetworkedAgent.RemoveMoveFromSequence(move);
             localGameHandler.RemoveMoveFromSequence(move);
         }
         public override IEnumerator PerformSequence()
@@ -184,7 +183,6 @@ namespace DefaultNamespace
          */
         public override void OnReadyStateChanged(bool state)
         {
-            print($"Networked i ready observer called with state {state}");
 
             if (PhotonNetwork.IsMasterClient)
             {

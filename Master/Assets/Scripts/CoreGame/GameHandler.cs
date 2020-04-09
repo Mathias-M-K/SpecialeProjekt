@@ -222,6 +222,7 @@ namespace CoreGame
             //Notifying all sequence observers
             NotifySequenceObservers(SequenceActions.SequenceStarted, null);
             
+            List<StoredPlayerMove> tempSequence = new List<StoredPlayerMove>(_sequenceMoves);
             foreach (StoredPlayerMove pm in _sequenceMoves)
             {
                 PlayerController playerController = GetPlayerController(pm.PlayerTags);
@@ -451,7 +452,6 @@ namespace CoreGame
 
         public virtual void OnReadyStateChanged(bool state)
         {
-            print($"Local i ready observer called with state: {state}");
             switch (state)  
             {
                 case true:

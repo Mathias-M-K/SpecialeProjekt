@@ -358,7 +358,6 @@ namespace CoreGame
         {
             foreach (IReadyObserver observer in _readyObservers)
             {
-                print($"Notifying {observer}");
                 observer.OnReadyStateChanged(_ready);
             }
         }

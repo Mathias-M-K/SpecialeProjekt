@@ -281,11 +281,11 @@ namespace DefaultNamespace
              * which will contact all players with the new change, which will do the exact same. Basically it will just
              * loop forever. This if statement prevents that
              */
-            /*if (_processingNewTradeAction)
+            if (_processingNewTradeAction)
             {
                 _processingNewTradeAction = false;
                 return;
-            }*/
+            }
             
             photonView.RPC("RPC_OnNewTradeActivity",RpcTarget.Others,trade.TradeID,tradeAction,trade.OfferingPlayerTags,trade.ReceivingPlayerTags,trade.DirectionCounterOffer);
         }
@@ -293,7 +293,36 @@ namespace DefaultNamespace
         public void RPC_OnNewTradeActivity(int tradeId,TradeActions tradeAction,PlayerTags offeringPlayer, PlayerTags receivingPlayer, Direction counterMove)
         {
             print($"Received: {tradeId}, {tradeAction}, {offeringPlayer}, {receivingPlayer}, {counterMove}");
-            //_processingNewTradeAction = true;
+            _processingNewTradeAction = true;
+
+            foreach (PlayerTrade trade in gameHandler.GetTrades())
+            {
+                if (trade.TradeID == tradeId)
+                {
+                    switch (tradeAction)
+                    {
+                        case TradeActions.TradeOffered:
+                            //Will not happen
+                            break;
+                        case TradeActions.TradeRejected:
+                            trade.RejectTrade(gameHandler.GetPlayerController(receivingPlayer));
+                            break;
+                        case TradeActions.TradeAccepted:
+                            trade.AcceptTrade(counterMove,gameHandler.GetPlayerController(receivingPlayer));
+                            break;
+                        case TradeActions.TradeCanceled:
+                            trade.CancelTrade(offeringPlayer);
+                            break;
+                        case TradeActions.TradeCanceledByGameHandler:
+                            trade.CancelTrade(gameHandler);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(tradeAction), tradeAction, null);
+                    }
+                    
+                    return;
+                }
+            }
         }
         
         /*

@@ -13,7 +13,8 @@ namespace CoreGame
             current = this;
         }
 
-        [Header("Player Colors")] public Color32 playerRed;
+        [Header("Player Colors")] 
+        public Color32 playerRed;
         public Color32 playerBlue;
         public Color32 playerGreen;
         public Color32 playerYellow;
