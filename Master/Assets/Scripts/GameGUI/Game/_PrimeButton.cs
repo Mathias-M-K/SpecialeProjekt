@@ -12,6 +12,7 @@ namespace AdminGUI
         public bool enabledAndActive; //True after manual control have been initiated
         public bool arrowsActive;
         public GameObject arrows;
+        public GameObject dropdownArrow;
         
         [Header("Animation Speed")] [Range(0, 5)]
         public float animationSpeed;
@@ -49,12 +50,14 @@ namespace AdminGUI
         
         protected void SetArrowsActive()
         {
+            LeanTween.rotate(dropdownArrow, new Vector3(0, 0, -91), animationSpeed).setEase(LeanTweenType.easeOutSine);
             LeanTween.moveLocalY(arrows, 0, animationSpeed).setEase(LeanTweenType.easeOutSine);
             arrowsActive = true;
         }
 
         protected void SetArrowsInactive()
         {
+            LeanTween.rotate(dropdownArrow, new Vector3(0, 0, 91), animationSpeed).setEase(LeanTweenType.easeOutSine);
             LeanTween.moveLocalY(arrows, 300, animationSpeed).setEase(LeanTweenType.easeOutSine);
             arrowsActive = false;
         }

@@ -49,7 +49,7 @@ namespace AdminGUI
         
         private void RemoveMove(StoredPlayerMove move)
         {
-            _nrOfMovesInSequence--;
+            //_nrOfMovesInSequence--;
         }
 
         private void AddMove(StoredPlayerMove move)

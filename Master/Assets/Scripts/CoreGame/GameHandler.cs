@@ -231,12 +231,18 @@ namespace CoreGame
             NotifySequenceObservers(SequenceActions.SequenceStarted, null);
             
             List<StoredPlayerMove> tempSequence = new List<StoredPlayerMove>(_sequenceMoves);
-            foreach (StoredPlayerMove pm in _sequenceMoves)
+            foreach (StoredPlayerMove pm in tempSequence)
             {
                 PlayerController playerController = GetPlayerController(pm.PlayerTags);
 
                 try
                 {
+                    if (playerController == null)
+                    {
+                        Debug.Log("Player does not exist, continuing");
+                        continue;
+                    }
+
                     playerController.MovePlayer(pm.Direction);
                     NotifySequenceObservers(SequenceActions.MovePerformed,pm);
                 }
