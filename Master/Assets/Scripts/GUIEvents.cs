@@ -36,6 +36,7 @@ namespace AdminGUI
         {
             GameHandler.Current.StartGame();
             if (OnGameStart != null) OnGameStart();
+            OnManualControl();
         }
 
         public void BtnHit(Button b)

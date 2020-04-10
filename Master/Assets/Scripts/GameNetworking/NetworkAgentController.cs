@@ -16,12 +16,19 @@ namespace DefaultNamespace
     {
         private PhotonView _photonView;
         private PlayerTags _playerTag;
+        
+        [Header("Local Game Handler")]
         public GameHandler gameHandler;
+
+        [Header("Room Owner Panel")] 
+        public GameObject roomOwnerControlPanel;
 
         private bool _processingNewTradeAction;
 
         private void Start()
         {
+            if(!PhotonNetwork.IsMasterClient) roomOwnerControlPanel.SetActive(false);
+            
             _photonView = GetComponent<PhotonView>();
             //Master task below this line
             GameHandler.Current.SetNetworkedAgent(this);
@@ -62,6 +69,7 @@ namespace DefaultNamespace
         [PunRPC]
         public void RPC_StartGame()
         {
+            GUIEvents.current.OnManualControl();
             gameHandler.StartGame();
         }
         
