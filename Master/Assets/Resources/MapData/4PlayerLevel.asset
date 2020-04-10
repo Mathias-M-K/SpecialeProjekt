@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 4PlayerLevel
   m_EditorClassIdentifier: 
   map: {fileID: 5529206612986793232, guid: c178ee9565e31114eb7738f0d2b5e280, type: 3}
+  cameraPos: {x: 1.54, y: 12.78, z: 4.9}
   xSize: 10
   ySize: 10
   maxPlayers: 4

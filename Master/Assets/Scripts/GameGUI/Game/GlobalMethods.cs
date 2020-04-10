@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace AdminGUI
 {
-    public class GUIMethods : MonoBehaviour
+    public class GlobalMethods : MonoBehaviour
     {
         public static void UpdateArrows(Transform _arrows, PlayerController _player)
         {
@@ -60,6 +60,23 @@ namespace AdminGUI
                 default:
                     throw new ArgumentOutOfRangeException(nameof(direction), direction, "Invalid direction");
             }
+        }
+
+        public static PlayerTags GetTagByNumber(int number)
+        {
+            int i = 0;
+            
+            foreach(PlayerTags playerTag in Enum.GetValues(typeof(PlayerTags)))
+            {
+                if (i == number)
+                {
+                    return playerTag;
+                }
+
+                i++;
+            }
+            
+            return PlayerTags.Black;
         }
     }
 }

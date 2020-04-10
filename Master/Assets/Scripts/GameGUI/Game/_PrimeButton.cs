@@ -44,7 +44,7 @@ namespace AdminGUI
             _playerController = GameHandler.Current.GetPlayerController(newPlayerTags);
             _playerController.AddInventoryObserver(this);
             
-            GUIMethods.UpdateArrows(arrows.transform.GetChild(0),_playerController);
+            GlobalMethods.UpdateArrows(arrows.transform.GetChild(0),_playerController);
         }
         
         protected void SetArrowsActive()
@@ -61,7 +61,7 @@ namespace AdminGUI
 
         public void OnMoveInventoryChange(Direction[] directions)
         {
-            GUIMethods.UpdateArrows(arrows.transform.GetChild(0),_playerController);
+            GlobalMethods.UpdateArrows(arrows.transform.GetChild(0),_playerController);
         }
         
     }

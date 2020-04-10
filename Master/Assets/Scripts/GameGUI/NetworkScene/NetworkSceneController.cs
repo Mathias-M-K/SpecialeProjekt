@@ -13,7 +13,7 @@ namespace GameGUI.NetworkScene
     {
         [Header("Assistant Classes")] 
         public CreateRoomPanelUIController CreateRoomUI;
-        public JoinRoomPanelUIController JoinRoomUI;
+        public JoinRoomPanelUiController JoinRoomUI;
 
         [Header("Content")] 
         public GameObject mainContent;

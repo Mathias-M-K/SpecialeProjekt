@@ -704,7 +704,7 @@
               <e p="_PrimeButton.cs" t="Include" />
               <e p="_PrimeTradeElement.cs" t="Include" />
               <e p="ExitGameMenu.cs" t="Include" />
-              <e p="GUIMethods.cs" t="Include" />
+              <e p="GlobalMethods.cs" t="Include" />
               <e p="GUIStartScreen.cs" t="Include" />
               <e p="IncomingTradeElement.cs" t="Include" />
               <e p="OutgoingTradeElement.cs" t="Include" />

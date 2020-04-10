@@ -30,7 +30,7 @@ namespace AdminGUI
             _playerController = GameHandler.Current.GetPlayerController(newPlayerTags);
             _playerController.AddInventoryObserver(this);
             
-            GUIMethods.UpdateArrows(SecondChoice.transform,_playerController);
+            GlobalMethods.UpdateArrows(SecondChoice.transform,_playerController);
         }
         
         protected override void GUIButtonPressed(Button button)
@@ -100,7 +100,7 @@ namespace AdminGUI
 
         public void OnMoveInventoryChange(Direction[] directions)
         {
-            GUIMethods.UpdateArrows(SecondChoice.transform,_playerController);
+            GlobalMethods.UpdateArrows(SecondChoice.transform,_playerController);
         }
     }
 }

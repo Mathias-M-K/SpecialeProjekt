@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 2PlayerLevel
   m_EditorClassIdentifier: 
   map: {fileID: 5117700591259272343, guid: f9b4e16285ed55745a642e0822bab693, type: 3}
+  cameraPos: {x: 1, y: 10.44, z: 3.5}
   xSize: 7
   ySize: 7
   maxPlayers: 2

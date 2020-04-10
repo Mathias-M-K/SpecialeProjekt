@@ -25,7 +25,7 @@ namespace CoreGame
         private void Start()
         {
             Instantiate(mapData.map, new Vector3(0.5f, 0, 10.5f), new Quaternion(0, 0, 0, 0));
-            if(Camera.main != null) Camera.main.transform.position = new Vector3((mapData.xSize / 2) + 0.5f+_cameraXOffset, 15, (mapData.ySize / 2) + 0.5f);
+            if (Camera.main != null) Camera.main.transform.position = mapData.cameraPos;
             
             navMeshSurface.BuildNavMesh();
 

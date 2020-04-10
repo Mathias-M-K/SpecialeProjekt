@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace GameGUI.NetworkScene
 {
-    public class JoinRoomPanelUIController : MonoBehaviour
+    public class JoinRoomPanelUiController : MonoBehaviour
     {
         public TMP_InputField roomNameField;
         public TMP_InputField nicknameField;
@@ -17,6 +17,8 @@ namespace GameGUI.NetworkScene
         public LeanTweenType flyInEase;
         public float flyOutTime;
         public LeanTweenType flyOutEase;
+
+        private bool animationRunning;
 
         private bool readyToJoinRoom;
         private bool panelActive;
@@ -47,12 +49,7 @@ namespace GameGUI.NetworkScene
                     roomNameField.Select();
                 }
             }
-
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                FlyOut();
-            }
-
+            
             if (Input.GetKeyDown(KeyCode.Return) && readyToJoinRoom)
             {
                 NetworkSceneController.JoinRoom();
@@ -83,9 +80,19 @@ namespace GameGUI.NetworkScene
         public void RunFailedJoinAnimation()
         {
             print("RUN failed animation");
-            LeanTween.rotateAroundLocal(joinRoomBtn, new Vector3(0, 0, 1), 5, 0.2f)
+            if (animationRunning) return;
+
+            animationRunning = true;
+            LeanTween.rotateAroundLocal(inactiveJoinRoomBtn, new Vector3(0, 0, 1), 5, 0.2f)
                 .setEase(LeanTweenType.easeShake)
                 .setRepeat(3);
+            LeanTween.rotateAroundLocal(joinRoomBtn, new Vector3(0, 0, 1), 5, 0.2f)
+                .setEase(LeanTweenType.easeShake)
+                .setRepeat(3)
+                .setOnComplete(()=>
+                {
+                    animationRunning = false;
+                });
         }
 
         
