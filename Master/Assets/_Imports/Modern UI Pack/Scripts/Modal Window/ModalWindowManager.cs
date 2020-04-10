@@ -53,7 +53,7 @@ namespace Michsky.UI.ModernUIPack
             if (onCancel == null)
                 Debug.LogError("Modal Window - Cannot initalize the events due to missing 'OnCancel' variable.", this);
             else
-                cancelButton.onClick.AddListener(onCancel.Invoke);
+                if(cancelButton != null) cancelButton.onClick.AddListener(onCancel.Invoke);
 
             if (useCustomValues == false)
                 UpdateUI();

@@ -661,25 +661,6 @@
         </e>
         <e p="Scripts" t="Include">
           <e p="ActivateAllDisplays.cs" t="Include" />
-          <e p="AdminGUI" t="Include">
-            <e p="_PrimeButton.cs" t="Include" />
-            <e p="_PrimeTradeElement.cs" t="Include" />
-            <e p="GUIMethods.cs" t="Include" />
-            <e p="GUIStartScreen.cs" t="Include" />
-            <e p="IncomingTradeElement.cs" t="Include" />
-            <e p="OutgoingTradeElement.cs" t="Include" />
-            <e p="PlayerGUITagController.cs" t="Include" />
-            <e p="PlayerMap" t="Include">
-              <e p="GUIGateElement.cs" t="Include" />
-              <e p="GUIPlayerMap.cs" t="Include" />
-              <e p="GUITriggerElement.cs" t="Include" />
-            </e>
-            <e p="ReadyButtonController.cs" t="Include" />
-            <e p="SendButton.cs" t="Include" />
-            <e p="SequenceController.cs" t="Include" />
-            <e p="TradeAreaController.cs" t="Include" />
-            <e p="TradeButton.cs" t="Include" />
-          </e>
           <e p="Container" t="Include">
             <e p="PlayerTrade.cs" t="Include" />
             <e p="StoredPlayerMove.cs" t="Include" />
@@ -719,6 +700,26 @@
             <e p="TriggerController.cs" t="Include" />
           </e>
           <e p="GameGUI" t="Include">
+            <e p="Game" t="Include">
+              <e p="_PrimeButton.cs" t="Include" />
+              <e p="_PrimeTradeElement.cs" t="Include" />
+              <e p="ExitGameMenu.cs" t="Include" />
+              <e p="GUIMethods.cs" t="Include" />
+              <e p="GUIStartScreen.cs" t="Include" />
+              <e p="IncomingTradeElement.cs" t="Include" />
+              <e p="OutgoingTradeElement.cs" t="Include" />
+              <e p="PlayerGUITagController.cs" t="Include" />
+              <e p="PlayerMap" t="Include">
+                <e p="GUIGateElement.cs" t="Include" />
+                <e p="GUIPlayerMap.cs" t="Include" />
+                <e p="GUITriggerElement.cs" t="Include" />
+              </e>
+              <e p="ReadyButtonController.cs" t="Include" />
+              <e p="SendButton.cs" t="Include" />
+              <e p="SequenceController.cs" t="Include" />
+              <e p="TradeAreaController.cs" t="Include" />
+              <e p="TradeButton.cs" t="Include" />
+            </e>
             <e p="GameSetupController.cs" t="Include" />
             <e p="GlobalValues.cs" t="Include" />
             <e p="NetworkScene" t="Include">

@@ -16,9 +16,10 @@ namespace GameGUI
 
         [Header("Welcome Screen")] 
         public static bool StartBtnInteractable = true;
-        
+
         [Header("Network Values")] 
         public static bool Connected;
+        public static string NetworkSceneFlyInDirection;
 
         public static void SetConnected(bool connectedStatus)
         {

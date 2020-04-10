@@ -8,7 +8,7 @@ namespace AdminGUI
 {
     public class PlayerGuiTagController : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI text;
+        public TextMeshProUGUI text;
         private void Start()
         {
             GUIEvents.current.onPlayerChange += OnPlayerChange;

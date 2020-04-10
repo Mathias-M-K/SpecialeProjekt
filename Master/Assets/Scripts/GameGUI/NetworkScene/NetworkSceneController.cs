@@ -31,7 +31,16 @@ namespace GameGUI.NetworkScene
 
         private void Awake()
         {
-            LeanTween.moveLocalX(mainContent, 1243, 0);
+            switch (GlobalValues.NetworkSceneFlyInDirection)
+            {
+                case "right":
+                    LeanTween.moveLocalX(mainContent, 1243, 0);
+                    break;
+                case "left":
+                    LeanTween.moveLocalX(mainContent, -1243, 0);
+                    break;
+            }
+            
             if (Application.internetReachability == NetworkReachability.NotReachable)           
             {
                 print("No network detected");
@@ -144,8 +153,9 @@ namespace GameGUI.NetworkScene
             int.TryParse(CreateRoomUI.GetSizeField(), out int roomSize);
             RoomOptions roomOps = new RoomOptions(){IsVisible = true,IsOpen = true,MaxPlayers = (byte) roomSize};
 
-            PhotonNetwork.LocalPlayer.NickName = "Mr. Host";
+            //PhotonNetwork.LocalPlayer.NickName = "Mr. Host";
             PhotonNetwork.CreateRoom(CreateRoomUI.GetNameField(), roomOps);
+            PhotonNetwork.LocalPlayer.NickName = "Mr. Host";
         }
         
         public override void OnCreateRoomFailed(short returnCode, string message)
@@ -157,18 +167,24 @@ namespace GameGUI.NetworkScene
         {
             Debug.Log("Joining Room...");
 
-            PhotonNetwork.LocalPlayer.NickName = JoinRoomUI.GetNicknameField();
+            //PhotonNetwork.LocalPlayer.NickName = JoinRoomUI.GetNicknameField();
             PhotonNetwork.JoinRoom(JoinRoomUI.GetNameField());
+            PhotonNetwork.LocalPlayer.NickName = JoinRoomUI.GetNicknameField();
+            
         }
 
         public override void OnJoinRoomFailed(short returnCode, string message)
-        {
+        {                        
             JoinRoomUI.RunFailedJoinAnimation();
         }
-
+        
+        
         public override void OnJoinedRoom()
         {
-            SceneManager.LoadScene(GlobalValues.WaitingRoomScene);
+            print("Joined");
+            LeanTween.moveLocalX(mainContent, -1243, contentAnimationTime).setEase(contentEaseOutType).setOnComplete(
+                () => SceneManager.LoadScene(GlobalValues.WaitingRoomScene));
+            //SceneManager.LoadScene(GlobalValues.WaitingRoomScene);
         }
         
         

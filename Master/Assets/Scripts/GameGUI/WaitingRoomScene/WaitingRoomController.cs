@@ -12,9 +12,13 @@ namespace GameGUI.WaitingRoomScene
     public class WaitingRoomController : MonoBehaviourPunCallbacks
     {
         private PhotonView _myPhotonView;
-
-
-
+        
+        [Header("Content")] 
+        public GameObject mainContent;
+        public float contentAnimationTime;
+        public LeanTweenType contentEaseInType;
+        public LeanTweenType contentEaseOutType;
+        
         [Header("UI's")] 
         public NotificationManager notification;
         public GameObject hostUi;
@@ -37,6 +41,10 @@ namespace GameGUI.WaitingRoomScene
         
         private void Start()
         {
+            LeanTween.moveLocalX(mainContent, 1236, 0);
+            LeanTween.moveLocalX(mainContent, 0, contentAnimationTime).setEase(contentEaseInType);
+            
+            
             _myPhotonView = GetComponent<PhotonView>();
             UpdatePlayerCounter();
 
@@ -112,15 +120,22 @@ namespace GameGUI.WaitingRoomScene
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.LoadLevel(GlobalValues.GameScene);
         }
-
+        
         [PunRPC]
         public void Cancel()
         {
             if (PhotonNetwork.IsMasterClient) _myPhotonView.RPC("Cancel", RpcTarget.Others);
 
             PhotonNetwork.AutomaticallySyncScene = false;
+            GlobalValues.SetConnected(false);
             PhotonNetwork.LeaveRoom();
-            SceneManager.LoadScene(GlobalValues.NetworkScene);
+            PhotonNetwork.Disconnect();
+            
+
+            GlobalValues.NetworkSceneFlyInDirection = "left";
+            LeanTween.moveLocalX(mainContent, 1920, contentAnimationTime).setEase(contentEaseOutType)
+                .setOnComplete(() => { SceneManager.LoadScene(GlobalValues.NetworkScene); });
+            //SceneManager.LoadScene(GlobalValues.NetworkScene);
         }
     }
 }

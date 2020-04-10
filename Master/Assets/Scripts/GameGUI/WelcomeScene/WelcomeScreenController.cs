@@ -61,6 +61,7 @@ namespace GameGUI
         //Btn method
         public void OnlineGame()
         {
+            GlobalValues.NetworkSceneFlyInDirection = "right";
             LeanTween.moveLocalX(mainContent, -1236, contentAnimationTime).
                 setEase(contentEaseOutType).
                 setOnComplete(() => SceneManager.LoadScene(GlobalValues.NetworkScene));
