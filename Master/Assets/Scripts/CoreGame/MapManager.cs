@@ -12,8 +12,6 @@ namespace CoreGame
     {
         public static MapManager Current;
 
-        private float _cameraXOffset = -4;
-
         private void Awake()
         {
             Current = this;
