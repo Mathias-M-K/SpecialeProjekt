@@ -5,9 +5,11 @@ using AdminGUI;
 using Container;
 using CoreGame;
 using CoreGame.Interfaces;
+using GameGUI;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace DefaultNamespace
@@ -41,6 +43,7 @@ namespace DefaultNamespace
             {
                 foreach (Player player in PhotonNetwork.PlayerList)
                 {
+                    if (GlobalMethods.GetRole(player.NickName) != "Participant") continue;
                     _photonView.RPC("RPC_SetPlayerTag",player,GameHandler.Current.SpawnNewPlayer());
                 }
             }
@@ -336,13 +339,28 @@ namespace DefaultNamespace
         /*
          * Other network related methods
          */
-
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
-            if (otherPlayer.NickName.Equals("Mr. Host"))
+            if (otherPlayer.NickName.Equals(GlobalValues.HostTag))
             {
-                Application.Quit();
+                Disconnect();
             }
         }
+        public void Disconnect()
+        {
+            GlobalValues.SetConnected(false);
+            PhotonNetwork.Disconnect();
+        }
+
+        public override void OnDisconnected(DisconnectCause cause)
+        {
+            SceneManager.LoadScene(GlobalValues.NetworkScene);
+        }
+
+        public void Exit()
+        {
+            Application.Quit();
+        }
+        
     }
 }

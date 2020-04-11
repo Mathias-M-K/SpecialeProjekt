@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e779480c1368c44ac29d2b86342ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  numberOfSpawnedPlayers: 0
   playerPrefab: {fileID: 149702325251908316, guid: 3e22c98172b415e47a06f76c06edd850,
     type: 3}
   numberOfPlayers: 4
@@ -2086,6 +2087,42 @@ MonoBehaviour:
   playerYellow:
     serializedVersion: 2
     rgba: 4282104310
+  playerBlack:
+    serializedVersion: 2
+    rgba: 0
+  playerSand:
+    serializedVersion: 2
+    rgba: 0
+  playerPink:
+    serializedVersion: 2
+    rgba: 0
+  playerGray:
+    serializedVersion: 2
+    rgba: 0
+  playerPurple:
+    serializedVersion: 2
+    rgba: 0
+  playerOrange:
+    serializedVersion: 2
+    rgba: 0
+  playerNavyBlue:
+    serializedVersion: 2
+    rgba: 0
+  playerDarkGreen:
+    serializedVersion: 2
+    rgba: 0
+  playerLightBlue:
+    serializedVersion: 2
+    rgba: 0
+  playerTurquoise:
+    serializedVersion: 2
+    rgba: 0
+  playerWhite:
+    serializedVersion: 2
+    rgba: 0
+  playerLightGreen:
+    serializedVersion: 2
+    rgba: 0
   floorColor:
     serializedVersion: 2
     rgba: 4294967295

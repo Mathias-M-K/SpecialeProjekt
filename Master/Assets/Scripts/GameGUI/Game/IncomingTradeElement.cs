@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using Container;
 using CoreGame;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,17 +11,22 @@ namespace AdminGUI
     public class IncomingTradeElement : _PrimeTradeElement, IInventoryObserver
     {
         public GameObject SecondChoice;
-        [SerializeField]private bool secondChoiceActive;
-
-
-
+        [SerializeField] private bool secondChoiceActive;
+        
+        private PlayerController _playerController;
+        
         protected override void Start()
         {
             base.Start();
-            GUIEvents.current.onPlayerChange += OnPlayerChange;
+            GetComponent<Button>().onClick.AddListener(OnTradeElementClick);
         }
 
-        private void OnPlayerChange(PlayerTags newPlayerTags)
+        private void OnTradeElementClick()
+        {
+            print(TradeId);
+        }
+
+        public void SetPlayerController(PlayerTags newPlayerTags)
         {
             if (_playerController != null)
             {
@@ -101,6 +107,13 @@ namespace AdminGUI
         public void OnMoveInventoryChange(Direction[] directions)
         {
             GlobalMethods.UpdateArrows(SecondChoice.transform,_playerController);
+        }
+
+        private void OnDestroy()
+        {
+            print("Removing from list");
+            GUIEvents.current.OnButtonHit -= GUIButtonPressed;
+            if(_playerController) _playerController.RemoveInventoryObserver(this);
         }
     }
 }

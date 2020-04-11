@@ -25,6 +25,7 @@ namespace GameGUI.NetworkScene
         public GameObject backBtn;
         public GameObject createRoomBtn;
         public GameObject loadingBtn;
+        public Toggle observerToggle;
         
         public float buttonAnimationTime;
         public LeanTweenType buttonEaseType;
@@ -152,10 +153,9 @@ namespace GameGUI.NetworkScene
         {
             int.TryParse(CreateRoomUI.GetSizeField(), out int roomSize);
             RoomOptions roomOps = new RoomOptions(){IsVisible = true,IsOpen = true,MaxPlayers = (byte) roomSize};
-
-            //PhotonNetwork.LocalPlayer.NickName = "Mr. Host";
+            
             PhotonNetwork.CreateRoom(CreateRoomUI.GetNameField(), roomOps);
-            PhotonNetwork.LocalPlayer.NickName = "Mr. Host";
+            PhotonNetwork.LocalPlayer.NickName = GlobalValues.HostTag;
         }
         
         public override void OnCreateRoomFailed(short returnCode, string message)
@@ -166,11 +166,10 @@ namespace GameGUI.NetworkScene
         public void JoinRoom()
         {
             Debug.Log("Joining Room...");
-
-            //PhotonNetwork.LocalPlayer.NickName = JoinRoomUI.GetNicknameField();
-            PhotonNetwork.JoinRoom(JoinRoomUI.GetNameField());
-            PhotonNetwork.LocalPlayer.NickName = JoinRoomUI.GetNicknameField();
             
+            PhotonNetwork.JoinRoom(JoinRoomUI.GetNameField());
+            
+            PhotonNetwork.LocalPlayer.NickName = observerToggle.isOn ? JoinRoomUI.GetNicknameField()+"%Obs" : JoinRoomUI.GetNicknameField();
         }
 
         public override void OnJoinRoomFailed(short returnCode, string message)

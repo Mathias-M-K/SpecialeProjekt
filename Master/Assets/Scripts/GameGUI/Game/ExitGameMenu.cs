@@ -30,22 +30,7 @@ namespace AdminGUI
             }
         }
 
-        public void Disconnect()
-        {
-            _open = false;
-            GlobalValues.SetConnected(false);
-            PhotonNetwork.Disconnect();
-        }
-
-        public override void OnDisconnected(DisconnectCause cause)
-        {
-            SceneManager.LoadScene(GlobalValues.NetworkScene);
-        }
-
-        public void Exit()
-        {
-            Application.Quit();
-        }
+        
 
         public void Cancel()
         {

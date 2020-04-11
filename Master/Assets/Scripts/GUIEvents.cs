@@ -15,7 +15,7 @@ namespace AdminGUI
     {
         public static GUIEvents current;
 
-        private PlayerTags _currentChosenPlayerTag;
+        private PlayerTags _currentChosenPlayerTag = PlayerTags.Blank;
         
         private void Awake()
         {
@@ -87,6 +87,7 @@ namespace AdminGUI
 
         private void OnPlayerChange()
         {
+            if (_currentChosenPlayerTag == PlayerTags.Blank) return;
             if (onPlayerChange != null) onPlayerChange(_currentChosenPlayerTag);
         }
     }

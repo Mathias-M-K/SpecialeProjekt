@@ -57,13 +57,14 @@ namespace AdminGUI
                 if (_playerController.ready)
                 {
                     _playerController.ready = false;
+                    EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(null);
                 }
                 else
                 {
                     _playerController.ready = true;
+                    EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(null);
                 }
             }
-            EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(null);
         }
         
         private void SetReady()

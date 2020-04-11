@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using AdminGUI;
 using Michsky.UI.ModernUIPack;
 using Photon.Pun;
 using Photon.Realtime;
@@ -48,19 +49,13 @@ namespace GameGUI.WaitingRoomScene
             _myPhotonView = GetComponent<PhotonView>();
             UpdatePlayerCounter();
 
-            //Setting infopanel text
-            playerName.text = PhotonNetwork.NickName;
+            //Setting info panel text
+            playerName.text = GlobalMethods.CleanNickname(PhotonNetwork.NickName);
             connectionStatus.text = "Connected";
             UpdatePlayerCounter();
 
-            if (PhotonNetwork.IsMasterClient)
-            {
-                role.text = "Role: Host";
-            }
-            else
-            {
-                role.text = "Role: Participant";
-            }
+            role.text = GlobalMethods.GetRole(PhotonNetwork.NickName);
+            GlobalValues.SetRole(GlobalMethods.GetRole(PhotonNetwork.NickName));
             
             foreach (var player in PhotonNetwork.PlayerList) uiController.AddPlayerToList(player);
             

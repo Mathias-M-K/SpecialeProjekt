@@ -21,6 +21,13 @@ namespace GameGUI
         public static bool Connected;
         public static string NetworkSceneFlyInDirection;
 
+        [Header("Game Scene")] 
+        public static string Role;
+
+        [Header("Tags")] 
+        public static string ObserverTag = "%Obs";
+        public static string HostTag = "Host";
+
         public static void SetConnected(bool connectedStatus)
         {
             Connected = connectedStatus;
@@ -29,6 +36,11 @@ namespace GameGUI
         public static void SetStartBtnInteractable(bool newValue)
         {
             StartBtnInteractable = newValue;
+        }
+
+        public static void SetRole(string newRole)
+        {
+            Role = newRole;
         }
     }
 }

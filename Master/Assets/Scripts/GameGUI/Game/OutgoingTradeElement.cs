@@ -5,7 +5,6 @@ namespace AdminGUI
 {
     public class OutgoingTradeElement : _PrimeTradeElement
     {
-        
         protected override void GUIButtonPressed(Button button)
         {
             string key = button.name;
@@ -30,6 +29,12 @@ namespace AdminGUI
             {
                 SetFirstChoiceInactive();
             }
+        }
+        
+        protected void OnDestroy()
+        {
+            print("Removing from list");
+            GUIEvents.current.OnButtonHit -= GUIButtonPressed;
         }
     }
 }

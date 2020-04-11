@@ -547,12 +547,18 @@
               <e p="SequenceController.cs" t="Include" />
               <e p="TradeAreaController.cs" t="Include" />
               <e p="TradeButton.cs" t="Include" />
+              <e p="TradeListControllers" t="Include">
+                <e p="IncomingTradeListController.cs" t="Include" />
+                <e p="OutgoingTradeListController.cs" t="Include" />
+                <e p="ParentTradeListController.cs" t="Include" />
+              </e>
             </e>
             <e p="GameSetupController.cs" t="Include" />
             <e p="GlobalValues.cs" t="Include" />
             <e p="NetworkScene" t="Include">
               <e p="CreateRoomPanelUIController.cs" t="Include" />
               <e p="JoinRoomPanelUIController.cs" t="Include" />
+              <e p="JoinSettingsPanelController.cs" t="Include" />
               <e p="LoadingBtnController.cs" t="Include" />
               <e p="NetworkController.cs" t="Include" />
               <e p="NetworkSceneController.cs" t="Include" />

@@ -51,11 +51,6 @@ namespace GameGUI.NetworkScene
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                FlyOut();
-            }
-
             if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) && readyToCreateRoom)
             {
                 NetworkSceneController.CreateRoom();

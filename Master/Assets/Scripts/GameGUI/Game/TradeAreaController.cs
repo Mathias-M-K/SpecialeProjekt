@@ -25,8 +25,8 @@ namespace AdminGUI
         private int _activeOutgoingTrades = 0;
         private int _outgoingTradeHeightOffSet = 0;
 
-        //private List<PlayerTrade> incomingTrades = new List<PlayerTrade>();
-        //private List<PlayerTrade> outgoingTrades = new List<PlayerTrade>();
+        private List<PlayerTrade> incomingTrades = new List<PlayerTrade>();
+        private List<PlayerTrade> outgoingTrades = new List<PlayerTrade>();
         private List<Button> _outgoingTradeButtons;
         private List<Button> _incomingTradeButtons;
         private readonly Dictionary<PlayerTrade, Button> _incomingTradeDictionary = new Dictionary<PlayerTrade, Button>();
@@ -35,7 +35,7 @@ namespace AdminGUI
         public TextMeshProUGUI incomingTradesTitle;
         public TextMeshProUGUI outgoingTradesTitle;
 
-        public Button incomingTrade0;
+        /*public Button incomingTrade0;
         public Button incomingTrade1;
         public Button incomingTrade2;
         public Button incomingTrade3;
@@ -43,16 +43,16 @@ namespace AdminGUI
         public Button outgoingTrade1;
         public Button outgoingTrade2;
         public Button outgoingTrade3;
-        public Button outgoingTrade4;
+        public Button outgoingTrade4;*/
 
         private PlayerController _playerController;
         
         private void Start()
         {
-            GUIEvents.current.onPlayerChange += OnPlayerChange;
-            GUIEvents.current.OnTradeAction += OnTradeBtn;
-            _incomingTradeButtons = new List<Button> {incomingTrade0, incomingTrade1, incomingTrade2, incomingTrade3};
-            _outgoingTradeButtons = new List<Button> {outgoingTrade1, outgoingTrade2, outgoingTrade3, outgoingTrade4};
+            //GUIEvents.current.onPlayerChange += OnPlayerChange;
+            //GUIEvents.current.OnTradeAction += OnTradeBtn;
+            //_incomingTradeButtons = new List<Button> {incomingTrade0, incomingTrade1, incomingTrade2, incomingTrade3};
+            //_outgoingTradeButtons = new List<Button> {outgoingTrade1, outgoingTrade2, outgoingTrade3, outgoingTrade4};
         }
 
         private void Update()
@@ -92,9 +92,10 @@ namespace AdminGUI
                         direction = Direction.Right;
                         break;
                 }
-                
-                PlayerTrade trade = new PlayerTrade(randomOfferingPlayer,randomReceivingPlayer,direction,null,2,null,4);
-                
+
+                PlayerTrade trade = new PlayerTrade(randomOfferingPlayer, randomReceivingPlayer, direction, null, 2,
+                    null, 2);
+
                 AddIncomingTrade(trade);
             }
         }

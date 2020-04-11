@@ -1,5 +1,6 @@
 ﻿using System;
 using CoreGame;
+using GameGUI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,10 +17,11 @@ namespace AdminGUI
                 ColorBlock cb = b.colors;
                 cb.selectedColor = ColorPalette.current.GetPlayerColor(_player.playerTag);
                 cb.highlightedColor = ColorPalette.current.GetPlayerColor(_player.playerTag);
+                cb.selectedColor = ColorPalette.current.GetPlayerColor(_player.playerTag);
 
                 b.colors = cb;
             }
-            
+
             //Setting correct arrow directions
             int i = 0;
             foreach (Transform t in _arrows)
@@ -42,7 +44,7 @@ namespace AdminGUI
                 i++;
             }
         }
-        
+
         public static int GetDirectionRotation(Direction direction)
         {
             switch (direction)
@@ -65,8 +67,8 @@ namespace AdminGUI
         public static PlayerTags GetTagByNumber(int number)
         {
             int i = 0;
-            
-            foreach(PlayerTags playerTag in Enum.GetValues(typeof(PlayerTags)))
+
+            foreach (PlayerTags playerTag in Enum.GetValues(typeof(PlayerTags)))
             {
                 if (i == number)
                 {
@@ -75,8 +77,45 @@ namespace AdminGUI
 
                 i++;
             }
-            
+
             return PlayerTags.Black;
+        }
+
+        public static string GetRole(string name)
+        {
+            if (name.Equals(GlobalValues.HostTag))
+            {
+                return "Host";
+            }
+
+            if (IsObserver(name))
+            {
+                return "Observer";
+            }
+
+            return "Participant";
+        }
+
+        public static string CleanNickname(string nickname)
+        {
+            if (IsObserver(nickname))
+            {
+                return nickname.Substring(0, nickname.Length - 4);
+            }
+            return nickname;
+        }
+
+        public static bool IsObserver(string nickname)
+        {
+            if (nickname.Length > 3)
+            {
+                if (nickname.Substring(nickname.Length - 4, 4).Equals(GlobalValues.ObserverTag))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
