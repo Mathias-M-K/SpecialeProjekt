@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using Container;
 using CoreGame;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Object = System.Object;
+using Random = UnityEngine.Random;
 
 namespace AdminGUI
 {
@@ -23,16 +22,15 @@ namespace AdminGUI
         public LeanTweenType moveOut;
 
         [SerializeField] private int activeIncomingTrades = 0;
-        private int activeOutgoingTrades = 0;
-
-        private int outgoingTradeHeightOffSet = 0;
+        private int _activeOutgoingTrades = 0;
+        private int _outgoingTradeHeightOffSet = 0;
 
         //private List<PlayerTrade> incomingTrades = new List<PlayerTrade>();
         //private List<PlayerTrade> outgoingTrades = new List<PlayerTrade>();
-        private List<Button> outgoingTradeButtons;
-        private List<Button> incomingTradeButtons;
-        private Dictionary<PlayerTrade, Button> incomingTradeDictionary = new Dictionary<PlayerTrade, Button>();
-        private Dictionary<PlayerTrade, Button> outgoingTradeDictionary = new Dictionary<PlayerTrade, Button>();
+        private List<Button> _outgoingTradeButtons;
+        private List<Button> _incomingTradeButtons;
+        private readonly Dictionary<PlayerTrade, Button> _incomingTradeDictionary = new Dictionary<PlayerTrade, Button>();
+        private readonly Dictionary<PlayerTrade, Button> _outgoingTradeDictionary = new Dictionary<PlayerTrade, Button>();
 
         public TextMeshProUGUI incomingTradesTitle;
         public TextMeshProUGUI outgoingTradesTitle;
@@ -53,8 +51,8 @@ namespace AdminGUI
         {
             GUIEvents.current.onPlayerChange += OnPlayerChange;
             GUIEvents.current.OnTradeAction += OnTradeBtn;
-            incomingTradeButtons = new List<Button> {incomingTrade0, incomingTrade1, incomingTrade2, incomingTrade3};
-            outgoingTradeButtons = new List<Button> {outgoingTrade1, outgoingTrade2, outgoingTrade3, outgoingTrade4};
+            _incomingTradeButtons = new List<Button> {incomingTrade0, incomingTrade1, incomingTrade2, incomingTrade3};
+            _outgoingTradeButtons = new List<Button> {outgoingTrade1, outgoingTrade2, outgoingTrade3, outgoingTrade4};
         }
 
         private void Update()
@@ -64,7 +62,41 @@ namespace AdminGUI
                 easeIn = easeGlobal;
                 easeOut = easeGlobal;
                 moveOut = easeGlobal;
-            } 
+            }
+
+            if (Input.GetKey(KeyCode.I) && Input.GetKeyDown(KeyCode.A))
+            {
+                int randomOfferingPlayerNr = Random.Range(1, 16);
+                int randomReceivingPlayerNr = Random.Range(1, 16);
+                int randomMoveNr = Random.Range(1, 4);
+
+                PlayerTags randomOfferingPlayer = GlobalMethods.GetTagByNumber(randomOfferingPlayerNr);
+                PlayerTags randomReceivingPlayer = GlobalMethods.GetTagByNumber(randomReceivingPlayerNr);
+
+                Direction direction;
+                switch (randomMoveNr)
+                {
+                    case 1:
+                        direction = Direction.Right;
+                        break;
+                    case 2:
+                        direction = Direction.Left;
+                        break;
+                    case 3:
+                        direction = Direction.Up;
+                        break;
+                    case 4:
+                        direction = Direction.Down;
+                        break;
+                    default:
+                        direction = Direction.Right;
+                        break;
+                }
+                
+                PlayerTrade trade = new PlayerTrade(randomOfferingPlayer,randomReceivingPlayer,direction,null,2,null,4);
+                
+                AddIncomingTrade(trade);
+            }
         }
 
 
@@ -72,7 +104,7 @@ namespace AdminGUI
         {
             PlayerTrade playerTrade = null;
 
-            foreach (KeyValuePair<PlayerTrade,Button> valuePair in incomingTradeDictionary)
+            foreach (KeyValuePair<PlayerTrade,Button> valuePair in _incomingTradeDictionary)
             {
                 if (valuePair.Value == b)
                 {
@@ -80,7 +112,7 @@ namespace AdminGUI
                 }
             }
 
-            foreach (KeyValuePair<PlayerTrade,Button> valuePair in outgoingTradeDictionary)
+            foreach (KeyValuePair<PlayerTrade,Button> valuePair in _outgoingTradeDictionary)
             {
                 if (valuePair.Value == b)
                 {
@@ -124,7 +156,7 @@ namespace AdminGUI
 
         private IEnumerator  UpdatePlayerInformation()
         {
-            if (activeIncomingTrades > 0 || activeOutgoingTrades > 0)
+            if (activeIncomingTrades > 0 || _activeOutgoingTrades > 0)
             {
                 ClearTrades();
             
@@ -154,9 +186,9 @@ namespace AdminGUI
             //Move already active trades
             for (int i = 0; i < activeIncomingTrades; i++)
             {
-                Button btn = incomingTradeButtons[i];
+                Button btn = _incomingTradeButtons[i];
 
-                float newYPos = -300 + outgoingTradeHeightOffSet +
+                float newYPos = -300 + _outgoingTradeHeightOffSet +
                                 (elementHeight * (activeIncomingTrades - i)) +
                                 (separationValue * (activeIncomingTrades - i));
 
@@ -170,8 +202,8 @@ namespace AdminGUI
             }
 
             //Getting btn to be added
-            Button newBtn = incomingTradeButtons[activeIncomingTrades];
-            incomingTradeDictionary.Add(playerTrade, newBtn);
+            Button newBtn = _incomingTradeButtons[activeIncomingTrades];
+            _incomingTradeDictionary.Add(playerTrade, newBtn);
 
             //Setting text on new btn
             TextMeshProUGUI t = newBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
@@ -179,7 +211,7 @@ namespace AdminGUI
 
             //Moving new Btn in
             LeanTween.moveLocalX(newBtn.gameObject, 0, animationSpeed).setEase(easeIn);
-            LeanTween.moveLocalY(newBtn.gameObject, -300 + outgoingTradeHeightOffSet, animationSpeed).setEase(moveIn);
+            LeanTween.moveLocalY(newBtn.gameObject, -300 + _outgoingTradeHeightOffSet, animationSpeed).setEase(moveIn);
             
             //Adding one to active incoming trades
             //incomingTrades.Add(playerTrade);
@@ -187,15 +219,15 @@ namespace AdminGUI
         }
         private void RemoveIncomingTrade(PlayerTrade playerTrade)
         {
-            Button b = incomingTradeDictionary[playerTrade];
-            incomingTradeDictionary.Remove(playerTrade);
+            Button b = _incomingTradeDictionary[playerTrade];
+            _incomingTradeDictionary.Remove(playerTrade);
             b.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Deleted";
 
-            incomingTradeButtons.Remove(b);
-            incomingTradeButtons.Add(b);
+            _incomingTradeButtons.Remove(b);
+            _incomingTradeButtons.Add(b);
             activeIncomingTrades--;
 
-            float removeYPos = -300 + outgoingTradeHeightOffSet;
+            float removeYPos = -300 + _outgoingTradeHeightOffSet;
             LeanTween.moveLocalX(b.gameObject, -500, animationSpeed).setOnComplete(doStuff).setEase(easeOut);
 
             void doStuff()
@@ -205,8 +237,8 @@ namespace AdminGUI
 
             for (int i = 0; i < activeIncomingTrades; i++)
             {
-                Button btn = incomingTradeButtons[i];
-                float newYPos = -300 + outgoingTradeHeightOffSet + (elementHeight * (activeIncomingTrades - i-1)) + (separationValue * (activeIncomingTrades - i));
+                Button btn = _incomingTradeButtons[i];
+                float newYPos = -300 + _outgoingTradeHeightOffSet + (elementHeight * (activeIncomingTrades - i-1)) + (separationValue * (activeIncomingTrades - i));
 
                 LeanTween.moveLocalY(btn.gameObject, newYPos, animationSpeed).setEase(moveOut);
                 if (i == 0)
@@ -223,21 +255,21 @@ namespace AdminGUI
 
         private void AddOutgoingTrade(PlayerTrade playerTrade)
         {
-            if (activeOutgoingTrades == 0)
+            if (_activeOutgoingTrades == 0)
             {
                 LeanTween.moveLocalX(outgoingTradesTitle.gameObject, 0, animationSpeed).setEase(easeIn);
-                outgoingTradeHeightOffSet = elementHeight * 2 + separationValue;
+                _outgoingTradeHeightOffSet = elementHeight * 2 + separationValue;
             }
             else
             {
-                outgoingTradeHeightOffSet += elementHeight + separationValue;
+                _outgoingTradeHeightOffSet += elementHeight + separationValue;
             }
 
-            for (int i = 0; i < activeOutgoingTrades; i++)
+            for (int i = 0; i < _activeOutgoingTrades; i++)
             {
-                Button btn = outgoingTradeButtons[i];
+                Button btn = _outgoingTradeButtons[i];
 
-                float newYPos = -300  + (elementHeight * (activeOutgoingTrades - i)) + (separationValue * (activeOutgoingTrades - i));
+                float newYPos = -300  + (elementHeight * (_activeOutgoingTrades - i)) + (separationValue * (_activeOutgoingTrades - i));
 
                 LeanTween.moveLocalY(btn.gameObject, newYPos, animationSpeed).setEase(moveIn);
 
@@ -248,8 +280,8 @@ namespace AdminGUI
                 }
             }
 
-            Button newBtn = outgoingTradeButtons[activeOutgoingTrades];
-            outgoingTradeDictionary.Add(playerTrade, newBtn);
+            Button newBtn = _outgoingTradeButtons[_activeOutgoingTrades];
+            _outgoingTradeDictionary.Add(playerTrade, newBtn);
 
             TextMeshProUGUI t = newBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             t.text = $"{playerTrade.ReceivingPlayerTags} | {playerTrade.DirectionOffer}";
@@ -257,21 +289,21 @@ namespace AdminGUI
             LeanTween.moveLocalX(newBtn.gameObject, 0, animationSpeed).setEase(easeIn);
             LeanTween.moveLocalY(newBtn.gameObject, -300, animationSpeed).setEase(moveIn);
             
-            activeOutgoingTrades++;
+            _activeOutgoingTrades++;
             //outgoingTrades.Add(playerTrade);
 
             OnOutgoingBtnChange(moveIn);
         }
         private void RemoveOutgoingTrade(PlayerTrade playerTrade)
         {
-            outgoingTradeHeightOffSet -= elementHeight + separationValue;
-            Button b = outgoingTradeDictionary[playerTrade];
-            outgoingTradeDictionary.Remove(playerTrade);
+            _outgoingTradeHeightOffSet -= elementHeight + separationValue;
+            Button b = _outgoingTradeDictionary[playerTrade];
+            _outgoingTradeDictionary.Remove(playerTrade);
             b.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Deleted";
 
-            outgoingTradeButtons.Remove(b);
-            outgoingTradeButtons.Add(b);
-            activeOutgoingTrades--;
+            _outgoingTradeButtons.Remove(b);
+            _outgoingTradeButtons.Add(b);
+            _activeOutgoingTrades--;
             //outgoingTrades.Remove(playerTrade);
 
             float removeYPos = -300;
@@ -282,10 +314,10 @@ namespace AdminGUI
                 LeanTween.moveLocalY(b.gameObject, removeYPos, animationSpeed).setEase(easeOut);
             }
 
-            for (int i = 0; i < activeOutgoingTrades; i++)
+            for (int i = 0; i < _activeOutgoingTrades; i++)
             {
-                Button btn = outgoingTradeButtons[i];
-                float newYPos = -300 + (elementHeight * (activeOutgoingTrades - i-1)) + (separationValue * (activeOutgoingTrades - i));
+                Button btn = _outgoingTradeButtons[i];
+                float newYPos = -300 + (elementHeight * (_activeOutgoingTrades - i-1)) + (separationValue * (_activeOutgoingTrades - i));
 
                 LeanTween.moveLocalY(btn.gameObject, newYPos, animationSpeed).setEase(moveOut);
                 if (i == 0)
@@ -294,10 +326,10 @@ namespace AdminGUI
                 }
             }
 
-            if (activeOutgoingTrades == 0)
+            if (_activeOutgoingTrades == 0)
             {
                 LeanTween.moveLocalX(outgoingTradesTitle.gameObject, -500, animationSpeed).setEase(easeOut);
-                outgoingTradeHeightOffSet = 0;
+                _outgoingTradeHeightOffSet = 0;
             }
 
             OnOutgoingBtnChange(moveOut);
@@ -308,9 +340,9 @@ namespace AdminGUI
             //Moving all active incomingTrade values up
             for (int i = 0; i < activeIncomingTrades; i++)
             {
-                Button btnToMove = incomingTradeButtons[i];
+                Button btnToMove = _incomingTradeButtons[i];
 
-                float newYPos = -300 + outgoingTradeHeightOffSet - elementHeight +
+                float newYPos = -300 + _outgoingTradeHeightOffSet - elementHeight +
                                 (elementHeight * (activeIncomingTrades - i)) +
                                 (separationValue * (activeIncomingTrades - i));
                 
@@ -325,9 +357,9 @@ namespace AdminGUI
             //Moving all inactive incomingTrade values up
             for (int i = activeIncomingTrades; i < 4; i++)
             {
-                Button btnToMove = incomingTradeButtons[i];
+                Button btnToMove = _incomingTradeButtons[i];
 
-                float newYPos = -300 + outgoingTradeHeightOffSet;
+                float newYPos = -300 + _outgoingTradeHeightOffSet;
                 LeanTween.moveLocalY(btnToMove.gameObject, newYPos, animationSpeed).setEase(moveOut);
                 if (i == 0)
                 {
@@ -338,13 +370,13 @@ namespace AdminGUI
 
         private void ClearTrades()
         {
-            Dictionary<PlayerTrade,Button> tempTradesIncoming = new Dictionary<PlayerTrade,Button>(incomingTradeDictionary);
+            Dictionary<PlayerTrade,Button> tempTradesIncoming = new Dictionary<PlayerTrade,Button>(_incomingTradeDictionary);
             foreach (KeyValuePair<PlayerTrade,Button> valuePair in tempTradesIncoming)
             {
                 RemoveIncomingTrade(valuePair.Key);
             }
             
-            Dictionary<PlayerTrade,Button> tempTradesOutgoing = new Dictionary<PlayerTrade,Button>(outgoingTradeDictionary);
+            Dictionary<PlayerTrade,Button> tempTradesOutgoing = new Dictionary<PlayerTrade,Button>(_outgoingTradeDictionary);
             foreach (KeyValuePair<PlayerTrade,Button> valuePair in tempTradesOutgoing)
             {
                 RemoveOutgoingTrade(valuePair.Key);
