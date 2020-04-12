@@ -54,6 +54,8 @@ namespace DefaultNamespace
         {
             MyNetworkedAgent.StartGame();
             localGameHandler.StartGame();
+
+            if (PhotonNetwork.IsMasterClient) UpdateReadyCounter();
         }
         
         
@@ -202,6 +204,8 @@ namespace DefaultNamespace
              * after a sequence have been played, which should be 0.
              */
                 if (_numberOfReadyPlayers < 0) _numberOfReadyPlayers = 0;
+
+                UpdateReadyCounter();
                 
                 if (_numberOfReadyPlayers == localGameHandler.numberOfSpawnedPlayers)
                 {
@@ -215,10 +219,11 @@ namespace DefaultNamespace
             {
                 MyNetworkedAgent.OnReadyStateChanged(state);
             }
-            
         }
 
-        
-        
+        private void UpdateReadyCounter()
+        {
+            MyNetworkedAgent.UpdateRemoteReadyCounter($"{_numberOfReadyPlayers}/{localGameHandler.numberOfSpawnedPlayers} Ready");
+        }
     }
 }

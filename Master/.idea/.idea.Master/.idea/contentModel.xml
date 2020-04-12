@@ -536,6 +536,9 @@
               <e p="GUIStartScreen.cs" t="Include" />
               <e p="IncomingTradeElement.cs" t="Include" />
               <e p="OutgoingTradeElement.cs" t="Include" />
+              <e p="PanelControllers" t="Include">
+                <e p="RoomCreatorUiPanelController.cs" t="Include" />
+              </e>
               <e p="PlayerGUITagController.cs" t="Include" />
               <e p="PlayerMap" t="Include">
                 <e p="GUIGateElement.cs" t="Include" />
@@ -564,6 +567,7 @@
               <e p="NetworkSceneController.cs" t="Include" />
             </e>
             <e p="WaitingRoomScene" t="Include">
+              <e p="HamburgerMenuController.cs" t="Include" />
               <e p="WaitingRoomController.cs" t="Include" />
               <e p="WaitingRoomUIController.cs" t="Include" />
             </e>

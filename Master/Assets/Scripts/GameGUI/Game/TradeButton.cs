@@ -133,8 +133,6 @@ namespace AdminGUI
             Transform tRow = playerPalette.transform.GetChild(row);
             Transform tElement = tRow.GetChild(element);
             
-            print($"row: {row}, Element: {element}");
-
             return tElement;
         }
         

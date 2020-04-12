@@ -32,8 +32,9 @@ namespace AdminGUI
          * GAME BUTTONS
          */
         //Start game
-        public void StartGame()
+        public void StartGame(Button b)
         {
+            b.interactable = false;
             GameHandler.Current.StartGame();
             if (OnGameStart != null) OnGameStart();
             OnManualControl();

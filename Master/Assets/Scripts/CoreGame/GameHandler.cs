@@ -96,7 +96,7 @@ namespace CoreGame
             
             if (numberOfPlayers > mapData.maxPlayers)
             {
-                Debug.LogError($"Number of max players is to high for this map!, map only allows {mapData.maxPlayers} players",
+                Debug.Log($"Number of max players is to high for this map!, map only allows {mapData.maxPlayers} players",
                     this);
                 numberOfPlayers = mapData.maxPlayers;
             }
@@ -485,11 +485,11 @@ namespace CoreGame
 
             if (_numberOfReadyPlayers < 0) _numberOfReadyPlayers = 0;
 
-            if (_numberOfReadyPlayers == numberOfSpawnedPlayers)
+            /*if (_numberOfReadyPlayers == numberOfSpawnedPlayers)
             {
                 Debug.Log("Performing sequence on local gamehandler");
                 StartCoroutine(PerformSequence());
-            }
+            }*/
         }
     }
 }

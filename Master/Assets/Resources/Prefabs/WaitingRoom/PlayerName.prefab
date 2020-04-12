@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 234.7, y: 18.6}
+  m_AnchoredPosition: {x: 0, y: -8.81}
+  m_SizeDelta: {x: 234.7, y: 36.23}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8287904505851378985
 CanvasRenderer:
@@ -65,8 +65,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Mathias Kofod
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 026311c0cfa3f174f9e585a0a37dd28d, type: 2}
-  m_sharedMaterial: {fileID: -3411994494037785874, guid: 026311c0cfa3f174f9e585a0a37dd28d,
+  m_fontAsset: {fileID: 11400000, guid: 2f17e8bb3967fe14093d5fec798fffd9, type: 2}
+  m_sharedMaterial: {fileID: 21700449227511232, guid: 2f17e8bb3967fe14093d5fec798fffd9,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -92,14 +92,14 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 17.6
-  m_fontSizeBase: 17.6
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 258
+  m_textAlignment: 514
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0

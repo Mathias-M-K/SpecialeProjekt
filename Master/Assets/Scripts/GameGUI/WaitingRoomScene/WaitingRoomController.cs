@@ -16,6 +16,8 @@ namespace GameGUI.WaitingRoomScene
         
         [Header("Content")] 
         public GameObject mainContent;
+
+        [Header("Animation Values")]
         public float contentAnimationTime;
         public LeanTweenType contentEaseInType;
         public LeanTweenType contentEaseOutType;
@@ -24,6 +26,7 @@ namespace GameGUI.WaitingRoomScene
         public NotificationManager notification;
         public GameObject hostUi;
         public GameObject playerUi;
+        public GameObject mapSelectionMenu;
         [Space]
         public WaitingRoomUIController uiController;
         [Space] 
@@ -31,13 +34,17 @@ namespace GameGUI.WaitingRoomScene
         public TextMeshProUGUI connectionStatus;
         public TextMeshProUGUI roomName;
         public TextMeshProUGUI role;
+        public TextMeshProUGUI map;
 
         private bool _leaving;
+        private int _mapIndex = 0;
 
         private void Awake()
         {
             hostUi.SetActive(PhotonNetwork.IsMasterClient);
+            mapSelectionMenu.SetActive(PhotonNetwork.IsMasterClient);
             playerUi.SetActive(!PhotonNetwork.IsMasterClient);
+            
         }
         
         private void Start()
@@ -56,6 +63,9 @@ namespace GameGUI.WaitingRoomScene
 
             role.text = GlobalMethods.GetRole(PhotonNetwork.NickName);
             GlobalValues.SetRole(GlobalMethods.GetRole(PhotonNetwork.NickName));
+            
+            //Asking for map index
+            photonView.RPC("RPC_RequestMapIndex",RpcTarget.MasterClient,PhotonNetwork.LocalPlayer);
             
             foreach (var player in PhotonNetwork.PlayerList) uiController.AddPlayerToList(player);
             
@@ -79,13 +89,46 @@ namespace GameGUI.WaitingRoomScene
                 }
             }
         }
+        
+        
+        public void DropdownValueUpdate(int nr)
+        {
+            _mapIndex = nr;
+            map.text = _mapIndex.ToString();
+            GlobalValues.SetMapIndex(_mapIndex);
+            SendMapIndex(_mapIndex,RpcTarget.Others);
+        }
+        private void SendMapIndex(int index, Player receiver)
+        {
+            photonView.RPC("RPC_UpdateMapIndex",receiver,index);
+        }
+        private void SendMapIndex(int index, RpcTarget receiver)
+        {
+            photonView.RPC("RPC_UpdateMapIndex",receiver,index);
+        }
+        [PunRPC]
+        public void RPC_UpdateMapIndex(int index)
+        {
+            GlobalValues.SetMapIndex(index);
+            map.text = index.ToString();
+        }
+        [PunRPC]
+        public void RPC_RequestMapIndex(Player player)
+        {
+            SendMapIndex(_mapIndex,player);
+        }
 
+        
         private IEnumerator DelayedLeave(float delay)
         {
             yield return new WaitForSeconds(delay);
             Cancel();
         }
 
+        private void UpdateMapName()
+        {
+            map.text = _mapIndex.ToString();
+        }
         private void UpdatePlayerCounter()
         {
             roomName.text = $"{PhotonNetwork.CurrentRoom.Name} | {PhotonNetwork.CurrentRoom.Players.Count}:{PhotonNetwork.CurrentRoom.MaxPlayers}";
@@ -101,7 +144,10 @@ namespace GameGUI.WaitingRoomScene
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
-            print(otherPlayer.NickName + " left");
+            if (otherPlayer.NickName.Equals(GlobalValues.HostTag))
+            {
+                Cancel();
+            }
 
             UpdatePlayerCounter();
             uiController.RemovePlayerFromList(otherPlayer);
@@ -119,18 +165,15 @@ namespace GameGUI.WaitingRoomScene
         [PunRPC]
         public void Cancel()
         {
-            if (PhotonNetwork.IsMasterClient) _myPhotonView.RPC("Cancel", RpcTarget.Others);
-
-            PhotonNetwork.AutomaticallySyncScene = false;
             GlobalValues.SetConnected(false);
-            PhotonNetwork.LeaveRoom();
             PhotonNetwork.Disconnect();
-            
-
+        }
+        
+        public override void OnDisconnected(DisconnectCause cause)
+        {
             GlobalValues.NetworkSceneFlyInDirection = "left";
             LeanTween.moveLocalX(mainContent, 1920, contentAnimationTime).setEase(contentEaseOutType)
                 .setOnComplete(() => { SceneManager.LoadScene(GlobalValues.NetworkScene); });
-            //SceneManager.LoadScene(GlobalValues.NetworkScene);
         }
     }
 }

@@ -25,16 +25,17 @@ namespace GameGUI.WaitingRoomScene
             if (playerNickname.Equals("Host"))
             {
                 text.text = playerNickname;
-                text.color = Color.green;
+                text.color = new Color32(255, 177, 66,255);
             }
             else if(GlobalMethods.IsObserver(playerNickname))
             {
                 text.text = GlobalMethods.CleanNickname(playerNickname);
-                text.color = Color.magenta;
+                text.color = new Color32(255, 121, 63, 255);
             }
             else
             {
                 text.text = player.NickName;
+                text.color = new Color32(255, 255, 255,255);
             }
 
             _activePlayers.Add(player.NickName, go);

@@ -47,6 +47,11 @@ MonoBehaviour:
   - RPC_SpawnMaxPlayers
   - RPC_SpawnNewPlayer
   - RPC_StartGame
+  - DropdownValueUpdate
+  - RPC_DropdownValueUpdate
+  - RPC_UpdateMapIndex
+  - RPC_RequestMapIndex
+  - RPC_UpdateReadyCounter
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

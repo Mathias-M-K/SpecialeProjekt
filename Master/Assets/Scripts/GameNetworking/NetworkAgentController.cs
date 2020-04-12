@@ -8,6 +8,7 @@ using CoreGame.Interfaces;
 using GameGUI;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -22,25 +23,44 @@ namespace DefaultNamespace
         [Header("Local Game Handler")]
         public GameHandler gameHandler;
 
-        [Header("Room Owner Panel")] 
-        public GameObject roomOwnerControlPanel;
+        [Header("Cover Panels")] 
+        public GameObject playerCoverPanel;
+        public GameObject hostCoverPanel;
+        public GameObject observerCoverPanel;
+
+        [Header("Other")] 
+        public TextMeshProUGUI readyCounter;
 
         private bool _processingNewTradeAction;
-
+        
         private void Start()
         {
-            if(!PhotonNetwork.IsMasterClient) roomOwnerControlPanel.SetActive(false);
+            hostCoverPanel.SetActive(PhotonNetwork.IsMasterClient);
+            observerCoverPanel.SetActive(GlobalMethods.IsObserver(PhotonNetwork.NickName));
+            playerCoverPanel.SetActive(GlobalMethods.GetRole(PhotonNetwork.NickName).Equals("Participant"));
+            
             
             _photonView = GetComponent<PhotonView>();
-            //Master task below this line
+            
             GameHandler.Current.SetNetworkedAgent(this);
+            
             GUIEvents.current.OnButtonHit += OnBtnHit;
+            GUIEvents.current.OnManualOverride += OnManualOverride;
+        }
+
+        private void OnManualOverride()
+        {
+            if (GlobalMethods.GetRole(PhotonNetwork.NickName) != "Participant") return;
+
+            Debug.LogError("OnManualOverride Working");
+            LeanTween.moveLocalX(playerCoverPanel, -1920, 0.5f).setEase(LeanTweenType.easeInQuad);
         }
 
         private void OnBtnHit(Button button)
         {
             if (button.name.Equals("SpawnPlayers"))
             {
+                button.interactable = false;
                 foreach (Player player in PhotonNetwork.PlayerList)
                 {
                     if (GlobalMethods.GetRole(player.NickName) != "Participant") continue;
@@ -60,6 +80,20 @@ namespace DefaultNamespace
             _playerTag = playerTag;
             GUIEvents.current.SetGameTag(playerTag);
         }
+
+        
+        public void UpdateRemoteReadyCounter(string counterText)
+        {
+            photonView.RPC("RPC_UpdateReadyCounter",RpcTarget.All,counterText);
+        }
+        [PunRPC]
+        public void RPC_UpdateReadyCounter(string counterText)
+        {
+            readyCounter.text = counterText;
+        }
+        
+        
+        
         
         
         /// <summary>
@@ -157,7 +191,7 @@ namespace DefaultNamespace
         public IEnumerator PerformSequence()
         {
             Debug.Log("Calling remote sequences");
-            photonView.RPC("RPC_PerformSequence",RpcTarget.Others);
+            photonView.RPC("RPC_PerformSequence",RpcTarget.All);
             yield break;
         }
         [PunRPC]
@@ -346,6 +380,8 @@ namespace DefaultNamespace
                 Disconnect();
             }
         }
+        
+        
         public void Disconnect()
         {
             GlobalValues.SetConnected(false);

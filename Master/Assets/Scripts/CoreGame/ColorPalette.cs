@@ -12,7 +12,7 @@ namespace CoreGame
         {
             current = this;
         }
-
+        
         [Header("Player Colors")] 
         public Color32 playerRed;
         public Color32 playerBlue;
@@ -30,6 +30,11 @@ namespace CoreGame
         public Color32 playerTurquoise;
         public Color32 playerWhite;
         public Color32 playerLightGreen;
+
+        [Header("Role Colors")] 
+        public Color32 participant;
+        public Color32 observer;
+        public Color32 host;
 
         [Header("Scene Elements")] public Color32 floorColor;
         public Color32 wallsColor;

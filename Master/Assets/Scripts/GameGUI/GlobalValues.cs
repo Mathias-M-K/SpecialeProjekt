@@ -23,6 +23,7 @@ namespace GameGUI
 
         [Header("Game Scene")] 
         public static string Role;
+        public static int MapIndex;
 
         [Header("Tags")] 
         public static string ObserverTag = "%Obs";
@@ -41,6 +42,11 @@ namespace GameGUI
         public static void SetRole(string newRole)
         {
             Role = newRole;
+        }
+
+        public static void SetMapIndex(int index)
+        {
+            MapIndex = index;
         }
     }
 }

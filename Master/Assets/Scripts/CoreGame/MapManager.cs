@@ -1,4 +1,5 @@
 ﻿using System;
+using GameGUI;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,16 +13,21 @@ namespace CoreGame
     {
         public static MapManager Current;
 
+        public MapData[] mapDataArray;
+
         private void Awake()
         {
             Current = this;
         }
 
-        [Header("Level Information")] public MapData mapData;
+        [Header("Level Information")] 
+        public MapData mapData;
         public NavMeshSurface navMeshSurface;
 
         private void Start()
         {
+            mapData = mapDataArray[GlobalValues.MapIndex];
+            
             Instantiate(mapData.map, new Vector3(0.5f, 0, 10.5f), new Quaternion(0, 0, 0, 0));
             if (Camera.main != null) Camera.main.transform.position = mapData.cameraPos;
             

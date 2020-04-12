@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb7cf53b7c3b36a4b9f4d2b688942503, type: 3}
   m_Name: MUIP Manager
   m_EditorClassIdentifier: 
-  enableDynamicUpdate: 0
-  enableExtendedColorPicker: 0
-  editorHints: 0
-  animatedIconColor: {r: 0.47058824, g: 0.8784314, b: 0.56078434, a: 1}
+  enableDynamicUpdate: 1
+  enableExtendedColorPicker: 1
+  editorHints: 1
+  animatedIconColor: {r: 1, g: 1, b: 1, a: 1}
   buttonThemeType: 0
   buttonFont: {fileID: 11400000, guid: 84dd14695854bbc43a5faa24fcf93d0d, type: 2}
   buttonFontSize: 22.5
