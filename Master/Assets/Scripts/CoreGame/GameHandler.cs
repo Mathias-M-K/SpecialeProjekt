@@ -158,6 +158,7 @@ namespace CoreGame
 
             playerReceivingController.AddIncomingTrade(trade);
             playerOfferingController.AddOutgoingTrade(trade);
+            playerOfferingController.RemoveMove(directionIndex);
 
             trade.NotifyObservers(TradeActions.TradeOffered);
         }

@@ -537,6 +537,11 @@
               <e p="IncomingTradeElement.cs" t="Include" />
               <e p="OutgoingTradeElement.cs" t="Include" />
               <e p="PanelControllers" t="Include">
+                <e p="ObserverPanel" t="Include">
+                  <e p="ObserverPlayerStatElement.cs" t="Include" />
+                  <e p="ObserverTradeElement.cs" t="Include" />
+                  <e p="ObserverUiPanelController.cs" t="Include" />
+                </e>
                 <e p="RoomCreatorUiPanelController.cs" t="Include" />
               </e>
               <e p="PlayerGUITagController.cs" t="Include" />

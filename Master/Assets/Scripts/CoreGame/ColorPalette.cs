@@ -45,6 +45,10 @@ namespace CoreGame
         [Header(("Green Button"))] public ColorBlock greenButton;
 
 
+        public Color32 GetPlayerColor(PlayerController playerController)
+        {
+            return GetPlayerColor(playerController.playerTag);
+        }
         public Color32 GetPlayerColor(PlayerTags playerTags)
         {
             switch (playerTags)

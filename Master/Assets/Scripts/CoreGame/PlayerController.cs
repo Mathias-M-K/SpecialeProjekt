@@ -150,7 +150,6 @@ namespace CoreGame
 
             int tradeId = Random.Range(1, 10000);
             GameHandler.Current.NewTrade(direction, GetIndexForDirection(direction), receivingPlayerTags, playerTag,tradeId);
-            RemoveMove(GetIndexForDirection(direction));
         }
 
         //Queuing trade for player to accept or reject

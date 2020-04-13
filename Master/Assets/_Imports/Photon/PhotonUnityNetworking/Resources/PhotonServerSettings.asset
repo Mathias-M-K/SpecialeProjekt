@@ -43,14 +43,12 @@ MonoBehaviour:
   - RPC_OnReadyStateChanged
   - RPC_PerformSequence
   - RPC_RemoveMoveFromSequence
+  - RPC_RequestMapIndex
   - RPC_SetPlayerTag
   - RPC_SpawnMaxPlayers
   - RPC_SpawnNewPlayer
   - RPC_StartGame
-  - DropdownValueUpdate
-  - RPC_DropdownValueUpdate
   - RPC_UpdateMapIndex
-  - RPC_RequestMapIndex
   - RPC_UpdateReadyCounter
   DisableAutoOpenWizard: 1
   ShowSettings: 0
