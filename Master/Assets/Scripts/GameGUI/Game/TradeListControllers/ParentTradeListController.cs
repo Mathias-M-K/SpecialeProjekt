@@ -33,7 +33,7 @@ namespace AdminGUI
         [SerializeField] private float elementHeight = 30;
         [SerializeField] private float spacing = 5;
         [SerializeField] private float elementStartPos;
-        private float _bottomPos;
+        protected float _bottomPos;
         
         
         //Other
@@ -94,7 +94,7 @@ namespace AdminGUI
         /// <summary>
         /// Getting the lowest position a button can be placed.
         /// </summary>
-        private void GetButtonPos()
+        protected virtual void GetButtonPos()
         {
             _bottomPos = transform.GetChild(1).localPosition.y;
             Destroy(transform.GetChild(1).gameObject);
@@ -104,7 +104,7 @@ namespace AdminGUI
         /// Adds element to the list
         /// </summary>
         /// <param name="trade"></param>
-        protected void AddElement(PlayerTrade trade)
+        protected virtual void AddElement(PlayerTrade trade)
         {
             GameObject listElement = Instantiate(listElementPrefab, transform, false);
             listElement.name = $"OutgoingTradeBtn {Random.Range(0,100000)}";
