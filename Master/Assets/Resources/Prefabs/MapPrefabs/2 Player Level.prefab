@@ -668,8 +668,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openDirection: 0
-  easeMethod: 0
-  animationTime: 0
+  easeMethod: 17
+  animationTime: 0.5
 --- !u!54 &5117700590983669898
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -744,9 +744,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886e4c5a3d31b2d459d5f36c9df21a43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openDirection: 0
-  easeMethod: 0
-  animationTime: 0
+  openDirection: 3
+  easeMethod: 11
+  animationTime: 0.5
 --- !u!1001 &648198372498992424
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3718,7 +3718,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2100000, guid: 0a306977d994edb4f98b74f33314f486, type: 2}
     - target: {fileID: 3149574010294339713, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_Mesh
@@ -3742,7 +3742,7 @@ PrefabInstance:
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.4
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
@@ -3752,7 +3752,7 @@ PrefabInstance:
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
@@ -8555,6 +8555,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5117700592551455487}
     m_Modifications:
+    - target: {fileID: 2751171872097682292, guid: 4a429b7733bf32e4aa04f55ac73b79db,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e9014c5effb529343a1d41d4f36fc61e, type: 2}
     - target: {fileID: 3149574010294339713, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_Mesh
@@ -8578,7 +8583,7 @@ PrefabInstance:
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.4
+      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
@@ -8588,7 +8593,7 @@ PrefabInstance:
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.4
+      value: -8.4
       objectReference: {fileID: 0}
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
@@ -9165,7 +9170,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2100000, guid: 0a306977d994edb4f98b74f33314f486, type: 2}
     - target: {fileID: 3149574010294339713, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_Mesh
@@ -9189,7 +9194,7 @@ PrefabInstance:
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.40000004
+      value: 3.4
       objectReference: {fileID: 0}
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
@@ -9199,7 +9204,7 @@ PrefabInstance:
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.3999996
+      value: -4.4
       objectReference: {fileID: 0}
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
@@ -10626,7 +10631,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2100000, guid: e9014c5effb529343a1d41d4f36fc61e, type: 2}
     - target: {fileID: 3149574010294339713, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_Mesh
@@ -10650,7 +10655,7 @@ PrefabInstance:
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
@@ -10660,7 +10665,7 @@ PrefabInstance:
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7
+      value: -5.4
       objectReference: {fileID: 0}
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
@@ -10670,7 +10675,7 @@ PrefabInstance:
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0.7071303
       objectReference: {fileID: 0}
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
@@ -10680,7 +10685,7 @@ PrefabInstance:
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.000011071562
+      value: 0.70708334
       objectReference: {fileID: 0}
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
@@ -10695,7 +10700,7 @@ PrefabInstance:
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 179.99901
+      value: 90.004005
       objectReference: {fileID: 0}
     - target: {fileID: 6790799803652209350, guid: 4a429b7733bf32e4aa04f55ac73b79db,
         type: 3}

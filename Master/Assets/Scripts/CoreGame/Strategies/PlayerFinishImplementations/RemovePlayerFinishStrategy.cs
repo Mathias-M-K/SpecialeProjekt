@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Container;
 using CoreGame.Strategies.Interfaces;
+using UnityEngine;
 
 namespace CoreGame.Strategies.Implementations.PlayerFinishImplementations
 {
@@ -39,6 +40,8 @@ namespace CoreGame.Strategies.Implementations.PlayerFinishImplementations
                 }
             }
             
+            GameHandler.Current.RegisterPosition(playerController.playerTag,new Vector2(0,0));
+
             GameHandler.Current.RemovePlayerController(playerController);
             playerController.DestroySelf();
         }

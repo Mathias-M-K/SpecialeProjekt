@@ -389,6 +389,7 @@ namespace CoreGame
         public virtual void RemovePlayerController(PlayerController playerController)
         {
             _players.Remove(playerController);
+            numberOfSpawnedPlayers--;
         }
 
         private void AddPlayerController(PlayerController playerController)

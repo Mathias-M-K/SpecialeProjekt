@@ -31,10 +31,14 @@ namespace AdminGUI
         }
 
         
-
         public void Cancel()
         {
             _open = false;
+        }
+
+        public void Exit()
+        {
+            Application.Quit();
         }
     }
 }

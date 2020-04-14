@@ -53,7 +53,7 @@ namespace DefaultNamespace
             if (GlobalMethods.GetRole(PhotonNetwork.NickName) != "Participant") return;
 
             Debug.LogError("OnManualOverride Working");
-            LeanTween.moveLocalX(playerCoverPanel, -1920, 0.5f).setEase(LeanTweenType.easeInQuad);
+            LeanTween.moveLocalX(playerCoverPanel, -1920, 1f).setEase(LeanTweenType.easeInQuad);
         }
 
         private void OnBtnHit(Button button)

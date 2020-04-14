@@ -12,6 +12,7 @@ namespace AdminGUI
     {
         public GameObject SecondChoice;
         [SerializeField] private bool secondChoiceActive;
+        public GameObject arrow;
         
         private PlayerController _playerController;
         
@@ -94,12 +95,14 @@ namespace AdminGUI
 
         private void SetSecondChoiceActive()
         {
+            arrow.SetActive(false);
             LeanTween.moveLocalX(SecondChoice, 0, 0.5f).setEase(LeanTweenType.easeOutExpo).setEase(LeanTweenType.easeOutExpo);
             secondChoiceActive = true;
         }
 
         private void SetSecondChoiceInactive()
         {
+            arrow.SetActive(true);
             LeanTween.moveLocalX(SecondChoice, 265, 0.5f).setEase(LeanTweenType.easeOutExpo).setEase(LeanTweenType.easeOutExpo);
             secondChoiceActive = false;
         }
