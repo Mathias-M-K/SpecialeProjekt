@@ -560,6 +560,7 @@
                 <e p="OutgoingTradeListController.cs" t="Include" />
                 <e p="ParentTradeListController.cs" t="Include" />
                 <e p="TradeElements" t="Include">
+                  <e p="FadeController.cs" t="Include" />
                   <e p="IncomingTrade.cs" t="Include" />
                   <e p="OutgoingTrade.cs" t="Include" />
                 </e>

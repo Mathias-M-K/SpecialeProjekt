@@ -32,6 +32,9 @@ namespace AdminGUI
         [Header("Sprites")] 
         public Sprite directionArrowSprite;
 
+        [Header("External Scripts")] 
+        public FadeController fadeController;
+
         //Private variables
         private bool _arrowPanelOut;
         private bool _rejectButtonHideOnMouseExit = true;
@@ -52,6 +55,8 @@ namespace AdminGUI
 
             offeringPlayerBorder.color = ColorPalette.current.GetPlayerColor(_trade.OfferingPlayerTags);
             receivingPlayerBorder.color = ColorPalette.current.GetPlayerColor(_trade.ReceivingPlayerTags);
+            fadeController.SetPauseColor(ColorPalette.current.GetPlayerColor(trade.ReceivingPlayerTags));
+            
             
             Vector3 rotation = new Vector3(0,0,GlobalMethods.GetDirectionRotation(_trade.DirectionOffer));
             LeanTween.rotateLocal(incomingDirection.gameObject, rotation, 0.3f).setEase(LeanTweenType.easeOutSine);
@@ -105,16 +110,28 @@ namespace AdminGUI
             LeanTween.moveLocalX(acceptButton, 17, 0.4f).setEase(LeanTweenType.easeOutQuad);
             
             LeanTween.moveLocalX(tradePanel, 15, 0.4f).setEase(LeanTweenType.easeInOutQuad);
+
+            _rejectButtonHideOnMouseExit = false;
+            fadeController.ResetToWhite();
         }
         
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (_rejectButtonHideOnMouseExit) LeanTween.moveLocalX(rejectButton, 17, 0.4f).setEase(LeanTweenType.easeOutQuad);
+            if (_rejectButtonHideOnMouseExit)
+            {
+                LeanTween.moveLocalX(rejectButton, 17, 0.4f).setEase(LeanTweenType.easeOutQuad);
+                fadeController.Pause();
+            }
+            
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (_rejectButtonHideOnMouseExit) LeanTween.moveLocalX(rejectButton, 46, 0.4f).setEase(LeanTweenType.easeInQuad);
+            if (_rejectButtonHideOnMouseExit)
+            {
+                LeanTween.moveLocalX(rejectButton, 47, 0.4f).setEase(LeanTweenType.easeInQuad);
+                fadeController.StartFade();
+            }
         }
         
         public void OnMoveInventoryChange(Direction[] directions)

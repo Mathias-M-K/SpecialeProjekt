@@ -72,6 +72,7 @@ MonoBehaviour:
   rejectButton: {fileID: 7568345323687995252}
   directionArrowSprite: {fileID: 21300000, guid: e8353e1bc4131df4fbac6f080f9b79f2,
     type: 3}
+  fadeController: {fileID: 8945666520734125291}
 --- !u!114 &5186058138377279950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,6 +415,7 @@ GameObject:
   - component: {fileID: 7568345323243749650}
   - component: {fileID: 7568345323243749651}
   - component: {fileID: 7568345323243749645}
+  - component: {fileID: 8945666520734125291}
   m_Layer: 5
   m_Name: CounterOffer
   m_TagString: Untagged
@@ -499,7 +501,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.6784314, g: 0.6784314, b: 0.6784314, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -532,6 +534,25 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8945666520734125291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7568345323243749649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf9eb89e505b47eaa09138d48be37dc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upperLimit: 0.56
+  lowerLimit: 0
+  speed: 0.02
+  delay: 0.03
+  startAutomatically: 1
+  fadeColor: {r: 1, g: 1, b: 1, a: 0}
+  pauseColor: {r: 0.7529412, g: 0.7529412, b: 0.7529412, a: 0}
 --- !u!1 &7568345323388566879
 GameObject:
   m_ObjectHideFlags: 0
@@ -1190,7 +1211,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e8353e1bc4131df4fbac6f080f9b79f2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: be84c6caf5f0bde49a31bbf37d4e3d02, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
