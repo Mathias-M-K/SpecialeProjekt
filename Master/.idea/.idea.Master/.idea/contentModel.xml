@@ -557,9 +557,12 @@
               <e p="TradeButton.cs" t="Include" />
               <e p="TradeListControllers" t="Include">
                 <e p="IncomingTradeListController.cs" t="Include" />
-                <e p="OutgoingTrade.cs" t="Include" />
                 <e p="OutgoingTradeListController.cs" t="Include" />
                 <e p="ParentTradeListController.cs" t="Include" />
+                <e p="TradeElements" t="Include">
+                  <e p="IncomingTrade.cs" t="Include" />
+                  <e p="OutgoingTrade.cs" t="Include" />
+                </e>
               </e>
             </e>
             <e p="GameSetupController.cs" t="Include" />

@@ -107,14 +107,11 @@ namespace AdminGUI
         protected virtual void AddElement(PlayerTrade trade)
         {
             GameObject listElement = Instantiate(listElementPrefab, transform, false);
-            listElement.name = $"OutgoingTradeBtn {Random.Range(0,100000)}";
+            listElement.name = $"IncomingTrade {Random.Range(0,100000)}";
 
-            _PrimeTradeElement ptlc = listElement.GetComponent<_PrimeTradeElement>();
-            ptlc.SetName($"{trade.OfferingPlayerTags} | {trade.DirectionOffer}");
-            ptlc.SetTradeId(trade.TradeID);
-
-            SetButtonValues(listElement);
-
+            IncomingTrade inTrade = listElement.GetComponent<IncomingTrade>();
+            inTrade.SetInfo(trade,PlayerController);
+            
             Elements.Add(trade);
             ElementDictionary.Add(trade,listElement);
 
@@ -140,14 +137,7 @@ namespace AdminGUI
             
             UpdateElementPositions();
         }
-
-        /// <summary>
-        /// Settings settings for the button
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="tradeInfo"></param>
-        protected abstract void SetButtonValues(GameObject obj);
-
+        
         /// <summary>
         /// Updates elements, prompting them to go to their correct positions
         /// </summary>
@@ -176,5 +166,6 @@ namespace AdminGUI
 
 
         public abstract void OnNewTradeActivity(PlayerTrade playerTrade, TradeActions tradeAction);
+        
     }
 }

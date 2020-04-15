@@ -38,13 +38,7 @@ namespace AdminGUI
                     return;
             }
         }
-
-        protected override void SetButtonValues(GameObject obj)
-        {
-            IncomingTradeElement ite = obj.GetComponent<IncomingTradeElement>();
-            if(PlayerController) ite.SetPlayerController(PlayerController.playerTag);
-
-        }
+        
 
         public override void OnNewTradeActivity(PlayerTrade playerTrade, TradeActions tradeAction)
         {
