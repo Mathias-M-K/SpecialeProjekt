@@ -32,7 +32,7 @@ namespace AdminGUI
         [Header("Settings")] 
         [SerializeField] private float elementHeight = 30;
         [SerializeField] private float spacing = 5;
-        [SerializeField] private float elementStartPos;
+        [SerializeField] private float elementStartPos = 5;
         protected float _bottomPos;
         
         

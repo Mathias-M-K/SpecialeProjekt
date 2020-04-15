@@ -23,8 +23,8 @@ namespace AdminGUI
         public LeanTweenType repositionType;
 
         [Header("Settings")] [SerializeField] private float elementHeight = 30;
-        [SerializeField] private float spacing = 5;
-        [SerializeField] private float elementStartPos;
+        public float spacing = 5;
+        public float elementStartPos;
 
         //Other
         private GameObject _currentInLine;

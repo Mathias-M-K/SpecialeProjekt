@@ -23715,7 +23715,6 @@ MonoBehaviour:
   easeOut: 11
   moveIn: 27
   moveOut: 26
-  activeIncomingTrades: 0
   incomingTradesTitle: {fileID: 627899202}
   outgoingTradesTitle: {fileID: 0}
 --- !u!114 &2076743756

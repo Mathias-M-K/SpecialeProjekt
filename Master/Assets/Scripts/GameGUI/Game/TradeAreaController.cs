@@ -21,14 +21,14 @@ namespace AdminGUI
         public LeanTweenType moveIn;
         public LeanTweenType moveOut;
 
-        [SerializeField] private int activeIncomingTrades = 0;
+        private int activeIncomingTrades = 0;
         private int _activeOutgoingTrades = 0;
         private int _outgoingTradeHeightOffSet = 0;
 
         private List<PlayerTrade> incomingTrades = new List<PlayerTrade>();
         private List<PlayerTrade> outgoingTrades = new List<PlayerTrade>();
-        private List<Button> _outgoingTradeButtons;
-        private List<Button> _incomingTradeButtons;
+        private List<Button> _outgoingTradeButtons = new List<Button>();
+        private List<Button> _incomingTradeButtons = new List<Button>();
         private readonly Dictionary<PlayerTrade, Button> _incomingTradeDictionary = new Dictionary<PlayerTrade, Button>();
         private readonly Dictionary<PlayerTrade, Button> _outgoingTradeDictionary = new Dictionary<PlayerTrade, Button>();
 

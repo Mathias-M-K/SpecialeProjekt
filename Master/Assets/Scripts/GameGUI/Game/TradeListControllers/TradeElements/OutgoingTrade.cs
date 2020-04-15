@@ -36,7 +36,6 @@ namespace AdminGUI
 
         [HideInInspector] public PlayerTrade trade;
         private bool _tradeConfirmed;
-        private bool _mouseOver;
         private PlayerController _playerController;
         private Dictionary<int, PlayerTags> _playerTagDictionary = new Dictionary<int, PlayerTags>();
 
@@ -157,19 +156,17 @@ namespace AdminGUI
 
         private void OnDestroy()
         {
-            _playerController.RemoveInventoryObserver(this);
+            if(_playerController != null) _playerController.RemoveInventoryObserver(this);
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            _mouseOver = true;
             if (!_tradeConfirmed) return;
             LeanTween.moveLocalX(rejectButton, 58.2f, 0.4f).setEase(LeanTweenType.easeInOutQuad);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            _mouseOver = false;
             if (!_tradeConfirmed) return;
             LeanTween.moveLocalX(rejectButton, 96.31f, 0.4f).setEase(LeanTweenType.easeInOutQuad);
         }
