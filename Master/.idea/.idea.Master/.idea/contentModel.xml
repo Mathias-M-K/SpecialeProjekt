@@ -552,6 +552,9 @@
               </e>
               <e p="ReadyButtonController.cs" t="Include" />
               <e p="SendButton.cs" t="Include" />
+              <e p="Sequence" t="Include">
+                <e p="SequenceArrowController.cs" t="Include" />
+              </e>
               <e p="SequenceController.cs" t="Include" />
               <e p="TradeAreaController.cs" t="Include" />
               <e p="TradeButton.cs" t="Include" />

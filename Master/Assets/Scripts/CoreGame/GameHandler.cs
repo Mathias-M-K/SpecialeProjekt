@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Container;
 using CoreGame.Interfaces;
 using DefaultNamespace;
 using Michsky.UI.ModernUIPack;
 using Photon.Pun;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace CoreGame
 {
@@ -175,10 +177,10 @@ namespace CoreGame
         /// <summary>
         /// Adds a move to the common sequence
         /// </summary>
-        /// <param name="p - playerTag"></param>
-        /// <param name="d - direction"></param>
-        /// <param name="index - index of move"></param>
-        public virtual void AddMoveToSequence(PlayerTags p, Direction d, int index)
+        /// <param name="p"></param>
+        /// <param name="d"></param>
+        /// <param name="index"></param>
+        public virtual void AddMoveToSequence(PlayerTags p, Direction d,int moveId, int index)
         {
             PlayerController playerController = GetPlayerController(p);
 
@@ -193,8 +195,8 @@ namespace CoreGame
             }
 
             if (d == Direction.Blank) throw new ArgumentException("Can't add blank moves");
-
-            StoredPlayerMove playerMove = new StoredPlayerMove(p, d);
+            
+            StoredPlayerMove playerMove = new StoredPlayerMove(p, d, index, moveId);
             _sequenceMoves.Add(playerMove);
 
             playerController.RemoveMove(index);
@@ -209,8 +211,12 @@ namespace CoreGame
         /// <param name="move"></param>
         public virtual void RemoveMoveFromSequence(StoredPlayerMove move)
         {
-            _sequenceMoves.Remove(move);
-            NotifySequenceObservers(SequenceActions.MoveRemoved, move);
+            StoredPlayerMove currentMove = _sequenceMoves.First(item => item.Id == move.Id);
+            
+            _sequenceMoves.Remove(currentMove);
+            
+            GetPlayerController(move.PlayerTags).AddMove(move.Direction,move.moveIndex);
+            NotifySequenceObservers(SequenceActions.MoveRemoved, currentMove);
         }
 
         /// <summary>

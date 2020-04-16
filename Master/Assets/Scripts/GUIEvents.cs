@@ -27,7 +27,7 @@ namespace AdminGUI
         public event Action<Button, TradeActions, Direction> OnTradeAction;
         public event Action OnManualOverride;
         public event Action OnGameStart;
-        
+
         /*
          * GAME BUTTONS
          */
@@ -49,6 +49,11 @@ namespace AdminGUI
         {
             _currentChosenPlayerTag = playerTag;
             GameHandler.Current.GetPlayerController(_currentChosenPlayerTag).AddReadyObserver(GameHandler.Current);
+        }
+
+        public PlayerTags GetCurrentPlayer()
+        {
+            return _currentChosenPlayerTag;
         }
         
         /*
@@ -85,7 +90,7 @@ namespace AdminGUI
         {
             if (OnButtonHit != null) OnButtonHit(button);
         }
-
+        
         private void OnPlayerChange()
         {
             if (_currentChosenPlayerTag == PlayerTags.Blank) return;

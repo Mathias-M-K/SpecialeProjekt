@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using AdminGUI;
 using Container;
 using CoreGame;
@@ -149,22 +150,23 @@ namespace DefaultNamespace
         {
             throw new NotImplementedException();
         }
-        
-        
+
+
         /// <summary>
         /// AddMoveToSequence()
         /// </summary>
         /// <param name="p"></param>
         /// <param name="d"></param>
+        /// <param name="moveId"></param>
         /// <param name="index"></param>
-        public void AddMoveToSequence(PlayerTags p, Direction d, int index)
+        public void AddMoveToSequence(PlayerTags p, Direction d, int moveId, int index)
         {
-            photonView.RPC("RPC_AddMoveToSequence",RpcTarget.Others,p,d,index);
+            photonView.RPC("RPC_AddMoveToSequence",RpcTarget.Others,p,d,moveId,index);
         }
         [PunRPC]
-        public void RPC_AddMoveToSequence(PlayerTags p, Direction d, int index)
+        public void RPC_AddMoveToSequence(PlayerTags p, Direction d, int moveId, int index)
         {
-            gameHandler.AddMoveToSequence(p,d,index);
+            gameHandler.AddMoveToSequence(p,d,moveId,index);
         }
 
         
@@ -174,12 +176,13 @@ namespace DefaultNamespace
         /// <param name="move"></param>
         public void RemoveMoveFromSequence(StoredPlayerMove move)
         {
-            photonView.RPC("RPC_RemoveMoveFromSequence",RpcTarget.Others,move);
+            photonView.RPC("RPC_RemoveMoveFromSequence",RpcTarget.Others,move.PlayerTags,move.Direction,move.moveIndex,move.Id);
         }
         [PunRPC]
-        public void RPC_RemoveMoveFromSequence(StoredPlayerMove move)
+        public void RPC_RemoveMoveFromSequence(PlayerTags pTag, Direction d,int index, int id)
         {
-            gameHandler.RemoveMoveFromSequence(move);
+            StoredPlayerMove storedPMove = new StoredPlayerMove(pTag,d,index,id);
+            gameHandler.RemoveMoveFromSequence(storedPMove);
         }
 
         

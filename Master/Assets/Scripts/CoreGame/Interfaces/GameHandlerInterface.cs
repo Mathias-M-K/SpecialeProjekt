@@ -53,7 +53,7 @@ namespace CoreGame.Interfaces
     /// <summary>
     /// Adds a move to the common sequence
     /// </summary>
-    void AddMoveToSequence(PlayerTags p, Direction d, int index);
+    void AddMoveToSequence(PlayerTags p, Direction d, int moveId, int index);
 
     /// <summary>
     /// Removes a move from the common sequence

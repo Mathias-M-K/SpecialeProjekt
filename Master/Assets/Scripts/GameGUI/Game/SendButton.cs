@@ -1,7 +1,4 @@
-﻿using System;
-using Container;
-using CoreGame;
-using CoreGame.Interfaces;
+﻿using CoreGame;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,7 +28,10 @@ namespace AdminGUI
                 {
                     int.TryParse(key.Substring(5, key.Length - 5), out int indexFetchValue);
                     Direction directionToSend = _playerController.GetMoves()[indexFetchValue];
-                    GameHandler.Current.AddMoveToSequence(_playerController.playerTag, directionToSend, indexFetchValue);
+
+                    Random.Range(0, 999999);
+                    
+                    GameHandler.Current.AddMoveToSequence(_playerController.playerTag, directionToSend,Random.Range(0, 999999), indexFetchValue);
                     
                     PlayerChange(_playerController.playerTag);
                 }

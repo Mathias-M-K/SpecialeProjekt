@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AdminGUI.Sequence;
 using Container;
 using CoreGame;
 using CoreGame.Interfaces;
@@ -16,9 +17,8 @@ namespace AdminGUI
 
         private int _nrOfRows = 0;
         
-        private Color32 idleColor = new Color32(56, 173, 169,255);
-
-
+        [SerializeField] private Color32 idleColor = new Color32(56, 173, 169,255);
+        
         [Header("Prefabs")] 
         public GameObject rowPrefab;
         
@@ -26,10 +26,10 @@ namespace AdminGUI
         private void Start()
         {
             GameHandler.Current.AddSequenceObserver(this);
-            
             StartCoroutine(ClearSequence(0.02f));
         }
-
+        
+        
         public void OnSequenceChange(SequenceActions sequenceAction, StoredPlayerMove move)
         {
             switch (sequenceAction)
@@ -49,7 +49,41 @@ namespace AdminGUI
         
         private void RemoveMove(StoredPlayerMove move)
         {
-            //_nrOfMovesInSequence--;
+            List<StoredPlayerMove> moves = GameHandler.Current.GetSequence();
+            int i = 0;
+            foreach (StoredPlayerMove playerMove in moves)
+            {
+                SequenceArrowController arrowController = GetElement(i).GetComponent<SequenceArrowController>();
+                Transform element = GetElement(i);
+                i++;
+                if(arrowController.move.Id == playerMove.Id) continue;
+
+                arrowController.move = playerMove;
+
+                Image img = arrowController.image;
+                
+                element.GetComponent<Button>().interactable = GUIEvents.current.GetCurrentPlayer() == playerMove.PlayerTags;
+                element.GetComponent<SequenceArrowController>().SetCancelButtonActive(GUIEvents.current.GetCurrentPlayer() == playerMove.PlayerTags);
+                element.GetComponent<SequenceArrowController>().SetMouseHover(GUIEvents.current.GetCurrentPlayer() == playerMove.PlayerTags);
+                
+                //Rotation stuff
+                LeanTween.color(img.rectTransform, ColorPalette.current.GetPlayerColor(playerMove.PlayerTags), 0.3f).setEase(LeanTweenType.easeOutSine);
+            
+                
+                Vector3 rotation = new Vector3(0,0,GlobalMethods.GetDirectionRotation(playerMove.Direction));
+                LeanTween.rotateLocal(img.gameObject, rotation, 0.3f).setEase(LeanTweenType.easeOutSine);
+            }
+
+            for (int j = i; j < _nrOfMovesInSequence; j++)
+            {
+                Image img = GetElement(i).GetComponent<SequenceArrowController>().image;
+                GetElement(i).GetComponent<SequenceArrowController>().SetCancelButtonActive(false);
+                GetElement(i).GetComponent<Button>().interactable = false;
+                
+                LeanTween.color(img.rectTransform, idleColor, 0.3f);
+            }
+            
+            _nrOfMovesInSequence--;
         }
 
         private void AddMove(StoredPlayerMove move)
@@ -57,8 +91,18 @@ namespace AdminGUI
             //Image img = transform.GetChild(_nrOfMovesInSequence).GetComponent<Image>();
             //img.color = ColorPalette.current.GetPlayerColor(move.PlayerTags);
 
-            Image img = GetElement(_nrOfMovesInSequence).GetComponent<Image>();
+            Image img = GetElement(_nrOfMovesInSequence).GetComponent<SequenceArrowController>().image;
             img.color = ColorPalette.current.GetPlayerColor(move.PlayerTags);
+
+            GetElement(_nrOfMovesInSequence).GetComponent<SequenceArrowController>().index = _nrOfMovesInSequence;
+            GetElement(_nrOfMovesInSequence).GetComponent<SequenceArrowController>().move = move;
+            if (GUIEvents.current.GetCurrentPlayer() == move.PlayerTags)
+            {
+                GetElement(_nrOfMovesInSequence).GetComponent<Button>().interactable = true;
+                GetElement(_nrOfMovesInSequence).GetComponent<SequenceArrowController>().SetMouseHover(true);
+                GetElement(_nrOfMovesInSequence).GetComponent<SequenceArrowController>().SetCancelButtonActive(true);
+            }
+            
 
             
             LeanTween.color(img.rectTransform, ColorPalette.current.GetPlayerColor(move.PlayerTags), 0.3f).setEase(LeanTweenType.easeOutSine);
@@ -110,12 +154,11 @@ namespace AdminGUI
             _nrOfMovesInSequence = 0;
         }
         
-        
         private void AddRow()
         {
             Instantiate(rowPrefab, transform, false);
         }
-        
+
         private Transform GetElement(float i)
         {
             const int elementsInRow = 24;
@@ -133,7 +176,7 @@ namespace AdminGUI
             Transform tRow = transform.GetChild(row);
             Transform tElement = tRow.GetChild(element);
             
-            print($"row: {row}, Element: {element}");
+            //print($"row: {row}, Element: {element}");
 
             return tElement;
         }

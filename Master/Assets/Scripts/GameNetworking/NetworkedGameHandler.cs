@@ -98,14 +98,14 @@ namespace DefaultNamespace
         /*
          * Networked
          */
-        public override void AddMoveToSequence(PlayerTags p, Direction d, int index)
+        public override void AddMoveToSequence(PlayerTags p, Direction d,int moveId, int index)
         {
-            MyNetworkedAgent.AddMoveToSequence(p, d, index);
-            localGameHandler.AddMoveToSequence(p, d, index);
+            MyNetworkedAgent.AddMoveToSequence(p, d,moveId, index);
+            localGameHandler.AddMoveToSequence(p, d,moveId, index);
         }
         public override void RemoveMoveFromSequence(StoredPlayerMove move)
         {
-            //MyNetworkedAgent.RemoveMoveFromSequence(move);
+            MyNetworkedAgent.RemoveMoveFromSequence(move);
             localGameHandler.RemoveMoveFromSequence(move);
         }
         public override IEnumerator PerformSequence()

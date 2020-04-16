@@ -4,6 +4,7 @@ using Container;
 using CoreGame.Interfaces;
 using CoreGame.Strategies.Interfaces;
 using DefaultNamespace;
+using Photon.Pun;
 using UnityEngine;
 
 namespace CoreGame
@@ -13,8 +14,8 @@ namespace CoreGame
         [Header("Strategy")] public FileNameStrategy fileNameStrategy;
     
         [Header("Stats")]
-        [SerializeField] private int nrOfMoves;
-        private int _nrOfTrades;
+        [SerializeField] private int nrOfMoves = 0;
+        private int _nrOfTrades = 0;
         private string _directoryPath = "C:/MasterData/";
         private TextWriter _textWriter;
 
@@ -22,6 +23,8 @@ namespace CoreGame
 
         private void Start()
         {
+            if (!PhotonNetwork.IsMasterClient) return;
+            
             //initializing fileCreationStrategy
             switch (fileNameStrategy)
             {
