@@ -325,6 +325,15 @@ namespace DefaultNamespace
         {
             Debug.Log($"Contacting master with new state: {state}");
             photonView.RPC("RPC_OnReadyStateChanged",RpcTarget.MasterClient,state,player);
+
+            Debug.Log($"Contacting observers with new state: {state}");
+            foreach (Player player1 in PhotonNetwork.PlayerList)
+            {
+                if (GlobalMethods.IsObserver(player1.NickName))
+                {
+                    _photonView.RPC("RPC_Observer_OnReadyStateChanged",player1,state,player);
+                }
+            }
         }
         [PunRPC]
         public void RPC_OnReadyStateChanged(bool state,PlayerTags player)
@@ -332,6 +341,11 @@ namespace DefaultNamespace
             Debug.Log($"New state received: {state}");
             GameHandler.Current.OnReadyStateChanged(state,player);
             gameHandler.OnReadyStateChanged(state,player);
+        }
+        [PunRPC]
+        public void RPC_Observer_OnReadyStateChanged(bool state, PlayerTags player)
+        {
+            GUIEvents.current.OnPlayerReadyNotify(state,player);
         }
 
 
@@ -402,7 +416,6 @@ namespace DefaultNamespace
                 Disconnect();
             }
         }
-        
         
         public void Disconnect()
         {
