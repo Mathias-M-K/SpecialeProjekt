@@ -29,6 +29,9 @@ namespace AdminGUI
         public event Action OnGameStart;
         public event Action <PlayerController> OnPlayerDone;
 
+        //Yeha
+        public event Action<bool, PlayerTags> OnPlayerReady;
+        
         public void OnPlayerDoneNotify(PlayerController playerController)
         {
             if (OnPlayerDone != null) OnPlayerDone(playerController);
@@ -49,6 +52,15 @@ namespace AdminGUI
         public void BtnHit(Button b)
         {
             NotifyButtonHit(b);
+        }
+        
+        
+        /*
+         * im lazy, so here is another readyObserver... For the stattracker
+         */
+        public void OnPlayerReadyNotify(bool boolValue, PlayerTags player)
+        {
+            if (OnPlayerReady != null) OnPlayerReady(boolValue, player);
         }
 
         public void SetGameTag(PlayerTags playerTag)

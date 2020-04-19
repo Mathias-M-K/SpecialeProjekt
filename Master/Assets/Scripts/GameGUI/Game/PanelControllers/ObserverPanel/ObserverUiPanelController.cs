@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Container;
 using CoreGame;
+using DefaultNamespace;
+using Photon.Pun;
+using TMPro;
 using UnityEngine;
 
 namespace AdminGUI.PanelControllers
@@ -16,9 +19,15 @@ namespace AdminGUI.PanelControllers
         [Header("Prefabs")] 
         public GameObject tradePrefab;
         public GameObject playerStatPrefab;
+
+        [Header("Other")] 
+        public TextMeshProUGUI timer;
+        public NetworkAgentController netAgentController;
         
         private List<PlayerTrade> _trades = new List<PlayerTrade>();
         private Dictionary<PlayerTrade,GameObject> _tradeDictionary = new Dictionary<PlayerTrade, GameObject>();
+
+        private float _startTime;
 
         private void Start()
         {
@@ -26,8 +35,27 @@ namespace AdminGUI.PanelControllers
             GameHandler.Current.AddTradeObserver(this);
         }
 
+        private void Update()
+        {
+            TimeSpan ts = TimeSpan.FromSeconds(Time.realtimeSinceStartup-_startTime);
+
+            //timer.text = $"{ts.Hours}:{ts.Minutes}:{ts.Seconds}:{ts.Milliseconds.ToString("##")}";
+            timer.text = $"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}";
+        }
+
+        public void ObserverBtnPressed()
+        {
+            netAgentController.OnObserverMark(PhotonNetwork.NickName,GetTime());
+        }
+
+        private float GetTime()
+        {
+            return Time.realtimeSinceStartup - _startTime;
+        }
+
         private void OnManualOverride()
         {
+            _startTime = Time.realtimeSinceStartup;
             CreatePlayerStatPanels();
         }
         

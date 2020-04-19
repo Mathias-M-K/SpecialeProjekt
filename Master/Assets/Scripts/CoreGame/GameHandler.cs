@@ -488,7 +488,7 @@ namespace CoreGame
             CheckIfGameIsDone();
         }
 
-        public virtual void OnReadyStateChanged(bool state)
+        public virtual void OnReadyStateChanged(bool state, PlayerTags player)
         {
             switch (state)  
             {

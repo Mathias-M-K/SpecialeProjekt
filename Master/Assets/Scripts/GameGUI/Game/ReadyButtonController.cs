@@ -86,7 +86,7 @@ namespace AdminGUI
             readyBtn.colors = colorBlock;
         }
 
-        public void OnReadyStateChanged(bool state)
+        public void OnReadyStateChanged(bool state, PlayerTags player)
         {
             switch (state)
             {

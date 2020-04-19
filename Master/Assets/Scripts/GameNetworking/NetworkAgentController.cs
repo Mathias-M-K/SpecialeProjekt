@@ -31,6 +31,7 @@ namespace DefaultNamespace
 
         [Header("Other")] 
         public TextMeshProUGUI readyCounter;
+        public StatTracker StatTracker;
 
         private bool _processingNewTradeAction;
         
@@ -48,6 +49,16 @@ namespace DefaultNamespace
             GUIEvents.current.OnButtonHit += OnBtnHit;
             GUIEvents.current.OnManualOverride += OnManualOverride;
             GUIEvents.current.OnPlayerDone += OnPlayerDone;
+        }
+
+        public void OnObserverMark(string nickname, float time)
+        {
+            _photonView.RPC("RPC_OnObserverMark",RpcTarget.MasterClient,nickname,time);
+        }
+        [PunRPC]
+        private void RPC_OnObserverMark(string nickname, float time)
+        {
+            StatTracker.OnObserverMark(nickname,time);
         }
 
         private void OnPlayerDone(PlayerController playerController)
@@ -310,17 +321,17 @@ namespace DefaultNamespace
         }
         
         
-        public void OnReadyStateChanged(bool state)
+        public void OnReadyStateChanged(bool state, PlayerTags player)
         {
             Debug.Log($"Contacting master with new state: {state}");
-            photonView.RPC("RPC_OnReadyStateChanged",RpcTarget.MasterClient,state);
+            photonView.RPC("RPC_OnReadyStateChanged",RpcTarget.MasterClient,state,player);
         }
         [PunRPC]
-        public void RPC_OnReadyStateChanged(bool state)
+        public void RPC_OnReadyStateChanged(bool state,PlayerTags player)
         {
             Debug.Log($"New state received: {state}");
-            GameHandler.Current.OnReadyStateChanged(state);
-            gameHandler.OnReadyStateChanged(state);
+            GameHandler.Current.OnReadyStateChanged(state,player);
+            gameHandler.OnReadyStateChanged(state,player);
         }
 
         

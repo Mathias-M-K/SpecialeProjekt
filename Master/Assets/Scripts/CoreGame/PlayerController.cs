@@ -355,7 +355,7 @@ namespace CoreGame
         {
             foreach (IReadyObserver observer in _readyObservers)
             {
-                observer.OnReadyStateChanged(_ready);
+                observer.OnReadyStateChanged(_ready,playerTag);
             }
         }
 

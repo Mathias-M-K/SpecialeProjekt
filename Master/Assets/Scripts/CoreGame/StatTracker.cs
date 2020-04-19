@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace CoreGame
 {
-    public class StatTracker : MonoBehaviour, ISequenceObserver, ITradeObserver, IFinishPointObserver, IReadyObserver
+    public class StatTracker : MonoBehaviour, ISequenceObserver, ITradeObserver, IFinishPointObserver
     {
         [Header("Strategy")] public FileNameStrategy fileNameStrategy;
     
@@ -51,12 +51,8 @@ namespace CoreGame
             GameHandler.Current.AddSequenceObserver(this);
             GameHandler.Current.AddTradeObserver(this);
             GameHandler.Current.AddGameProgressObserver(this);
-
-            foreach (PlayerController player in GameHandler.Current.GetPlayers())
-            {
-                player.AddReadyObserver(this);
-            }
-
+            GUIEvents.current.OnPlayerReady += OnReadyStateChanged;
+            
             CreateFile();
 
             _textWriter.WriteLine("{0},{1}", DateTime.Now, GameHandler.Current.GetPlayers().Count);
@@ -139,11 +135,18 @@ namespace CoreGame
             _textWriter.Close();
         }
 
-
-        public void OnReadyStateChanged(bool state)
+        public void OnObserverMark(string observer, float time)
         {
-            //Type | Time Elapsed | new state
-            _textWriter.WriteLine("{0},{1},{2}", "Ready State Changed:", GetGameTime(), state);
+            TimeSpan ts = TimeSpan.FromSeconds(time);
+            
+            //Type | Time Elapsed | Observer | time
+            _textWriter.WriteLine("{0},{1},{2},{3}", "Observer Mark:", GetGameTime(), observer,$"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}");
+        }
+
+        private void OnReadyStateChanged(bool state, PlayerTags player)
+        {
+            //Type | Time Elapsed | Player | State
+            _textWriter.WriteLine("{0},{1},{2},{3}", "Ready State Changed:", GetGameTime(), player,state);
         }
     }
 

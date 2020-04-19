@@ -2,6 +2,6 @@
 {
     public interface IReadyObserver
     {
-        void OnReadyStateChanged(bool state);
+        void OnReadyStateChanged(bool state, PlayerTags player);
     }
 }

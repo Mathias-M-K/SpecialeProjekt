@@ -711,6 +711,78 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -5}
   m_SizeDelta: {x: 0, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &240750520
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 240750521}
+  - component: {fileID: 240750523}
+  - component: {fileID: 240750522}
+  m_Layer: 5
+  m_Name: TMP SubMeshUI [OpenSans-Light SDF Material + OpenSans-LightItalic SDF Atlas]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &240750521
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240750520}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1984003390}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &240750522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240750520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_fontAsset: {fileID: 11400000, guid: d10d3fbe67cb68d41930a013bc4e2e43, type: 2}
+  m_spriteAsset: {fileID: 0}
+  m_material: {fileID: 0}
+  m_sharedMaterial: {fileID: 0}
+  m_isDefaultMaterial: 0
+  m_padding: 1.25
+  m_canvasRenderer: {fileID: 240750523}
+  m_TextComponent: {fileID: 1984003391}
+  m_materialReferenceIndex: 1
+--- !u!222 &240750523
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240750520}
+  m_CullTransparentMesh: 0
 --- !u!1 &287310325
 GameObject:
   m_ObjectHideFlags: 0
@@ -1197,8 +1269,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: -651.5586}
-  m_SizeDelta: {x: 0, y: 1315.7}
+  m_AnchoredPosition: {x: 0.000030517578, y: -706.3}
+  m_SizeDelta: {x: 0, y: 1425.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &380588160
 MonoBehaviour:
@@ -3699,8 +3771,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1146267188}
   m_HandleRect: {fileID: 1146267187}
   m_Direction: 2
-  m_Value: 0.99521816
-  m_Size: 0.3277985
+  m_Value: 0.99557966
+  m_Size: 0.3104316
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4588,7 +4660,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -34.1}
+  m_AnchoredPosition: {x: 0, y: -62}
   m_SizeDelta: {x: 543.3, y: 641.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1963930438
@@ -4871,7 +4943,8 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 240750521}
   m_Father: {fileID: 380588159}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4898,11 +4971,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ultricies tristique nulla
-    aliquet enim tortor at auctor. Curabitur gravida arcu ac tortor dignissim convallis.
-    Quis viverra nibh cras pulvinar mattis nunc sed blandit libero. Tincidunt nunc
-    pulvinar sapien et ligula ullamcorper malesuada. Ligula ullamcorper malesuada
+  m_text: '<i>Lorem </i>ipsum dolor sit amet, consectetur adipiscing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultricies tristique
+    nulla aliquet enim tortor at auctor. Curabitur gravida arcu ac tortor dignissim
+    convallis. Quis viverra nibh cras pulvinar mattis nunc sed blandit libero. Tincidunt
+    nunc pulvinar sapien et ligula ullamcorper malesuada. Ligula ullamcorper malesuada
     proin libero nunc consequat interdum. Enim neque volutpat ac tincidunt vitae
     semper quis. Consequat mauris nunc congue nisi vitae suscipit tellus mauris a.
     Pulvinar mattis nunc sed blandit libero. Blandit cursus risus at ultrices mi
@@ -4913,42 +4986,42 @@ MonoBehaviour:
     adipiscing bibendum est ultricies integer quis auctor elit sed. Placerat duis
     ultricies lacus sed turpis tincidunt.
 
-    
 
-    Semper eget duis at tellus.
-    Elementum eu facilisis sed odio. Velit sed ullamcorper morbi tincidunt ornare
-    massa eget. Non enim praesent elementum facilisis. Semper viverra nam libero
-    justo. Egestas sed sed risus pretium quam vulputate dignissim. Leo a diam sollicitudin
-    tempor id eu nisl. Enim sed faucibus turpis in eu. Diam sit amet nisl suscipit.
-    Mauris augue neque gravida in fermentum. Morbi tristique senectus et netus et
-    malesuada fames ac. Habitasse platea dictumst quisque sagittis purus sit. Sit
-    amet cursus sit amet dictum sit. Enim neque volutpat ac tincidunt vitae semper.
-    Tortor at auctor urna nunc. Eu ultrices vitae auctor eu augue ut.
 
-    
+    Semper eget duis at tellus. Elementum
+    eu facilisis sed odio. Velit sed ullamcorper morbi tincidunt ornare massa eget.
+    Non enim praesent elementum facilisis. Semper viverra nam libero justo. Egestas
+    sed sed risus pretium quam vulputate dignissim. Leo a diam sollicitudin tempor
+    id eu nisl. Enim sed faucibus turpis in eu. Diam sit amet nisl suscipit. Mauris
+    augue neque gravida in fermentum. Morbi tristique senectus et netus et malesuada
+    fames ac. Habitasse platea dictumst quisque sagittis purus sit. Sit amet cursus
+    sit amet dictum sit. Enim neque volutpat ac tincidunt vitae semper. Tortor at
+    auctor urna nunc. Eu ultrices vitae auctor eu augue ut.
 
-    Pellentesque
-    eu tincidunt tortor aliquam nulla facilisi cras fermentum odio. Vitae suscipit
-    tellus mauris a. Etiam non quam lacus suspendisse faucibus interdum posuere lorem
-    ipsum. Enim sed faucibus turpis in eu mi bibendum. Turpis tincidunt id aliquet
-    risus feugiat in ante metus dictum. Sodales ut eu sem integer vitae justo eget.
-    Fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate sapien.
-    Purus ut faucibus pulvinar elementum integer. Lobortis elementum nibh tellus
-    molestie nunc non blandit. Dictum at tempor commodo ullamcorper. Blandit volutpat
-    maecenas volutpat blandit aliquam. Pharetra sit amet aliquam id diam maecenas.
-    Pharetra sit amet aliquam id diam maecenas ultricies. Neque ornare aenean euismod
-    elementum nisi quis eleifend quam.
 
-    
 
-    Viverra tellus in hac habitasse.
-    Velit aliquet sagittis id consectetur purus ut faucibus. Varius vel pharetra
-    vel turpis nunc. Enim sit amet venenatis urna cursus. Id faucibus nisl tincidunt
-    eget nullam non nisi est. Sed vulputate mi sit amet. Tempus iaculis urna id volutpat
-    lacus laoreet. Quis auctor elit sed vulputate mi sit amet. Urna condimentum mattis
-    pellentesque id. Cursus in hac habitasse platea dictumst quisque sagittis purus.
+    Pellentesque eu
+    tincidunt tortor aliquam nulla facilisi cras fermentum odio. Vitae suscipit tellus
+    mauris a. Etiam non quam lacus suspendisse faucibus interdum posuere lorem ipsum.
+    Enim sed faucibus turpis in eu mi bibendum. Turpis tincidunt id aliquet risus
+    feugiat in ante metus dictum. Sodales ut eu sem integer vitae justo eget. Fringilla
+    phasellus faucibus scelerisque eleifend donec pretium vulputate sapien. Purus
+    ut faucibus pulvinar elementum integer. Lobortis elementum nibh tellus molestie
+    nunc non blandit. Dictum at tempor commodo ullamcorper. Blandit volutpat maecenas
+    volutpat blandit aliquam. Pharetra sit amet aliquam id diam maecenas. Pharetra
+    sit amet aliquam id diam maecenas ultricies. Neque ornare aenean euismod elementum
+    nisi quis eleifend quam.
 
-    
+
+
+    Viverra tellus in hac habitasse. Velit aliquet
+    sagittis id consectetur purus ut faucibus. Varius vel pharetra vel turpis nunc.
+    Enim sit amet venenatis urna cursus. Id faucibus nisl tincidunt eget nullam non
+    nisi est. Sed vulputate mi sit amet. Tempus iaculis urna id volutpat lacus laoreet.
+    Quis auctor elit sed vulputate mi sit amet. Urna condimentum mattis pellentesque
+    id. Cursus in hac habitasse platea dictumst quisque sagittis purus.
+
+
 
     Tincidunt
     eget nullam non nisi est sit amet facilisis. Amet dictum sit amet justo donec
@@ -5030,21 +5103,21 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1984003391}
-    characterCount: 3671
+    characterCount: 3667
     spriteCount: 0
-    spaceCount: 546
+    spaceCount: 550
     wordCount: 543
     linkCount: 0
-    lineCount: 68
+    lineCount: 72
     pageCount: 1
-    materialCount: 1
+    materialCount: 2
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 240750522}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

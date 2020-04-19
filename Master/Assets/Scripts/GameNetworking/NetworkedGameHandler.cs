@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AdminGUI;
 using Container;
 using CoreGame;
 using CoreGame.Interfaces;
@@ -183,11 +184,12 @@ namespace DefaultNamespace
         /*
          * Networked
          */
-        public override void OnReadyStateChanged(bool state)
+        public override void OnReadyStateChanged(bool state, PlayerTags player)
         {
 
             if (PhotonNetwork.IsMasterClient)
             {
+                GUIEvents.current.OnPlayerReadyNotify(state,player);
                 switch (state)  
                 {
                     case true:
@@ -217,7 +219,7 @@ namespace DefaultNamespace
 
             if (!PhotonNetwork.IsMasterClient)
             {
-                MyNetworkedAgent.OnReadyStateChanged(state);
+                MyNetworkedAgent.OnReadyStateChanged(state,player);
             }
         }
 
