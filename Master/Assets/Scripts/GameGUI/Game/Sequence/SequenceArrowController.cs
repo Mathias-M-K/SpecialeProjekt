@@ -70,7 +70,7 @@ namespace AdminGUI.Sequence
             MouseExit();
             GameHandler.Current.RemoveMoveFromSequence(move);
             LeanTween.alpha(image.rectTransform, 1, 0.3f);
-            MouseExitSpriteChange();
+            //MouseExitSpriteChange();
         }
 
         public void SetMouseHover(bool newBoolValue)

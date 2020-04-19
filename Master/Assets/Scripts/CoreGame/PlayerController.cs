@@ -347,12 +347,10 @@ namespace CoreGame
         {
             _readyObservers.Add(iro);
         }
-
         public void RemoveReadyObserver(IReadyObserver iro)
         {
             _readyObservers.Remove(iro);
         }
-
         private void NotifyReadyObservers()
         {
             foreach (IReadyObserver observer in _readyObservers)

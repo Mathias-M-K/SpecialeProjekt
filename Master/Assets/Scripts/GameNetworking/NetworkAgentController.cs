@@ -47,13 +47,22 @@ namespace DefaultNamespace
             
             GUIEvents.current.OnButtonHit += OnBtnHit;
             GUIEvents.current.OnManualOverride += OnManualOverride;
+            GUIEvents.current.OnPlayerDone += OnPlayerDone;
+        }
+
+        private void OnPlayerDone(PlayerController playerController)
+        {
+            if (playerController.playerTag != _playerTag) return;
+            playerCoverPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "You have reached the finish point!";
+            playerCoverPanel.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Please wait for your teammates to finish the game";
+            LeanTween.moveLocalX(playerCoverPanel, 0, 1f).setEase(LeanTweenType.easeInQuad);
         }
 
         private void OnManualOverride()
         {
             if (GlobalMethods.GetRole(PhotonNetwork.NickName) != "Participant") return;
             
-            LeanTween.moveLocalX(playerCoverPanel, -1920, 1f).setEase(LeanTweenType.easeInQuad);
+            LeanTween.moveLocalX(playerCoverPanel, -563, 1f).setEase(LeanTweenType.easeInQuad);
         }
 
         private void OnBtnHit(Button button)

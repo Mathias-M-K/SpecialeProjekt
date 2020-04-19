@@ -27,7 +27,13 @@ namespace AdminGUI
         public event Action<Button, TradeActions, Direction> OnTradeAction;
         public event Action OnManualOverride;
         public event Action OnGameStart;
+        public event Action <PlayerController> OnPlayerDone;
 
+        public void OnPlayerDoneNotify(PlayerController playerController)
+        {
+            if (OnPlayerDone != null) OnPlayerDone(playerController);
+        }
+        
         /*
          * GAME BUTTONS
          */

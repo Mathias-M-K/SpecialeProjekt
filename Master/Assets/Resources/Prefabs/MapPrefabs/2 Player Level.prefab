@@ -669,7 +669,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openDirection: 0
   easeMethod: 17
-  animationTime: 0.5
+  animationTime: 0.3
 --- !u!54 &5117700590983669898
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -745,8 +745,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openDirection: 3
-  easeMethod: 11
-  animationTime: 0.5
+  easeMethod: 17
+  animationTime: 0.3
 --- !u!1001 &648198372498992424
 PrefabInstance:
   m_ObjectHideFlags: 0

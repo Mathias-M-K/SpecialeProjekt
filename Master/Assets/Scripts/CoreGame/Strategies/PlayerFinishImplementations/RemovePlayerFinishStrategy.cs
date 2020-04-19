@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AdminGUI;
 using Container;
 using CoreGame.Strategies.Interfaces;
 using UnityEngine;
@@ -32,17 +33,19 @@ namespace CoreGame.Strategies.Implementations.PlayerFinishImplementations
             }
             
             //Removing all moves from the common sequence
-            foreach (StoredPlayerMove move in moves)
+            /*foreach (StoredPlayerMove move in moves)
             {
                 if (move.PlayerTags == playerController.playerTag)
                 {
                     GameHandler.Current.RemoveMoveFromSequence(move);
                 }
-            }
+            }*/
             
             GameHandler.Current.RegisterPosition(playerController.playerTag,new Vector2(0,0));
 
             GameHandler.Current.RemovePlayerController(playerController);
+            
+            GUIEvents.current.OnPlayerDoneNotify(playerController);
             playerController.DestroySelf();
         }
     }

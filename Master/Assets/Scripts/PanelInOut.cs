@@ -31,7 +31,6 @@ namespace AdminGUI
 
         public void Toggle()
         {
-            print($"Show: {showPos}");
             if (_hidden)
             {
                 Show();

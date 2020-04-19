@@ -38,11 +38,30 @@ namespace AdminGUI
         private bool _tradeConfirmed;
         private PlayerController _playerController;
         private Dictionary<int, PlayerTags> _playerTagDictionary = new Dictionary<int, PlayerTags>();
+        private bool _mouseOver;
 
         private void Start()
         {
             GUIEvents.current.onPlayerChange += OnPlayerChange;
+            GUIEvents.current.OnPlayerDone += OnPlayerDone;
         }
+
+        private void OnPlayerDone(PlayerController obj)
+        {
+            UpdatePlayerSelectionPanel();
+        }
+
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(1))
+            {
+                if (_mouseOver)
+                {
+                    RejectInfo();
+                }
+            }
+        }
+
 
         private void OnPlayerChange(PlayerTags playerTags)
         {
@@ -55,19 +74,24 @@ namespace AdminGUI
         private void UpdatePlayerSelectionPanel()
         {
             int i = 0;
+            _playerTagDictionary.Clear();
             foreach (PlayerController player in GameHandler.Current.GetPlayers())
             {
                 if (player == _playerController) continue;
 
-                playerColorsPanel.transform.GetChild(i).GetComponent<Image>().color =
-                    ColorPalette.current.GetPlayerColor(player);
+                playerColorsPanel.transform.GetChild(i).GetComponent<Image>().color = ColorPalette.current.GetPlayerColor(player);
                 _playerTagDictionary.Add(i, player.playerTag);
                 i++;
             }
 
-            for (int j = i; j < 16; j++)
+            int j = -1;
+            foreach (Transform child in playerColorsPanel.transform)
             {
-                Destroy(playerColorsPanel.transform.GetChild(j).gameObject);
+                j++;
+                
+                if (j < i) continue;
+                
+                Destroy(child.gameObject);
             }
         }
 
@@ -128,8 +152,8 @@ namespace AdminGUI
                 return;
             }
 
-            LeanTween.moveLocalX(selectPlayerPanel, 168, 0);
-            LeanTween.moveLocalX(selectMovePanel, 168, 0);
+            LeanTween.moveLocalX(selectPlayerPanel, 168, 0.5f);
+            LeanTween.moveLocalX(selectMovePanel, 168, 0.5f);
             LeanTween.moveLocalX(confirmationScreen, 168, 0.5f).setEase(LeanTweenType.easeInQuad).setOnComplete(() =>
             {
                 LeanTween.moveLocalY(confirmationScreen, 96.87f, 0);
@@ -161,12 +185,14 @@ namespace AdminGUI
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            _mouseOver = true;
             if (!_tradeConfirmed) return;
             LeanTween.moveLocalX(rejectButton, 58.2f, 0.4f).setEase(LeanTweenType.easeInOutQuad);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
+            _mouseOver = false;
             if (!_tradeConfirmed) return;
             LeanTween.moveLocalX(rejectButton, 96.31f, 0.4f).setEase(LeanTweenType.easeInOutQuad);
         }

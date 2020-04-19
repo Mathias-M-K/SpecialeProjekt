@@ -2,12 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AdminGUI;
 using Container;
 using CoreGame.Interfaces;
 using DefaultNamespace;
 using Michsky.UI.ModernUIPack;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.Analytics;
 using Random = UnityEngine.Random;
 
 namespace CoreGame
@@ -39,9 +41,10 @@ namespace CoreGame
             }
         }
 
+        private int _nrOfPlayersAtGameStart;
         public int numberOfSpawnedPlayers;
         private protected int _numberOfReadyPlayers;
-        private int _playersFinished;
+        private int _playersFinished = 0;
 
         public bool isGameDone { get; private set; }
 
@@ -84,6 +87,9 @@ namespace CoreGame
             {
                 if(_players.Count < 1) throw new InvalidOperationException("Can't start game without any players");
             }
+
+            _nrOfPlayersAtGameStart = numberOfSpawnedPlayers;
+
             
             RemoveBarricadesForInactivePlayers();
         }
@@ -211,7 +217,17 @@ namespace CoreGame
         /// <param name="move"></param>
         public virtual void RemoveMoveFromSequence(StoredPlayerMove move)
         {
-            StoredPlayerMove currentMove = _sequenceMoves.First(item => item.Id == move.Id);
+            StoredPlayerMove currentMove;
+            
+            try
+            {
+                currentMove = _sequenceMoves.First(item => item.Id == move.Id);
+            }
+            catch(Exception e)
+            {
+                Debug.Log($"RemoveFromSequence Error: {e}");
+                return;
+            }
             
             _sequenceMoves.Remove(currentMove);
             
@@ -381,7 +397,7 @@ namespace CoreGame
         /// </summary>
         private void CheckIfGameIsDone()
         {
-            if (_playersFinished >= numberOfSpawnedPlayers)
+            if (_playersFinished >= _nrOfPlayersAtGameStart)
             {
                 isGameDone = true;
                 endScreen.OpenWindow();

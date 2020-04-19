@@ -96,14 +96,12 @@ namespace AdminGUI
 
             GetElement(_nrOfMovesInSequence).GetComponent<SequenceArrowController>().index = _nrOfMovesInSequence;
             GetElement(_nrOfMovesInSequence).GetComponent<SequenceArrowController>().move = move;
-            if (GUIEvents.current.GetCurrentPlayer() == move.PlayerTags)
-            {
-                GetElement(_nrOfMovesInSequence).GetComponent<Button>().interactable = true;
-                GetElement(_nrOfMovesInSequence).GetComponent<SequenceArrowController>().SetMouseHover(true);
-                GetElement(_nrOfMovesInSequence).GetComponent<SequenceArrowController>().SetCancelButtonActive(true);
-            }
             
-
+            
+            GetElement(_nrOfMovesInSequence).GetComponent<Button>().interactable = GUIEvents.current.GetCurrentPlayer() == move.PlayerTags;
+            GetElement(_nrOfMovesInSequence).GetComponent<SequenceArrowController>().SetMouseHover(GUIEvents.current.GetCurrentPlayer() == move.PlayerTags);
+            GetElement(_nrOfMovesInSequence).GetComponent<SequenceArrowController>().SetCancelButtonActive(GUIEvents.current.GetCurrentPlayer() == move.PlayerTags);
+            
             
             LeanTween.color(img.rectTransform, ColorPalette.current.GetPlayerColor(move.PlayerTags), 0.3f).setEase(LeanTweenType.easeOutSine);
             
@@ -137,15 +135,21 @@ namespace AdminGUI
         {
             for (int i = 0; i < _nrOfMovesInSequence; i++)
             {
-                Image img = GetElement(i).GetComponent<Image>();
+                float moveDelay = delay;
+                if (GameHandler.Current.GetPlayerController(GetElement(i).GetComponent<SequenceArrowController>().move.PlayerTags) == null){ moveDelay = 0;}
+                Image img = GetElement(i).GetComponent<SequenceArrowController>().image;
                 
-                LeanTween.color(img.rectTransform, idleColor, delay);
-                yield return new WaitForSeconds(delay);
+                LeanTween.color(img.rectTransform, idleColor, moveDelay);
+
+                GetElement(i).GetComponent<Button>().interactable = false;
+                GetElement(i).GetComponent<SequenceArrowController>().SetMouseHover(false);
+                GetElement(i).GetComponent<SequenceArrowController>().SetCancelButtonActive(false);
+                
+                yield return new WaitForSeconds(moveDelay);
             }
 
             for (int i = 1; i <= _nrOfRows; i++)
             {
-                print($"Removing child {i}");
                 Transform child = transform.GetChild(1);
                 child.SetParent(null);
                 Destroy(child.gameObject);
