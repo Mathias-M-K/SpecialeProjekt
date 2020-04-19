@@ -334,7 +334,7 @@ namespace DefaultNamespace
             gameHandler.OnReadyStateChanged(state,player);
         }
 
-        
+
         /// <summary>
         /// Communicating new trade updates to all
         /// </summary>

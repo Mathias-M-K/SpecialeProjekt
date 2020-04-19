@@ -35,7 +35,7 @@ namespace CoreGame
         private List<IReadyObserver> _readyObservers = new List<IReadyObserver>();
 
         //Other variables
-        private bool _ready;
+        [SerializeField]private bool _ready;
         public bool ready
         {
             get => _ready;
