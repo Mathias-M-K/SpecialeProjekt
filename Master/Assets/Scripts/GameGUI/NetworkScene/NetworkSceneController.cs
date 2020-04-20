@@ -65,7 +65,7 @@ namespace GameGUI.NetworkScene
         public void Back()
         {
             LeanTween.moveLocalX(mainContent, 1243, contentAnimationTime).setEase(contentEaseOutType).setOnComplete(
-                () => SceneManager.LoadScene(0));
+                () => SceneManager.LoadScene(GlobalValues.WelcomeScene));
         }
 
         private void Update()

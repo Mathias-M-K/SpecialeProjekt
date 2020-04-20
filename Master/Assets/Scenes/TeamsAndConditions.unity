@@ -1207,7 +1207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a12ddbc47b17cd478cb447d1113a22b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonText: Continue
+  buttonText: I Accept
   buttonEvent:
     m_PersistentCalls:
       m_Calls:
@@ -3433,7 +3433,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Continue
+  m_text: I Accept
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 84dd14695854bbc43a5faa24fcf93d0d, type: 2}
   m_sharedMaterial: {fileID: 21261991626553910, guid: 84dd14695854bbc43a5faa24fcf93d0d,
@@ -3505,8 +3505,8 @@ MonoBehaviour:
     textComponent: {fileID: 1433920015}
     characterCount: 8
     spriteCount: 0
-    spaceCount: 0
-    wordCount: 1
+    spaceCount: 1
+    wordCount: 2
     linkCount: 0
     lineCount: 1
     pageCount: 1

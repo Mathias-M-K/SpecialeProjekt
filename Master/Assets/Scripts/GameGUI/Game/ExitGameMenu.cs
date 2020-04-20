@@ -40,5 +40,10 @@ namespace AdminGUI
         {
             Application.Quit();
         }
+
+        public void GoToWelcomeScreen()
+        {
+            SceneManager.LoadScene(GlobalValues.WelcomeScene);
+        }
     }
 }

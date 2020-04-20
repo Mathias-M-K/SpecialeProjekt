@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/NetworkScene.unity
     guid: c1a2a0bb6e7fe684993a6d07e2749c5a
   - enabled: 1
+    path: Assets/Scenes/Tutorial.unity
+    guid: 41892d7556484b14d94737cd91084afa
+  - enabled: 1
     path: Assets/Scenes/NetworkWaitScene.unity
     guid: 29151ffaeaa6d704bba3c3f5957e16ff
   - enabled: 1

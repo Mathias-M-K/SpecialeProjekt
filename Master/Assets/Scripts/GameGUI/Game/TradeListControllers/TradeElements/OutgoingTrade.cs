@@ -181,6 +181,7 @@ namespace AdminGUI
         private void OnDestroy()
         {
             if(_playerController != null) _playerController.RemoveInventoryObserver(this);
+            GUIEvents.current.OnPlayerDone -= OnPlayerDone;
         }
 
         public void OnPointerEnter(PointerEventData eventData)

@@ -69,7 +69,7 @@ namespace GameGUI
 
         public void LocalGame()
         {
-            SceneManager.LoadScene(GlobalValues.GameScene);
+            SceneManager.LoadScene(GlobalValues.TutorialScene);
         }
     }
 }

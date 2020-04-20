@@ -12,8 +12,9 @@ namespace GameGUI
         [Header("Scenes")] 
         public const int WelcomeScene = 1;
         public const int NetworkScene = 2;
-        public const int WaitingRoomScene = 3;
-        public const int GameScene = 5;
+        public const int TutorialScene = 3;
+        public const int WaitingRoomScene = 4;
+        public const int GameScene = 6;
 
         [Header("Welcome Screen")] 
         public static bool StartBtnInteractable = true;
