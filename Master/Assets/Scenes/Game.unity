@@ -626,7 +626,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 137.71062, y: -27.62}
-  m_SizeDelta: {x: 65.14041, y: 65.14041}
+  m_SizeDelta: {x: 65.14041, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &73557136
 MonoBehaviour:
@@ -1072,7 +1072,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 287.99146, y: -27.62}
-  m_SizeDelta: {x: 65.14041, y: 65.14041}
+  m_SizeDelta: {x: 65.14041, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &127383983
 MonoBehaviour:
@@ -1741,7 +1741,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 62.570206, y: -27.62}
-  m_SizeDelta: {x: 65.14041, y: 65.14041}
+  m_SizeDelta: {x: 65.14041, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &202537557
 MonoBehaviour:
@@ -18063,7 +18063,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 212.85103, y: -27.62}
-  m_SizeDelta: {x: 65.14041, y: 65.14041}
+  m_SizeDelta: {x: 65.14041, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1528737165
 MonoBehaviour:
@@ -25631,6 +25631,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 30ca43a38700a8a418d8a0c977e49388, type: 2}
   - {fileID: 11400000, guid: 381f9dd574d33814b8cc3b207d1c9098, type: 2}
   - {fileID: 11400000, guid: 76d98050ae98a90468c11beb55d1e4d9, type: 2}
+  - {fileID: 11400000, guid: 91dc31d04db1e6d488c5344584b386e1, type: 2}
   - {fileID: 11400000, guid: 91dc31d04db1e6d488c5344584b386e1, type: 2}
   mapData: {fileID: 0}
   navMeshSurface: {fileID: 5867046309639280535}

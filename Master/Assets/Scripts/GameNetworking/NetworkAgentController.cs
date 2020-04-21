@@ -72,7 +72,7 @@ namespace DefaultNamespace
         private void OnManualOverride()
         {
             if (GlobalMethods.GetRole(PhotonNetwork.NickName) != "Participant") return;
-            
+
             LeanTween.moveLocalX(playerCoverPanel, -563, 1f).setEase(LeanTweenType.easeInQuad);
         }
 

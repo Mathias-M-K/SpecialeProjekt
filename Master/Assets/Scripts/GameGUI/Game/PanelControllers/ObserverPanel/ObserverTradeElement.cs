@@ -9,6 +9,7 @@ namespace AdminGUI.PanelControllers
     public class ObserverTradeElement : MonoBehaviour
     {
         public Image arrow;
+        public Image counterMove;
         
         public TextMeshProUGUI offeringPlayer;
         public Image offeringPlayerColor;
@@ -28,7 +29,8 @@ namespace AdminGUI.PanelControllers
 
             offeringPlayerColor.color = ColorPalette.current.GetPlayerColor(playerTrade.OfferingPlayerTags);
             receivingPlayerColor.color = ColorPalette.current.GetPlayerColor(playerTrade.ReceivingPlayerTags);
-            
+
+            arrow.color = ColorPalette.current.GetPlayerColor(playerTrade.OfferingPlayerTags);
             RotateArrow(playerTrade.DirectionOffer);
         }
 
@@ -59,10 +61,16 @@ namespace AdminGUI.PanelControllers
             LeanTween.rotateLocal(arrow.gameObject, rotation, 0.3f).setEase(LeanTweenType.easeOutSine);
         }
         
-        public void RemoveTrade(TradeActions tradeAction)
+        public void RemoveTrade(TradeActions tradeAction, PlayerTrade trade)
         {
             if (tradeAction == TradeActions.TradeAccepted)
             {
+                LeanTween.moveLocalX(arrow.gameObject, 43, 0.3f).setEase(LeanTweenType.easeInOutQuad);
+                LeanTween.moveLocalX(counterMove.gameObject, 90, 0.5f).setEase(LeanTweenType.easeInQuad);
+                counterMove.color = ColorPalette.current.GetPlayerColor(trade.ReceivingPlayerTags);
+                LeanTween.rotateLocal(counterMove.gameObject,
+                    new Vector3(0, 0, GlobalMethods.GetDirectionRotation(trade.DirectionCounterOffer)), 0);
+                
                 LeanTween.color(GetComponent<Image>().rectTransform, new Color32(120, 224, 143,255), 0.5f)
                     .setEase(LeanTweenType.easeInOutBounce).setRepeat(3).setRecursive(false).setOnComplete(()=>
                         {

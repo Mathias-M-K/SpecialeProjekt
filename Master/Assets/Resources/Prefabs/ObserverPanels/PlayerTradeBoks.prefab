@@ -209,7 +209,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Player LightGreen
+  m_text: LightGreen
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2f17e8bb3967fe14093d5fec798fffd9, type: 2}
   m_sharedMaterial: {fileID: 21700449227511232, guid: 2f17e8bb3967fe14093d5fec798fffd9,
@@ -279,10 +279,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 47.609985, w: 0}
   m_textInfo:
     textComponent: {fileID: 4434799951527455059}
-    characterCount: 17
+    characterCount: 10
     spriteCount: 0
-    spaceCount: 1
-    wordCount: 2
+    spaceCount: 0
+    wordCount: 1
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -314,6 +314,7 @@ GameObject:
   - component: {fileID: 8541483605099164668}
   - component: {fileID: 5608713556530177094}
   - component: {fileID: -5039641227467324815}
+  - component: {fileID: 7936519703189822023}
   m_Layer: 5
   m_Name: PlayerTradeBoks
   m_TagString: Untagged
@@ -395,11 +396,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrow: {fileID: 6967650222437586846}
+  counterMove: {fileID: 5279476596439848155}
   offeringPlayer: {fileID: 4434799951527455059}
   offeringPlayerColor: {fileID: 4258077766061633524}
   receivingPlayer: {fileID: 6567027311737361742}
   receivingPlayerColor: {fileID: 5152922365428462612}
   TradeId: 0
+--- !u!114 &7936519703189822023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4984607155865379227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowMaskGraphic: 1
 --- !u!1 &5628050423559378975
 GameObject:
   m_ObjectHideFlags: 0
@@ -434,10 +449,10 @@ RectTransform:
   m_Father: {fileID: 3724981686535535470}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 209.23003, y: -24.23}
-  m_SizeDelta: {x: 48.46, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 91.4, y: 0}
+  m_SizeDelta: {x: 48.45999, y: 0}
   m_Pivot: {x: 0.5000005, y: 0.5}
 --- !u!222 &5409477889575573309
 CanvasRenderer:
@@ -577,10 +592,10 @@ RectTransform:
   m_Father: {fileID: 3724981686535535470}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 259.53, y: -24.230003}
-  m_SizeDelta: {x: 48.46, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 141.1, y: 0}
+  m_SizeDelta: {x: 48.45999, y: 0}
   m_Pivot: {x: 0.5000005, y: 0.5}
 --- !u!222 &8999031763074311896
 CanvasRenderer:
@@ -749,7 +764,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Player Red
+  m_text: Red
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2f17e8bb3967fe14093d5fec798fffd9, type: 2}
   m_sharedMaterial: {fileID: 21700449227511232, guid: 2f17e8bb3967fe14093d5fec798fffd9,
@@ -819,10 +834,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 47.967407, w: 0}
   m_textInfo:
     textComponent: {fileID: 6567027311737361742}
-    characterCount: 10
+    characterCount: 3
     spriteCount: 0
-    spaceCount: 1
-    wordCount: 2
+    spaceCount: 0
+    wordCount: 1
     linkCount: 0
     lineCount: 1
     pageCount: 1

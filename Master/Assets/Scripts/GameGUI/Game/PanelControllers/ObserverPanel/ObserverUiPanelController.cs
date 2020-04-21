@@ -92,7 +92,7 @@ namespace AdminGUI.PanelControllers
             GameObject go = _tradeDictionary[trade];
             _tradeDictionary.Remove(trade);
             
-            go.GetComponent<ObserverTradeElement>().RemoveTrade(tradeAction);
+            go.GetComponent<ObserverTradeElement>().RemoveTrade(tradeAction,trade);
         }
 
         private void CreatePlayerStatPanels()

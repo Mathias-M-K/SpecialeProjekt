@@ -94,7 +94,7 @@ namespace GameGUI.WaitingRoomScene
         public void DropdownValueUpdate(int nr)
         {
             _mapIndex = nr;
-            map.text = _mapIndex.ToString();
+            map.text = "Map:" + _mapIndex;
             GlobalValues.SetMapIndex(_mapIndex);
             SendMapIndex(_mapIndex,RpcTarget.Others);
         }
@@ -110,7 +110,7 @@ namespace GameGUI.WaitingRoomScene
         public void RPC_UpdateMapIndex(int index)
         {
             GlobalValues.SetMapIndex(index);
-            map.text = index.ToString();
+            map.text = "Map: " + index;
         }
         [PunRPC]
         public void RPC_RequestMapIndex(Player player)
@@ -159,6 +159,12 @@ namespace GameGUI.WaitingRoomScene
             if (!PhotonNetwork.IsMasterClient) return;
 
             PhotonNetwork.CurrentRoom.IsOpen = false;
+
+            if (GlobalValues.MapIndex == 5)
+            {
+                PhotonNetwork.LoadLevel(GlobalValues.ChickenScene);
+                return;
+            }
             PhotonNetwork.LoadLevel(GlobalValues.GameScene);
         }
         

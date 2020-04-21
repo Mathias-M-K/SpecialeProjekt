@@ -21,7 +21,7 @@ namespace CoreGame
         }
 
         [Header("Level Information")] 
-        public MapData mapData;
+        [HideInInspector] public MapData mapData;
         public NavMeshSurface navMeshSurface;
 
         private void Start()
