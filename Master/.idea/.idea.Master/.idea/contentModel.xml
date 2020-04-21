@@ -582,6 +582,9 @@
             <e p="TermsAndConditions" t="Include">
               <e p="TermsAndConditionsSceneController.cs" t="Include" />
             </e>
+            <e p="TutorialScene" t="Include">
+              <e p="TutorialSceneController.cs" t="Include" />
+            </e>
             <e p="WaitingRoomScene" t="Include">
               <e p="HamburgerMenuController.cs" t="Include" />
               <e p="WaitingRoomController.cs" t="Include" />

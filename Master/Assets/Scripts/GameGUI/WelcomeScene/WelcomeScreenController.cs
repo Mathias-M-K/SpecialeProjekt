@@ -67,9 +67,11 @@ namespace GameGUI
                 setOnComplete(() => SceneManager.LoadScene(GlobalValues.NetworkScene));
         }
 
-        public void LocalGame()
+        public void Tutorial()
         {
-            SceneManager.LoadScene(GlobalValues.TutorialScene);
+            LeanTween.moveLocalY(mainContent, 800, contentAnimationTime).
+                setEase(contentEaseOutType).
+                setOnComplete(() => SceneManager.LoadScene(GlobalValues.TutorialScene));
         }
     }
 }
