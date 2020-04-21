@@ -52,6 +52,8 @@ MonoBehaviour:
   - RPC_UpdateReadyCounter
   - RPC_OnObserverMark
   - RPC_Observer_OnReadyStateChanged
+  - RPC_SetPlayerPositions
+  - RPC_SetGateStates
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

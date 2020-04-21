@@ -15,6 +15,8 @@ namespace CoreGame
 
         public MapData[] mapDataArray;
 
+        public GameObject mapObj;
+
         private void Awake()
         {
             Current = this;
@@ -28,7 +30,7 @@ namespace CoreGame
         {
             mapData = mapDataArray[GlobalValues.MapIndex];
             
-            Instantiate(mapData.map, new Vector3(0.5f, 0, 10.5f), new Quaternion(0, 0, 0, 0));
+            mapObj = Instantiate(mapData.map, new Vector3(0.5f, 0, 10.5f), new Quaternion(0, 0, 0, 0));
             if (Camera.main != null) Camera.main.transform.position = mapData.cameraPos;
             
             navMeshSurface.BuildNavMesh();

@@ -6,6 +6,7 @@ namespace CoreGame
     public class GateController : MonoBehaviour
     {
         private PlayerTags owner;
+        public bool open;
         public PlayerTags Owner
         {
             get => owner;
@@ -41,11 +42,13 @@ namespace CoreGame
 
         public void Open()
         {
+            open = true;
             LeanTween.move(gameObject, _openPosition, animationTime).setEase(easeMethod);
         }
 
         public void Close()
         {
+            open = false;
             LeanTween.move(gameObject, closedPosition, animationTime).setEase(easeMethod);
         }
         

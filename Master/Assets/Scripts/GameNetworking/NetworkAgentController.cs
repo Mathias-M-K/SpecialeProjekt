@@ -7,12 +7,15 @@ using Container;
 using CoreGame;
 using CoreGame.Interfaces;
 using GameGUI;
+using Michsky.UI.ModernUIPack;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+// ReSharper disable SuggestVarOrType_SimpleTypes
 
 namespace DefaultNamespace
 {
@@ -29,11 +32,19 @@ namespace DefaultNamespace
         public GameObject hostCoverPanel;
         public GameObject observerCoverPanel;
 
+        [Header("Notification")] 
+        public NotificationManager notification;
+
         [Header("Other")] 
         public TextMeshProUGUI readyCounter;
         public StatTracker StatTracker;
 
         private bool _processingNewTradeAction;
+        
+        //Reconnect values
+        private readonly Dictionary<string,PlayerTags> _playerDictionary = new Dictionary<string, PlayerTags>();
+        private bool _gameStarted;
+        private PlayerTags _vacantPlayerTag;
         
         private void Start()
         {
@@ -84,14 +95,18 @@ namespace DefaultNamespace
                 foreach (Player player in PhotonNetwork.PlayerList)
                 {
                     if (GlobalMethods.GetRole(player.NickName) != "Participant") continue;
-                    _photonView.RPC("RPC_SetPlayerTag",player,GameHandler.Current.SpawnNewPlayer());
+                    
+                    PlayerTags pTag = GameHandler.Current.SpawnNewPlayer();
+                    _playerDictionary.Add(player.NickName,pTag);
+                    
+                    _photonView.RPC("RPC_SetPlayerTag",player,pTag);
                 }
             }
         }
         
-        public void SetGameHandler(GameHandler gameHandler)
+        public void SetGameHandler(GameHandler newGameHandler)
         {
-            this.gameHandler = gameHandler;
+            this.gameHandler = newGameHandler;
         }
         [PunRPC]
         public void RPC_SetPlayerTag(PlayerTags playerTag)
@@ -101,7 +116,7 @@ namespace DefaultNamespace
             GUIEvents.current.SetGameTag(playerTag);
         }
 
-        
+
         public void UpdateRemoteReadyCounter(string counterText)
         {
             photonView.RPC("RPC_UpdateReadyCounter",RpcTarget.All,counterText);
@@ -121,6 +136,7 @@ namespace DefaultNamespace
         /// </summary>
         public void StartGame()
         {
+            _gameStarted = true;
             photonView.RPC("RPC_StartGame",RpcTarget.Others);
         }
         [PunRPC]
@@ -415,6 +431,96 @@ namespace DefaultNamespace
             {
                 Disconnect();
             }
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                notification.titleObj.text = "Player Left";
+                notification.descriptionObj.text = $"{otherPlayer.NickName}|{_playerDictionary[otherPlayer.NickName]} disconnected from the room";
+                notification.OpenNotification();
+
+                if (GlobalMethods.GetRole(otherPlayer.NickName) == "Participant")
+                {
+                    _vacantPlayerTag = _playerDictionary[otherPlayer.NickName];
+                    _playerDictionary.Remove(otherPlayer.NickName);
+                }
+            }
+        }
+
+        public override void OnPlayerEnteredRoom(Player newPlayer)
+        {
+            if (!_gameStarted) return;
+
+            StartCoroutine(UpdateNewPlayer(newPlayer));
+        }
+
+        private IEnumerator UpdateNewPlayer(Player newPlayer)
+        {
+            foreach (var player in GameHandler.Current.GetPlayers())
+            {
+                _photonView.RPC("RPC_SpawnNewPlayer",newPlayer);
+                yield return new WaitForSeconds(0.5f);
+            }
+            _playerDictionary.Add(newPlayer.NickName,_vacantPlayerTag);
+            _photonView.RPC("RPC_SetPlayerTag",newPlayer,_vacantPlayerTag);
+            yield return new WaitForSeconds(0.5f);
+            _photonView.RPC("RPC_StartGame",newPlayer);
+
+            //Sending gate states
+            GameObject mapObj = MapManager.Current.mapObj;
+            Transform gates = mapObj.transform.GetChild(1);
+
+            bool[] states = new bool[gates.childCount];
+            int j = 0;
+            foreach (Transform gate in gates)
+            {
+                states[j] = gate.GetComponent<GateController>().open;
+                j++;
+            }
+            _photonView.RPC("RPC_SetGateStates",newPlayer,states);
+            
+            yield return new WaitForSeconds(0.5f);
+            
+            //Sending current player positions
+            Vector2[] positions = new Vector2[gameHandler.GetPlayers().Count];
+            int i = 0;
+            foreach (PlayerController player in GameHandler.Current.GetPlayers())
+            {
+                positions[i] = player.GetPosition();
+                i++;
+            }
+            _photonView.RPC("RPC_SetPlayerPositions",newPlayer,positions);
+        }
+        
+        [PunRPC]
+        public void RPC_SetGateStates(bool[] states)
+        {
+            GameObject mapObj = MapManager.Current.mapObj;
+            Transform gates = mapObj.transform.GetChild(1);
+            int i = 0;
+            foreach (Transform gate in gates)
+            {
+                if (states[i])
+                {
+                    gate.GetComponent<GateController>().Open();
+                }
+                i++;
+            }
+        }
+
+        [PunRPC]
+        public void RPC_SetPlayerPositions(Vector2[] positions)
+        {
+            int i = 0;
+            foreach (PlayerController player in gameHandler.GetPlayers())
+            {
+                player.MoveToPos(positions[i]);
+                i++;
+            }
+        }
+
+        public void SetRoomState(bool roomOpen)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = roomOpen;
         }
         
         public void Disconnect()

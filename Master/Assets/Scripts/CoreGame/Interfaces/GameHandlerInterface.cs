@@ -13,7 +13,7 @@ namespace CoreGame.Interfaces
     /// starts game
     /// </summary>
     void StartGame();
-
+    
     /// <summary>
     /// Sets spawn positions and max allowed players
     /// </summary>

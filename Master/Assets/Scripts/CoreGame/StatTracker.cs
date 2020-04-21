@@ -63,6 +63,13 @@ namespace CoreGame
             return Time.realtimeSinceStartup - _startTime;
         }
 
+        private string GetTimeTimeReadable()
+        {
+            TimeSpan ts = TimeSpan.FromSeconds(GetGameTime());
+
+            return $"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}";
+        }
+
         public void OnSequenceChange(SequenceActions sequenceAction, StoredPlayerMove move)
         {
             //Type | Time | Player | Direction
@@ -141,6 +148,17 @@ namespace CoreGame
             
             //Type | Time Elapsed | Observer | time
             _textWriter.WriteLine("{0},{1},{2},{3}", "Observer Mark:", GetGameTime(), observer,$"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}");
+        }
+
+        public void OnPlayerDisconnect(string playerName, PlayerTags playerColor)
+        {
+            //Type | Time Elapsed | PlayerName | PlayerColor
+            _textWriter.WriteLine("{0},{1},{2},{3}", "Disconnect", GetGameTime(), playerName,playerColor);
+        }
+
+        public void OnPlayerReconnect(string playerName, PlayerTags playerColor)
+        {
+            
         }
 
         private void OnReadyStateChanged(bool state, PlayerTags player)
