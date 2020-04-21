@@ -723,7 +723,7 @@ GameObject:
   - component: {fileID: 240750523}
   - component: {fileID: 240750522}
   m_Layer: 5
-  m_Name: TMP SubMeshUI [OpenSans-Light SDF Material + OpenSans-LightItalic SDF Atlas]
+  m_Name: TMP SubMeshUI [OpenSans-Light SDF Material + OpenSans-Semibold SDF Atlas]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -766,7 +766,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_fontAsset: {fileID: 11400000, guid: d10d3fbe67cb68d41930a013bc4e2e43, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 84dd14695854bbc43a5faa24fcf93d0d, type: 2}
   m_spriteAsset: {fileID: 0}
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
@@ -1269,8 +1269,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: -706.3}
-  m_SizeDelta: {x: 0, y: 1425.2}
+  m_AnchoredPosition: {x: 0.0002746582, y: -1449.0503}
+  m_SizeDelta: {x: 0, y: 2898.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &380588160
 MonoBehaviour:
@@ -2662,6 +2662,78 @@ RectTransform:
   m_AnchoredPosition: {x: 272.5, y: 0}
   m_SizeDelta: {x: 0, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &976482415
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 976482416}
+  - component: {fileID: 976482418}
+  - component: {fileID: 976482417}
+  m_Layer: 5
+  m_Name: TMP SubMeshUI [OpenSans-Light SDF Material + LiberationSans SDF Atlas]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &976482416
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 976482415}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1984003390}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &976482417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 976482415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_spriteAsset: {fileID: 0}
+  m_material: {fileID: 0}
+  m_sharedMaterial: {fileID: 0}
+  m_isDefaultMaterial: 0
+  m_padding: 1.25
+  m_canvasRenderer: {fileID: 976482418}
+  m_TextComponent: {fileID: 1984003391}
+  m_materialReferenceIndex: 2
+--- !u!222 &976482418
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 976482415}
+  m_CullTransparentMesh: 0
 --- !u!1 &996503859
 GameObject:
   m_ObjectHideFlags: 0
@@ -3726,7 +3798,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0.022507}
+  m_AnchoredPosition: {x: 0.000030517578, y: 0.022506714}
   m_SizeDelta: {x: 7.25, y: 641.65}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1505177281
@@ -3771,8 +3843,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1146267188}
   m_HandleRect: {fileID: 1146267187}
   m_Direction: 2
-  m_Value: 0.99557966
-  m_Size: 0.3104316
+  m_Value: 1.0000001
+  m_Size: 0.18125828
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4945,13 +5017,14 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 240750521}
+  - {fileID: 976482416}
   m_Father: {fileID: 380588159}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -8.799988, y: 47.1}
-  m_SizeDelta: {x: -17.6, y: -94.3}
+  m_AnchoredPosition: {x: -8.799988, y: 54.875}
+  m_SizeDelta: {x: -17.6, y: -109.75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1984003391
 MonoBehaviour:
@@ -4971,69 +5044,69 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<i>Lorem </i>ipsum dolor sit amet, consectetur adipiscing elit, sed do
-    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultricies tristique
-    nulla aliquet enim tortor at auctor. Curabitur gravida arcu ac tortor dignissim
-    convallis. Quis viverra nibh cras pulvinar mattis nunc sed blandit libero. Tincidunt
-    nunc pulvinar sapien et ligula ullamcorper malesuada. Ligula ullamcorper malesuada
-    proin libero nunc consequat interdum. Enim neque volutpat ac tincidunt vitae
-    semper quis. Consequat mauris nunc congue nisi vitae suscipit tellus mauris a.
-    Pulvinar mattis nunc sed blandit libero. Blandit cursus risus at ultrices mi
-    tempus imperdiet nulla malesuada. Convallis convallis tellus id interdum velit
-    laoreet id donec. A condimentum vitae sapien pellentesque habitant morbi. Erat
-    nam at lectus urna duis convallis convallis tellus. Massa sed elementum tempus
-    egestas sed sed risus pretium quam. Id donec ultrices tincidunt arcu. Suscipit
-    adipiscing bibendum est ultricies integer quis auctor elit sed. Placerat duis
-    ultricies lacus sed turpis tincidunt.
-
-
-
-    Semper eget duis at tellus. Elementum
-    eu facilisis sed odio. Velit sed ullamcorper morbi tincidunt ornare massa eget.
-    Non enim praesent elementum facilisis. Semper viverra nam libero justo. Egestas
-    sed sed risus pretium quam vulputate dignissim. Leo a diam sollicitudin tempor
-    id eu nisl. Enim sed faucibus turpis in eu. Diam sit amet nisl suscipit. Mauris
-    augue neque gravida in fermentum. Morbi tristique senectus et netus et malesuada
-    fames ac. Habitasse platea dictumst quisque sagittis purus sit. Sit amet cursus
-    sit amet dictum sit. Enim neque volutpat ac tincidunt vitae semper. Tortor at
-    auctor urna nunc. Eu ultrices vitae auctor eu augue ut.
-
-
-
-    Pellentesque eu
-    tincidunt tortor aliquam nulla facilisi cras fermentum odio. Vitae suscipit tellus
-    mauris a. Etiam non quam lacus suspendisse faucibus interdum posuere lorem ipsum.
-    Enim sed faucibus turpis in eu mi bibendum. Turpis tincidunt id aliquet risus
-    feugiat in ante metus dictum. Sodales ut eu sem integer vitae justo eget. Fringilla
-    phasellus faucibus scelerisque eleifend donec pretium vulputate sapien. Purus
-    ut faucibus pulvinar elementum integer. Lobortis elementum nibh tellus molestie
-    nunc non blandit. Dictum at tempor commodo ullamcorper. Blandit volutpat maecenas
-    volutpat blandit aliquam. Pharetra sit amet aliquam id diam maecenas. Pharetra
-    sit amet aliquam id diam maecenas ultricies. Neque ornare aenean euismod elementum
-    nisi quis eleifend quam.
-
-
-
-    Viverra tellus in hac habitasse. Velit aliquet
-    sagittis id consectetur purus ut faucibus. Varius vel pharetra vel turpis nunc.
-    Enim sit amet venenatis urna cursus. Id faucibus nisl tincidunt eget nullam non
-    nisi est. Sed vulputate mi sit amet. Tempus iaculis urna id volutpat lacus laoreet.
-    Quis auctor elit sed vulputate mi sit amet. Urna condimentum mattis pellentesque
-    id. Cursus in hac habitasse platea dictumst quisque sagittis purus.
-
-
-
-    Tincidunt
-    eget nullam non nisi est sit amet facilisis. Amet dictum sit amet justo donec
-    enim. Posuere sollicitudin aliquam ultrices sagittis orci a scelerisque purus
-    semper. Massa placerat duis ultricies lacus sed turpis tincidunt. In tellus integer
-    feugiat scelerisque. Cursus vitae congue mauris rhoncus aenean vel elit. Faucibus
-    nisl tincidunt eget nullam non nisi. Et ultrices neque ornare aenean euismod
-    elementum nisi quis eleifend. Sed turpis tincidunt id aliquet risus. Ut consequat
-    semper viverra nam libero justo. Magna ac placerat vestibulum lectus mauris ultrices
-    eros. Est velit egestas dui id ornare arcu odio ut. Ut venenatis tellus in metus
-    vulputate eu scelerisque. Nibh tellus molestie nunc non blandit massa enim nec
-    dui.'
+  m_text: "<size=200%><b>Consent to the processing of personal data</b></size> \n\nData
+    controller student: Lasse Johansen\n\nTitle of assignment/project/Master\u2019s
+    thesis: \nRemote collaboration\n\nSupervisor of the assignment/project/Master\u2019s
+    thesis:\nEve Hoggan\n\n<size=125%><b>Description of the project, including the
+    purpose of the data processing and which personal data is processed:</b></size>\nExplore
+    how people collaborate when they are remote. The users will be given a task they
+    need to solve together as a collaborative team. The task is carried out in a
+    system that is built for this purpose. The system is called ReCo and is a unity
+    program that will be added to each of the participants' computers. Throughout
+    the test, the participants will communicate through online communication software,
+    Discord, where their sound will be recorded to be analyzed later on. Furthermore,
+    while test-ing the system the researcher will record his screen documenting the
+    action within the game.\r\nData that will be logged:\r\n\n\u2022The amount of
+    moves used per round and game\r\n\u2022The amount of trades used per round and
+    game\r\n\u2022The amount of time used per game\r\n\u2022The amount of rounds
+    per game\r\n\n<size=125%><b>Information to the data subject</b></size>\nIn accordance
+    with the rules in the General Data Protection Regulation, as data controller
+    the student must inform the data subjects of their rights in conjunction with
+    the processing of the data. The student registers and processes personal data
+    under the authority of Article 6(1) a) of the General Data Protection Regulation.
+    Sensitive data such as health data or data concerning racial or ethnic origin,
+    political, religious or philosophical beliefs or trade-union membership is registered
+    and processed under the authority of Article 9(2) a) of the General Data Protection
+    Regulation. Both articles of the Regulation give access to process data with
+    the explicit content of the data subject.\n\n<size=125%><b>Processing and storage</b></size>\nThe
+    student will treat the personal data as confidential. The data will be stored
+    until the assignment/project/Master\u2019s thesis has been assessed and the deadline
+    for complaints concerning the assessment has expired.\n\n<size=125%><b>Disclosure
+    of data</b></size>\nThe data will not be disclosed to any other party unless
+    consent has been given.\n\n<size=125%><b>Data access</b></size>\nData subjects
+    may contact the student at any time in order to obtain a copy of the data.\n\n<size=125%><b>Rectification
+    of data</b></size>\nIf the data subject believes that incorrect data has been
+    registered, the student can be asked to rectify the information. This means that
+    the student must rectify the data or make a note that the data is incorrect and
+    register the correct data. The data subject may require the student to disregard
+    the data until it has been determined which data is correct.\n\n<size=125%><b>Revocation
+    of consent and erasure of data</b></size>\nIf the student has obtained the consent
+    of the data subject to process the data, the data subject may revoke this consent
+    at any time. The student may therefore not continue to process the data after
+    the consent has been withdrawn.\r\nThe data subject has the right to the erasure
+    of data which the student has registered concerning the data subject in question,
+    if the data is no longer necessary for the purpose for which it was collected.
+    The data must also be erased if the data subject withdraws consent to the processing,
+    or if the data has been processed unlawfully by mistake. The data subject may
+    not require the erasure of data that has been archived in accordance with the
+    Danish Archives Act in Aarhus University\u2019s archive system.\r\n\n<size=125%><b>Complaints
+    to the Danish Data Protection Agency</b></size>\nData subjects may lodge complaints
+    about the processing of the data to the Danish Data Protection Agency at: dt@datatilsynet.dk.\r\n\r\nI
+    hereby consent to the aforementioned student\u2019s processing of data concerning
+    me in connection with his/her degree program at Aarhus University. My personal
+    data will be used in the aforementioned assignment/project/Master\u2019s thesis.
+    I give my consent for:\r\n\n\u2022The processing of my data in the assignment/
+    project/ Master\u2019s thesis.\r\n\n\u2022My data to be disclosed to one or more
+    students who are writing the assignment/project/Master\u2019s thesis jointly.
+    The students have shared responsibility for the data\r\n\n\u2022My data may be
+    disclosed to Aarhus University and to any external co-examiner in connection
+    with supervision and assessment.\r\n\n\u2022My data may be published in anonymous
+    form in connection with the publication of the project or Master\u2019s thesis.
+    This clause may be removed completely if it is not assessed to be necessary.
+    The assessment must be made for each individual project.\r\n\r\nBy clicking the
+    accept button you consent to above mentioned.\r\n\r\nThe consent may be withdrawn
+    at any time with future effect. Consent can be withdrawn via this email address:
+    info@lassejohansen.dk\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2f17e8bb3967fe14093d5fec798fffd9, type: 2}
   m_sharedMaterial: {fileID: 21700449227511232, guid: 2f17e8bb3967fe14093d5fec798fffd9,
@@ -5103,14 +5176,14 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1984003391}
-    characterCount: 3667
+    characterCount: 4713
     spriteCount: 0
-    spaceCount: 550
-    wordCount: 543
+    spaceCount: 774
+    wordCount: 770
     linkCount: 0
-    lineCount: 72
+    lineCount: 119
     pageCount: 1
-    materialCount: 2
+    materialCount: 3
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
@@ -5118,7 +5191,7 @@ MonoBehaviour:
   m_subTextObjects:
   - {fileID: 0}
   - {fileID: 240750522}
-  - {fileID: 0}
+  - {fileID: 976482417}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

@@ -61,7 +61,6 @@ namespace AdminGUI.PanelControllers
         
         public void RemoveTrade(TradeActions tradeAction)
         {
-            print("GO!");
             if (tradeAction == TradeActions.TradeAccepted)
             {
                 LeanTween.color(GetComponent<Image>().rectTransform, new Color32(120, 224, 143,255), 0.5f)
