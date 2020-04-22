@@ -21,6 +21,7 @@ namespace CoreGame
         private string _directoryPath = "C:/MasterData/";
         private TextWriter _textWriter;
         private float _startTime;
+        private bool _fileDone;
 
         public _FileNamingStrategy fileCreationStrategy;
 
@@ -31,7 +32,11 @@ namespace CoreGame
 
         private void OnGameStart()
         {
-            if (!PhotonNetwork.IsMasterClient) return;
+            if (!PhotonNetwork.IsMasterClient)
+            {
+                Destroy(gameObject);
+                return;
+            }
 
             _startTime = Time.realtimeSinceStartup;
             
@@ -51,11 +56,23 @@ namespace CoreGame
             GameHandler.Current.AddSequenceObserver(this);
             GameHandler.Current.AddTradeObserver(this);
             GameHandler.Current.AddGameProgressObserver(this);
+            
             GUIEvents.current.OnPlayerReady += OnReadyStateChanged;
+            GUIEvents.current.OnGameDone += OnGameDone;
             
             CreateFile();
 
             _textWriter.WriteLine("{0},{1}", DateTime.Now, GameHandler.Current.GetPlayers().Count);
+        }
+        
+        private void OnGameDone()
+        {
+            _textWriter.WriteLine("{0},{1},{2},{3}", "Summary:", GetTimeReadable(), _nrOfTrades, nrOfMoves);
+
+            _textWriter.Flush();
+            _textWriter.Close();
+
+            _fileDone = true;
         }
 
         private float GetGameTime()
@@ -63,7 +80,7 @@ namespace CoreGame
             return Time.realtimeSinceStartup - _startTime;
         }
 
-        private string GetTimeTimeReadable()
+        private string GetTimeReadable()
         {
             TimeSpan ts = TimeSpan.FromSeconds(GetGameTime());
 
@@ -77,22 +94,22 @@ namespace CoreGame
             {
                 case SequenceActions.NewMoveAdded:
                     //Type | Time | Player | Direction
-                    _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,GetGameTime(),move.PlayerTags,move.Direction);
+                    _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,GetTimeReadable(),move.PlayerTags,move.Direction);
                     nrOfMoves++;
                     break;
                 case SequenceActions.MoveRemoved:
                     //Type | Time | Player | Direction
-                    _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,GetGameTime(),move.PlayerTags,move.Direction);
+                    _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,GetTimeReadable(),move.PlayerTags,move.Direction);
                     break;
                 case SequenceActions.SequenceStarted:
                     //Type | Time 
-                    _textWriter.WriteLine("{0},{1}",sequenceAction,GetGameTime());
+                    _textWriter.WriteLine("{0},{1}",sequenceAction,GetTimeReadable());
                     break;
                 case SequenceActions.SequenceEnded:
-                    _textWriter.WriteLine("{0},{1}",sequenceAction,GetGameTime());
+                    _textWriter.WriteLine("{0},{1}",sequenceAction,GetTimeReadable());
                     break;
                 case SequenceActions.MovePerformed:
-                    _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,GetGameTime(),move.PlayerTags,move.Direction);
+                    _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,GetTimeReadable(),move.PlayerTags,move.Direction);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(sequenceAction), sequenceAction, null);
@@ -105,7 +122,7 @@ namespace CoreGame
             //Type | Time | ID | offering player | receiving player | direction | Status | Counter Offer (If Available)
             _textWriter.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7}",
                 "Trade",
-                GetGameTime(),
+                GetTimeReadable(),
                 playerTrade.TradeID,
                 playerTrade.OfferingPlayerTags,
                 playerTrade.ReceivingPlayerTags,
@@ -117,7 +134,7 @@ namespace CoreGame
         public void OnGameProgressUpdate(PlayerTags playerTags)
         {
             //Type | Time | Player
-            _textWriter.WriteLine("{0},{1},{2}","Player Finished",GetGameTime(),playerTags);
+            _textWriter.WriteLine("{0},{1},{2}","Player Finished",GetTimeReadable(),playerTags);
         }
     
         private void CreateFile()
@@ -135,8 +152,10 @@ namespace CoreGame
 
         private void OnApplicationQuit()
         {
+            if (_fileDone) return;
+            
             //Type | Time Elapsed | Nr of trades | Nr of Moves
-            _textWriter.WriteLine("{0},{1},{2},{3}", "Summary:", GetGameTime(), _nrOfTrades, nrOfMoves);
+            _textWriter.WriteLine("{0},{1},{2},{3}", "Summary:", GetTimeReadable(), _nrOfTrades, nrOfMoves);
 
             _textWriter.Flush();
             _textWriter.Close();
@@ -147,24 +166,25 @@ namespace CoreGame
             TimeSpan ts = TimeSpan.FromSeconds(time);
             
             //Type | Time Elapsed | Observer | time
-            _textWriter.WriteLine("{0},{1},{2},{3}", "Observer Mark:", GetGameTime(), observer,$"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}");
+            _textWriter.WriteLine("{0},{1},{2},{3}", "Observer Mark:", GetTimeReadable(), observer,$"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}");
         }
 
         public void OnPlayerDisconnect(string playerName, PlayerTags playerColor)
         {
             //Type | Time Elapsed | PlayerName | PlayerColor
-            _textWriter.WriteLine("{0},{1},{2},{3}", "Disconnect", GetGameTime(), playerName,playerColor);
+            _textWriter.WriteLine("{0},{1},{2},{3}", "Disconnect", GetTimeReadable(), playerName,playerColor);
         }
 
         public void OnPlayerReconnect(string playerName, PlayerTags playerColor)
         {
-            
+            //Type | Time Elapsed | PlayerName | PlayerColor
+            _textWriter.WriteLine("{0},{1},{2},{3}", "Reconnect", GetTimeReadable(), playerName,playerColor);
         }
 
         private void OnReadyStateChanged(bool state, PlayerTags player)
         {
             //Type | Time Elapsed | Player | State
-            _textWriter.WriteLine("{0},{1},{2},{3}", "Ready State Changed:", GetGameTime(), player,state);
+            _textWriter.WriteLine("{0},{1},{2},{3}", "Ready State Changed:", GetTimeReadable(), player,state);
         }
     }
 

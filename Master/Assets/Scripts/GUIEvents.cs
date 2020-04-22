@@ -27,7 +27,9 @@ namespace AdminGUI
         public event Action<Button, TradeActions, Direction> OnTradeAction;
         public event Action OnManualOverride;
         public event Action OnGameStart;
+        public event Action OnGameDone;
         public event Action <PlayerController> OnPlayerDone;
+
 
         //Yeha
         public event Action<bool, PlayerTags> OnPlayerReady;
@@ -35,6 +37,11 @@ namespace AdminGUI
         public void OnPlayerDoneNotify(PlayerController playerController)
         {
             if (OnPlayerDone != null) OnPlayerDone(playerController);
+        }
+
+        public void OnGameDoneNotify()
+        {
+            if (OnGameDone != null) OnGameDone();
         }
         
         /*

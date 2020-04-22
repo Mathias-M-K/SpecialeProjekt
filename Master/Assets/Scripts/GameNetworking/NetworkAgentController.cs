@@ -442,6 +442,8 @@ namespace DefaultNamespace
                 {
                     _vacantPlayerTag = _playerDictionary[otherPlayer.NickName];
                     _playerDictionary.Remove(otherPlayer.NickName);
+                    
+                    StatTracker.OnPlayerDisconnect(otherPlayer.NickName,_vacantPlayerTag);
                 }
             }
         }
@@ -450,6 +452,7 @@ namespace DefaultNamespace
         {
             if (!_gameStarted) return;
 
+            StatTracker.OnPlayerReconnect(newPlayer.NickName,_vacantPlayerTag);
             StartCoroutine(UpdateNewPlayer(newPlayer));
         }
 
