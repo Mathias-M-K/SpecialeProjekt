@@ -211,7 +211,6 @@ namespace DefaultNamespace
                 
                 if (_numberOfReadyPlayers == localGameHandler.numberOfSpawnedPlayers)
                 {
-                    print("Performing sequence on networked gamehandler");
                     StartCoroutine(MyNetworkedAgent.PerformSequence());
                     _numberOfReadyPlayers = 0;
                 }

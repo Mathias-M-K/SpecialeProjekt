@@ -7,6 +7,7 @@ namespace GameGUI.TermsAndConditions
     public class TermsAndConditionsSceneController : MonoBehaviour
     {
         public GameObject content;
+
         
         public void Continue()
         {

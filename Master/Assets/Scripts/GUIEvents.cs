@@ -29,10 +29,14 @@ namespace AdminGUI
         public event Action OnGameStart;
         public event Action OnGameDone;
         public event Action <PlayerController> OnPlayerDone;
-
-
-        //Yeha
         public event Action<bool, PlayerTags> OnPlayerReady;
+        public event Action <int> OnNewRoundStart;
+
+
+        public void OnNewRoundStartNotify(int roundNr)
+        {
+            if (OnNewRoundStart != null) OnNewRoundStart(roundNr);
+        }
         
         public void OnPlayerDoneNotify(PlayerController playerController)
         {

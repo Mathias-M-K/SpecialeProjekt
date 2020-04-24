@@ -16,12 +16,13 @@ namespace CoreGame
         [Header("Strategy")] public FileNameStrategy fileNameStrategy;
     
         [Header("Stats")]
-        [SerializeField] private int nrOfMoves = 0;
-        private int _nrOfTrades = 0;
+        private int _nrOfMoves;
+        private int _nrOfTrades;
         private string _directoryPath = "C:/MasterData/";
         private TextWriter _textWriter;
         private float _startTime;
-        private bool _fileDone;
+
+        private bool _fileOpen;
 
         public _FileNamingStrategy fileCreationStrategy;
 
@@ -32,9 +33,11 @@ namespace CoreGame
 
         private void OnGameStart()
         {
+            _nrOfMoves = 0;
+            _nrOfTrades = 0;
+            
             if (!PhotonNetwork.IsMasterClient)
             {
-                Destroy(gameObject);
                 return;
             }
 
@@ -62,18 +65,14 @@ namespace CoreGame
             
             CreateFile();
 
-            _textWriter.WriteLine("{0},{1}", DateTime.Now, GameHandler.Current.GetPlayers().Count);
+            _textWriter.WriteLine("{0},{1}", "Date: "+DateTime.Now, "Nr of players: " + GameHandler.Current.GetPlayers().Count);
         }
         
         private void OnGameDone()
         {
-            _textWriter.WriteLine("{0},{1},{2},{3}", "Summary:", GetTimeReadable(), _nrOfTrades, nrOfMoves);
-
-            _textWriter.Flush();
-            _textWriter.Close();
-
-            _fileDone = true;
+            _textWriter.WriteLine("{0},{1},{2},{3}", "Game Ended:", GetTimeReadable(), "Nr of trades: " + _nrOfTrades, "Nr of moves: " + _nrOfMoves);
         }
+        
 
         private float GetGameTime()
         {
@@ -83,7 +82,7 @@ namespace CoreGame
         private string GetTimeReadable()
         {
             TimeSpan ts = TimeSpan.FromSeconds(GetGameTime());
-
+            
             return $"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}";
         }
 
@@ -95,7 +94,6 @@ namespace CoreGame
                 case SequenceActions.NewMoveAdded:
                     //Type | Time | Player | Direction
                     _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,GetTimeReadable(),move.PlayerTags,move.Direction);
-                    nrOfMoves++;
                     break;
                 case SequenceActions.MoveRemoved:
                     //Type | Time | Player | Direction
@@ -110,6 +108,7 @@ namespace CoreGame
                     break;
                 case SequenceActions.MovePerformed:
                     _textWriter.WriteLine("{0},{1},{2},{3}",sequenceAction,GetTimeReadable(),move.PlayerTags,move.Direction);
+                    _nrOfMoves++;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(sequenceAction), sequenceAction, null);
@@ -139,6 +138,7 @@ namespace CoreGame
     
         private void CreateFile()
         {
+            Debug.Log("Creating new file!");
             if (!Directory.Exists(_directoryPath))
             {
                 Debug.Log($"{_directoryPath} does not exist, creating directory..");
@@ -148,14 +148,30 @@ namespace CoreGame
             string filePath = fileCreationStrategy.CreateFile(_directoryPath);
 
             _textWriter = new StreamWriter(filePath);
+            _fileOpen = true;
         }
 
         private void OnApplicationQuit()
         {
-            if (_fileDone) return;
+            if (!_fileOpen) return;
+            _fileOpen = false;
             
+            Debug.LogError("On Application Quit Error");
             //Type | Time Elapsed | Nr of trades | Nr of Moves
-            _textWriter.WriteLine("{0},{1},{2},{3}", "Summary:", GetTimeReadable(), _nrOfTrades, nrOfMoves);
+            _textWriter.WriteLine("{0}", "File End");
+
+            _textWriter.Flush();
+            _textWriter.Close();
+        }
+
+        private void OnDestroy()
+        {
+            if (!_fileOpen) return;
+            _fileOpen = false;
+            
+            Debug.LogError("On Application Destroy Error");
+            //Type | Time Elapsed | Nr of trades | Nr of Moves
+            _textWriter.WriteLine("{0}", "File End");
 
             _textWriter.Flush();
             _textWriter.Close();

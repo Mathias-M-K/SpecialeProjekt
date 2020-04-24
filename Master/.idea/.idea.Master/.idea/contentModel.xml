@@ -545,6 +545,8 @@
                 <e p="RoomCreatorUiPanelController.cs" t="Include" />
               </e>
               <e p="PlayerGUITagController.cs" t="Include" />
+              <e p="PlayerInfoElement.cs" t="Include" />
+              <e p="PlayerListController.cs" t="Include" />
               <e p="PlayerMap" t="Include">
                 <e p="GUIGateElement.cs" t="Include" />
                 <e p="GUIPlayerMap.cs" t="Include" />

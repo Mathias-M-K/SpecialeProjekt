@@ -45,6 +45,7 @@ namespace CoreGame
         public int numberOfSpawnedPlayers;
         private protected int _numberOfReadyPlayers;
         private int _playersFinished = 0;
+        private int _roundNr;
 
         public bool isGameDone { get; private set; }
 
@@ -289,6 +290,10 @@ namespace CoreGame
  
             _sequenceMoves.Clear();
             NotifySequenceObservers(SequenceActions.SequenceEnded,null);
+            _roundNr++;
+            
+            if(!isGameDone) GUIEvents.current.OnNewRoundStartNotify(_roundNr);
+            
         }
 
         /// <summary>
@@ -400,6 +405,7 @@ namespace CoreGame
             if (_playersFinished >= _nrOfPlayersAtGameStart)
             {
                 isGameDone = true;
+                GUIEvents.current.OnGameDoneNotify();
                 endScreen.OpenWindow();
             }
         }

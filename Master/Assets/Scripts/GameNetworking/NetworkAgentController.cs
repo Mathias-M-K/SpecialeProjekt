@@ -32,15 +32,20 @@ namespace DefaultNamespace
         public GameObject hostCoverPanel;
         public GameObject observerCoverPanel;
 
+        [Header("Player List")] 
+        public GameObject listRect;
+        public GameObject listElement;
+
         [Header("Notification")] 
-        public NotificationManager notification;
+        public NotificationManager playerNotification;
+        public NotificationManager hostNotification;
 
         [Header("Other")] 
         public TextMeshProUGUI readyCounter;
-        public StatTracker StatTracker;
+        public StatTracker statTracker;
 
         private bool _processingNewTradeAction;
-        
+
         //Reconnect values
         private readonly Dictionary<string,PlayerTags> _playerDictionary = new Dictionary<string, PlayerTags>();
         private bool _gameStarted;
@@ -60,6 +65,16 @@ namespace DefaultNamespace
             GUIEvents.current.OnButtonHit += OnBtnHit;
             GUIEvents.current.OnManualOverride += OnManualOverride;
             GUIEvents.current.OnPlayerDone += OnPlayerDone;
+            GUIEvents.current.OnNewRoundStart += OnNewRoundStart;
+        }
+
+        private void OnNewRoundStart(int roundnr)
+        {
+            
+            playerNotification.titleObj.text = $"Round {roundnr}";
+            playerNotification.descriptionObj.text = "You've got all your moves back!";
+            
+            playerNotification.OpenNotification();
         }
 
         public void OnObserverMark(string nickname, float time)
@@ -69,7 +84,7 @@ namespace DefaultNamespace
         [PunRPC]
         private void RPC_OnObserverMark(string nickname, float time)
         {
-            StatTracker.OnObserverMark(nickname,time);
+            statTracker.OnObserverMark(nickname,time);
         }
 
         private void OnPlayerDone(PlayerController playerController)
@@ -101,6 +116,52 @@ namespace DefaultNamespace
                     
                     _photonView.RPC("RPC_SetPlayerTag",player,pTag);
                 }
+                SetPlayerList();
+            }
+        }
+
+        private void SetPlayerList()
+        {
+            int playersCount = _playerDictionary.Count;
+            
+            string[] tags = new string[playersCount];
+            string[] names = new string[playersCount];
+
+            int i = 0;
+            
+            foreach (KeyValuePair<string,PlayerTags> valuePair in _playerDictionary)
+            {
+                tags[i] = valuePair.Value.ToString();
+                names[i] = valuePair.Key;
+                i++;
+            }
+            _photonView.RPC("RPC_SetPlayerList",RpcTarget.All,names,tags);
+        }
+        [PunRPC]
+        public void RPC_SetPlayerList(string[] names, string[] tags)
+        {
+            bool skipFirst = false;
+            foreach (Transform child in listRect.transform)
+            {
+                if (!skipFirst)
+                {
+                    skipFirst = true;
+                    continue;
+                }
+                
+                Destroy(child.gameObject);
+            }
+            
+            int i = 0;
+            foreach (string s in tags)
+            {
+                GameObject go = Instantiate(listElement, listRect.transform, false);
+                
+                PlayerTags playerTag = (PlayerTags)Enum.Parse(typeof(PlayerTags), s);
+                
+                go.GetComponent<PlayerInfoElement>().SetInfo(names[i],playerTag);
+                
+                i++;
             }
         }
         
@@ -126,9 +187,6 @@ namespace DefaultNamespace
         {
             readyCounter.text = counterText;
         }
-        
-        
-        
         
         
         /// <summary>
@@ -228,7 +286,6 @@ namespace DefaultNamespace
         /// <returns></returns>
         public IEnumerator PerformSequence()
         {
-            Debug.Log("Calling remote sequences");
             photonView.RPC("RPC_PerformSequence",RpcTarget.All);
             yield break;
         }
@@ -354,7 +411,6 @@ namespace DefaultNamespace
         [PunRPC]
         public void RPC_OnReadyStateChanged(bool state,PlayerTags player)
         {
-            Debug.Log($"New state received: {state}");
             GameHandler.Current.OnReadyStateChanged(state,player);
             gameHandler.OnReadyStateChanged(state,player);
         }
@@ -434,16 +490,16 @@ namespace DefaultNamespace
 
             if (PhotonNetwork.IsMasterClient)
             {
-                notification.titleObj.text = "Player Left";
-                notification.descriptionObj.text = $"{otherPlayer.NickName}|{_playerDictionary[otherPlayer.NickName]} disconnected from the room";
-                notification.OpenNotification();
+                hostNotification.titleObj.text = "Player Left";
+                hostNotification.descriptionObj.text = $"{otherPlayer.NickName}|{_playerDictionary[otherPlayer.NickName]} disconnected from the room";
+                hostNotification.OpenNotification();
 
                 if (GlobalMethods.GetRole(otherPlayer.NickName) == "Participant")
                 {
                     _vacantPlayerTag = _playerDictionary[otherPlayer.NickName];
                     _playerDictionary.Remove(otherPlayer.NickName);
                     
-                    StatTracker.OnPlayerDisconnect(otherPlayer.NickName,_vacantPlayerTag);
+                    statTracker.OnPlayerDisconnect(otherPlayer.NickName,_vacantPlayerTag);
                 }
             }
         }
@@ -452,7 +508,7 @@ namespace DefaultNamespace
         {
             if (!_gameStarted) return;
 
-            StatTracker.OnPlayerReconnect(newPlayer.NickName,_vacantPlayerTag);
+            statTracker.OnPlayerReconnect(newPlayer.NickName,_vacantPlayerTag);
             StartCoroutine(UpdateNewPlayer(newPlayer));
         }
 
@@ -492,6 +548,8 @@ namespace DefaultNamespace
                 i++;
             }
             _photonView.RPC("RPC_SetPlayerPositions",newPlayer,positions);
+            
+            SetPlayerList();
         }
         
         [PunRPC]
