@@ -10,17 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e267a37e0cb4d5bb4d48680e23893ce, type: 3}
-  m_Name: 6PlayerImproved
+  m_Name: 16Player
   m_EditorClassIdentifier: 
-  map: {fileID: 5529206612986793232, guid: 1b447393d99165b4996249e4f20773bd, type: 3}
+  map: {fileID: 5529206612986793232, guid: 1686342a0f3b3c84da8f736647ea5026, type: 3}
   cameraPos: {x: 4.5, y: 20, z: 6.5}
   xSize: 15
   ySize: 15
-  maxPlayers: 6
+  maxPlayers: 16
   spawnPositions:
-  - {x: 12, y: 1}
-  - {x: 15, y: 7}
-  - {x: 1, y: 5}
-  - {x: 15, y: 15}
+  - {x: 1, y: 14}
+  - {x: 15, y: 9}
+  - {x: 11, y: 5}
+  - {x: 14, y: 15}
+  - {x: 12, y: 15}
+  - {x: 3, y: 1}
+  - {x: 9, y: 13}
+  - {x: 6, y: 1}
+  - {x: 1, y: 10}
+  - {x: 1, y: 2}
+  - {x: 6, y: 15}
+  - {x: 11, y: 1}
   - {x: 1, y: 13}
-  - {x: 9, y: 15}
+  - {x: 15, y: 6}
+  - {x: 15, y: 1}
+  - {x: 1, y: 6}

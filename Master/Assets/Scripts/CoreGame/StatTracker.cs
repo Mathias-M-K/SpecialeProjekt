@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using AdminGUI;
 using Container;
@@ -21,6 +22,7 @@ namespace CoreGame
         private string _directoryPath = "C:/MasterData/";
         private TextWriter _textWriter;
         private float _startTime;
+        public Dictionary<string,PlayerTags> playerList = new Dictionary<string, PlayerTags>();
 
         private bool _fileOpen;
 
@@ -65,12 +67,17 @@ namespace CoreGame
             
             CreateFile();
 
-            _textWriter.WriteLine("{0},{1}", "Date: "+DateTime.Now, "Nr of players: " + GameHandler.Current.GetPlayers().Count);
+            _textWriter.WriteLine("{0},{1},{2}", "Game Started:" , DateTime.Now, "Nr of players: " + GameHandler.Current.GetPlayers().Count);
+
+            foreach (KeyValuePair<string,PlayerTags> valuePair in playerList)
+            {
+                _textWriter.WriteLine("{0},{1},{2},{3}", "Player: ", GetTimeReadable(), valuePair.Key,valuePair.Value);
+            }
         }
         
         private void OnGameDone()
         {
-            _textWriter.WriteLine("{0},{1},{2},{3}", "Game Ended:", GetTimeReadable(), "Nr of trades: " + _nrOfTrades, "Nr of moves: " + _nrOfMoves);
+            _textWriter.WriteLine("{0},{1},{2},{3},{4}", "Game Ended:", DateTime.Now, "Time Elapsed: " + GetTimeReadable(), "Nr of trades: " + _nrOfTrades, "Nr of moves: " + _nrOfMoves);
         }
         
 

@@ -106,6 +106,8 @@ namespace DefaultNamespace
         {
             if (button.name.Equals("SpawnPlayers"))
             {
+                Dictionary<string,PlayerTags> loggerPlayerList = new Dictionary<string, PlayerTags>();    
+                
                 button.interactable = false;
                 foreach (Player player in PhotonNetwork.PlayerList)
                 {
@@ -115,7 +117,11 @@ namespace DefaultNamespace
                     _playerDictionary.Add(player.NickName,pTag);
                     
                     _photonView.RPC("RPC_SetPlayerTag",player,pTag);
+                    
+                    loggerPlayerList.Add(player.NickName,pTag);
                 }
+
+                statTracker.playerList = loggerPlayerList;
                 SetPlayerList();
             }
         }
