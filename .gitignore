@@ -83,7 +83,6 @@ fabric.properties
 [Bb]uilds/
 [Ll]ogs/
 [Mm]emoryCaptures/
-[Tt]estBuild/
 
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
