@@ -22,14 +22,46 @@ namespace AdminGUI
         [Header("Prefabs")] 
         public GameObject rowPrefab;
         
+        
+        
+        //Test
+        private List<StoredPlayerMove> moves = new List<StoredPlayerMove>();
 
         private void Start()
         {
             GameHandler.Current.AddSequenceObserver(this);
             StartCoroutine(ClearSequence(0.02f));
         }
-        
-        
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                Array directions = Enum.GetValues(typeof(Direction));
+                Array players = Enum.GetValues(typeof(PlayerTags));
+
+                int randDirection = Random.Range(0, directions.Length);
+                int randPlayer = Random.Range(0, players.Length);
+                int randomId = Random.Range(0, 999999);
+
+                PlayerTags player = PlayerTags.Red;
+                Direction direction = (Direction)players.GetValue(randDirection);
+
+                print($"{player} | {direction}");
+                StoredPlayerMove spm = new StoredPlayerMove(player, direction, 3,randomId);
+            
+                moves.Add(spm);
+                AddMove(spm);
+            }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                RemoveMove(moves[0]);
+                moves.RemoveAt(0);
+            }
+        }
+
+
         public void OnSequenceChange(SequenceActions sequenceAction, StoredPlayerMove move)
         {
             switch (sequenceAction)
@@ -176,6 +208,8 @@ namespace AdminGUI
                 AddRow();
                 _nrOfRows++;
             }
+            
+            
             
             Transform tRow = transform.GetChild(row);
             Transform tElement = tRow.GetChild(element);

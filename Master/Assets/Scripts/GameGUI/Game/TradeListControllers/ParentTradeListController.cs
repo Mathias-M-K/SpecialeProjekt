@@ -55,7 +55,7 @@ namespace AdminGUI
                 null, 2, null, Random.Range(0, 10000));
             
             
-            if (Input.GetKeyDown(KeyCode.A))
+            /*if (Input.GetKeyDown(KeyCode.A))
             {
                 AddElement(pt);
             }
@@ -76,7 +76,7 @@ namespace AdminGUI
                 }
 
                 RemoveElement(trade);
-            }
+            }*/
         }
 
         protected abstract void OnTradeBtn(Button arg1, TradeActions arg2, Direction arg3);

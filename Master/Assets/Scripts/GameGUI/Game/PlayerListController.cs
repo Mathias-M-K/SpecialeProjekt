@@ -30,7 +30,7 @@ namespace AdminGUI
 
         private void HideList()
         {
-            LeanTween.moveLocalY(listRect, 1050, 0.3f).setEase(LeanTweenType.easeInQuad);
+            LeanTween.moveLocalY(listRect, 1124, 0.3f).setEase(LeanTweenType.easeInQuad);
             LeanTween.alpha(background.rectTransform, 0, 0.3f).setRecursive(false);
         }
 

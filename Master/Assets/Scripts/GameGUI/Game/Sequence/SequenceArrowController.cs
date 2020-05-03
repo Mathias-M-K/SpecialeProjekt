@@ -25,7 +25,7 @@ namespace AdminGUI.Sequence
         //Private variables
         private bool _mouseHoverEnabled;
 
-        private void Start()
+        private void Awake()
         {
             _cancelButton = transform.GetChild(1).gameObject;
             _button = GetComponent<Button>();
