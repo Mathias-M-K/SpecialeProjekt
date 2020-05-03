@@ -10,6 +10,7 @@ namespace GameGUI.NetworkScene
         public TextMeshProUGUI regionText;
         public TextMeshProUGUI appVersionText;
         public TextMeshProUGUI serverText;
+        public TextMeshProUGUI unityVersion;
 
 
         private void Start()
@@ -20,6 +21,7 @@ namespace GameGUI.NetworkScene
 
         public override void OnConnectedToMaster()
         {
+            print("Connected to: " + PhotonNetwork.CloudRegion);
             SetText();
         }
 
@@ -28,6 +30,7 @@ namespace GameGUI.NetworkScene
             regionText.text = $"Region : {PhotonNetwork.CloudRegion}";
             appVersionText.text = $"AppVersion : {PhotonNetwork.AppVersion}";
             serverText.text = $"Server : {PhotonNetwork.Server}";
+            unityVersion.text = $"Unity App V : {Application.version}";
         }
     }
 }

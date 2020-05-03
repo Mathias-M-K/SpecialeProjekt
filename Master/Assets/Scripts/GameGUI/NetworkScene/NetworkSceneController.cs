@@ -123,7 +123,7 @@ namespace GameGUI.NetworkScene
             PhotonNetwork.AutomaticallySyncScene = true;
             
             loadingBtn.GetComponent<LoadingBtnController>().StopLoadingAnimation();
-            loadingBtn.GetComponent<LoadingBtnController>().SetText($"Connected to {PhotonNetwork.CloudRegion}!");
+            loadingBtn.GetComponent<LoadingBtnController>().SetText($"Connected!");
             Image img = loadingBtn.GetComponent<Image>();
 
             LeanTween.color(img.rectTransform, new Color32(0,250,126,255), 0.7f).setOnComplete(() =>
