@@ -64,7 +64,7 @@ namespace AdminGUI
                 moveOut = easeGlobal;
             }
 
-            if (Input.GetKey(KeyCode.I) && Input.GetKeyDown(KeyCode.A))
+            /*if (Input.GetKey(KeyCode.I) && Input.GetKeyDown(KeyCode.A))
             {
                 int randomOfferingPlayerNr = Random.Range(1, 16);
                 int randomReceivingPlayerNr = Random.Range(1, 16);
@@ -97,7 +97,7 @@ namespace AdminGUI
                     null, 2);
 
                 AddIncomingTrade(trade);
-            }
+            }*/
         }
 
 

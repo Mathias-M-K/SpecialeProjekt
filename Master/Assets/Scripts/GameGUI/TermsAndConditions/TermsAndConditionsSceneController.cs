@@ -13,10 +13,10 @@ namespace GameGUI.TermsAndConditions
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.A))
+            /*if (Input.GetKeyDown(KeyCode.A))
             {
                 Continue();
-            }
+            }*/
         }
 
 

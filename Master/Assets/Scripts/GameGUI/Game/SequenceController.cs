@@ -35,7 +35,7 @@ namespace AdminGUI
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.A))
+            /*if (Input.GetKeyDown(KeyCode.A))
             {
                 Array directions = Enum.GetValues(typeof(Direction));
                 Array players = Enum.GetValues(typeof(PlayerTags));
@@ -58,7 +58,7 @@ namespace AdminGUI
             {
                 RemoveMove(moves[0]);
                 moves.RemoveAt(0);
-            }
+            }*/
         }
 
 
@@ -186,6 +186,8 @@ namespace AdminGUI
                 child.SetParent(null);
                 Destroy(child.gameObject);
             }
+
+            _nrOfRows = 0;
             
             _nrOfMovesInSequence = 0;
         }
@@ -208,8 +210,6 @@ namespace AdminGUI
                 AddRow();
                 _nrOfRows++;
             }
-            
-            
             
             Transform tRow = transform.GetChild(row);
             Transform tElement = tRow.GetChild(element);
